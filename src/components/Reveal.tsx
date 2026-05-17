@@ -2,7 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 50 },
   show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.2, 0.8, 0.2, 1] } },
 };
 
@@ -29,10 +29,10 @@ export function Reveal({
   );
 }
 
-export function SpacedLetters({ text, className = "" }: { text: string; className?: string }) {
+export function SectionEyebrow({ children }: { children: ReactNode }) {
   return (
-    <span className={className} style={{ letterSpacing: "0.04em" }}>
-      {text}
-    </span>
+    <p className="text-bronze text-[11px] uppercase tracking-luxe flex items-center gap-3 justify-center mb-5">
+      <span className="divider-bronze" /> {children} <span className="divider-bronze" />
+    </p>
   );
 }

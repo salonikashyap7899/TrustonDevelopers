@@ -5,6 +5,7 @@ export function CursorGlow() {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia?.("(pointer: coarse)").matches) return;
     let raf = 0;
     let tx = 0, ty = 0, cx = 0, cy = 0;
     const onMove = (e: MouseEvent) => { tx = e.clientX; ty = e.clientY; };
@@ -22,9 +23,9 @@ export function CursorGlow() {
     <div
       ref={ref}
       aria-hidden
-      className="pointer-events-none fixed top-0 left-0 z-30 w-[400px] h-[400px] rounded-full mix-blend-screen hidden md:block"
+      className="pointer-events-none fixed top-0 left-0 z-30 w-[400px] h-[400px] rounded-full mix-blend-multiply hidden md:block"
       style={{
-        background: "radial-gradient(circle, oklch(0.78 0.09 78 / 0.12) 0%, transparent 70%)",
+        background: "radial-gradient(circle, oklch(0.6 0.08 65 / 0.18) 0%, transparent 70%)",
         filter: "blur(40px)",
       }}
     />
