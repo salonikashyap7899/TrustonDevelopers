@@ -9,38 +9,215 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProjectRouteImport } from './routes/project'
+import { Route as PlotSellingRouteImport } from './routes/plot-selling'
+import { Route as InvestmentConsultingRouteImport } from './routes/investment-consulting'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ConstructionBuildRouteImport } from './routes/construction-build'
+import { Route as ChannelPartnerRouteImport } from './routes/channel-partner'
+import { Route as ArchitectureDesignRouteImport } from './routes/architecture-design'
+import { Route as AboutUsRouteImport } from './routes/about-us'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 
+const ProjectRoute = ProjectRouteImport.update({
+  id: '/project',
+  path: '/project',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlotSellingRoute = PlotSellingRouteImport.update({
+  id: '/plot-selling',
+  path: '/plot-selling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestmentConsultingRoute = InvestmentConsultingRouteImport.update({
+  id: '/investment-consulting',
+  path: '/investment-consulting',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConstructionBuildRoute = ConstructionBuildRouteImport.update({
+  id: '/construction-build',
+  path: '/construction-build',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChannelPartnerRoute = ChannelPartnerRouteImport.update({
+  id: '/channel-partner',
+  path: '/channel-partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArchitectureDesignRoute = ArchitectureDesignRouteImport.update({
+  id: '/architecture-design',
+  path: '/architecture-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutUsRoute = AboutUsRouteImport.update({
+  id: '/about-us',
+  path: '/about-us',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/projects/$slug',
+  path: '/projects/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/architecture-design': typeof ArchitectureDesignRoute
+  '/channel-partner': typeof ChannelPartnerRoute
+  '/construction-build': typeof ConstructionBuildRoute
+  '/contact': typeof ContactRoute
+  '/investment-consulting': typeof InvestmentConsultingRoute
+  '/plot-selling': typeof PlotSellingRoute
+  '/project': typeof ProjectRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/architecture-design': typeof ArchitectureDesignRoute
+  '/channel-partner': typeof ChannelPartnerRoute
+  '/construction-build': typeof ConstructionBuildRoute
+  '/contact': typeof ContactRoute
+  '/investment-consulting': typeof InvestmentConsultingRoute
+  '/plot-selling': typeof PlotSellingRoute
+  '/project': typeof ProjectRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about-us': typeof AboutUsRoute
+  '/architecture-design': typeof ArchitectureDesignRoute
+  '/channel-partner': typeof ChannelPartnerRoute
+  '/construction-build': typeof ConstructionBuildRoute
+  '/contact': typeof ContactRoute
+  '/investment-consulting': typeof InvestmentConsultingRoute
+  '/plot-selling': typeof PlotSellingRoute
+  '/project': typeof ProjectRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about-us'
+    | '/architecture-design'
+    | '/channel-partner'
+    | '/construction-build'
+    | '/contact'
+    | '/investment-consulting'
+    | '/plot-selling'
+    | '/project'
+    | '/projects/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about-us'
+    | '/architecture-design'
+    | '/channel-partner'
+    | '/construction-build'
+    | '/contact'
+    | '/investment-consulting'
+    | '/plot-selling'
+    | '/project'
+    | '/projects/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/about-us'
+    | '/architecture-design'
+    | '/channel-partner'
+    | '/construction-build'
+    | '/contact'
+    | '/investment-consulting'
+    | '/plot-selling'
+    | '/project'
+    | '/projects/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutUsRoute: typeof AboutUsRoute
+  ArchitectureDesignRoute: typeof ArchitectureDesignRoute
+  ChannelPartnerRoute: typeof ChannelPartnerRoute
+  ConstructionBuildRoute: typeof ConstructionBuildRoute
+  ContactRoute: typeof ContactRoute
+  InvestmentConsultingRoute: typeof InvestmentConsultingRoute
+  PlotSellingRoute: typeof PlotSellingRoute
+  ProjectRoute: typeof ProjectRoute
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/project': {
+      id: '/project'
+      path: '/project'
+      fullPath: '/project'
+      preLoaderRoute: typeof ProjectRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/plot-selling': {
+      id: '/plot-selling'
+      path: '/plot-selling'
+      fullPath: '/plot-selling'
+      preLoaderRoute: typeof PlotSellingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investment-consulting': {
+      id: '/investment-consulting'
+      path: '/investment-consulting'
+      fullPath: '/investment-consulting'
+      preLoaderRoute: typeof InvestmentConsultingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/construction-build': {
+      id: '/construction-build'
+      path: '/construction-build'
+      fullPath: '/construction-build'
+      preLoaderRoute: typeof ConstructionBuildRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/channel-partner': {
+      id: '/channel-partner'
+      path: '/channel-partner'
+      fullPath: '/channel-partner'
+      preLoaderRoute: typeof ChannelPartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/architecture-design': {
+      id: '/architecture-design'
+      path: '/architecture-design'
+      fullPath: '/architecture-design'
+      preLoaderRoute: typeof ArchitectureDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about-us': {
+      id: '/about-us'
+      path: '/about-us'
+      fullPath: '/about-us'
+      preLoaderRoute: typeof AboutUsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +225,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/projects/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutUsRoute: AboutUsRoute,
+  ArchitectureDesignRoute: ArchitectureDesignRoute,
+  ChannelPartnerRoute: ChannelPartnerRoute,
+  ConstructionBuildRoute: ConstructionBuildRoute,
+  ContactRoute: ContactRoute,
+  InvestmentConsultingRoute: InvestmentConsultingRoute,
+  PlotSellingRoute: PlotSellingRoute,
+  ProjectRoute: ProjectRoute,
+  ProjectsSlugRoute: ProjectsSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
