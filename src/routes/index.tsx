@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox";
 import heroImg from "@/assets/hero-estate.jpg";
 import projectImg from "@/assets/project-prime.jpg";
 import interiorImg from "@/assets/luxury-interior.jpg";
@@ -130,79 +131,126 @@ function StatsBar() {
 
 /* ── Highlights ──────────────────────────────────────── */
 function Highlights() {
-  const cards = [
-    { title: "Premium Living", sub: "World-class interiors", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/modern-interior-design-interior-600x800.jpg" },
-    { title: "Green Development", sub: "Sustainable spaces", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg" },
-    { title: "Modern Amenities", sub: "5-star community", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg" },
-    { title: "Property Guidance", sub: "Expert consultation", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/businessman-explaining-concept-details-600x800.jpg" },
-    { title: "Reasonable Pricing", sub: "Value-first pricing", img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/close-up-hand-holding-cash-600x800.jpg" },
+  const [galleryIndex, setGalleryIndex] = useState<number | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(sectionRef, { once: false, margin: "-80px" });
+
+  const cards: GalleryItem[] = [
+    { title: "Premium Living",     sub: "World-class interiors",   img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/modern-interior-design-interior-600x800.jpg" },
+    { title: "Green Development",  sub: "Sustainable spaces",      img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg" },
+    { title: "Modern Amenities",   sub: "5-star community",        img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/hotel-lobby-interior-600x800.jpg" },
+    { title: "Property Guidance",  sub: "Expert consultation",     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/businessman-explaining-concept-details-600x800.jpg" },
+    { title: "Reasonable Pricing", sub: "Value-first pricing",     img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/close-up-hand-holding-cash-600x800.jpg" },
   ];
+
+  const total = cards.length;
+  const openGallery  = (i: number) => setGalleryIndex(i);
+  const closeGallery = () => setGalleryIndex(null);
+  const prevImg = () => setGalleryIndex((p) => p !== null ? (p - 1 + total) % total : 0);
+  const nextImg = () => setGalleryIndex((p) => p !== null ? (p + 1) % total : 0);
+
   return (
-    <section className="py-28 px-6 bg-[var(--sand)]">
+    <section ref={sectionRef} className="py-28 px-6 bg-[var(--sand)] overflow-hidden">
+      {/* Gallery lightbox */}
+      <GalleryLightbox
+        items={cards}
+        index={galleryIndex}
+        onClose={closeGallery}
+        onPrev={prevImg}
+        onNext={nextImg}
+      />
+
       <div className="mx-auto max-w-7xl">
+        {/* Header */}
         <Reveal className="text-center mb-16">
           <SectionEyebrow>Lifestyle</SectionEyebrow>
           <h2 className="font-display text-5xl md:text-6xl leading-tight">
             A life <em className="gradient-bronze-text not-italic">beyond ordinary.</em>
           </h2>
           <p className="text-foreground/50 mt-4 max-w-md mx-auto text-sm">
-            Every detail crafted for those who demand the finest.
+            Click any image to open the gallery — every detail crafted for those who demand the finest.
           </p>
         </Reveal>
 
+        {/* Animated stagger grid */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
           {cards.map((c, i) => (
-            <Reveal key={c.title} delay={i * 0.08}>
+            <motion.div
+              key={c.title}
+              initial={{ opacity: 0, y: 60, scale: 0.94, filter: "blur(8px)" }}
+              animate={inView ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" } : { opacity: 0, y: 60, scale: 0.94, filter: "blur(8px)" }}
+              transition={{ duration: 0.85, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => openGallery(i)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => e.key === "Enter" && openGallery(i)}
+              aria-label={`Open ${c.title} gallery`}
+            >
               <motion.div
-                className="relative overflow-hidden cursor-pointer"
+                className="relative overflow-hidden group"
                 style={{ aspectRatio: "3/4" }}
                 whileHover="hovered"
                 initial="rest"
               >
+                {/* Image with scale */}
                 <motion.img
                   src={c.img} alt={c.title} loading="lazy"
                   className="absolute inset-0 w-full h-full object-cover"
-                  variants={{ rest: { scale: 1 }, hovered: { scale: 1.08 } }}
-                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+                  variants={{ rest: { scale: 1 }, hovered: { scale: 1.09 } }}
+                  transition={{ duration: 1.3, ease: [0.16, 1, 0.3, 1] }}
                 />
-                {/* Base gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                {/* Hover tint */}
+
+                {/* Base dark gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/88 via-black/25 to-transparent" />
+
+                {/* Hover blue tint — use rgba(0,0,0,0) instead of "transparent" */}
                 <motion.div
                   className="absolute inset-0"
-                  variants={{ rest: { backgroundColor: "transparent" }, hovered: { backgroundColor: "rgba(45,107,196,0.12)" } }}
-                  transition={{ duration: 0.5 }}
+                  variants={{
+                    rest:    { backgroundColor: "rgba(0,0,0,0)" },
+                    hovered: { backgroundColor: "rgba(45,107,196,0.14)" },
+                  }}
+                  transition={{ duration: 0.45 }}
                 />
 
-                {/* Number */}
-                <div className="absolute top-4 right-4">
-                  <motion.span
-                    className="font-display text-3xl text-white/10"
-                    variants={{ rest: { opacity: 0.3 }, hovered: { opacity: 0.7 } }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    0{i + 1}
-                  </motion.span>
-                </div>
+                {/* "Tap to view" overlay on hover */}
+                <motion.div
+                  className="absolute inset-0 flex items-center justify-center"
+                  variants={{ rest: { opacity: 0 }, hovered: { opacity: 1 } }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="border border-white/30 px-5 py-2.5 text-[10px] uppercase tracking-widest text-white/80 backdrop-blur-sm bg-black/20">
+                    View Gallery
+                  </div>
+                </motion.div>
 
-                {/* Text */}
+                {/* Number badge */}
+                <motion.span
+                  className="absolute top-4 right-4 font-display text-3xl text-white/10"
+                  variants={{ rest: { opacity: 0.3 }, hovered: { opacity: 0.8 } }}
+                  transition={{ duration: 0.35 }}
+                >
+                  0{i + 1}
+                </motion.span>
+
+                {/* Bottom text */}
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <motion.div
-                    className="w-5 h-px bg-[var(--bronze)] mb-3"
-                    variants={{ rest: { width: 20 }, hovered: { width: 48 } }}
+                    className="h-px bg-[var(--bronze)] mb-3"
+                    variants={{ rest: { width: 20 }, hovered: { width: 52 } }}
                     transition={{ duration: 0.5 }}
                   />
                   <p className="font-serif text-lg text-white leading-tight">{c.title}</p>
                   <motion.p
                     className="text-[10px] uppercase tracking-widest text-white/40 mt-1"
-                    variants={{ rest: { opacity: 0, y: 6 }, hovered: { opacity: 1, y: 0 } }}
+                    variants={{ rest: { opacity: 0, y: 8 }, hovered: { opacity: 1, y: 0 } }}
                     transition={{ duration: 0.4 }}
                   >
                     {c.sub}
                   </motion.p>
                 </div>
               </motion.div>
-            </Reveal>
+            </motion.div>
           ))}
         </div>
       </div>

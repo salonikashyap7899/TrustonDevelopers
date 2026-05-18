@@ -1,71 +1,90 @@
 import { useEffect, useRef } from "react";
 
+/* ── House SVG icon string (rendered via DOM) ──────────── */
+const HOUSE_SVG = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/>
+</svg>`;
+
+const HOUSE_SVG_FILLED = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="0.5" stroke-linejoin="round" stroke-linecap="round">
+  <path d="M3 10.5L12 3l9 7.5V21H15v-6H9v6H3V10.5z"/>
+</svg>`;
+
 export function CursorGlow() {
-  const dotRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     if (window.matchMedia?.("(pointer: coarse)").matches) return;
 
-    const dot = dotRef.current;
+    const icon = iconRef.current;
     const ring = ringRef.current;
-    const text = textRef.current;
-    if (!dot || !ring) return;
+    const glow = glowRef.current;
+    if (!icon || !ring || !glow) return;
 
     let raf = 0;
-    let dotX = -100, dotY = -100;
-    let ringX = -100, ringY = -100;
-    let targetX = -100, targetY = -100;
+    let ix = -100, iy = -100;
+    let rx = -100, ry = -100;
+    let tx = -100, ty = -100;
     let isHovering = false;
-    let isOnDark = false;
 
     const onMove = (e: MouseEvent) => {
-      targetX = e.clientX;
-      targetY = e.clientY;
-      dotX = e.clientX;
-      dotY = e.clientY;
+      tx = e.clientX;
+      ty = e.clientY;
+      ix = e.clientX;
+      iy = e.clientY;
     };
 
-    const onOver = (e: MouseEvent) => {
-      const el = (e.target as HTMLElement);
-      const interactive = el.closest("a, button, [role='button'], input, select, textarea, label, [data-cursor]");
-      const darkSection = el.closest("[data-dark]");
-      isOnDark = !!darkSection;
-
-      if (interactive) {
-        isHovering = true;
-        ring.style.width = "70px";
-        ring.style.height = "70px";
-        ring.style.marginLeft = "-35px";
-        ring.style.marginTop = "-35px";
-        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.8)";
-        ring.style.backgroundColor = "oklch(0.50 0.155 245 / 0.06)";
-        dot.style.transform = `translate3d(${dotX - 4}px, ${dotY - 4}px, 0) scale(0.5)`;
-        if (text) text.style.opacity = "0";
+    const setHover = (active: boolean) => {
+      if (active === isHovering) return;
+      isHovering = active;
+      if (active) {
+        icon.innerHTML = HOUSE_SVG_FILLED;
+        icon.style.color = "oklch(0.50 0.155 245)";
+        icon.style.filter = "drop-shadow(0 0 8px oklch(0.50 0.155 245 / 0.8))";
+        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 11}px, 0) scale(1.3)`;
+        ring.style.width = "56px";
+        ring.style.height = "56px";
+        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.6)";
+        ring.style.backgroundColor = "oklch(0.50 0.155 245 / 0.05)";
       } else {
-        isHovering = false;
-        ring.style.width = "38px";
-        ring.style.height = "38px";
-        ring.style.marginLeft = "-19px";
-        ring.style.marginTop = "-19px";
-        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.45)";
+        icon.innerHTML = HOUSE_SVG;
+        icon.style.color = "oklch(0.50 0.155 245)";
+        icon.style.filter = "drop-shadow(0 0 4px oklch(0.50 0.155 245 / 0.4))";
+        ring.style.width = "40px";
+        ring.style.height = "40px";
+        ring.style.borderColor = "oklch(0.50 0.155 245 / 0.35)";
         ring.style.backgroundColor = "transparent";
-        if (text) text.style.opacity = "0";
       }
     };
 
-    const loop = () => {
-      ringX += (targetX - ringX) * 0.1;
-      ringY += (targetY - ringY) * 0.1;
+    const onOver = (e: MouseEvent) => {
+      const el = e.target as HTMLElement;
+      const isInteractive = !!el.closest("a, button, [role='button'], input, select, textarea, label, [data-cursor]");
+      setHover(isInteractive);
+    };
 
-      dot.style.transform = `translate3d(${dotX - 4}px, ${dotY - 4}px, 0)`;
-      ring.style.left = `${ringX}px`;
-      ring.style.top = `${ringY}px`;
+    const loop = () => {
+      rx += (tx - rx) * 0.11;
+      ry += (ty - ry) * 0.11;
+
+      // Icon follows precisely
+      if (!isHovering) {
+        icon.style.transform = `translate3d(${ix - 11}px, ${iy - 20}px, 0) scale(1)`;
+      }
+      // Ring follows with lag
+      ring.style.left = `${rx}px`;
+      ring.style.top = `${ry}px`;
+      // Glow follows ring
+      glow.style.transform = `translate3d(${rx - 140}px, ${ry - 140}px, 0)`;
 
       raf = requestAnimationFrame(loop);
     };
+
+    icon.innerHTML = HOUSE_SVG;
+    icon.style.color = "oklch(0.50 0.155 245)";
+    icon.style.filter = "drop-shadow(0 0 4px oklch(0.50 0.155 245 / 0.4))";
 
     window.addEventListener("mousemove", onMove);
     document.addEventListener("mouseover", onOver);
@@ -80,55 +99,44 @@ export function CursorGlow() {
 
   return (
     <>
-      {/* Inner precision dot */}
+      {/* Ambient glow orb */}
       <div
-        ref={dotRef}
+        ref={glowRef}
         aria-hidden
-        className="pointer-events-none fixed top-0 left-0 z-[9990] hidden md:block"
+        className="pointer-events-none fixed top-0 left-0 z-[9985] hidden md:block w-[280px] h-[280px] rounded-full"
         style={{
-          width: 8,
-          height: 8,
-          borderRadius: "50%",
-          background: "oklch(0.50 0.155 245)",
-          boxShadow: "0 0 10px 2px oklch(0.50 0.155 245 / 0.6)",
-          transition: "transform 0.05s linear",
+          background: "radial-gradient(circle, oklch(0.50 0.155 245 / 0.06) 0%, transparent 70%)",
+          filter: "blur(20px)",
           willChange: "transform",
         }}
       />
-      {/* Outer lagged ring */}
+      {/* Lagged ring */}
       <div
         ref={ringRef}
         aria-hidden
-        className="pointer-events-none fixed z-[9989] hidden md:block"
+        className="pointer-events-none fixed z-[9989] hidden md:block rounded-full"
         style={{
-          width: 38,
-          height: 38,
-          marginLeft: -19,
-          marginTop: -19,
+          width: 40,
+          height: 40,
+          marginLeft: -20,
+          marginTop: -20,
           borderRadius: "50%",
-          border: "1px solid oklch(0.50 0.155 245 / 0.45)",
+          border: "1px solid oklch(0.50 0.155 245 / 0.35)",
           backgroundColor: "transparent",
-          transition: "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), margin 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",
+          transition: "width 0.35s cubic-bezier(0.16,1,0.3,1), height 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s, background-color 0.3s",
           willChange: "left, top",
         }}
       />
-      {/* Label text (for data-cursor elements) */}
+      {/* House icon — precise tracking */}
       <div
-        ref={textRef}
+        ref={iconRef}
         aria-hidden
-        className="pointer-events-none fixed z-[9991] hidden md:flex items-center justify-center"
+        className="pointer-events-none fixed top-0 left-0 z-[9990] hidden md:block"
         style={{
-          width: 70,
-          height: 70,
-          marginLeft: -35,
-          marginTop: -35,
-          opacity: 0,
-          transition: "opacity 0.3s",
-          fontSize: 9,
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          color: "white",
-          fontFamily: "Inter, sans-serif",
+          width: 22,
+          height: 22,
+          transition: "transform 0.15s cubic-bezier(0.16,1,0.3,1), filter 0.3s, color 0.3s",
+          willChange: "transform",
         }}
       />
     </>
