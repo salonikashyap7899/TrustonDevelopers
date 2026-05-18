@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { LuxeNav } from "@/components/LuxeNav";
 import { SiteFooter } from "@/components/SiteFooter";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
 
 import appCss from "../styles.css?url";
 
@@ -120,6 +121,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <SiteFooter />
+      <WhatsAppButton />
     </QueryClientProvider>
   );
 }
