@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { ensureFirstAdmin } from "@/lib/admin-server-fn";
 
 export function useAuth() {
   const [session, setSession] = useState<Session | null>(null);
@@ -18,31 +19,37 @@ export function useAuth() {
           .from("user_roles")
           .select("role")
           .eq("user_id", userId);
-        
+
         if (!rolesError && roles && roles.some(r => r.role === "admin")) {
           if (isMounted) setIsAdmin(true);
           return;
         }
 
-        // 2. If not admin, check if any admin exists at all
-        const { data: setupDone, error: setupError } = await supabase.rpc("is_setup_completed");
-        
-        if (!setupError && setupDone === false) {
-          // No admins exist yet, try to make this user the first admin
-          const { error: insertError } = await supabase
-            .from("user_roles")
-            .insert({ user_id: userId, role: "admin" });
+        // 2. Try server-side assignment (bypasses RLS, works even if migrations aren't applied)
+        const result = await ensureFirstAdmin({ data: userId });
 
-          if (!insertError && isMounted) {
-            setIsAdmin(true);
-          } else if (insertError) {
-            console.error("Error assigning first admin role:", insertError);
-          }
-        } else if (isMounted) {
-          setIsAdmin(false);
+        if (result.success && isMounted) {
+          setIsAdmin(true);
+          return;
         }
+
+        // 3. If server fn says admin already exists, double-check this user's roles again
+        //    (covers the case where the trigger ran but RLS blocked the first read)
+        if (result.reason === "admin_exists") {
+          const { data: retry } = await supabase
+            .from("user_roles")
+            .select("role")
+            .eq("user_id", userId);
+          if (retry && retry.some(r => r.role === "admin")) {
+            if (isMounted) setIsAdmin(true);
+            return;
+          }
+        }
+
+        if (isMounted) setIsAdmin(false);
       } catch (err) {
         console.error("Error in checkAndAssignRole:", err);
+        if (isMounted) setIsAdmin(false);
       }
     };
 

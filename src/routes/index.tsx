@@ -34,8 +34,7 @@ function Index() {
         title={<>Own the <em className="gradient-bronze-text not-italic font-display">Ground.</em><br/>Build the <span className="font-display italic">Legacy.</span></>}
         poster={heroImg}
         videoSources={[
-          { src: "https://videos.pexels.com/video-files/3844754/3844754-uhd_2560_1440_25fps.mp4", type: "video/mp4" }
-        ]}
+{ src: "/intro-video.mp4", type: "video/mp4" }        ]}
         alt="Aerial view of Prime Estate township at twilight"
       >
         <Link to="/project" className="group inline-flex items-center gap-4 rounded-full bg-cream text-ink px-10 py-5 text-[11px] uppercase tracking-[0.3em] hover:bg-bronze hover:text-cream transition-all duration-700 shadow-luxe">
