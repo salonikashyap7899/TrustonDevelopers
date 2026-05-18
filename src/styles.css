@@ -34,24 +34,25 @@
   --color-ink: var(--ink);
   --font-serif: "Cormorant Garamond", "Playfair Display", serif;
   --font-sans: "Inter", system-ui, sans-serif;
+  --font-display: "Playfair Display", "Cormorant Garamond", serif;
 }
 
 :root {
-  --radius: 0.25rem;
-  /* Sobha City — warm cream, deep ink, subtle bronze */
-  --background: oklch(0.972 0.012 80);          /* warm cream */
-  --foreground: oklch(0.18 0.012 250);          /* deep navy ink */
-  --ink: oklch(0.13 0.014 250);
-  --cream: oklch(0.972 0.012 80);
-  --sand: oklch(0.935 0.018 78);                /* soft sand panels */
-  --card: oklch(0.99 0.008 80);
-  --card-foreground: oklch(0.18 0.012 250);
-  --popover: oklch(0.99 0.008 80);
-  --popover-foreground: oklch(0.18 0.012 250);
-  --primary: oklch(0.18 0.012 250);
-  --primary-foreground: oklch(0.972 0.012 80);
-  /* Bronze / champagne accent */
-  --bronze: oklch(0.6 0.08 65);
+  --radius: 0.125rem;
+  /* Luxury Palette — deeper contrast, more refined tones */
+  --background: oklch(0.98 0.008 80);          /* lighter cream */
+  --foreground: oklch(0.12 0.012 250);          /* darker ink */
+  --ink: oklch(0.08 0.014 250);
+  --cream: oklch(0.98 0.008 80);
+  --sand: oklch(0.94 0.015 78);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.12 0.012 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.12 0.012 250);
+  --primary: oklch(0.12 0.012 250);
+  --primary-foreground: oklch(0.98 0.008 80);
+  /* Refined Gold/Bronze */
+  --bronze: oklch(0.58 0.09 72);
   --secondary: oklch(0.93 0.014 78);
   --secondary-foreground: oklch(0.18 0.012 250);
   --muted: oklch(0.93 0.014 78);
@@ -65,10 +66,11 @@
   --ring: oklch(0.6 0.08 65);
 
   --gradient-bronze: linear-gradient(135deg, oklch(0.72 0.07 70), oklch(0.55 0.09 60));
-  --gradient-overlay: linear-gradient(180deg, oklch(0.1 0.012 250 / 0.15) 0%, oklch(0.1 0.012 250 / 0.7) 100%);
+  --gradient-overlay: linear-gradient(180deg, oklch(0.05 0.01 250 / 0.2) 0%, oklch(0.05 0.01 250 / 0.8) 100%);
   --gradient-cream-fade: linear-gradient(180deg, transparent 0%, var(--cream) 100%);
-  --shadow-soft: 0 30px 60px -20px oklch(0.18 0.012 250 / 0.18);
-  --shadow-card: 0 10px 30px -15px oklch(0.18 0.012 250 / 0.15);
+  --shadow-soft: 0 40px 80px -25px oklch(0.08 0.01 250 / 0.12);
+  --shadow-card: 0 15px 45px -20px oklch(0.08 0.01 250 / 0.08);
+  --shadow-luxe: 0 60px 100px -30px oklch(0.08 0.01 250 / 0.15);
 }
 
 @layer base {
@@ -87,7 +89,7 @@
 
 @layer utilities {
   .font-serif { font-family: var(--font-serif); font-weight: 300; }
-  .font-display { font-family: var(--font-serif); font-weight: 300; letter-spacing: -0.025em; }
+  .font-display { font-family: var(--font-display); font-weight: 400; letter-spacing: -0.01em; }
   .text-bronze { color: var(--bronze); }
   .bg-bronze { background: var(--bronze); }
   .bg-cream { background: var(--cream); }

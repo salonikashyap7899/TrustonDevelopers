@@ -20,12 +20,15 @@ export function SiteFooter() {
       <div className="border-b border-cream/10">
         <div className="mx-auto max-w-7xl px-6 py-16 grid md:grid-cols-4 gap-12">
           <div className="md:col-span-2">
-            <div className="flex items-center gap-2 mb-6">
-              <span className="text-bronze text-4xl font-serif italic">Trust</span>
-              <span className="text-cream text-4xl font-serif">On</span>
+            <div className="flex items-center gap-4 mb-8">
+              <img src="/logo.png" alt="TrustOn Logo" className="h-14 w-auto object-contain brightness-125 grayscale hover:grayscale-0 transition-all duration-700" />
+              <div className="flex flex-col -gap-1">
+                <span className="text-bronze text-3xl font-display leading-none tracking-[0.2em] uppercase">TrustOn</span>
+                <span className="text-[10px] uppercase tracking-[0.4em] text-cream/40 font-medium">Premium Estate</span>
+              </div>
             </div>
-            <p className="font-display text-3xl text-cream/95 max-w-md leading-snug">
-              Own the Ground. Build the <em className="text-bronze not-italic font-serif italic">Legacy.</em>
+            <p className="font-display text-4xl text-cream max-w-md leading-tight">
+              Own the Ground. <br/>Build the <em className="text-bronze not-italic font-serif italic">Legacy.</em>
             </p>
             <p className="text-sm text-cream/60 mt-6 max-w-md leading-relaxed">
               Prime Estate by TrustOn Developers — a Jila Panchayat approved township in

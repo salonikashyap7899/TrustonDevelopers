@@ -49,11 +49,14 @@ export function LuxeNav() {
             scrolled ? "glass-light card-shadow" : "bg-transparent"
           }`}
         >
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-bronze text-2xl font-serif italic tracking-tight">Trust</span>
-            <span className="text-ink text-2xl font-serif tracking-tight">On</span>
+          <Link to="/" className="flex items-center gap-3">
+            <img src="/logo.png" alt="TrustOn Logo" className="h-10 w-auto object-contain brightness-110" />
+            <div className="flex flex-col -gap-1">
+              <span className="text-bronze text-xl font-display leading-none tracking-[0.2em] uppercase">TrustOn</span>
+              <span className="text-[8px] uppercase tracking-[0.4em] text-ink/60 font-medium">Premium Estate</span>
+            </div>
           </Link>
-          <nav className="hidden md:flex items-center gap-9">
+          <nav className="hidden lg:flex items-center gap-10">
             <Link to="/" className="text-[11px] uppercase tracking-luxe text-foreground/70 hover:text-bronze transition-colors duration-500 underline-bronze" activeProps={{ className: "text-bronze" }}>Home</Link>
             <Link to="/about-us" className="text-[11px] uppercase tracking-luxe text-foreground/70 hover:text-bronze transition-colors duration-500 underline-bronze" activeProps={{ className: "text-bronze" }}>About</Link>
             <Link to="/project" className="text-[11px] uppercase tracking-luxe text-foreground/70 hover:text-bronze transition-colors duration-500 underline-bronze" activeProps={{ className: "text-bronze" }}>Project</Link>
@@ -109,9 +112,9 @@ export function LuxeNav() {
           </nav>
           <Link
             to="/contact"
-            className="hidden md:inline-flex items-center gap-2 rounded-full bronze-border px-5 py-2 text-[11px] uppercase tracking-luxe text-bronze hover:bg-bronze hover:text-cream transition-all duration-500"
+            className="hidden lg:inline-flex items-center gap-2 rounded-full bg-ink text-cream px-7 py-2.5 text-[10px] uppercase tracking-[0.2em] hover:bg-bronze transition-all duration-700 shadow-lg shadow-ink/10"
           >
-            Enquire
+            Enquire Now
           </Link>
           <button
             aria-label="Open menu"

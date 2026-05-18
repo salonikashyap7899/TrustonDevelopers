@@ -18,18 +18,18 @@ export function PlotTracker() {
           </p>
         </Reveal>
 
-        <div className="grid md:grid-cols-4 gap-px bg-border mb-12">
+        <div className="grid md:grid-cols-4 gap-6 mb-16">
           {[
-            { label: "Total Plots", value: total, sub: "Full Inventory" },
-            { label: "Sold", value: sold, sub: "30% Complete" },
-            { label: "Booked", value: booked, sub: "Processing" },
-            { label: "Available", value: available, sub: "Ready to Book" },
+            { label: "Total Plots", value: total, sub: "Exquisite Inventory" },
+            { label: "Sold", value: sold, sub: "Exclusively Owned" },
+            { label: "Booked", value: booked, sub: "In Reservation" },
+            { label: "Available", value: available, sub: "Awaiting Legacy" },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
-              <div className="bg-cream p-10 h-full hover-lift">
-                <p className="text-[10px] uppercase tracking-luxe text-foreground/55">{s.label}</p>
-                <p className="font-display text-6xl gradient-bronze-text my-4">{s.value}</p>
-                <p className="text-xs text-foreground/55">{s.sub}</p>
+              <div className="bg-white/80 backdrop-blur-sm border border-border/50 p-10 h-full hover-lift card-shadow">
+                <p className="text-[10px] uppercase tracking-[0.3em] text-bronze font-medium mb-4">{s.label}</p>
+                <p className="font-display text-6xl gradient-bronze-text mb-4">{s.value}</p>
+                <p className="text-[10px] uppercase tracking-widest text-foreground/40">{s.sub}</p>
               </div>
             </Reveal>
           ))}

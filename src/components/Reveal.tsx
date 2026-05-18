@@ -2,8 +2,16 @@ import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  show: { opacity: 1, y: 0, transition: { duration: 1.1, ease: [0.2, 0.8, 0.2, 1] } },
+  hidden: { opacity: 0, y: 60, filter: "blur(10px)" },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    filter: "blur(0px)",
+    transition: { 
+      duration: 1.4, 
+      ease: [0.16, 1, 0.3, 1] 
+    } 
+  },
 };
 
 export function Reveal({

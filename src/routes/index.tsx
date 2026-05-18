@@ -30,17 +30,20 @@ function Index() {
       <CursorGlow />
       <PageHero
         height="full"
-        eyebrow="🏡 Welcome to TrustOn"
-        title={<>Own the <em className="gradient-bronze-text not-italic">Ground.</em><br/>Build the <span className="font-serif italic">Legacy.</span></>}
+        eyebrow="Luxury Real Estate — Lucknow"
+        title={<>Own the <em className="gradient-bronze-text not-italic font-display">Ground.</em><br/>Build the <span className="font-display italic">Legacy.</span></>}
         poster={heroImg}
+        videoSources={[
+          { src: "https://videos.pexels.com/video-files/3844754/3844754-uhd_2560_1440_25fps.mp4", type: "video/mp4" }
+        ]}
         alt="Aerial view of Prime Estate township at twilight"
       >
-        <Link to="/project" className="group inline-flex items-center gap-3 rounded-full bg-cream text-ink px-8 py-4 text-[11px] uppercase tracking-luxe hover:bg-bronze hover:text-cream transition-all duration-500">
-          Explore Prime Estate
-          <span className="transition-transform duration-500 group-hover:translate-x-1">→</span>
+        <Link to="/project" className="group inline-flex items-center gap-4 rounded-full bg-cream text-ink px-10 py-5 text-[11px] uppercase tracking-[0.3em] hover:bg-bronze hover:text-cream transition-all duration-700 shadow-luxe">
+          Explore Projects
+          <span className="transition-transform duration-700 group-hover:translate-x-2">→</span>
         </Link>
-        <Link to="/contact" className="text-[11px] uppercase tracking-luxe text-cream/85 hover:text-bronze transition">
-          Schedule a Consultation
+        <Link to="/contact" className="text-[11px] uppercase tracking-[0.3em] text-cream/90 hover:text-bronze transition-all duration-500 underline-bronze">
+          Private Consultation
         </Link>
       </PageHero>
 
