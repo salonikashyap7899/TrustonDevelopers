@@ -1,14 +1,9 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+// @cloudflare/vite-plugin builds from this — wrangler.jsonc main alone is insufficient.
 export default defineConfig({
-  plugins: [react()],
-
-  server: {
-    host: "0.0.0.0",
-    port: process.env.PORT || 5173,
-    allowedHosts: [
-      "truston1.onrender.com"
-    ]
-  }
+  tanstackStart: {
+    server: { entry: "server" },
+  },
 });
