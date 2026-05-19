@@ -42,95 +42,7 @@ export function DevelopersSection() {
         </div>
       </div>
 
-      {/* ═══════════════════════════════════════
-          ABOUT — SOBHA-STYLE WHITE CARD
-      ═══════════════════════════════════════ */}
-      <section className="relative bg-[var(--ink)] py-0">
-        <div className="bg-white text-[var(--ink)] rounded-t-3xl px-6 md:px-12 py-16 md:py-20 relative z-10 mx-auto max-w-7xl">
-          <div className="mb-8">
-            <p className="text-xs tracking-widest uppercase text-[#8A7A55] mb-4 flex items-center gap-2">
-              <span className="w-7 h-px bg-[#8A7A55]"></span>
-              Who We Are
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight">
-              Shaping <em className="italic text-[#BFA46A]">Legacies</em>
-              <br />
-              in Lucknow
-            </h2>
-          </div>
 
-          <div className="grid md:grid-cols-2 gap-12 mb-12">
-            <div className="space-y-4 text-gray-700 text-sm leading-relaxed">
-              <p>
-                Truston Developers is a Lucknow-based property development company built on a single founding principle — that buying land should be simple, transparent, and deeply empowering for the buyer.
-              </p>
-              <p>
-                We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.
-              </p>
-
-              {/* Pillars */}
-              <div className="space-y-4 mt-6">
-                {[
-                  {
-                    num: "01",
-                    name: "Transparent Documentation",
-                    desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions at every stage of the transaction.",
-                  },
-                  {
-                    num: "02",
-                    name: "High-Growth Locations",
-                    desc: "Projects placed in proven growth corridors with verified infrastructure readiness and long-term appreciation potential.",
-                  },
-                  {
-                    num: "03",
-                    name: "End-to-End Partnership",
-                    desc: "From plot acquisition to construction and architectural design — one trusted team, start to finish.",
-                  },
-                ].map((pillar) => (
-                  <div key={pillar.num} className="flex gap-3">
-                    <div className="text-[#BFA46A] font-serif text-lg font-light flex-shrink-0">
-                      {pillar.num}
-                    </div>
-                    <div>
-                      <p className="font-semibold text-gray-800 text-sm">{pillar.name}</p>
-                      <p className="text-xs text-gray-600 mt-1">{pillar.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Visual Box */}
-            <div className="flex items-center justify-center">
-              <div className="relative w-full aspect-square bg-gradient-to-br from-[#BFA46A]/10 to-[#BFA46A]/5 rounded-lg border border-[#BFA46A]/20 flex items-center justify-center">
-                <div className="text-center">
-                  <p className="font-serif text-lg italic text-gray-600">
-                    "We build the foundation.<br />
-                    You build the dream."
-                  </p>
-                  <p className="text-xs text-[#BFA46A] mt-4 tracking-widest uppercase">
-                    Prime Estate · 2025
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Row */}
-          <div className="grid grid-cols-3 gap-4 border-t border-gray-200 pt-8">
-            {[
-              { num: "120+", label: "Total Plots" },
-              { num: "47", label: "Still Available" },
-              { num: "₹12L+", label: "Starting Price" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="font-serif text-3xl font-light text-[var(--ink)]">{stat.num}</p>
-                <p className="text-xs uppercase tracking-widest text-gray-400 mt-2">{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ═══════════════════════════════════════
           PROJECT — PRIME ESTATE
@@ -386,13 +298,13 @@ export function DevelopersSection() {
       <section id="contact" className="bg-[#1E1D1A] px-6 md:px-12 py-16 md:py-24">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
-            <p className="text-xs tracking-widest uppercase text-[#BFA46A] mb-4 flex items-center gap-2">
-              <span className="w-7 h-px bg-[#BFA46A]"></span>
+            <p className="text-xs tracking-widest uppercase text-[var(--bronze)] mb-4 flex items-center gap-2">
+              <span className="w-7 h-px bg-[var(--bronze)]"></span>
               Get in Touch
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight">
               Let's Start Your<br />
-              <em className="italic text-[#BFA46A]">Journey Together</em>
+              <em className="italic text-[var(--bronze)]">Journey Together</em>
             </h2>
           </div>
 
@@ -403,20 +315,20 @@ export function DevelopersSection() {
                 <input
                   type="text"
                   placeholder="Full Name"
-                  className="bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[#BFA46A]"
+                  className="bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[var(--bronze)]"
                 />
                 <input
                   type="tel"
                   placeholder="+91 XXXXX XXXXX"
-                  className="bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[#BFA46A]"
+                  className="bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[var(--bronze)]"
                 />
               </div>
               <input
                 type="email"
                 placeholder="Email Address"
-                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[#BFA46A]"
+                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[var(--bronze)]"
               />
-              <select className="w-full bg-white/5 border border-white/10 text-white px-4 py-3 text-sm rounded focus:outline-none focus:border-[#BFA46A]">
+              <select className="w-full bg-white/5 border border-white/10 text-white px-4 py-3 text-sm rounded focus:outline-none focus:border-[var(--bronze)]">
                 <option className="bg-[#1E1D1A]">Purchasing a Plot – Prime Estate</option>
                 <option className="bg-[#1E1D1A]">Construction Services</option>
                 <option className="bg-[#1E1D1A]">Investment Consultancy</option>
@@ -425,9 +337,9 @@ export function DevelopersSection() {
               </select>
               <textarea
                 placeholder="Tell us about your requirements…"
-                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[#BFA46A] min-h-24"
+                className="w-full bg-white/5 border border-white/10 text-white placeholder-white/30 px-4 py-3 text-sm rounded focus:outline-none focus:border-[var(--bronze)] min-h-24"
               ></textarea>
-              <button className="w-full bg-[#BFA46A] text-[var(--ink)] px-6 py-3 text-xs uppercase tracking-widest font-semibold hover:bg-[#D4B97A] transition-colors rounded">
+              <button className="w-full bg-[var(--bronze)] text-[var(--ink)] px-6 py-3 text-xs uppercase tracking-widest font-semibold hover:bg-[var(--gold-bright)] transition-colors rounded">
                 Send Enquiry
               </button>
             </form>
@@ -435,19 +347,19 @@ export function DevelopersSection() {
             {/* Details */}
             <div className="space-y-8">
               <div>
-                <p className="text-xs uppercase tracking-widest text-[#BFA46A] mb-2">Call Anytime</p>
-                <a href="tel:+919616061166" className="text-white hover:text-[#BFA46A] transition-colors text-lg">
+                <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-2">Call Anytime</p>
+                <a href="tel:+919616061166" className="text-white hover:text-[var(--bronze)] transition-colors text-lg">
                   +91 96160-61166
                 </a>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-widest text-[#BFA46A] mb-2">Email</p>
-                <a href="mailto:trustondevelopers01@gmail.com" className="text-white hover:text-[#BFA46A] transition-colors text-sm">
+                <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-2">Email</p>
+                <a href="mailto:trustondevelopers01@gmail.com" className="text-white hover:text-[var(--bronze)] transition-colors text-sm">
                   trustondevelopers01@gmail.com
                 </a>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-widest text-[#BFA46A] mb-2">Project Site</p>
+                <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-2">Project Site</p>
                 <p className="text-white/70 text-sm leading-relaxed">
                   Prime Estate<br />
                   Dubagga, Lucknow<br />
@@ -455,17 +367,17 @@ export function DevelopersSection() {
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-widest text-[#BFA46A] mb-2">Office Hours</p>
+                <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-2">Office Hours</p>
                 <p className="text-white/70 text-sm">Monday – Saturday · 9 AM – 7 PM IST</p>
               </div>
               <div className="flex gap-3 pt-4">
-                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[#BFA46A] hover:text-[#BFA46A] transition-colors rounded">
+                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-colors rounded">
                   Instagram
                 </a>
-                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[#BFA46A] hover:text-[#BFA46A] transition-colors rounded">
+                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-colors rounded">
                   Facebook
                 </a>
-                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[#BFA46A] hover:text-[#BFA46A] transition-colors rounded">
+                <a href="#" className="border border-white/20 text-white/70 px-4 py-2 text-xs uppercase tracking-widest hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-colors rounded">
                   WhatsApp
                 </a>
               </div>

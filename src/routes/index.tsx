@@ -15,6 +15,7 @@ import { WealthCalculator } from "@/components/WealthCalculator";
 import { Testimonials } from "@/components/Testimonials";
 import { GallerySection } from "@/components/GallerySection";
 import { DevelopersSection } from "@/components/DevelopersSection";
+import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -44,6 +45,7 @@ function Index() {
       />
 
       <DevelopersSection />
+      <WhoWeAreSection />
 
       <Marquee />
       <StatsBar />
@@ -51,13 +53,7 @@ function Index() {
       <Highlights />
       <GallerySection />
       <WealthCalculator />
-      <AboutPrime />
-      <InvestLucknow />
-      <Services />
-      <ProjectFeature />
-      <WhyTrust />
       <Testimonials />
-      <ChannelPartnerCTA />
     </div>
   );
 }
@@ -529,7 +525,8 @@ function InvestLucknow() {
   );
 }
 
-/* ── Services ────────────────────────────────────────── */
+/* ── Services (REMOVED) ────────────────────────────────────────── */
+/*
 function Services() {
   const services = [
     {
@@ -661,8 +658,10 @@ function Services() {
     </section>
   );
 }
+*/
 
-/* ── Project Feature ─────────────────────────────────── */
+/* ── Project Feature (REMOVED) ─────────────────────────────────── */
+/*
 function ProjectFeature() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -733,8 +732,10 @@ function ProjectFeature() {
     </section>
   );
 }
+*/
 
-/* ── Why Trust ───────────────────────────────────────── */
+/* ── Why Trust (REMOVED) ───────────────────────────────────────── */
+/*
 function WhyTrust() {
   const items = [
     {
@@ -832,8 +833,10 @@ function WhyTrust() {
     </section>
   );
 }
+*/
 
-/* ── Channel Partner CTA ─────────────────────────────── */
+/* ── Channel Partner CTA (REMOVED) ─────────────────────────────── */
+/*
 function ChannelPartnerCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
