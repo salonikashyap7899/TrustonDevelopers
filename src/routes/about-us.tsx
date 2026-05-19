@@ -24,22 +24,18 @@ const services = [
   {
     title: "Plot Selling",
     to: "/plot-selling",
-    img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/webaliser-_TPTXZd9mOo-unsplash-1-550x550.jpg",
   },
   {
     title: "Architecture & Design",
     to: "/architecture-design",
-    img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/april-pethybridge-nN28PjFOOLI-unsplash-550x550.jpg",
   },
   {
     title: "Construction & Build",
     to: "/construction-build",
-    img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-550x550.jpg",
   },
   {
     title: "Investment Consulting",
     to: "/investment-consulting",
-    img: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-waxman-f9qZuKoZYoY-unsplash-1-150x150.jpg",
   },
 ] as const;
 
@@ -127,26 +123,53 @@ function AboutPage() {
             </h2>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((s, i) => (
-              <Reveal key={s.to} delay={i * 0.08}>
-                <Link to={s.to} className="group block">
-                  <div className="relative aspect-square rounded-md overflow-hidden mb-5">
-                    <img
-                      src={s.img}
-                      alt={s.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-[1.6s] group-hover:scale-110"
-                    />
-                  </div>
-                  <h3 className="font-serif text-2xl group-hover:text-bronze transition-colors">
-                    {s.title}
-                  </h3>
-                  <span className="text-[11px] uppercase tracking-luxe text-bronze mt-2 inline-block">
-                    Get Free Quote →
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
+            {services.map((s, i) => {
+              const getIcon = (title: string) => {
+                switch (title) {
+                  case "Plot Selling":
+                    return (
+                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2.393-6.823c.5-1.422 1.944-2.305 3.467-2.305h5.514c1.523 0 2.967.883 3.467 2.305L21 12M3 12a9 9 0 0118 0m-9 9v-6m-4-3h8m-4 3v6m4-3h4" />
+                      </svg>
+                    );
+                  case "Architecture & Design":
+                    return (
+                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                      </svg>
+                    );
+                  case "Construction & Build":
+                    return (
+                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                    );
+                  case "Investment Consulting":
+                    return (
+                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    );
+                  default:
+                    return null;
+                }
+              };
+              return (
+                <Reveal key={s.to} delay={i * 0.08}>
+                  <Link to={s.to} className="group block text-center">
+                    <div className="flex justify-center mb-6 text-bronze group-hover:text-[var(--bronze)] transition-colors duration-300">
+                      {getIcon(s.title)}
+                    </div>
+                    <h3 className="font-serif text-2xl group-hover:text-bronze transition-colors">
+                      {s.title}
+                    </h3>
+                    <span className="text-[11px] uppercase tracking-luxe text-bronze mt-2 inline-block">
+                      Get Free Quote →
+                    </span>
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
