@@ -24,7 +24,7 @@ function AdminLoginPage() {
 
   useEffect(() => {
     const checkSetup = async () => {
-      const { data, error } = await supabase.rpc("is_setup_completed");
+      const { data, error } = await (supabase as any).rpc("is_setup_completed");
       if (!error) {
         setIsSetupDone(data);
         // If setup is not done, default to signup mode

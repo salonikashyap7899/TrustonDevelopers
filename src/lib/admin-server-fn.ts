@@ -1,12 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-export const ensureFirstAdmin = createServerFn({ method: "POST" })
+export const ensureFirstAdmin = (createServerFn({ method: "POST" }) as any)
   .validator((userId: unknown) => {
     if (typeof userId !== "string" || !userId) throw new Error("Invalid userId");
     return userId;
   })
-  .handler(async ({ data: userId }) => {
+  .handler(async ({ data: userId }: { data: string }) => {
     const { data: admins, error: checkError } = await supabaseAdmin
       .from("user_roles")
       .select("user_id")
