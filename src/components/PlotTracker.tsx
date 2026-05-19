@@ -32,8 +32,8 @@ export function PlotTracker() {
   const stats = [
     { label: "Total Plots", value: total, sub: "Exquisite Inventory", color: "text-white" },
     { label: "Sold", value: sold, sub: "Exclusively Owned", color: "text-red-400" },
-    { label: "Booked", value: booked, sub: "In Reservation", color: "text-yellow-400" },
-    { label: "Available", value: available, sub: "Awaiting Legacy", color: "text-[var(--bronze)]" },
+    { label: "Booked", value: booked, sub: "In Reservation", color: "text-sky-300" },
+    { label: "Available", value: available, sub: "Awaiting Legacy", color: "text-[#2D6BC4]" },
   ];
 
   return (
@@ -102,7 +102,7 @@ export function PlotTracker() {
                   <span className="w-3 h-3 rounded-full bg-red-400/70" /> Sold ({sold})
                 </span>
                 <span className="flex items-center gap-2 text-white/30">
-                  <span className="w-3 h-3 rounded-full bg-yellow-400/70" /> Booked ({booked})
+                  <span className="w-3 h-3 rounded-full bg-sky-300/70" /> Booked ({booked})
                 </span>
                 <span className="flex items-center gap-2 text-white/30">
                   <span className="w-3 h-3 rounded-full bg-white/20" /> Available ({available})

@@ -50,7 +50,8 @@
   --popover-foreground: oklch(0.14 0.018 250);
   --primary: oklch(0.14 0.018 250);
   --primary-foreground: oklch(0.98 0.004 240);
-  --bronze: oklch(0.50 0.155 245);
+  --bronze: #2D6BC4;               /* hex fallback — forces royal blue on any engine */
+  --bronze: oklch(0.50 0.155 245); /* oklch override for modern browsers */
   --secondary: oklch(0.93 0.008 240);
   --secondary-foreground: oklch(0.18 0.018 250);
   --muted: oklch(0.93 0.008 240);
@@ -63,6 +64,7 @@
   --input: oklch(0.18 0.018 250 / 0.12);
   --ring: oklch(0.50 0.155 245);
 
+  --gradient-bronze: linear-gradient(135deg, #3b89e8, #1a55b0); /* hex fallback */
   --gradient-bronze: linear-gradient(135deg, oklch(0.60 0.14 245), oklch(0.42 0.16 250));
   --gradient-overlay: linear-gradient(165deg, oklch(0.05 0.01 250 / 0.65) 0%, oklch(0.05 0.01 250 / 0.88) 60%, oklch(0.04 0.01 250 / 0.95) 100%);
   --gradient-cream-fade: linear-gradient(180deg, transparent 0%, var(--cream) 100%);
