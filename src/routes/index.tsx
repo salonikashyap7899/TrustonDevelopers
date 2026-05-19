@@ -7,6 +7,7 @@ import projectImg from "@/assets/project-prime.jpg";
 import interiorImg from "@/assets/luxury-interior.jpg";
 import lucknowImg from "@/assets/lucknow-aerial.jpg";
 import { PageHero } from "@/components/PageHero";
+import { SobhaStyleHero } from "@/components/SobhaStyleHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { TextReveal, CharReveal } from "@/components/TextReveal";
 import { PlotTracker } from "@/components/PlotTracker";
@@ -35,7 +36,7 @@ function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
       <CursorGlow />
-      <PageHero
+      <SobhaStyleHero
         height="full"
         eyebrow="Luxury Real Estate — Lucknow"
         title={
@@ -62,7 +63,7 @@ function Index() {
         >
           Private Consultation
         </Link>
-      </PageHero>
+      </SobhaStyleHero>
 
       <Marquee />
       <StatsBar />

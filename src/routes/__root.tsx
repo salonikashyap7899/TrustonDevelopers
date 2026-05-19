@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { LuxeNav } from "@/components/LuxeNav";
+import { SobhaStyleNav } from "@/components/SobhaStyleNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
@@ -15,6 +16,7 @@ import Lenis from "lenis";
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import sobhaAnimationsCss from "../styles/sobha-animations.css?url";
 
 function NotFoundComponent() {
   return (
@@ -90,6 +92,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: sobhaAnimationsCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -144,7 +147,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <IntroScreen />
-      <LuxeNav />
+      <SobhaStyleNav />
       <main className="min-h-screen">
         <Outlet />
       </main>
