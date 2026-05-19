@@ -12,6 +12,7 @@ import { PlotTracker } from "@/components/PlotTracker";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { Testimonials } from "@/components/Testimonials";
 import { CursorGlow } from "@/components/CursorGlow";
+import { GallerySection } from "@/components/GallerySection";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -51,6 +52,7 @@ function Index() {
       <StatsBar />
       <PlotTracker />
       <Highlights />
+      <GallerySection />
       <WealthCalculator />
       <AboutPrime />
       <InvestLucknow />
