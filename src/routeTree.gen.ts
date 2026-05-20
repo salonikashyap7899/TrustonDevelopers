@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as ProjectRouteImport } from './routes/project'
 import { Route as PlotSellingRouteImport } from './routes/plot-selling'
+import { Route as LifestyleRouteImport } from './routes/lifestyle'
 import { Route as InvestmentConsultingRouteImport } from './routes/investment-consulting'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ConstructionBuildRouteImport } from './routes/construction-build'
@@ -36,6 +37,11 @@ const ProjectRoute = ProjectRouteImport.update({
 const PlotSellingRoute = PlotSellingRouteImport.update({
   id: '/plot-selling',
   path: '/plot-selling',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LifestyleRoute = LifestyleRouteImport.update({
+  id: '/lifestyle',
+  path: '/lifestyle',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvestmentConsultingRoute = InvestmentConsultingRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
   '/investment-consulting': typeof InvestmentConsultingRoute
+  '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
   '/services': typeof ServicesRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
   '/investment-consulting': typeof InvestmentConsultingRoute
+  '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
   '/services': typeof ServicesRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/construction-build': typeof ConstructionBuildRoute
   '/contact': typeof ContactRoute
   '/investment-consulting': typeof InvestmentConsultingRoute
+  '/lifestyle': typeof LifestyleRoute
   '/plot-selling': typeof PlotSellingRoute
   '/project': typeof ProjectRoute
   '/services': typeof ServicesRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/construction-build'
     | '/contact'
     | '/investment-consulting'
+    | '/lifestyle'
     | '/plot-selling'
     | '/project'
     | '/services'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/construction-build'
     | '/contact'
     | '/investment-consulting'
+    | '/lifestyle'
     | '/plot-selling'
     | '/project'
     | '/services'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/construction-build'
     | '/contact'
     | '/investment-consulting'
+    | '/lifestyle'
     | '/plot-selling'
     | '/project'
     | '/services'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   ConstructionBuildRoute: typeof ConstructionBuildRoute
   ContactRoute: typeof ContactRoute
   InvestmentConsultingRoute: typeof InvestmentConsultingRoute
+  LifestyleRoute: typeof LifestyleRoute
   PlotSellingRoute: typeof PlotSellingRoute
   ProjectRoute: typeof ProjectRoute
   ServicesRoute: typeof ServicesRoute
@@ -220,6 +233,13 @@ declare module '@tanstack/react-router' {
       path: '/plot-selling'
       fullPath: '/plot-selling'
       preLoaderRoute: typeof PlotSellingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/lifestyle': {
+      id: '/lifestyle'
+      path: '/lifestyle'
+      fullPath: '/lifestyle'
+      preLoaderRoute: typeof LifestyleRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/investment-consulting': {
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConstructionBuildRoute: ConstructionBuildRoute,
   ContactRoute: ContactRoute,
   InvestmentConsultingRoute: InvestmentConsultingRoute,
+  LifestyleRoute: LifestyleRoute,
   PlotSellingRoute: PlotSellingRoute,
   ProjectRoute: ProjectRoute,
   ServicesRoute: ServicesRoute,

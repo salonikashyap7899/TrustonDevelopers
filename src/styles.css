@@ -370,4 +370,262 @@
     background: var(--bronze);
     vertical-align: middle;
   }
+
+  /* ── Enhanced Text Visibility ────────────────────────── */
+  .text-rich {
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    line-height: 1.7;
+  }
+
+  .text-rich-dark {
+    color: oklch(0.12 0.02 250);
+    font-weight: 500;
+  }
+
+  .text-rich-light {
+    color: oklch(0.95 0.005 240);
+    font-weight: 500;
+  }
+
+  .heading-rich {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .heading-rich-large {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  /* ── Floating Image Animations ───────────────────────── */
+  @keyframes float-gentle {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-8px) rotate(0.5deg);
+    }
+    50% {
+      transform: translateY(-16px) rotate(0deg);
+    }
+    75% {
+      transform: translateY(-8px) rotate(-0.5deg);
+    }
+  }
+
+  .float-gentle {
+    animation: float-gentle 6s ease-in-out infinite;
+  }
+
+  @keyframes float-dynamic {
+    0%, 100% {
+      transform: translateY(0px) scale(1);
+    }
+    50% {
+      transform: translateY(-20px) scale(1.02);
+    }
+  }
+
+  .float-dynamic {
+    animation: float-dynamic 5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+  }
+
+  @keyframes float-wave {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    25% {
+      transform: translateY(-12px);
+    }
+    75% {
+      transform: translateY(8px);
+    }
+  }
+
+  .float-wave {
+    animation: float-wave 7s ease-in-out infinite;
+  }
+
+  /* ── Image Container Enhancements ────────────────────── */
+  .image-float-container {
+    position: relative;
+    overflow: visible;
+  }
+
+  .image-float-container img {
+    transition: transform 0.3s ease-out, filter 0.3s ease-out;
+  }
+
+  .image-float-container:hover img {
+    transform: scale(1.03) translateY(-4px);
+    filter: brightness(1.05);
+  }
+
+  /* ── Section Visibility Enhancements ─────────────────── */
+  .section-divider {
+    position: relative;
+    padding: 4rem 0;
+    border-top: 1px solid oklch(0.18 0.018 250 / 0.1);
+  }
+
+  .section-divider::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: var(--bronze);
+    opacity: 0.6;
+  }
+
+  /* ── Rich Contrast Overlays ──────────────────────────── */
+  .overlay-rich-dark {
+    background: linear-gradient(
+      135deg,
+      oklch(0.05 0.01 250 / 0.7) 0%,
+      oklch(0.08 0.01 250 / 0.5) 100%
+    );
+  }
+
+  .overlay-rich-light {
+    background: linear-gradient(
+      135deg,
+      oklch(0.98 0.004 240 / 0.95) 0%,
+      oklch(0.95 0.005 240 / 0.9) 100%
+    );
+  }
+
+  /* ── Text Glow Effect ────────────────────────────────── */
+  .text-glow-bronze {
+    text-shadow: 0 0 20px var(--bronze) / 0.3, 0 0 40px var(--bronze) / 0.15;
+  }
+
+  .text-glow-subtle {
+    text-shadow: 0 2px 8px oklch(0.08 0.01 250 / 0.2);
+  }
+
+  /* ── Enhanced Hover Effects ──────────────────────────── */
+  .hover-glow {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 30px var(--bronze) / 0.2, 0 0 60px var(--bronze) / 0.1;
+    transform: translateY(-4px);
+  }
+
+  /* ── Smooth Scroll Snap ──────────────────────────────── */
+  .scroll-snap-section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* ── Page Section Clarity ────────────────────────────── */
+  .page-section {
+    position: relative;
+    padding: 6rem 1.5rem;
+  }
+
+  .page-section-light {
+    background: var(--cream);
+    color: var(--ink);
+  }
+
+  .page-section-dark {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  .page-section-accent {
+    background: linear-gradient(
+      135deg,
+      var(--sand) 0%,
+      var(--cream) 100%
+    );
+    color: var(--ink);
+  }
+
+  /* ── Rich Typography ─────────────────────────────────── */
+  .typography-hero {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+
+  .typography-section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  .typography-body {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    color: oklch(0.3 0.015 250);
+  }
+
+  .typography-body-light {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.8;
+    letter-spacing: 0.3px;
+    color: oklch(0.85 0.008 240);
+  }
+
+  /* ── Image Reveal Animations ─────────────────────────── */
+  @keyframes image-reveal-blur {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0px);
+    }
+  }
+
+  .image-reveal-blur {
+    animation: image-reveal-blur 0.8s ease-out;
+  }
+
+  @keyframes image-reveal-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.92);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .image-reveal-scale {
+    animation: image-reveal-scale 0.8s ease-out;
+  }
+
+  /* ── Scroll Progress Indicator ───────────────────────── */
+  .scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--bronze), var(--accent));
+    transform-origin: left;
+    z-index: 9998;
+  }
 }

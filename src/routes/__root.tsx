@@ -13,6 +13,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
 import { CursorGlow } from "@/components/CursorGlow";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import Lenis from "lenis";
 import { useEffect } from "react";
 
@@ -147,6 +148,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollProgressBar />
       <CursorGlow />
       <IntroScreen />
       <SobhaStyleNav />
