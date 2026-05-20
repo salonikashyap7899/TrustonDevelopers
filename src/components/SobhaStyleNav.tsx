@@ -36,10 +36,10 @@ export function SobhaStyleNav() {
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-transparent hover:bg-black/5`}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-transparent`}
     >
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className={`flex items-center justify-between transition-all duration-500 h-[120px]`}>
+        <div className={`flex items-center justify-between transition-all duration-500 h-[140px]`}>
           {/* Left Nav */}
           <nav className="hidden lg:flex items-center gap-8 flex-1">
             {leftLinks.map((l) => (
@@ -59,7 +59,7 @@ export function SobhaStyleNav() {
               <img
                 src="/logo.png"
                 alt="Logo"
-                className={`w-auto h-20 object-contain brightness-110`}
+                className={`w-auto h-32 object-contain brightness-110`}
               />
             </Link>
           </div>
