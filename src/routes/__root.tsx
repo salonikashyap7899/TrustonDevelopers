@@ -7,10 +7,18 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { LuxeNav } from "@/components/LuxeNav";
+import { SobhaStyleNav } from "@/components/SobhaStyleNav";
+import { SiteFooter } from "@/components/SiteFooter";
+import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { IntroScreen } from "@/components/IntroScreen";
+import { CursorGlow } from "@/components/CursorGlow";
+import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import Lenis from "lenis";
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
+import sobhaAnimationsCss from "../styles/sobha-animations.css?url";
 
 function NotFoundComponent() {
   return (
@@ -74,27 +82,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TRUSTON | Modern Legacy Developers" },
+      { title: "TrustOn — Premium Real Estate & Luxury Living" },
       {
         name: "description",
-        content: "The Standard of Permanence. Modern Legacy Developers.",
+        content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
       },
       { name: "author", content: "TrustOn Developers" },
-      { property: "og:title", content: "TRUSTON | Modern Legacy Developers" },
+      { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "stylesheet", href: sobhaAnimationsCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
@@ -107,7 +112,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <HeadContent />
       </head>
@@ -143,9 +148,15 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <ScrollProgressBar />
+      <CursorGlow />
+      <IntroScreen />
+      <SobhaStyleNav />
       <main className="min-h-screen">
         <Outlet />
       </main>
+      <SiteFooter />
+      <WhatsAppButton />
     </QueryClientProvider>
   );
 }
