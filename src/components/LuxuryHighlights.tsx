@@ -19,7 +19,12 @@ function AnimatedNumber({ to, suffix = "" }: { to: number; suffix?: string }) {
     };
     requestAnimationFrame(step);
   }, [inView, to]);
-  return <span ref={ref}>{current}{suffix}</span>;
+  return (
+    <span ref={ref}>
+      {current}
+      {suffix}
+    </span>
+  );
 }
 
 const highlights = [
@@ -75,11 +80,11 @@ export function LuxuryHighlights() {
         <Reveal>
           <SectionEyebrow>Why Choose TrustOn</SectionEyebrow>
           <h2 className="font-display text-4xl md:text-6xl text-center leading-tight mb-4 max-w-3xl mx-auto">
-            Built on{" "}
-            <em className="gradient-bronze-text not-italic">Trust & Excellence</em>
+            Built on <em className="gradient-bronze-text not-italic">Trust & Excellence</em>
           </h2>
           <p className="text-center text-foreground/50 max-w-xl mx-auto mb-16 text-base leading-relaxed">
-            Prime Estate by TrustOn — where every number tells a story of commitment, quality, and lasting value.
+            Prime Estate by TrustOn — where every number tells a story of commitment, quality, and
+            lasting value.
           </p>
         </Reveal>
 
@@ -91,11 +96,17 @@ export function LuxuryHighlights() {
                 whileHover={{
                   y: -12,
                   scale: 1.03,
-                  boxShadow: "0 40px 80px -20px rgba(45,107,196,0.25), 0 0 0 1px rgba(45,107,196,0.1)",
+                  boxShadow:
+                    "0 40px 80px -20px rgba(45,107,196,0.25), 0 0 0 1px rgba(45,107,196,0.1)",
                 }}
                 animate={{ y: [0, -6, 0] }}
                 transition={{
-                  y: { duration: 4 + idx * 0.5, repeat: Infinity, ease: "easeInOut", delay: idx * 0.4 },
+                  y: {
+                    duration: 4 + idx * 0.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: idx * 0.4,
+                  },
                   hover: { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] },
                 }}
                 className="group relative bg-white rounded-2xl p-8 border border-gray-100 hover:border-[var(--bronze)]/30 transition-colors duration-500 cursor-default overflow-hidden"
@@ -107,16 +118,16 @@ export function LuxuryHighlights() {
                 {/* Blue gradient top accent */}
                 <div
                   className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: "linear-gradient(90deg, oklch(0.6 0.14 245), oklch(0.42 0.16 250))" }}
+                  style={{
+                    background: "linear-gradient(90deg, oklch(0.6 0.14 245), oklch(0.42 0.16 250))",
+                  }}
                 />
 
                 {/* Icon */}
                 <div className="text-4xl mb-4">{item.icon}</div>
 
                 {/* Number */}
-                <div
-                  className="font-display text-5xl md:text-6xl font-bold mb-2 gradient-bronze-text"
-                >
+                <div className="font-display text-5xl md:text-6xl font-bold mb-2 gradient-bronze-text">
                   <AnimatedNumber to={item.number} suffix={item.suffix} />
                 </div>
 
@@ -126,9 +137,7 @@ export function LuxuryHighlights() {
                 </p>
 
                 {/* Description */}
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  {item.description}
-                </p>
+                <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
 
                 {/* Bottom accent line */}
                 <div

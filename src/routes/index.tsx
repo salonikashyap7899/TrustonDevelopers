@@ -10,7 +10,14 @@ import { Testimonials } from "@/components/Testimonials";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
-import { FloatingImageScroll, SlideInOnScroll, BlurReveal, HighlightText } from "@/components/ScrollAnimations";
+import { Services3DSection } from "@/components/Services3DSection";
+import { Projects3DShowcase } from "@/components/Projects3DShowcase";
+import {
+  FloatingImageScroll,
+  SlideInOnScroll,
+  BlurReveal,
+  HighlightText,
+} from "@/components/ScrollAnimations";
 import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 
 export const Route = createFileRoute("/")({
@@ -46,6 +53,12 @@ function Index() {
 
       {/* Who We Are Section */}
       <WhoWeAreSection />
+
+      {/* Futuristic Services Section */}
+      <Services3DSection />
+
+      {/* Futuristic Projects Showcase */}
+      <Projects3DShowcase />
 
       {/* Enhanced Developers Section with Floating Images */}
       <EnhancedDevelopersSection />
@@ -146,9 +159,7 @@ function EnhancedStatsBar() {
               </p>
 
               {/* Divider */}
-              <motion.div
-                className="w-6 h-px bg-gray-200 my-4 group-hover:w-12 group-hover:bg-[var(--bronze)] transition-all duration-500"
-              />
+              <motion.div className="w-6 h-px bg-gray-200 my-4 group-hover:w-12 group-hover:bg-[var(--bronze)] transition-all duration-500" />
 
               {/* Label */}
               <p className="text-[11px] uppercase tracking-[0.25em] text-gray-400 group-hover:text-[var(--bronze)] transition-colors duration-500 font-semibold">
@@ -184,27 +195,23 @@ function CTASection() {
       className="relative py-24 md:py-32 px-6 overflow-hidden bg-gradient-to-br from-ink via-ink/95 to-ink"
     >
       {/* Animated Background */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 opacity-5 pointer-events-none"
-      >
+      <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-5 pointer-events-none">
         <div className="absolute top-20 right-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
         <div className="absolute bottom-20 left-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
       </motion.div>
 
       <div className="mx-auto max-w-4xl relative z-10 text-center">
         <BlurReveal>
-          <motion.h2
-            style={{ y: textY }}
-            className="typography-hero text-white mb-6"
-          >
-            Ready to Build Your <HighlightText highlightColor="var(--bronze)">Legacy</HighlightText>?
+          <motion.h2 style={{ y: textY }} className="typography-hero text-white mb-6">
+            Ready to Build Your <HighlightText highlightColor="var(--bronze)">Legacy</HighlightText>
+            ?
           </motion.h2>
         </BlurReveal>
 
         <SlideInOnScroll direction="up" delay={0.2}>
           <p className="typography-body-light text-lg md:text-xl mb-8 leading-relaxed">
-            Join thousands of satisfied investors who have chosen TrustOn for their real estate investments. Experience transparency, growth, and excellence.
+            Join thousands of satisfied investors who have chosen TrustOn for their real estate
+            investments. Experience transparency, growth, and excellence.
           </p>
         </SlideInOnScroll>
 
@@ -253,5 +260,3 @@ function CTASection() {
     </section>
   );
 }
-
-

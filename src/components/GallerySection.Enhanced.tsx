@@ -24,21 +24,24 @@ export function EnhancedGallerySection() {
       id: 1,
       title: "Aerial View",
       category: "Landscape",
-      image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg",
+      image:
+        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg",
       description: "Stunning aerial perspective of Prime Estate township",
     },
     {
       id: 2,
       title: "Luxury Interior",
       category: "Design",
-      image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg",
+      image:
+        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg",
       description: "Premium interior design with modern aesthetics",
     },
     {
       id: 3,
       title: "Plot Showcase",
       category: "Property",
-      image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-tracker-600x800.jpg",
+      image:
+        "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-tracker-600x800.jpg",
       description: "Premium plot selection and layout",
     },
     {
@@ -72,14 +75,22 @@ export function EnhancedGallerySection() {
             Visual Excellence
           </h2>
           <p className="text-center typography-body text-gray-600 max-w-2xl mx-auto mb-16">
-            Explore the architectural brilliance and natural beauty of Prime Estate through our curated collection of premium imagery.
+            Explore the architectural brilliance and natural beauty of Prime Estate through our
+            curated collection of premium imagery.
           </p>
         </Reveal>
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {galleryItems.map((item, idx) => (
-            <GalleryCard key={item.id} item={item} idx={idx} isHovered={hoveredIndex === idx} setHovered={() => setHoveredIndex(idx)} clearHovered={() => setHoveredIndex(null)} />
+            <GalleryCard
+              key={item.id}
+              item={item}
+              idx={idx}
+              isHovered={hoveredIndex === idx}
+              setHovered={() => setHoveredIndex(idx)}
+              clearHovered={() => setHoveredIndex(null)}
+            />
           ))}
         </div>
 
@@ -97,10 +108,7 @@ export function EnhancedGallerySection() {
             className="inline-flex items-center gap-3 text-bronze font-bold text-sm md:text-base uppercase tracking-widest hover:gap-4 transition-all duration-300 border-2 border-bronze px-8 py-4 rounded-lg hover:bg-bronze/10"
           >
             View Full Gallery
-            <motion.span
-              animate={{ x: [0, 4, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
+            <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
               →
             </motion.span>
           </motion.button>
@@ -149,15 +157,18 @@ function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: any) {
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        whileHover={{ 
-          y: -8, 
-          scale: 1.03, 
-          boxShadow: "0 40px 80px -20px rgba(45,107,196,0.3)" 
+        whileHover={{
+          y: -8,
+          scale: 1.03,
+          boxShadow: "0 40px 80px -20px rgba(45,107,196,0.3)",
         }}
         className="group relative h-80 md:h-96 rounded-xl overflow-hidden shadow-card transition-all duration-500 cursor-pointer"
       >
         {/* Image Container */}
-        <div className="relative w-full h-full overflow-hidden" style={{ transform: "translateZ(20px)" }}>
+        <div
+          className="relative w-full h-full overflow-hidden"
+          style={{ transform: "translateZ(20px)" }}
+        >
           <motion.img
             src={item.image}
             alt={item.title}
@@ -193,7 +204,10 @@ function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: any) {
         </motion.div>
 
         {/* Static Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white group-hover:opacity-0 transition-opacity duration-300" style={{ transform: "translateZ(30px)" }}>
+        <div
+          className="absolute bottom-0 left-0 right-0 p-6 text-white group-hover:opacity-0 transition-opacity duration-300"
+          style={{ transform: "translateZ(30px)" }}
+        >
           <h3 className="text-lg md:text-xl font-bold">{item.title}</h3>
         </div>
       </motion.div>

@@ -26,10 +26,10 @@ export function FloatingImageScroll({
 
   // Floating effect: moves up and down as user scrolls
   const y = useTransform(scrollYProgress, [0, 1], [100 * intensity, -100 * intensity]);
-  
+
   // Subtle scale effect for depth
   const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1.05]);
-  
+
   // Rotation for dynamic feel
   const rotate = useTransform(scrollYProgress, [0, 1], [-2 * intensity, 2 * intensity]);
 
@@ -39,11 +39,7 @@ export function FloatingImageScroll({
       style={{ y, scale, rotate }}
       className={`relative overflow-hidden rounded-lg ${className}`}
     >
-      <img
-        src={src}
-        alt={alt}
-        className="w-full h-full object-cover"
-      />
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
     </motion.div>
   );
 }
@@ -69,16 +65,8 @@ export function ParallaxImage({
   const y = useTransform(scrollYProgress, [0, 1], [0, 300 * speed]);
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ y }}
-      className={`relative overflow-hidden ${className}`}
-    >
-      <img
-        src={src}
-        alt={alt}
-        className="w-full h-full object-cover"
-      />
+    <motion.div ref={ref} style={{ y }} className={`relative overflow-hidden ${className}`}>
+      <img src={src} alt={alt} className="w-full h-full object-cover" />
     </motion.div>
   );
 }
@@ -283,16 +271,8 @@ export function ZoomImageOnScroll({
   const scale = useTransform(scrollYProgress, [0, 1], [1, maxZoom]);
 
   return (
-    <motion.div
-      ref={ref}
-      className={`overflow-hidden ${className}`}
-    >
-      <motion.img
-        src={src}
-        alt={alt}
-        style={{ scale }}
-        className="w-full h-full object-cover"
-      />
+    <motion.div ref={ref} className={`overflow-hidden ${className}`}>
+      <motion.img src={src} alt={alt} style={{ scale }} className="w-full h-full object-cover" />
     </motion.div>
   );
 }
@@ -342,10 +322,7 @@ export function AnimatedCounter({
   const inView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <motion.span
-      ref={ref}
-      className={className}
-    >
+    <motion.span ref={ref} className={className}>
       {inView && (
         <motion.span
           initial={{ opacity: 0 }}

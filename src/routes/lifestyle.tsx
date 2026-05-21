@@ -21,14 +21,14 @@ export const Route = createFileRoute("/lifestyle")({
 function LifestylePage() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      <InnerHero 
+      <InnerHero
         eyebrow="TrustOn"
         title={<span>Lifestyle</span>}
         subtitle="Every detail, captured. Experience the pinnacle of luxury living."
         poster={heroImg}
         alt="Luxury lifestyle interior"
       />
-      
+
       <div className="py-12">
         <PlotTracker />
       </div>

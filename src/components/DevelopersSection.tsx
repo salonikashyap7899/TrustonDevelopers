@@ -42,8 +42,6 @@ export function DevelopersSection() {
         </div>
       </div>
 
-
-
       {/* ═══════════════════════════════════════
           PROJECT — PRIME ESTATE
       ═══════════════════════════════════════ */}
@@ -58,7 +56,9 @@ export function DevelopersSection() {
               Prime <em className="italic text-[var(--bronze)]">Estate</em>
             </h2>
             <p className="text-white/60 mt-4 max-w-2xl text-sm">
-              A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth.
+              A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those
+              who want the freedom to build on their own terms, in a location primed for significant
+              growth.
             </p>
           </div>
 
@@ -88,14 +88,18 @@ export function DevelopersSection() {
                   ].map((item) => (
                     <div key={item.label} className="bg-[#0F0F0D] p-4">
                       <p className="font-serif text-2xl font-light text-white">{item.val}</p>
-                      <p className="text-xs uppercase tracking-widest text-white/40 mt-2">{item.label}</p>
+                      <p className="text-xs uppercase tracking-widest text-white/40 mt-2">
+                        {item.label}
+                      </p>
                     </div>
                   ))}
                 </div>
 
                 {/* Amenities */}
                 <div className="mb-8">
-                  <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-4">Premium Amenities</p>
+                  <p className="text-xs uppercase tracking-widest text-[var(--bronze)] mb-4">
+                    Premium Amenities
+                  </p>
                   <div className="grid grid-cols-2 gap-3">
                     {[
                       "Wide Internal Roads",
@@ -118,7 +122,12 @@ export function DevelopersSection() {
                 {/* Approval */}
                 <div className="bg-white/5 border border-[var(--bronze)]/15 p-4 mb-6 rounded">
                   <p className="text-xs text-white/70 leading-relaxed">
-                    All plots are <span className="text-[var(--bronze)] font-semibold">Jila Panchayat Approved</span> with clear title deeds. Structured layout planning, transparent pricing, and full legal documentation provided at every stage.
+                    All plots are{" "}
+                    <span className="text-[var(--bronze)] font-semibold">
+                      Jila Panchayat Approved
+                    </span>{" "}
+                    with clear title deeds. Structured layout planning, transparent pricing, and
+                    full legal documentation provided at every stage.
                   </p>
                 </div>
               </div>
@@ -148,7 +157,8 @@ export function DevelopersSection() {
               What We Offer
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight">
-              Four Pillars of<br />
+              Four Pillars of
+              <br />
               <em className="italic text-[var(--bronze)]">Our Expertise</em>
             </h2>
           </div>
@@ -184,7 +194,10 @@ export function DevelopersSection() {
                 <p className="text-5xl text-gray-100 font-light mb-4">{service.num}</p>
                 <p className="font-semibold text-gray-800 mb-3">{service.name}</p>
                 <p className="text-xs text-gray-600 leading-relaxed mb-4">{service.desc}</p>
-                <a href="#contact" className="text-[var(--bronze)] text-xs uppercase tracking-widest font-semibold hover:gap-2 flex items-center gap-1 transition-all">
+                <a
+                  href="#contact"
+                  className="text-[var(--bronze)] text-xs uppercase tracking-widest font-semibold hover:gap-2 flex items-center gap-1 transition-all"
+                >
                   {service.link}
                 </a>
               </div>
@@ -204,7 +217,8 @@ export function DevelopersSection() {
               The Truston Difference
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight">
-              Why Buyers Choose<br />
+              Why Buyers Choose
+              <br />
               <em className="italic text-[var(--bronze)]">Truston</em>
             </h2>
           </div>
@@ -214,7 +228,8 @@ export function DevelopersSection() {
             <div>
               <p className="font-serif text-9xl font-light text-white/5 leading-none">5</p>
               <p className="font-serif text-lg italic text-white/40 mt-4 leading-relaxed">
-                "Five reasons why Lucknow's smartest investors trust us with their most important decisions."
+                "Five reasons why Lucknow's smartest investors trust us with their most important
+                decisions."
               </p>
               <p className="text-xs text-white/30 mt-6 tracking-widest uppercase">
                 Lucknow · Uttar Pradesh · Since 2025
@@ -250,7 +265,10 @@ export function DevelopersSection() {
                   text: "Build now or hold for appreciation — both are valid strategies and we support both with equal commitment. No pressure, no gimmicks.",
                 },
               ].map((point) => (
-                <div key={point.num} className="flex gap-4 pb-6 border-b border-white/5 last:border-0">
+                <div
+                  key={point.num}
+                  className="flex gap-4 pb-6 border-b border-white/5 last:border-0"
+                >
                   <p className="text-xs tracking-widest text-[var(--bronze)] font-light flex-shrink-0 mt-1">
                     {point.num}
                   </p>
@@ -273,11 +291,13 @@ export function DevelopersSection() {
           47 Plots Still Available · Prime Estate · Dubagga
         </p>
         <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-4">
-          Ready to Claim<br />
+          Ready to Claim
+          <br />
           Your <em className="italic text-[var(--bronze)]">Plot?</em>
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto mb-8 text-sm">
-          Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.
+          Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete
+          clarity about your investment.
         </p>
         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
           <button className="bg-[var(--ink)] text-white px-8 py-3 text-xs uppercase tracking-widest font-semibold hover:bg-gray-800 transition-colors rounded">
@@ -291,7 +311,6 @@ export function DevelopersSection() {
           </a>
         </div>
       </section>
-
     </div>
   );
 }

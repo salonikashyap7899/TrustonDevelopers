@@ -7,6 +7,7 @@ This document outlines the implementation of Sobha Realty-inspired navbar and sm
 ## Components Added
 
 ### 1. **SobhaStyleNav.tsx**
+
 Enhanced navbar component with the following features:
 
 - **Centered Logo Layout**: Logo is centered on desktop with optional branding text
@@ -18,6 +19,7 @@ Enhanced navbar component with the following features:
 - **Color Transitions**: Text color changes smoothly based on scroll state
 
 **Key Features:**
+
 ```typescript
 - Fixed positioning at top of page
 - Transparent background on hero section
@@ -28,6 +30,7 @@ Enhanced navbar component with the following features:
 ```
 
 ### 2. **SobhaStyleHero.tsx**
+
 Enhanced hero component with sophisticated scroll animations:
 
 - **Parallax Effects**: Background moves at different speed than content
@@ -39,6 +42,7 @@ Enhanced hero component with sophisticated scroll animations:
 - **Corner Accents**: Subtle corner decorations
 
 **Key Features:**
+
 ```typescript
 - Enhanced parallax: y: ["0%", "40%"], scale: [1, 1.2]
 - Smooth opacity transitions
@@ -49,6 +53,7 @@ Enhanced hero component with sophisticated scroll animations:
 ```
 
 ### 3. **SmoothScrollReveal.tsx**
+
 Reusable scroll reveal components:
 
 - **SmoothScrollReveal**: Single element reveal with direction options
@@ -56,6 +61,7 @@ Reusable scroll reveal components:
 - **ParallaxScroll**: Parallax scroll effects for content
 
 **Usage:**
+
 ```typescript
 <SmoothScrollReveal direction="up" delay={0.1}>
   <h2>Content appears on scroll</h2>
@@ -69,6 +75,7 @@ Reusable scroll reveal components:
 ```
 
 ### 4. **sobha-animations.css**
+
 Comprehensive CSS animations library with:
 
 - **Scroll Animations**: Fade-in, slide-in from all directions
@@ -77,6 +84,7 @@ Comprehensive CSS animations library with:
 - **Utility Classes**: Ready-to-use animation classes
 
 **Available Classes:**
+
 ```css
 .fade-in-scroll          /* Fade and slide up on scroll */
 .slide-in-left           /* Slide in from left */
@@ -95,12 +103,14 @@ Comprehensive CSS animations library with:
 
 ## Integration Points
 
-### Root Layout (__root.tsx)
+### Root Layout (\_\_root.tsx)
+
 - Imported `SobhaStyleNav` component
 - Imported `sobha-animations.css` stylesheet
 - Replaced `LuxeNav` with `SobhaStyleNav`
 
 ### Home Page (index.tsx)
+
 - Imported `SobhaStyleHero` component
 - Replaced `PageHero` with `SobhaStyleHero` for enhanced animations
 
@@ -109,6 +119,7 @@ Comprehensive CSS animations library with:
 All animations use the custom easing function: `[0.16, 1, 0.3, 1]` (cubic-bezier)
 
 ### Standard Durations:
+
 - **Navbar transitions**: 500ms
 - **Hero animations**: 800ms - 1300ms
 - **Scroll reveals**: 600ms - 800ms
@@ -117,7 +128,9 @@ All animations use the custom easing function: `[0.16, 1, 0.3, 1]` (cubic-bezier
 ## Scroll Behavior
 
 ### Smooth Scroll
+
 The page uses Lenis for smooth scrolling (already integrated):
+
 ```typescript
 const lenis = new Lenis({
   duration: 1.2,
@@ -127,7 +140,9 @@ const lenis = new Lenis({
 ```
 
 ### Scroll-Triggered Animations
+
 Using Framer Motion's `useScroll` and `useInView` hooks:
+
 ```typescript
 const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
 const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
@@ -136,25 +151,30 @@ const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
 ## Navbar Behavior
 
 ### Desktop View
+
 - Logo centered with branding text
 - Navigation links centered
 - CTA button on the right
 - Services dropdown with smooth transitions
 
 ### Mobile View
+
 - Hamburger menu icon (animated)
 - Full-screen drawer menu
 - Stacked navigation items
 - Services submenu with toggle
 
 ### Scroll States
+
 **Transparent State (Top of Page):**
+
 - Background: transparent
 - Text: white/white-85
 - Height: 80px
 - Logo: 12px height
 
 **Scrolled State (Below 60px):**
+
 - Background: white with shadow
 - Text: gray-700
 - Height: 68px
@@ -188,31 +208,39 @@ const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
 ## Customization Guide
 
 ### Changing Navbar Colors
+
 Edit `SobhaStyleNav.tsx`:
+
 ```typescript
 // Transparent state text color
-isTransparent ? "text-white" : "text-[var(--bronze)]"
+isTransparent ? "text-white" : "text-[var(--bronze)]";
 
 // Scrolled state background
-scrolled ? "bg-white shadow-lg" : "bg-transparent"
+scrolled ? "bg-white shadow-lg" : "bg-transparent";
 ```
 
 ### Adjusting Animation Speeds
+
 Edit component transition values:
+
 ```typescript
 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
 // Change duration from 0.5 to desired value
 ```
 
 ### Modifying Scroll Parallax
+
 Edit `SobhaStyleHero.tsx`:
+
 ```typescript
 const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
 // Change "40%" to adjust parallax intensity
 ```
 
 ### Adding Scroll Reveals to Sections
+
 Use the `SmoothScrollReveal` component:
+
 ```typescript
 <SmoothScrollReveal direction="up" delay={0.2}>
   <section>Your content here</section>
@@ -262,6 +290,7 @@ Use the `SmoothScrollReveal` component:
 ## Support
 
 For issues or questions about the implementation:
+
 1. Check the component files for inline comments
 2. Review the animation CSS file for available classes
 3. Test in browser DevTools for animation timing

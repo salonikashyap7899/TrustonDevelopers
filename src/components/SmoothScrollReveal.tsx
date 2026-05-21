@@ -118,11 +118,7 @@ interface ParallaxScrollProps {
   className?: string;
 }
 
-export function ParallaxScroll({
-  children,
-  offset = 50,
-  className = "",
-}: ParallaxScrollProps) {
+export function ParallaxScroll({ children, offset = 50, className = "" }: ParallaxScrollProps) {
   const ref = useRef(null);
 
   return (

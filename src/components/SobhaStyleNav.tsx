@@ -134,8 +134,6 @@ export function SobhaStyleNav() {
                 </Link>
               ))}
             </nav>
-            
-
           </div>
 
           {/* Mobile hamburger */}

@@ -18,7 +18,10 @@ export function EnhancedDevelopersSection() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <div ref={ref} className="relative overflow-hidden bg-gradient-to-b from-white via-sand/30 to-white">
+    <div
+      ref={ref}
+      className="relative overflow-hidden bg-gradient-to-b from-white via-sand/30 to-white"
+    >
       {/* Prime Estate Flagship Section */}
       <section className="relative py-24 md:py-32 px-6">
         <div className="mx-auto max-w-7xl">
@@ -55,7 +58,9 @@ export function EnhancedDevelopersSection() {
                     <span className="text-bronze">Luxury Living</span>
                   </h2>
                   <p className="typography-body text-gray-700 leading-relaxed">
-                    Experience the pinnacle of luxury living in Lucknow's most coveted location. Prime Estate represents a new era of sophisticated urban development with world-class amenities and architectural excellence.
+                    Experience the pinnacle of luxury living in Lucknow's most coveted location.
+                    Prime Estate represents a new era of sophisticated urban development with
+                    world-class amenities and architectural excellence.
                   </p>
                 </motion.div>
 
@@ -79,12 +84,8 @@ export function EnhancedDevelopersSection() {
                       viewport={{ once: true }}
                       transition={{ delay: 0.5 + idx * 0.1 }}
                     >
-                      <p className="font-semibold text-ink text-sm md:text-base">
-                        {feature.title}
-                      </p>
-                      <p className="text-xs md:text-sm text-gray-600 mt-1">
-                        {feature.desc}
-                      </p>
+                      <p className="font-semibold text-ink text-sm md:text-base">{feature.title}</p>
+                      <p className="text-xs md:text-sm text-gray-600 mt-1">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -132,19 +133,22 @@ export function EnhancedDevelopersSection() {
                 icon: "🏗️",
                 title: "Construction & Build",
                 desc: "End-to-end construction management with quality assurance at every stage.",
-                image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/construction-site-600x800.jpg",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/construction-site-600x800.jpg",
               },
               {
                 icon: "📊",
                 title: "Investment Consulting",
                 desc: "Expert guidance on real estate investments with proven ROI strategies.",
-                image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/investment-consulting-600x800.jpg",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/investment-consulting-600x800.jpg",
               },
               {
                 icon: "🎯",
                 title: "Plot Selling",
                 desc: "Premium plot selection in high-growth locations with transparent dealings.",
-                image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-selling-600x800.jpg",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-selling-600x800.jpg",
               },
             ].map((service, idx) => (
               <SlideInOnScroll
@@ -190,10 +194,7 @@ export function EnhancedDevelopersSection() {
 
       {/* Why TrustOn Section */}
       <section className="relative py-24 md:py-32 px-6 bg-gradient-to-br from-ink via-ink/95 to-ink">
-        <motion.div
-          style={{ y: bgY }}
-          className="absolute inset-0 opacity-5 pointer-events-none"
-        >
+        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-5 pointer-events-none">
           <div className="absolute top-20 right-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
           <div className="absolute bottom-20 left-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
         </motion.div>
@@ -275,7 +276,8 @@ export function EnhancedDevelopersSection() {
               Ready to Build Your Legacy?
             </h3>
             <p className="text-white/90 text-base md:text-lg mb-8 leading-relaxed">
-              Join thousands of satisfied investors who have chosen TrustOn for their real estate investments.
+              Join thousands of satisfied investors who have chosen TrustOn for their real estate
+              investments.
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
