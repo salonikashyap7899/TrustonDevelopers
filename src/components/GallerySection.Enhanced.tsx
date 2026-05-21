@@ -118,7 +118,21 @@ export function EnhancedGallerySection() {
   );
 }
 
-function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: any) {
+interface GalleryCardProps {
+  item: {
+    id: number;
+    title: string;
+    category: string;
+    image: string;
+    description: string;
+  };
+  idx: number;
+  isHovered: boolean;
+  setHovered: () => void;
+  clearHovered: () => void;
+}
+
+function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: GalleryCardProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 

@@ -2,7 +2,6 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "./Reveal";
-import { SwipeReveal } from "./TextReveal";
 
 const projects = [
   {
@@ -35,10 +34,8 @@ export function Projects3DShowcase() {
                 Portfolio
               </span>
               <h2 className="typography-section-title text-white">
-                <SwipeReveal>Billion Dollar</SwipeReveal> <br />
-                <em className="text-gold italic font-serif">
-                  <SwipeReveal delay={0.2}>Masterpieces</SwipeReveal>
-                </em>
+                Billion Dollar <br />
+                <em className="text-gold italic font-serif">Masterpieces</em>
               </h2>
             </div>
             <Link

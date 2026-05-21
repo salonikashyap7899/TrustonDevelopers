@@ -18,13 +18,16 @@ export function SiteFooter() {
   return (
     <footer className="bg-[var(--ink)] text-white/70">
       {/* Top CTA strip */}
-      <div className="border-b border-white/5 py-14 px-6">
-        <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-8">
-          <div>
-            <p className="text-[11px] uppercase tracking-widest text-[var(--bronze)] mb-2">
-              Ready to invest?
+      <div className="border-b border-white/5 py-24 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-luxe-blue rounded-full blur-[120px]" />
+        </div>
+        <div className="mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-12 relative z-10">
+          <div className="text-center md:text-left">
+            <p className="text-[11px] uppercase tracking-[0.4em] text-[var(--luxe-cyan)] mb-4 font-bold">
+              Begin Your Journey
             </p>
-            <h3 className="font-display text-4xl md:text-5xl text-white leading-tight">
+            <h3 className="font-display text-5xl md:text-7xl text-white leading-[1.1] mb-2">
               Own the Ground.
               <br />
               Build the <em className="gradient-bronze-text not-italic">Legacy.</em>
@@ -51,22 +54,22 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-16 grid md:grid-cols-4 gap-12">
         {/* Brand column */}
         <div className="md:col-span-2">
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center gap-4 mb-10">
             <img
               src="/logo.png"
               alt="TrustOn Logo"
-              className="h-12 w-auto object-contain brightness-125"
+              className="h-14 w-auto object-contain brightness-125"
             />
             <div>
-              <span className="block text-[var(--bronze)] text-xl font-bold tracking-widest uppercase">
+              <span className="block text-[var(--luxe-blue)] text-2xl font-bold tracking-widest uppercase">
                 TrustOn
               </span>
-              <span className="block text-[9px] uppercase tracking-[0.4em] text-white/30">
+              <span className="block text-[10px] uppercase tracking-[0.5em] text-white/40">
                 Premium Estate
               </span>
             </div>
           </div>
-          <p className="text-white/50 text-sm leading-relaxed max-w-sm mb-8">
+          <p className="text-white/60 text-base leading-relaxed max-w-md mb-10 font-light">
             Prime Estate by TrustOn Developers — a Jila Panchayat approved luxury township in
             Lucknow, crafted for those who expect more from every square foot.
           </p>

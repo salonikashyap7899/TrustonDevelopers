@@ -5,7 +5,7 @@ import { GalleryLightbox, type GalleryItem } from "@/components/GalleryLightbox"
 import heroImg from "@/assets/hero-estate.jpg";
 import { SobhaStyleHero } from "@/components/SobhaStyleHero";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
-import { TextReveal, CharReveal, SwipeReveal } from "@/components/TextReveal";
+import { TextReveal, CharReveal } from "@/components/TextReveal";
 import { Testimonials } from "@/components/Testimonials";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanced";
@@ -208,10 +208,7 @@ function CTASection() {
         <BlurReveal>
           <motion.h2 style={{ y: textY }} className="typography-hero text-white mb-6">
             Ready to Build Your{" "}
-            <SwipeReveal>
-              <HighlightText highlightColor="var(--primary)">Legacy</HighlightText>
-            </SwipeReveal>
-            ?
+            <HighlightText highlightColor="var(--primary)">Legacy</HighlightText>?
           </motion.h2>
         </BlurReveal>
 

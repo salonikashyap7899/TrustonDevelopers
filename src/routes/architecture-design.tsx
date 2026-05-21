@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { InnerHero } from "@/components/InnerHero";
 import { ServicePageBody, type ServiceContent } from "@/components/ServicePageBody";
 import interiorImg from "@/assets/luxury-interior.jpg";
+import { Luxury3DScene } from "@/components/Luxury3DScene";
+import { Reveal } from "@/components/Reveal";
 
 export const Route = createFileRoute("/architecture-design")({
   head: () => ({
@@ -81,22 +83,30 @@ const content: ServiceContent = {
 function Page() {
   return (
     <>
-      <InnerHero
-        eyebrow="Service · 02"
-        title={
-          <>
-            Architecture <span className="font-serif italic">&amp;</span>{" "}
-            <em className="gradient-bronze-text not-italic font-serif italic">Design.</em>
-          </>
-        }
-        subtitle="Your vision, brought to life on paper first."
-        poster={interiorImg}
-        alt="Architecture & Design"
-      />
-      <ServicePageBody
-        content={content}
-        image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/steve-driscoll-VsBl5PwVZpY-unsplash-scaled.jpg"
-      />
+      <div className="relative overflow-hidden bg-background">
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <Luxury3DScene />
+        </div>
+        <InnerHero
+          eyebrow="Service · 02"
+          title={
+            <>
+              Architecture <span className="font-serif italic">&amp;</span>{" "}
+              <em className="gradient-bronze-text not-italic font-serif italic">Design.</em>
+            </>
+          }
+          subtitle="Your vision, brought to life on paper first."
+          poster={interiorImg}
+          alt="Architecture & Design"
+        />
+      </div>
+
+      <div className="relative z-10">
+        <ServicePageBody
+          content={content}
+          image="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/steve-driscoll-VsBl5PwVZpY-unsplash-scaled.jpg"
+        />
+      </div>
     </>
   );
 }

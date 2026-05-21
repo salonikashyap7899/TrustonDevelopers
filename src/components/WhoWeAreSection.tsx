@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import { SwipeReveal } from "./TextReveal";
 
 export function WhoWeAreSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -25,7 +26,7 @@ export function WhoWeAreSection() {
           alt="Architectural Visual"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-ink/80 to-background" />
       </motion.div>
 
       <div className="relative z-10 mx-auto max-w-7xl grid lg:grid-cols-2 gap-16 items-center">
@@ -43,10 +44,12 @@ export function WhoWeAreSection() {
             </span>
           </motion.div>
 
-          <h2 className="typography-section-title text-white mb-8">
-            Architecting <br />
-            <em className="text-gold italic font-serif">the Future</em> of Luxury
-          </h2>
+          <SwipeReveal>
+            <h2 className="typography-section-title text-white mb-8">
+              Architecting <br />
+              <em className="text-gold italic font-serif">the Future</em> of Luxury
+            </h2>
+          </SwipeReveal>
 
           <div className="space-y-6 text-white/70 text-lg font-light leading-relaxed max-w-xl">
             <p>

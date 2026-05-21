@@ -32,6 +32,8 @@
   --color-sand: var(--sand);
   --color-bronze: var(--bronze);
   --color-gold: var(--gold);
+  --color-luxe-blue: var(--luxe-blue);
+  --color-luxe-cyan: var(--luxe-cyan);
   --color-ink: var(--ink);
   --font-serif: "Cormorant Garamond", "Playfair Display", serif;
   --font-sans: "Inter", "Neue Montreal", system-ui, sans-serif;
@@ -50,23 +52,25 @@
   --card-foreground: oklch(0.98 0.004 240);
   --popover: oklch(0.12 0.015 250);
   --popover-foreground: oklch(0.98 0.004 240);
-  --primary: oklch(0.65 0.12 45); /* Rich Bronze */
-  --primary-foreground: oklch(0.12 0.015 250);
-  --bronze: oklch(0.65 0.12 45);
-  --gold: oklch(0.75 0.15 85);
+  --primary: oklch(0.6 0.16 250); /* Luxury Blue */
+  --primary-foreground: oklch(0.98 0.004 240);
+  --bronze: oklch(0.6 0.16 250); /* Mapping bronze to blue for compatibility */
+  --gold: oklch(0.75 0.1 230); /* Mapping gold to cyan for compatibility */
+  --luxe-blue: oklch(0.6 0.16 250);
+  --luxe-cyan: oklch(0.75 0.1 230);
   --secondary: oklch(0.2 0.02 250);
   --secondary-foreground: oklch(0.98 0.004 240);
   --muted: oklch(0.2 0.02 250);
   --muted-foreground: oklch(0.6 0.01 250);
-  --accent: oklch(0.75 0.15 85); /* Gold */
+  --accent: oklch(0.75 0.1 230); /* Cyan Accent */
   --accent-foreground: oklch(0.12 0.015 250);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.99 0.004 240);
   --border: oklch(1 0 0 / 0.1);
   --input: oklch(1 0 0 / 0.05);
-  --ring: oklch(0.65 0.12 45);
+  --ring: oklch(0.6 0.16 250);
 
-  --gradient-bronze: linear-gradient(135deg, oklch(0.75 0.15 85), oklch(0.55 0.12 45));
+  --gradient-bronze: linear-gradient(135deg, oklch(0.75 0.1 230), oklch(0.6 0.16 250));
   --gradient-overlay: linear-gradient(
     165deg,
     oklch(0.08 0.01 250 / 0.4) 0%,
@@ -166,8 +170,8 @@
   }
 
   ::selection {
-    background: var(--bronze);
-    color: var(--ink);
+    background: var(--luxe-blue);
+    color: var(--foreground);
   }
   h1,
   h2,
@@ -187,17 +191,21 @@
     font-weight: 400;
     letter-spacing: -0.01em;
   }
-  .text-bronze {
-    color: var(--bronze);
+  .text-bronze,
+  .text-luxe-blue {
+    color: var(--luxe-blue);
   }
-  .text-gold {
-    color: var(--gold);
+  .text-gold,
+  .text-luxe-cyan {
+    color: var(--luxe-cyan);
   }
-  .bg-bronze {
-    background: var(--bronze);
+  .bg-bronze,
+  .bg-luxe-blue {
+    background: var(--luxe-blue);
   }
-  .bg-gold {
-    background: var(--gold);
+  .bg-gold,
+  .bg-luxe-cyan {
+    background: var(--luxe-cyan);
   }
   .bg-ink {
     background: var(--ink);
@@ -229,12 +237,14 @@
     border: 1px solid oklch(1 0 0 / 0.05);
   }
 
-  .bronze-border {
-    border: 1px solid oklch(0.65 0.12 45 / 0.4);
+  .bronze-border,
+  .blue-border {
+    border: 1px solid oklch(0.6 0.16 250 / 0.4);
   }
 
-  .gold-border {
-    border: 1px solid oklch(0.75 0.15 85 / 0.4);
+  .gold-border,
+  .cyan-border {
+    border: 1px solid oklch(0.75 0.1 230 / 0.4);
   }
 
   .shadow-luxe {
@@ -315,17 +325,19 @@
     border-radius: 9999px;
   }
 
-  .btn-bronze {
-    background: var(--bronze);
-    color: var(--ink);
+  .btn-bronze,
+  .btn-luxe {
+    background: var(--luxe-blue);
+    color: var(--foreground);
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     font-size: 0.75rem;
   }
 
-  .btn-bronze:hover {
-    box-shadow: 0 0 40px oklch(0.65 0.12 45 / 0.4);
+  .btn-bronze:hover,
+  .btn-luxe:hover {
+    box-shadow: 0 0 40px oklch(0.6 0.16 250 / 0.4);
     transform: scale(1.05);
   }
 

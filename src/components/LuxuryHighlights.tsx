@@ -64,22 +64,22 @@ const highlights = [
 
 export function LuxuryHighlights() {
   return (
-    <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-gradient-to-b from-[var(--cream)] via-white to-[var(--sand)]">
-      {/* Background warm luxury glow orbs */}
+    <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-background">
+      {/* Background luxury blue glow orbs */}
       <div
-        className="absolute top-0 left-1/4 w-96 h-96 rounded-full pointer-events-none opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, var(--gold), transparent)" }}
+        className="absolute top-0 left-1/4 w-96 h-96 rounded-full pointer-events-none opacity-[0.08]"
+        style={{ background: "radial-gradient(circle, var(--luxe-cyan), transparent)" }}
       />
       <div
-        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none opacity-[0.05]"
-        style={{ background: "radial-gradient(circle, var(--bronze), transparent)" }}
+        className="absolute bottom-0 right-1/4 w-80 h-80 rounded-full pointer-events-none opacity-[0.06]"
+        style={{ background: "radial-gradient(circle, var(--luxe-blue), transparent)" }}
       />
 
       <div className="relative mx-auto max-w-7xl">
         {/* Section Header */}
         <Reveal>
           <SectionEyebrow>Why Choose TrustOn</SectionEyebrow>
-          <h2 className="font-display text-4xl md:text-6xl text-center leading-tight mb-4 max-w-3xl mx-auto">
+          <h2 className="font-display text-4xl md:text-6xl text-center leading-tight mb-4 max-w-3xl mx-auto text-foreground">
             Built on <em className="gradient-bronze-text not-italic">Trust & Excellence</em>
           </h2>
           <p className="text-center text-foreground/50 max-w-xl mx-auto mb-16 text-base leading-relaxed">
@@ -109,13 +109,13 @@ export function LuxuryHighlights() {
                   },
                   hover: { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] },
                 }}
-                className="group relative bg-white rounded-2xl p-8 border border-gray-100 hover:border-[var(--bronze)]/30 transition-colors duration-500 cursor-default overflow-hidden"
+                className="group relative bg-ink/40 backdrop-blur-sm rounded-2xl p-8 border border-white/5 hover:border-[var(--luxe-blue)]/30 transition-colors duration-500 cursor-default overflow-hidden"
                 style={{
-                  boxShadow: "0 15px 45px -20px rgba(0,0,0,0.08)",
+                  boxShadow: "0 15px 45px -20px rgba(0,0,0,0.3)",
                   transformStyle: "preserve-3d",
                 }}
               >
-                {/* Bronze gradient top accent */}
+                {/* Blue gradient top accent */}
                 <div
                   className="absolute top-0 left-0 right-0 h-1 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
@@ -132,17 +132,17 @@ export function LuxuryHighlights() {
                 </div>
 
                 {/* Label */}
-                <p className="font-semibold text-[var(--ink)] text-lg mb-3 group-hover:text-[var(--bronze)] transition-colors duration-300">
+                <p className="font-semibold text-foreground text-lg mb-3 group-hover:text-[var(--luxe-blue)] transition-colors duration-300">
                   {item.label}
                 </p>
 
                 {/* Description */}
-                <p className="text-sm text-gray-500 leading-relaxed">{item.description}</p>
+                <p className="text-sm text-foreground/60 leading-relaxed">{item.description}</p>
 
                 {/* Bottom accent line */}
                 <div
                   className="absolute bottom-0 left-0 right-0 h-0.5 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"
-                  style={{ background: "var(--bronze)" }}
+                  style={{ background: "var(--luxe-blue)" }}
                 />
               </motion.div>
             </Reveal>

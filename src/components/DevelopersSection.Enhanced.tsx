@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "@/components/ScrollAnimations";
+import { SwipeReveal } from "./TextReveal";
 
 /**
  * Enhanced DevelopersSection with scroll animations and floating images
@@ -53,10 +54,12 @@ export function EnhancedDevelopersSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                 >
-                  <h2 className="typography-section-title text-ink mb-4">
-                    Prime Estate <br />
-                    <span className="text-bronze">Luxury Living</span>
-                  </h2>
+                  <SwipeReveal>
+                    <h2 className="typography-section-title text-ink mb-4">
+                      Prime Estate <br />
+                      <span className="text-bronze">Luxury Living</span>
+                    </h2>
+                  </SwipeReveal>
                   <p className="typography-body text-gray-700 leading-relaxed">
                     Experience the pinnacle of luxury living in Lucknow's most coveted location.
                     Prime Estate represents a new era of sophisticated urban development with
@@ -120,11 +123,11 @@ export function EnhancedDevelopersSection() {
             <SectionEyebrow>Our Services</SectionEyebrow>
           </Reveal>
 
-          <Reveal delay={0.1}>
+          <SwipeReveal className="flex justify-center">
             <h2 className="typography-section-title text-center text-ink mt-8 mb-16">
               Comprehensive Real Estate Solutions
             </h2>
-          </Reveal>
+          </SwipeReveal>
 
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
