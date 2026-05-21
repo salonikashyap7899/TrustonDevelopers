@@ -1,203 +1,300 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { InnerHero } from "@/components/InnerHero";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import interiorImg from "@/assets/luxury-interior.jpg";
-import projectImg from "@/assets/project-prime.jpg";
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
     meta: [
-      { title: "About — TrustOn Developers" },
+      { title: "Our Legacy | Truston Developers" },
       {
         name: "description",
         content:
-          "Trusted real-estate development in Lucknow — transparency, quality, and long-term vision behind Prime Estate.",
+          "Since 1984, Truston Developers has redefined luxury living through timeless design, uncompromising quality, and an unwavering commitment to our heritage.",
       },
-      { property: "og:title", content: "About TrustOn Developers" },
+      { property: "og:title", content: "About Truston Developers" },
       { property: "og:description", content: "The story behind Prime Estate." },
     ],
   }),
   component: AboutPage,
 });
 
-const services = [
+const timeline = [
   {
-    title: "Plot Selling",
-    to: "/plot-selling",
+    year: "1984",
+    title: "The Foundation",
+    description: "Aman Truston establishes the firm with a single luxury villa project in Gomti Nagar, setting the tone for architectural excellence.",
   },
   {
-    title: "Architecture & Design",
-    to: "/architecture-design",
+    year: "2002",
+    title: "Modern Horizons",
+    description: "Introduction of eco-conscious engineering and the first high-rise luxury towers in the Lucknow skyline.",
   },
   {
-    title: "Construction & Build",
-    to: "/construction-build",
+    year: "2015",
+    title: "Cultural Renaissance",
+    description: "Launch of 'The Hazratganj Archive', a heritage-inspired luxury retail and residential complex that won national design awards.",
   },
   {
-    title: "Investment Consulting",
-    to: "/investment-consulting",
+    year: "Present",
+    title: "Next Era",
+    description: "Scaling global standards with smart-automated luxury living and sustainable architectural ecosystems.",
   },
-] as const;
+];
+
+const leaders = [
+  {
+    name: "Aman Truston",
+    role: "Chairman & Founder",
+    quote: "\"Luxury is not an accumulation of things; it is the presence of clarity and the absence of noise. We build silence and precision into every corner.\"",
+    tagline: "Founding Legacy",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuCofZm-zgNfJMieb_XVVU_NJm4rESrbOk8sOmauFlNOHAgfzFp9HHvzXGXIBmzg6tOb0Rp0saRHTCnec2eHMMRHl3AZdDY5jpfAr8Dp2M8r3dYJt4OyK2ZHdDOIJGHWKX9VMHnJtlieOyC5EiAg3TeGeRfq2-zbL-e1OIFcY4Cs5SVYoGlt7f94dF5K_inR0iKM0onAo8HTHO80pDp2l08_552Cf1pvDluyTyQlZpAaPcsjM5NtxyPf22bO9dBdT3I_HCDeznaPn1Rd",
+  },
+  {
+    name: "Saira Truston",
+    role: "Managing Director",
+    quote: "\"The architecture of the future must be as sustainable as it is beautiful. We are crafting spaces that will be as relevant in a hundred years as they are today.\"",
+    tagline: "Modern Catalyst",
+    img: "https://lh3.googleusercontent.com/aida-public/AB6AXuDUGAl7xLBS5KreTEBsIfNayDOLIOnDBJQIKcPWLv5jW5RwtRimHwmNZVgqEaMK8yy4LYH10dgCeyhx6Edrmy4KvbQG0W23SVB6EpPJXhqAgtWWlQP_NODaIOmv46slwHTKymVC6JiXwqhoM67rSZiFCuZ9Q_A0ah5FkMJSIcc2mJ0OdrJcyx3gy-m_2_gHxiEVxb4Mzv2D8CczjYTG4fZGhqAH49wYcaksJsJnVaMCItkzavfEw5WckwteDni039xjrfaWwRhN31ib",
+    offset: true,
+  },
+];
 
 function AboutPage() {
   return (
-    <>
-      <InnerHero
-        eyebrow="About Us"
-        title={
-          <>
-            The skilled team
-            <br />
-            behind{" "}
-            <em className="gradient-bronze-text not-italic font-serif italic">Prime Estate.</em>
-          </>
-        }
-        poster={interiorImg}
-        alt="TrustOn skilled team"
-      />
+    <div className="bg-surface text-on-surface">
+      {/* Hero Section */}
+      <HeroSection />
 
-      <section className="py-28 px-6">
-        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-16 items-center">
-          <Reveal>
-            <div className="relative aspect-[4/5] rounded-md overflow-hidden card-shadow">
-              <img
-                src={projectImg}
-                alt="Prime Estate"
-                loading="lazy"
-                className="w-full h-full object-cover ken-burns"
-              />
+      {/* Legacy Story Section */}
+      <LegacyStorySection />
+
+      {/* Timeline Section */}
+      <TimelineSection />
+
+      {/* Leadership Section */}
+      <LeadershipSection />
+
+      {/* CTA Section */}
+      <CTASection />
+    </div>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 z-0 bg-surface-container-lowest">
+        <img
+          src={interiorImg}
+          alt="Luxury Architectural Detail"
+          className="w-full h-full object-cover brightness-[0.25] scale-105"
+        />
+      </div>
+      <div className="relative z-10 text-center px-6 pt-32">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-6 flex justify-center items-center gap-4"
+        >
+          <span className="h-[1px] w-12 bg-primary" />
+          <span className="text-label-md text-primary uppercase tracking-[0.4em]">Our Legacy</span>
+          <span className="h-[1px] w-12 bg-primary" />
+        </motion.div>
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-display-lg md:text-[84px] text-on-surface mb-8"
+        >
+          The Architecture of <span className="gradient-primary-text italic font-bold">Excellence</span>
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="text-body-lg text-on-surface-variant max-w-2xl mx-auto"
+        >
+          Since 1984, Truston Developers has redefined luxury living through timeless design, uncompromising quality, and an unwavering commitment to our heritage.
+        </motion.p>
+        {/* Scroll Hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+        >
+          <span className="text-label-md text-primary/60 tracking-widest uppercase">The Story</span>
+          <div className="w-[1px] h-16 bg-gradient-to-b from-primary to-transparent" />
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function LegacyStorySection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  return (
+    <section ref={ref} className="py-32 px-6 md:px-16 bg-surface-container-lowest">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <motion.div
+          className="lg:col-span-6"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <span className="text-label-md text-primary uppercase mb-4 block tracking-widest">Our Heritage</span>
+          <h2 className="text-display-lg text-on-surface mb-8">
+            Four Decades of <span className="italic text-primary">Structural Poetry</span>
+          </h2>
+          <div className="space-y-6">
+            <p className="text-body-lg text-on-surface-variant leading-relaxed">
+              Truston Developers didn&apos;t start with blueprints; it started with a philosophy. We believe that every building is a dialogue between the earth it stands on and the sky it reaches for.
+            </p>
+            <p className="text-body-md text-on-surface-variant">
+              Founded in the cultural heart of Lucknow, we have spent 38 years mastering the delicate balance between Nawabi elegance and contemporary structural precision. Our estates are not just residences; they are legacies etched in stone and steel.
+            </p>
+          </div>
+        </motion.div>
+        <motion.div
+          className="lg:col-span-6 relative"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="aspect-square relative overflow-hidden rounded-xl">
+            <img
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPeFp7cHTCk_np59158QyidEycNilZDP356vVnH21k-ZfN9gf8WKme4AKTd5Vv_dzN2ZgveUsqECs-MBbxLyvaj6Ahf07FrwG4h99MWdtx1zEfSkgehQi8pTGHYHpAEg_y5pS61MSAH-hCvnrcQy96TPcnHvf_X_E2SjemyOpfg4_081MnKIB7Qv0lgGgKr4LTjRDAHvBDGgZVQ2_SJ7XIyXy0vKqNBNzjilvExgEZb5QjTvIk4XBhBvdYyeYTPkHRqn0MD5gXuVkF"
+              alt="Heritage Detail"
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-surface/80 to-transparent" />
+          </div>
+          <div className="absolute -bottom-8 -right-8 w-64 glass-panel p-8 border border-primary/20 rounded-lg hidden md:block">
+            <span className="text-display-lg text-[48px] text-primary block leading-none mb-2">1984</span>
+            <span className="text-label-md text-on-surface-variant uppercase tracking-widest">Where the journey began</span>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+function TimelineSection() {
+  return (
+    <section className="py-32 px-6 md:px-16 bg-surface relative overflow-hidden">
+      <div className="text-center mb-24">
+        <Reveal>
+          <span className="text-label-md text-primary uppercase block mb-4 tracking-[0.3em]">Timeline</span>
+          <h2 className="text-display-lg text-on-surface">Milestones of Mastery</h2>
+        </Reveal>
+      </div>
+      <div className="max-w-4xl mx-auto relative">
+        {/* Timeline Center Line */}
+        <div
+          className="absolute left-1/2 -translate-x-1/2 w-[2px] h-full z-0"
+          style={{ background: "linear-gradient(to bottom, transparent, var(--primary) 15%, var(--primary) 85%, transparent)" }}
+        />
+        {timeline.map((item, i) => (
+          <Reveal key={item.year} delay={i * 0.15}>
+            <div className={`relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 mb-24 ${i % 2 === 0 ? "" : "md:text-left"}`}>
+              {i % 2 === 0 ? (
+                <>
+                  <div className="md:text-right md:pr-12">
+                    <span className="text-headline-lg text-primary mb-2 block">{item.year}</span>
+                    <h3 className="text-title-md text-on-surface mb-3">{item.title}</h3>
+                    <p className="text-body-md text-on-surface-variant">{item.description}</p>
+                  </div>
+                  <div className="hidden md:block" />
+                </>
+              ) : (
+                <>
+                  <div className="hidden md:block" />
+                  <div className="md:pl-12">
+                    <span className="text-headline-lg text-primary mb-2 block">{item.year}</span>
+                    <h3 className="text-title-md text-on-surface mb-3">{item.title}</h3>
+                    <p className="text-body-md text-on-surface-variant">{item.description}</p>
+                  </div>
+                </>
+              )}
+              <div className="absolute left-1/2 -translate-x-1/2 top-0 w-4 h-4 rounded-full bg-primary shadow-[0_0_15px_rgba(169,199,255,0.5)]" />
             </div>
           </Reveal>
-          <div>
-            <Reveal>
-              <p className="text-bronze text-[11px] uppercase tracking-luxe mb-4 flex items-center gap-3">
-                <span className="divider-bronze" /> About Our Company
-              </p>
-              <h2 className="font-display text-4xl md:text-5xl mb-8 leading-tight">
-                Prime Estate — own the ground,{" "}
-                <em className="gradient-bronze-text not-italic">build your legacy.</em>
-              </h2>
-              <p className="text-foreground/75 leading-relaxed mb-6">
-                Prime Estate is a trusted name in real estate development, built on a foundation of
-                transparency, quality, and long-term vision. We don't just sell land — we craft
-                opportunities. Our flagship project is a Jila Panchayat approved township that
-                combines legal security, prime location, and future-ready infrastructure.
-              </p>
-              <div className="grid sm:grid-cols-2 gap-px bg-border mb-8">
-                <div className="bg-cream p-6">
-                  <p className="text-bronze text-[11px] uppercase tracking-luxe mb-2">
-                    Strategic Development
-                  </p>
-                  <p className="text-sm text-foreground/75">
-                    We plan every project with a long-term vision — location intelligence,
-                    infrastructure growth, and future value appreciation.
-                  </p>
-                </div>
-                <div className="bg-cream p-6">
-                  <p className="text-bronze text-[11px] uppercase tracking-luxe mb-2">
-                    Execution Excellence
-                  </p>
-                  <p className="text-sm text-foreground/75">
-                    From land acquisition to final delivery, a structured, transparent,
-                    regulatory-compliant process.
-                  </p>
-                </div>
-              </div>
-              <Link
-                to="/contact"
-                className="rounded-full bronze-border px-7 py-3 text-[11px] uppercase tracking-luxe text-bronze hover:bg-bronze hover:text-cream transition-all"
-              >
-                Contact Us
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
+    </section>
+  );
+}
 
-      <section className="py-28 px-6 bg-sand/40">
-        <div className="mx-auto max-w-7xl">
-          <Reveal>
-            <SectionEyebrow>What We Do</SectionEyebrow>
-            <h2 className="font-display text-4xl md:text-6xl text-center mb-20">
-              Explore our <em className="gradient-bronze-text not-italic">services.</em>
-            </h2>
-          </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {services.map((s, i) => {
-              const getIcon = (title: string) => {
-                switch (title) {
-                  case "Plot Selling":
-                    return (
-                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M3 12l2.393-6.823c.5-1.422 1.944-2.305 3.467-2.305h5.514c1.523 0 2.967.883 3.467 2.305L21 12M3 12a9 9 0 0118 0m-9 9v-6m-4-3h8m-4 3v6m4-3h4" />
-                      </svg>
-                    );
-                  case "Architecture & Design":
-                    return (
-                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                      </svg>
-                    );
-                  case "Construction & Build":
-                    return (
-                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                      </svg>
-                    );
-                  case "Investment Consulting":
-                    return (
-                      <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                    );
-                  default:
-                    return null;
-                }
-              };
-              return (
-                <Reveal key={s.to} delay={i * 0.08}>
-                  <Link to={s.to} className="group block text-center">
-                    <div className="flex justify-center mb-6 text-bronze group-hover:text-[var(--bronze)] transition-colors duration-300">
-                      {getIcon(s.title)}
-                    </div>
-                    <h3 className="font-serif text-2xl group-hover:text-bronze transition-colors">
-                      {s.title}
-                    </h3>
-                    <span className="text-[11px] uppercase tracking-luxe text-bronze mt-2 inline-block">
-                      Get Free Quote →
-                    </span>
-                  </Link>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-28 px-6">
-        <div className="mx-auto max-w-7xl">
-          <Reveal>
-            <SectionEyebrow>Our Leaders</SectionEyebrow>
-            <h2 className="font-display text-4xl md:text-6xl text-center mb-20">
-              The people leading our <em className="gradient-bronze-text not-italic">vision.</em>
-            </h2>
-          </Reveal>
-          <Reveal>
-            <div className="mx-auto max-w-sm text-center">
-              <div className="relative aspect-square rounded-md overflow-hidden mb-6 card-shadow">
+function LeadershipSection() {
+  return (
+    <section className="bg-surface-container-lowest py-32 px-6 md:px-16 relative overflow-hidden">
+      <div className="text-center mb-24">
+        <Reveal>
+          <span className="text-label-md text-primary uppercase block mb-4 tracking-widest">Leadership</span>
+          <h2 className="text-display-lg text-on-surface">The Visionary Mindset</h2>
+        </Reveal>
+      </div>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20">
+        {leaders.map((leader, i) => (
+          <Reveal key={leader.name} delay={i * 0.2}>
+            <div className={`group ${leader.offset ? "lg:mt-32" : ""}`}>
+              <div className="relative mb-12 aspect-[3/4] overflow-hidden rounded-lg shadow-2xl">
                 <img
-                  src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/ChatGPT-Image-Apr-25-2026-11_23_46-PM.png"
-                  alt="Meraj Husain Rizvi"
-                  loading="lazy"
-                  className="w-full h-full object-cover"
+                  src={leader.img}
+                  alt={leader.name}
+                  className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent opacity-60" />
+                <div className="absolute bottom-10 left-10">
+                  <h3 className="text-headline-lg text-primary mb-2">{leader.name}</h3>
+                  <p className="text-label-md text-on-surface uppercase tracking-[0.2em] opacity-80">{leader.role}</p>
+                </div>
               </div>
-              <h3 className="font-serif text-2xl">Meraj Husain Rizvi</h3>
-              <p className="text-[11px] uppercase tracking-luxe text-bronze mt-2">Architect</p>
+              <div className="pl-8 border-l border-primary/40 max-w-lg">
+                <p className="text-body-lg text-on-surface-variant italic mb-6">{leader.quote}</p>
+                <div className="flex items-center gap-4 text-primary">
+                  <span className="h-[1px] w-8 bg-primary" />
+                  <span className="text-label-md uppercase tracking-widest">{leader.tagline}</span>
+                </div>
+              </div>
             </div>
           </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CTASection() {
+  return (
+    <section className="py-24 px-6 md:px-16 bg-surface-container text-center">
+      <Reveal>
+        <div className="max-w-3xl mx-auto glass-panel p-16">
+          <span className="text-label-md text-primary uppercase block mb-4 tracking-widest">Ready to Begin?</span>
+          <h2 className="text-display-lg text-on-surface mb-8">
+            Continue the <span className="italic text-primary">Legacy</span>
+          </h2>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link
+              to="/project"
+              className="text-button uppercase tracking-widest px-8 py-4 border border-primary text-primary hover:bg-primary hover:text-on-primary transition-all"
+            >
+              View Portfolio
+            </Link>
+            <Link
+              to="/contact"
+              className="text-button uppercase tracking-widest px-8 py-4 bg-primary text-on-primary hover:bg-primary-fixed transition-all"
+            >
+              Request Consultation
+            </Link>
+          </div>
         </div>
-      </section>
-    </>
+      </Reveal>
+    </section>
   );
 }

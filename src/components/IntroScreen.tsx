@@ -6,10 +6,9 @@ export function IntroScreen() {
   const [phase, setPhase] = useState<"logo" | "text" | "exit">("logo");
 
   useEffect(() => {
-    // Snappy timing: total ~2 seconds
-    const t1 = setTimeout(() => setPhase("text"), 500); // tagline appears at 0.5s
-    const t2 = setTimeout(() => setPhase("exit"), 1400); // exit curtain at 1.4s
-    const t3 = setTimeout(() => setVisible(false), 2000); // unmount at 2.0s
+    const t1 = setTimeout(() => setPhase("text"), 600);
+    const t2 = setTimeout(() => setPhase("exit"), 2000);
+    const t3 = setTimeout(() => setVisible(false), 2600);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -17,157 +16,118 @@ export function IntroScreen() {
     };
   }, []);
 
+  const floatingMetrics = [
+    { value: "150+", label: "Acres Developed", top: "20%", left: "15%", delay: 0 },
+    { value: "4.8k", label: "Families Served", bottom: "25%", left: "20%", delay: -2 },
+    { value: "$2.4B+", label: "Asset Value", top: "30%", right: "15%", delay: -5 },
+    { value: "20+", label: "Global Awards", bottom: "35%", right: "20%", delay: -8 },
+  ];
+
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
           key="intro"
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
+          style={{ backgroundColor: "#0b0e12" }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
         >
-          {/* Animated vertical grid lines */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(8)].map((_, i) => (
+          {/* Architectural grid overlay */}
+          <div className="absolute inset-0 architectural-grid opacity-20 pointer-events-none" />
+
+          {/* Floating Luxury Brand Metrics */}
+          <div className="absolute inset-0 pointer-events-none hidden md:block">
+            {floatingMetrics.map((metric, i) => (
               <motion.div
                 key={i}
-                className="absolute top-0 bottom-0 w-px"
-                style={{ left: `${(i + 1) * (100 / 9)}%`, background: "rgba(255,255,255,0.04)" }}
-                initial={{ scaleY: 0, originY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 1, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-              />
+                className="floating-metric absolute glass-panel px-8 py-4 rounded-xl"
+                style={{
+                  top: metric.top,
+                  bottom: metric.bottom,
+                  left: metric.left,
+                  right: metric.right,
+                  animationDelay: `${metric.delay}s`,
+                }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 + i * 0.15, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <span className="block font-display text-4xl text-primary mb-1">{metric.value}</span>
+                <span className="text-label-md text-on-surface/60 uppercase tracking-[0.2em]">{metric.label}</span>
+              </motion.div>
             ))}
           </div>
 
-          {/* Floating ambient blue orbs */}
-          <motion.div
-            className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
-            style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.12) 0%, transparent 70%)",
-              top: "5%",
-              left: "15%",
-            }}
-            animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute w-[360px] h-[360px] rounded-full pointer-events-none"
-            style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.08) 0%, transparent 70%)",
-              bottom: "10%",
-              right: "10%",
-            }}
-            animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-          />
-
-          {/* Dark ink curtain — slides UP to reveal the page beneath */}
+          {/* Dark exit curtain */}
           <motion.div
             className="absolute inset-0 origin-bottom z-10"
-            style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
+            style={{ backgroundColor: "#0b0e12" }}
             initial={{ scaleY: 0 }}
             animate={phase === "exit" ? { scaleY: 1 } : { scaleY: 0 }}
             transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
           />
 
           {/* Content */}
-          <div className="relative z-[5] flex flex-col items-center gap-5">
-            {/* Logo with pulse rings */}
+          <div className="relative z-[5] text-center">
+            {/* Logo with glow */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.82 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="relative flex items-center justify-center"
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-12 flex justify-center"
             >
-              {[1, 2, 3].map((ring) => (
-                <motion.div
-                  key={ring}
-                  className="absolute rounded-full"
-                  style={{
-                    width: 72 + ring * 32,
-                    height: 72 + ring * 32,
-                    border: "1px solid rgba(45,107,196,0.18)",
-                  }}
-                  animate={{ scale: [1, 1.07, 1], opacity: [0.6, 0.1, 0.6] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: ring * 0.3,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
               <img
                 src="/logo.png"
-                alt="TrustOn"
-                className="h-16 w-16 object-contain brightness-110 relative z-10"
+                alt="Truston Logo"
+                className="h-32 w-auto animate-pulse opacity-90"
+                style={{ filter: "drop-shadow(0 0 30px rgba(169, 199, 255, 0.3))" }}
               />
-            </motion.div>
-
-            {/* Brand name */}
-            <motion.div
-              className="flex flex-col items-center gap-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1
-                className="font-bold tracking-[0.3em] uppercase text-white"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontSize: "clamp(2rem, 7vw, 4.5rem)",
-                }}
-              >
-                TRUST<span style={{ color: "oklch(0.50 0.155 245)" }}>ON</span>
-              </h1>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
-                <span
-                  className="text-[9px] uppercase tracking-[0.5em]"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
-                  Premium Estate · Lucknow
-                </span>
-                <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
-              </div>
             </motion.div>
 
             {/* Tagline */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="font-display text-5xl md:text-7xl text-on-surface mb-8 tracking-tighter"
+            >
+              The Standard of <span className="text-primary italic">Permanence</span>
+            </motion.h2>
+
+            {/* CTA Button */}
             <AnimatePresence>
               {phase !== "logo" && (
-                <motion.p
-                  initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                <motion.button
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif italic text-base md:text-lg text-center"
-                  style={{ color: "rgba(255,255,255,0.35)", fontFamily: "Georgia, serif" }}
+                  className="text-button uppercase tracking-[0.4em] text-primary border border-primary/30 px-12 py-5 hover:bg-primary hover:text-on-primary transition-all duration-700"
+                  onClick={() => {
+                    setPhase("exit");
+                    setTimeout(() => setVisible(false), 600);
+                  }}
                 >
-                  Own the Ground. Build the Legacy.
-                </motion.p>
+                  Enter The Legacy
+                </motion.button>
               )}
             </AnimatePresence>
-
-            {/* Loading bar */}
-            <motion.div
-              className="w-36 h-px relative overflow-hidden mt-1"
-              style={{ background: "rgba(255,255,255,0.07)" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <motion.div
-                className="absolute inset-y-0 left-0"
-                style={{
-                  background: "linear-gradient(90deg, oklch(0.50 0.155 245), oklch(0.65 0.12 240))",
-                }}
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              />
-            </motion.div>
           </div>
+
+          {/* Scroll hint */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.4 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
+          >
+            <span className="text-label-md uppercase tracking-widest text-[10px] text-on-surface/40">Scroll to Begin</span>
+            <motion.div
+              className="w-px h-12 bg-primary/40"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
         </motion.div>
       )}
     </AnimatePresence>

@@ -33,8 +33,8 @@ function Particle({
         top: y,
         width: size,
         height: size,
-        background: "oklch(0.50 0.155 245 / 0.6)",
-        boxShadow: "0 0 6px 2px oklch(0.50 0.155 245 / 0.3)",
+        background: "rgba(169, 199, 255, 0.6)",
+        boxShadow: "0 0 6px 2px rgba(169, 199, 255, 0.3)",
       }}
       animate={{
         y: ["0px", "-28px", "0px"],
@@ -67,8 +67,8 @@ function CornerAccent({ pos }: { pos: "tl" | "tr" | "bl" | "br" }) {
       animate={{ opacity: 0.35, scale: 1 }}
       transition={{ duration: 1.2, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div className="absolute top-0 left-0 w-full h-px bg-[var(--bronze)]" />
-      <div className="absolute top-0 left-0 h-full w-px bg-[var(--bronze)]" />
+      <div className="absolute top-0 left-0 w-full h-px bg-primary" />
+      <div className="absolute top-0 left-0 h-full w-px bg-primary" />
     </motion.div>
   );
 }
@@ -128,14 +128,17 @@ export function SobhaStyleHero({
         />
       </motion.div>
 
-      {/* Dark gradient overlay with smooth transition */}
+      {/* Dark gradient overlay - Obsidian Blue Corporate style */}
       <div
         className="absolute inset-0"
         style={{
           background:
-            "linear-gradient(165deg, oklch(0.08 0.015 250 / 0.65) 0%, oklch(0.08 0.015 250 / 0.85) 60%, oklch(0.06 0.01 250 / 0.92) 100%)",
+            "linear-gradient(165deg, rgba(11, 14, 18, 0.65) 0%, rgba(11, 14, 18, 0.85) 60%, rgba(11, 14, 18, 0.92) 100%)",
         }}
       />
+
+      {/* Architectural grid overlay */}
+      <div className="absolute inset-0 architectural-grid opacity-30 pointer-events-none" />
 
       {/* Vignette edges */}
       <div
@@ -174,7 +177,7 @@ export function SobhaStyleHero({
           transition={{ duration: 1.6, delay: 1, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.div
-            className="absolute inset-0 bg-[var(--bronze)]"
+            className="absolute inset-0 bg-primary"
             animate={{ top: ["0%", "100%", "0%"] }}
             transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
             style={{ height: "30%" }}
@@ -189,6 +192,18 @@ export function SobhaStyleHero({
           isFull ? "justify-end pb-28" : "justify-end pb-20 pt-32"
         }`}
       >
+        {/* Eyebrow */}
+        {isFull && (
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="text-eyebrow text-primary mb-8 tracking-[0.4em] uppercase"
+          >
+            Est. 2004
+          </motion.span>
+        )}
+
         <motion.h1
           initial={{ opacity: 0, y: 60, filter: "blur(12px)" }}
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -197,8 +212,8 @@ export function SobhaStyleHero({
             delay: isFull ? 0.5 : 0.4,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className={`font-display text-white leading-[0.93] tracking-tight ${
-            isFull ? "text-[15vw] md:text-[8.5vw]" : "text-6xl md:text-8xl"
+          className={`font-display text-on-surface leading-[0.93] tracking-tight ${
+            isFull ? "text-display-hero" : "text-6xl md:text-8xl"
           }`}
         >
           {title}
@@ -213,7 +228,7 @@ export function SobhaStyleHero({
               delay: isFull ? 0.8 : 0.6,
               ease: [0.16, 1, 0.3, 1],
             }}
-            className="text-white/70 mt-8 max-w-2xl text-lg leading-relaxed"
+            className="text-body-lg text-on-surface-variant mt-8 max-w-2xl"
           >
             {subtitle}
           </motion.p>
@@ -243,16 +258,16 @@ export function SobhaStyleHero({
               delay: isFull ? 1.5 : 1.2,
               duration: 1,
             }}
-            className="absolute bottom-8 right-8 hidden md:flex flex-col items-center gap-3"
+            className="absolute bottom-12 left-16 hidden md:flex flex-col gap-4 text-on-surface/40"
           >
-            <span className="text-[9px] uppercase tracking-[0.3em] text-white/25 rotate-90 mb-4">
-              Scroll
+            <span className="[writing-mode:vertical-rl] text-label-md uppercase tracking-widest text-[10px]">
+              Scroll to Discover
             </span>
-            <div className="w-px h-16 bg-white/10 overflow-hidden relative">
+            <div className="w-[1px] h-24 bg-primary/30 mx-auto overflow-hidden relative">
               <motion.div
-                className="absolute top-0 left-0 right-0 bg-[var(--bronze)]"
-                animate={{ top: ["0%", "100%"] }}
-                transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-0 left-0 right-0 bg-primary"
+                animate={{ top: ["-40%", "100%"] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 style={{ height: "40%" }}
               />
             </div>
