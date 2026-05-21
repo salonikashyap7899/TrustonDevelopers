@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "@/components/ScrollAnimations";
 import { SwipeReveal } from "./TextReveal";
+import { Luxury3DScene } from "./Luxury3DScene";
 
 /**
  * Enhanced DevelopersSection with scroll animations and floating images
@@ -19,12 +20,15 @@ export function EnhancedDevelopersSection() {
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <div
-      ref={ref}
-      className="relative overflow-hidden bg-gradient-to-b from-white via-sand/30 to-white"
-    >
+    <div ref={ref} className="relative overflow-hidden bg-background">
       {/* Prime Estate Flagship Section */}
-      <section className="relative py-24 md:py-32 px-6">
+      <section className="relative py-24 md:py-32 px-6 min-h-[80vh] flex items-center">
+        {/* 3D Background Layer for Flagship */}
+        <div className="absolute inset-0 z-0">
+          <Luxury3DScene />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+
         <div className="mx-auto max-w-7xl">
           {/* Eyebrow */}
           <Reveal delay={0}>
@@ -55,12 +59,12 @@ export function EnhancedDevelopersSection() {
                   transition={{ duration: 0.8, delay: 0.3 }}
                 >
                   <SwipeReveal>
-                    <h2 className="typography-section-title text-ink mb-4">
+                    <h2 className="typography-section-title text-white mb-4">
                       Prime Estate <br />
-                      <span className="text-bronze">Luxury Living</span>
+                      <span className="text-gold italic font-serif">Luxury Living</span>
                     </h2>
                   </SwipeReveal>
-                  <p className="typography-body text-gray-700 leading-relaxed">
+                  <p className="typography-body text-white/80 leading-relaxed">
                     Experience the pinnacle of luxury living in Lucknow's most coveted location.
                     Prime Estate represents a new era of sophisticated urban development with
                     world-class amenities and architectural excellence.
@@ -73,7 +77,7 @@ export function EnhancedDevelopersSection() {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="space-y-4 border-l-2 border-bronze pl-6"
+                  className="space-y-4 border-l-2 border-gold pl-6"
                 >
                   {[
                     { title: "150+ Premium Plots", desc: "Carefully curated land parcels" },
@@ -87,8 +91,10 @@ export function EnhancedDevelopersSection() {
                       viewport={{ once: true }}
                       transition={{ delay: 0.5 + idx * 0.1 }}
                     >
-                      <p className="font-semibold text-ink text-sm md:text-base">{feature.title}</p>
-                      <p className="text-xs md:text-sm text-gray-600 mt-1">{feature.desc}</p>
+                      <p className="font-semibold text-white text-sm md:text-base">
+                        {feature.title}
+                      </p>
+                      <p className="text-xs md:text-sm text-white/60 mt-1">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
@@ -117,14 +123,14 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-white">
+      <section className="relative py-24 md:py-32 px-6 bg-background">
         <div className="mx-auto max-w-7xl">
           <Reveal delay={0}>
             <SectionEyebrow>Our Services</SectionEyebrow>
           </Reveal>
 
           <SwipeReveal className="flex justify-center">
-            <h2 className="typography-section-title text-center text-ink mt-8 mb-16">
+            <h2 className="typography-section-title text-center text-white mt-8 mb-16">
               Comprehensive Real Estate Solutions
             </h2>
           </SwipeReveal>

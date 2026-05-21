@@ -1,8 +1,6 @@
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useRef, type ReactNode, useState, useEffect } from "react";
 import { LazyVideo, type VideoSource } from "./LazyVideo";
-import { Luxury3DScene } from "./Luxury3DScene";
-
 interface SobhaStyleHeroProps {
   eyebrow?: string;
   title: ReactNode;
@@ -56,9 +54,6 @@ export function SobhaStyleHero({
         isFull ? "h-screen" : "h-[85vh]"
       } bg-background`}
     >
-      {/* 3D Background Layer */}
-      <Luxury3DScene />
-
       {/* Cinematic Video/Image Background */}
       <motion.div style={{ y, scale, opacity: 0.4 }} className="absolute inset-0 z-[-1]">
         <LazyVideo

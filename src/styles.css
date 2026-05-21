@@ -43,34 +43,34 @@
 :root {
   --radius: 0.125rem;
   /* Cinematic Dark Theme - LUXURY BRONZE & GOLD */
-  --background: oklch(0.12 0.015 250); /* Matte Luxury Black */
+  --background: oklch(0.12 0.01 250); /* Matte Luxury Black */
   --foreground: oklch(0.98 0.004 240); /* Off-white / Cream */
   --ink: oklch(0.08 0.01 250); /* Deep Charcoal */
   --cream: oklch(0.98 0.004 240);
   --sand: oklch(0.25 0.02 45); /* Dark sand / Bronze tint */
-  --card: oklch(0.15 0.015 250 / 0.7);
+  --card: oklch(0.15 0.01 250 / 0.7);
   --card-foreground: oklch(0.98 0.004 240);
-  --popover: oklch(0.12 0.015 250);
+  --popover: oklch(0.12 0.01 250);
   --popover-foreground: oklch(0.98 0.004 240);
-  --primary: oklch(0.6 0.16 250); /* Luxury Blue */
+  --primary: oklch(0.65 0.1 50); /* Luxury Bronze */
   --primary-foreground: oklch(0.98 0.004 240);
-  --bronze: oklch(0.6 0.16 250); /* Mapping bronze to blue for compatibility */
-  --gold: oklch(0.75 0.1 230); /* Mapping gold to cyan for compatibility */
-  --luxe-blue: oklch(0.6 0.16 250);
-  --luxe-cyan: oklch(0.75 0.1 230);
-  --secondary: oklch(0.2 0.02 250);
+  --bronze: oklch(0.65 0.1 50);
+  --gold: oklch(0.85 0.12 85);
+  --luxe-blue: oklch(0.2 0.05 250); /* Deep Navy instead of bright blue */
+  --luxe-cyan: oklch(0.85 0.12 85); /* Re-mapping cyan to gold */
+  --secondary: oklch(0.18 0.01 250);
   --secondary-foreground: oklch(0.98 0.004 240);
-  --muted: oklch(0.2 0.02 250);
-  --muted-foreground: oklch(0.6 0.01 250);
-  --accent: oklch(0.75 0.1 230); /* Cyan Accent */
-  --accent-foreground: oklch(0.12 0.015 250);
+  --muted: oklch(0.18 0.01 250);
+  --muted-foreground: oklch(0.5 0.01 250);
+  --accent: oklch(0.85 0.12 85); /* Gold Accent */
+  --accent-foreground: oklch(0.12 0.01 250);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.99 0.004 240);
   --border: oklch(1 0 0 / 0.1);
   --input: oklch(1 0 0 / 0.05);
-  --ring: oklch(0.6 0.16 250);
+  --ring: oklch(0.65 0.1 50);
 
-  --gradient-bronze: linear-gradient(135deg, oklch(0.75 0.1 230), oklch(0.6 0.16 250));
+  --gradient-bronze: linear-gradient(135deg, oklch(0.85 0.12 85), oklch(0.65 0.1 50));
   --gradient-overlay: linear-gradient(
     165deg,
     oklch(0.08 0.01 250 / 0.4) 0%,

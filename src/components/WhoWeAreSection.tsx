@@ -17,10 +17,10 @@ export function WhoWeAreSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen py-24 px-6 overflow-hidden flex items-center"
+      className="relative min-h-screen py-24 px-6 overflow-hidden flex items-center bg-background"
     >
       {/* Background Architectural Visual */}
-      <motion.div style={{ y: bgY, opacity: 0.3 }} className="absolute inset-0 z-0">
+      <motion.div style={{ y: bgY, opacity: 0.2 }} className="absolute inset-0 z-0">
         <img
           src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/aerial-photography-chinese-city-600x800.jpg"
           alt="Architectural Visual"
@@ -51,7 +51,7 @@ export function WhoWeAreSection() {
             </h2>
           </SwipeReveal>
 
-          <div className="space-y-6 text-white/70 text-lg font-light leading-relaxed max-w-xl">
+          <div className="space-y-6 text-white/80 text-lg font-light leading-relaxed max-w-xl">
             <p>
               TrustOn is not just a developer; we are creators of architectural masterpieces that
               stand as a testament to futuristic luxury and timeless elegance.

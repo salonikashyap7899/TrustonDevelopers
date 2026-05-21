@@ -54,14 +54,14 @@ export function EnhancedGallerySection() {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 px-6 overflow-hidden bg-white">
+    <section ref={ref} className="relative py-24 md:py-32 px-6 overflow-hidden bg-background">
       {/* Background Parallax Effect */}
       <motion.div
         style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute top-0 right-0 w-96 h-96 bg-sand/40 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-sand/30 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-bronze/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
       </motion.div>
 
       <div className="mx-auto max-w-7xl relative z-10">
@@ -71,10 +71,10 @@ export function EnhancedGallerySection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h2 className="typography-section-title text-center text-ink mt-8 mb-4">
+          <h2 className="typography-section-title text-center text-white mt-8 mb-4">
             Visual Excellence
           </h2>
-          <p className="text-center typography-body text-gray-600 max-w-2xl mx-auto mb-16">
+          <p className="text-center typography-body text-white/60 max-w-2xl mx-auto mb-16">
             Explore the architectural brilliance and natural beauty of Prime Estate through our
             curated collection of premium imagery.
           </p>

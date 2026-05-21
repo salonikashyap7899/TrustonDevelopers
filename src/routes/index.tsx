@@ -12,6 +12,7 @@ import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanc
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { Services3DSection } from "@/components/Services3DSection";
+import { IntroHighlightSection } from "@/components/IntroHighlightSection";
 import { Projects3DShowcase } from "@/components/Projects3DShowcase";
 import {
   FloatingImageScroll,
@@ -48,6 +49,9 @@ function Index() {
         videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
         alt="Aerial view of Prime Estate township at twilight"
       />
+
+      {/* Intro Highlight Section */}
+      <IntroHighlightSection />
 
       {/* Who We Are Section */}
       <WhoWeAreSection />
@@ -130,18 +134,18 @@ function EnhancedStatsBar() {
     { num: 100, suffix: "%", label: "Legal Clearance", icon: "◈", desc: "Fully documented" },
   ];
   return (
-    <section className="bg-white border-b border-gray-100 px-6">
+    <section className="bg-background border-y border-white/5 px-6">
       <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4">
         {stats.map((s, i) => (
           <Reveal key={s.label} delay={i * 0.1}>
             <motion.div
-              whileHover={{ backgroundColor: "oklch(0.98 0.004 240)" }}
-              className="group flex flex-col items-center py-12 px-6 text-center border-r border-gray-100 last:border-0 cursor-default transition-all duration-300 relative hover:shadow-lg"
+              whileHover={{ backgroundColor: "rgba(255, 255, 255, 0.03)" }}
+              className="group flex flex-col items-center py-12 px-6 text-center border-r border-white/5 last:border-0 cursor-default transition-all duration-300 relative"
             >
               {/* Top accent line animate */}
-              <div className="absolute top-0 left-6 right-6 h-px bg-gray-100 overflow-hidden">
+              <div className="absolute top-0 left-6 right-6 h-px bg-white/5 overflow-hidden">
                 <motion.div
-                  className="h-full bg-[var(--bronze)]"
+                  className="h-full bg-gold"
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
@@ -151,27 +155,27 @@ function EnhancedStatsBar() {
 
               {/* Icon */}
               <motion.span
-                className="text-[var(--bronze)]/30 text-2xl mb-4 group-hover:text-[var(--bronze)]/60 transition-colors duration-500"
+                className="text-gold/30 text-2xl mb-4 group-hover:text-gold/60 transition-colors duration-500"
                 whileHover={{ scale: 1.2, rotate: 10 }}
               >
                 {s.icon}
               </motion.span>
 
               {/* Counter */}
-              <p className="font-display text-5xl md:text-6xl gradient-bronze-text font-bold leading-none">
+              <p className="font-display text-5xl md:text-6xl text-white font-bold leading-none">
                 <CountUp to={s.num} suffix={s.suffix} />
               </p>
 
               {/* Divider */}
-              <motion.div className="w-6 h-px bg-gray-200 my-4 group-hover:w-12 group-hover:bg-[var(--bronze)] transition-all duration-500" />
+              <motion.div className="w-6 h-px bg-white/10 my-4 group-hover:w-12 group-hover:bg-gold transition-all duration-500" />
 
               {/* Label */}
-              <p className="text-[11px] uppercase tracking-[0.25em] text-gray-400 group-hover:text-[var(--bronze)] transition-colors duration-500 font-semibold">
+              <p className="text-[11px] uppercase tracking-[0.25em] text-white/40 group-hover:text-gold transition-colors duration-500 font-semibold">
                 {s.label}
               </p>
 
               {/* Description */}
-              <p className="text-[10px] text-gray-500 mt-2 group-hover:text-gray-700 transition-colors duration-300">
+              <p className="text-[10px] text-white/30 mt-2 group-hover:text-white/60 transition-colors duration-300">
                 {s.desc}
               </p>
             </motion.div>
