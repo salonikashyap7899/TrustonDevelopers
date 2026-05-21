@@ -11,6 +11,7 @@ import { EnhancedDevelopersSection } from "@/components/DevelopersSection.Enhanc
 import { EnhancedGallerySection } from "@/components/GallerySection.Enhanced";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { FloatingImageScroll, SlideInOnScroll, BlurReveal, HighlightText } from "@/components/ScrollAnimations";
+import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,6 +40,9 @@ function Index() {
         videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
         alt="Aerial view of Prime Estate township at twilight"
       />
+
+      {/* NEW: Luxury Highlights Section — after first section */}
+      <LuxuryHighlights />
 
       {/* Who We Are Section */}
       <WhoWeAreSection />

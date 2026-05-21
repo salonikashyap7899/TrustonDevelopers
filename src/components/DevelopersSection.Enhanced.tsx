@@ -153,7 +153,8 @@ export function EnhancedDevelopersSection() {
                 delay={idx * 0.15}
               >
                 <motion.div
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -12, rotateY: 3, rotateX: -2 }}
+                  style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
                   className="group relative overflow-hidden rounded-xl shadow-card hover:shadow-luxe transition-all duration-500 h-full"
                 >
                   {/* Background Image */}

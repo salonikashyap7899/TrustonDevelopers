@@ -54,9 +54,14 @@ export function Testimonials() {
           {items.map((t, i) => (
             <Reveal key={t.name} delay={i * 0.12}>
               <motion.figure
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-                className="relative bg-[var(--sand)] p-10 h-full group cursor-default border border-transparent hover:border-[var(--bronze)]/30 transition-colors duration-500"
+                whileHover={{ y: -12, scale: 1.02, boxShadow: "0 30px 60px -15px rgba(45,107,196,0.25)" }}
+                animate={{ y: [0, -6, 0] }}
+                transition={{ 
+                  duration: 0.5, 
+                  ease: [0.2, 0.8, 0.2, 1],
+                  y: { duration: 4, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }
+                }}
+                className="relative bg-[var(--sand)] p-10 h-full group cursor-default border border-transparent hover:border-[var(--bronze)]/50 hover:shadow-[0_0_30px_rgba(45,107,196,0.2)] transition-all duration-500"
               >
                 {/* Quote mark */}
                 <div className="font-display text-8xl text-[var(--bronze)]/15 leading-none absolute top-4 left-8 select-none">

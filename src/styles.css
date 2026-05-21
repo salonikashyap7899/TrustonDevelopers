@@ -50,8 +50,8 @@
   --popover-foreground: oklch(0.14 0.018 250);
   --primary: oklch(0.14 0.018 250);
   --primary-foreground: oklch(0.98 0.004 240);
-  --bronze: #2d6bc4; /* hex fallback — forces royal blue on any engine */
-  --bronze: oklch(0.5 0.155 245); /* oklch override for modern browsers */
+  --bronze: #2d6bc4;
+  --bronze: oklch(0.5 0.155 245);
   --secondary: oklch(0.93 0.008 240);
   --secondary-foreground: oklch(0.18 0.018 250);
   --muted: oklch(0.93 0.008 240);
@@ -64,7 +64,7 @@
   --input: oklch(0.18 0.018 250 / 0.12);
   --ring: oklch(0.5 0.155 245);
 
-  --gradient-bronze: linear-gradient(135deg, #3b89e8, #1a55b0); /* hex fallback */
+  --gradient-bronze: linear-gradient(135deg, #3b89e8, #1a55b0);
   --gradient-bronze: linear-gradient(135deg, oklch(0.6 0.14 245), oklch(0.42 0.16 250));
   --gradient-overlay: linear-gradient(
     165deg,
@@ -448,6 +448,30 @@
 
   .float-wave {
     animation: float-wave 7s ease-in-out infinite;
+  }
+
+  .luxury-card-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
+  }
+  .luxury-card-3d:hover {
+    transform: translateY(-12px) rotateX(-2deg) rotateY(2deg);
+    box-shadow: 0 40px 80px -20px rgba(45, 107, 196, 0.3), 0 0 0 1px rgba(45, 107, 196, 0.1);
+  }
+  .float-luxury {
+    animation: float-luxury 6s ease-in-out infinite;
+  }
+  @keyframes float-luxury {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-10px) rotate(0.5deg); }
+    66% { transform: translateY(-5px) rotate(-0.5deg); }
+  }
+  .blue-glow {
+    box-shadow: 0 0 30px rgba(45, 107, 196, 0.2), 0 0 60px rgba(45, 107, 196, 0.1);
+  }
+  .blue-glow:hover {
+    box-shadow: 0 0 50px rgba(45, 107, 196, 0.35), 0 0 100px rgba(45, 107, 196, 0.15);
   }
 
   /* ── Image Container Enhancements ────────────────────── */

@@ -125,7 +125,7 @@ export function DevelopersSection() {
 
               {/* CTAs */}
               <div className="flex gap-3">
-                <button className="bg-[var(--bronze)] text-[var(--ink)] px-6 py-2 text-xs uppercase tracking-widest font-semibold hover:bg-[#D4B97A] transition-colors rounded">
+                <button className="bg-[var(--bronze)] text-[var(--ink)] px-6 py-2 text-xs uppercase tracking-widest font-semibold hover:bg-[#3b89e8] transition-colors rounded">
                   Enquire Now
                 </button>
                 <button className="border border-white/20 text-white/70 px-6 py-2 text-xs uppercase tracking-widest font-light hover:border-[var(--bronze)] hover:text-[var(--bronze)] transition-colors rounded">
@@ -143,8 +143,8 @@ export function DevelopersSection() {
       <section className="bg-[var(--ink)] px-6 md:px-12 py-0">
         <div className="mx-auto max-w-7xl bg-white text-[var(--ink)] rounded-t-3xl px-6 md:px-12 py-16 md:py-20">
           <div className="mb-12">
-            <p className="text-xs tracking-widest uppercase text-[#8A7A55] mb-4 flex items-center gap-2">
-              <span className="w-7 h-px bg-[#8A7A55]"></span>
+            <p className="text-xs tracking-widest uppercase text-[#2d6bc4] mb-4 flex items-center gap-2">
+              <span className="w-7 h-px bg-[#2d6bc4]"></span>
               What We Offer
             </p>
             <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight">
