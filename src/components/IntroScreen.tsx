@@ -3,19 +3,17 @@ import { useEffect, useState } from "react";
 
 export function IntroScreen() {
   const [visible, setVisible] = useState(true);
-  const [phase, setPhase] = useState<"logo" | "text" | "exit">("logo");
+  const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    // Snappy timing: total ~2 seconds
-    const t1 = setTimeout(() => setPhase("text"), 500); // tagline appears at 0.5s
-    const t2 = setTimeout(() => setPhase("exit"), 1400); // exit curtain at 1.4s
-    const t3 = setTimeout(() => setVisible(false), 2000); // unmount at 2.0s
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      clearTimeout(t3);
-    };
+    // Show content after a brief delay
+    const t1 = setTimeout(() => setShowContent(true), 300);
+    return () => clearTimeout(t1);
   }, []);
+
+  const enterSite = () => {
+    setVisible(false);
+  };
 
   return (
     <AnimatePresence>
@@ -23,151 +21,187 @@ export function IntroScreen() {
         <motion.div
           key="intro"
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
-          style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
+          style={{ backgroundColor: "var(--ink, #080807)" }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
         >
-          {/* Animated vertical grid lines */}
+          {/* Video Background with Overlay */}
           <div className="absolute inset-0 overflow-hidden">
-            {[...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute top-0 bottom-0 w-px"
-                style={{ left: `${(i + 1) * (100 / 9)}%`, background: "rgba(255,255,255,0.04)" }}
-                initial={{ scaleY: 0, originY: 0 }}
-                animate={{ scaleY: 1 }}
-                transition={{ duration: 1, delay: i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-              />
-            ))}
+            {/* Cinematic fallback background */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: `
+                  radial-gradient(ellipse 80% 60% at 50% 30%, rgba(45,107,196,0.08) 0%, transparent 70%),
+                  linear-gradient(160deg, #0F0D08 0%, #080807 40%, #0A0A08 100%)
+                `
+              }}
+            />
+            
+            {/* Animated grid lines */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(45,107,196,0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(45,107,196,0.03) 1px, transparent 1px)
+                `,
+                backgroundSize: '60px 60px',
+                animation: 'gridDrift 20s ease-in-out infinite alternate'
+              }}
+            />
+
+            {/* Video (uncomment when you have a real video) */}
+            {/* <video 
+              autoPlay 
+              muted 
+              loop 
+              playsInline
+              className="w-full h-full object-cover"
+            >
+              <source src="/intro-video.mp4" type="video/mp4" />
+            </video> */}
+            
+            {/* Gradient overlay */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to bottom,
+                  rgba(8,8,7,0.55) 0%,
+                  rgba(8,8,7,0.3) 40%,
+                  rgba(8,8,7,0.7) 100%)`
+              }}
+            />
           </div>
 
-          {/* Floating ambient blue orbs */}
+          {/* Corner Details */}
+          <motion.div 
+            className="absolute top-8 left-8 md:left-12 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-white/30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            Lucknow &middot; Uttar Pradesh
+          </motion.div>
+          <motion.div 
+            className="absolute top-8 right-8 md:right-12 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-white/30"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            Est. 2025
+          </motion.div>
+          <motion.div 
+            className="absolute bottom-8 left-8 md:left-12 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-white/30 hidden md:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ delay: 0.7 }}
+          >
+            Prime Estate
+          </motion.div>
+          <motion.div 
+            className="absolute bottom-8 right-8 md:right-12 text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-white/30 hidden md:block"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: showContent ? 1 : 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            Residential Plots &middot; Construction &middot; Architecture
+          </motion.div>
+
+          {/* Main Content */}
+          <motion.div 
+            className="relative z-10 text-center flex flex-col items-center px-6"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 40 }}
+            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+          >
+            {/* Eyebrow */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-10 h-px bg-[var(--accent,#2D6BC4)]/30" />
+              <span className="text-[10px] md:text-[11px] uppercase tracking-[0.35em] text-[var(--accent,#2D6BC4)]">
+                Lucknow&apos;s Trusted Property Developers
+              </span>
+              <div className="w-10 h-px bg-[var(--accent,#2D6BC4)]/30" />
+            </div>
+
+            {/* Logo Text */}
+            <h1 
+              className="font-display text-5xl md:text-7xl lg:text-8xl font-light tracking-[0.06em] text-white/90 leading-none"
+              style={{ fontFamily: "'Cormorant Garamond', Georgia, serif" }}
+            >
+              TRUST<span className="text-[var(--accent,#2D6BC4)]">ON</span>
+              <em 
+                className="block text-lg md:text-xl tracking-[0.3em] text-white/40 mt-2 font-light not-italic uppercase"
+                style={{ fontFamily: "'Inter', sans-serif", fontWeight: 200 }}
+              >
+                Developers
+              </em>
+            </h1>
+
+            {/* Animated Line */}
+            <motion.div 
+              className="w-px h-0 bg-[var(--accent,#2D6BC4)]/30 my-10"
+              animate={{ height: showContent ? 60 : 0 }}
+              transition={{ duration: 1.5, ease: "easeOut", delay: 1 }}
+            />
+
+            {/* Tagline */}
+            <motion.p 
+              className="text-[11px] md:text-xs uppercase tracking-[0.18em] text-white/40 mb-12 font-light"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showContent ? 1 : 0 }}
+              transition={{ delay: 1.2 }}
+            >
+              Build Your Future On Solid Ground
+            </motion.p>
+
+            {/* Enter Button */}
+            <motion.button
+              onClick={enterSite}
+              className="group relative inline-flex items-center gap-4 border border-[var(--accent,#2D6BC4)] px-10 py-4 text-[var(--accent,#2D6BC4)] text-[11px] md:text-xs uppercase tracking-[0.22em] bg-transparent cursor-pointer overflow-hidden transition-colors duration-400"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
+              transition={{ delay: 1.4 }}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              {/* Hover fill background */}
+              <motion.div 
+                className="absolute inset-0 bg-[var(--accent,#2D6BC4)] origin-left"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.4 }}
+              />
+              <span className="relative z-10 group-hover:text-[var(--ink,#080807)] transition-colors duration-300">
+                Explore Website
+              </span>
+              <span className="relative z-10 text-base group-hover:text-[var(--ink,#080807)] group-hover:translate-x-1.5 transition-all duration-300">
+                &rarr;
+              </span>
+            </motion.button>
+          </motion.div>
+
+          {/* Floating ambient orbs */}
           <motion.div
             className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
             style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.12) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(45,107,196,0.06) 0%, transparent 70%)",
               top: "5%",
               left: "15%",
             }}
             animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.8, 0.5] }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           />
           <motion.div
             className="absolute w-[360px] h-[360px] rounded-full pointer-events-none"
             style={{
-              background: "radial-gradient(circle, rgba(45,107,196,0.08) 0%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(45,107,196,0.04) 0%, transparent 70%)",
               bottom: "10%",
               right: "10%",
             }}
             animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
             transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
           />
-
-          {/* Dark ink curtain — slides UP to reveal the page beneath */}
-          <motion.div
-            className="absolute inset-0 origin-bottom z-10"
-            style={{ backgroundColor: "oklch(0.13 0.02 250)" }}
-            initial={{ scaleY: 0 }}
-            animate={phase === "exit" ? { scaleY: 1 } : { scaleY: 0 }}
-            transition={{ duration: 0.55, ease: [0.76, 0, 0.24, 1] }}
-          />
-
-          {/* Content */}
-          <div className="relative z-[5] flex flex-col items-center gap-5">
-            {/* Logo with pulse rings */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.82 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              className="relative flex items-center justify-center"
-            >
-              {[1, 2, 3].map((ring) => (
-                <motion.div
-                  key={ring}
-                  className="absolute rounded-full"
-                  style={{
-                    width: 72 + ring * 32,
-                    height: 72 + ring * 32,
-                    border: "1px solid rgba(45,107,196,0.18)",
-                  }}
-                  animate={{ scale: [1, 1.07, 1], opacity: [0.6, 0.1, 0.6] }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    delay: ring * 0.3,
-                    ease: "easeInOut",
-                  }}
-                />
-              ))}
-              <img
-                src="/logo.png"
-                alt="TrustOn"
-                className="h-16 w-16 object-contain brightness-110 relative z-10"
-              />
-            </motion.div>
-
-            {/* Brand name */}
-            <motion.div
-              className="flex flex-col items-center gap-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h1
-                className="font-bold tracking-[0.3em] uppercase text-white"
-                style={{
-                  fontFamily: "Inter, system-ui, sans-serif",
-                  fontSize: "clamp(2rem, 7vw, 4.5rem)",
-                }}
-              >
-                TRUST<span style={{ color: "oklch(0.50 0.155 245)" }}>ON</span>
-              </h1>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
-                <span
-                  className="text-[9px] uppercase tracking-[0.5em]"
-                  style={{ color: "rgba(255,255,255,0.25)" }}
-                >
-                  Premium Estate · Lucknow
-                </span>
-                <div className="w-10 h-px" style={{ background: "rgba(45,107,196,0.5)" }} />
-              </div>
-            </motion.div>
-
-            {/* Tagline */}
-            <AnimatePresence>
-              {phase !== "logo" && (
-                <motion.p
-                  initial={{ opacity: 0, y: 12, filter: "blur(8px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif italic text-base md:text-lg text-center"
-                  style={{ color: "rgba(255,255,255,0.35)", fontFamily: "Georgia, serif" }}
-                >
-                  Own the Ground. Build the Legacy.
-                </motion.p>
-              )}
-            </AnimatePresence>
-
-            {/* Loading bar */}
-            <motion.div
-              className="w-36 h-px relative overflow-hidden mt-1"
-              style={{ background: "rgba(255,255,255,0.07)" }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <motion.div
-                className="absolute inset-y-0 left-0"
-                style={{
-                  background: "linear-gradient(90deg, oklch(0.50 0.155 245), oklch(0.65 0.12 240))",
-                }}
-                initial={{ width: "0%" }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              />
-            </motion.div>
-          </div>
         </motion.div>
       )}
     </AnimatePresence>
