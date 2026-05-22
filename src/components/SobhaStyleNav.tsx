@@ -10,7 +10,6 @@ const services = [
 ] as const;
 
 const leftLinks = [
-  { label: "HOME", to: "/" },
   { label: "ABOUT", to: "/about-us" },
   { label: "COMMUNITIES", to: "/project" },
   { label: "PROPERTIES", to: "/services" },

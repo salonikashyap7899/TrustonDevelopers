@@ -22,7 +22,6 @@ import {
 } from "@/components/ScrollAnimations";
 import { LuxuryHighlights } from "@/components/LuxuryHighlights";
 import { Section3DBackground } from "@/components/Section3DBackground";
-import { IntroVideoModal } from "@/components/IntroVideoModal";
 import {
   SmoothFadeIn,
   SmoothSlideIn,
@@ -49,35 +48,15 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <div className="bg-background text-foreground overflow-x-hidden">
-      {/* Hero Section - Clean with Embedded Video */}
-      <div className="relative">
-        <SobhaStyleHero
-          height="full"
-          title=""
-          subtitle=""
-          poster={heroImg}
-          videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
-          alt="Aerial view of Prime Estate township at twilight"
-        >
-          {/* Embedded Intro Video Section */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center z-30"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 1 }}
-          >
-            <div className="relative w-full max-w-2xl px-6 md:px-0">
-              <IntroVideoModal
-                videoSrc="/intro-video.mp4"
-                poster={heroImg}
-                title="Experience Prime Estate"
-                description="Discover the architectural masterpiece that redefines luxury living in Lucknow. Watch our 4-minute tour of the township that's transforming real estate."
-                autoPlay={true}
-              />
-            </div>
-          </motion.div>
-        </SobhaStyleHero>
-      </div>
+      {/* Hero Section - Clean Design */}
+      <SobhaStyleHero
+        height="full"
+        title="Prime Estate Lucknow"
+        subtitle="Where the Future of Luxury Living Begins"
+        poster={heroImg}
+        videoSources={[{ src: "/intro-video.mp4", type: "video/mp4" }]}
+        alt="Aerial view of Prime Estate township at twilight"
+      />
 
       {/* Intro Highlight Section */}
       <SmoothFadeIn duration={1}>
