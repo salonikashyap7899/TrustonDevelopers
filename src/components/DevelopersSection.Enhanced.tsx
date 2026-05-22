@@ -1,89 +1,14 @@
-import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "@/components/ScrollAnimations";
-import { TiltCard3D } from "@/components/animations/TiltCard3D";
+import { Reveal, SectionEyebrow } from "./Reveal";
+import { FloatingImageScroll, SlideInOnScroll, BlurReveal } from "./ScrollAnimations";
+import { SwipeReveal } from "./TextReveal";
+import { Luxury3DScene } from "./Luxury3DScene";
+import { Section3DBackground } from "./Section3DBackground";
 
-const projectStats = [
-  { value: "120+", label: "Total Plots" },
-  { value: "47", label: "Available Now" },
-  { value: "2400", label: "Sq. Ft Range" },
-  { value: "Rs 12L+", label: "Starting Price" },
-];
-
-const projectAmenities = [
-  "Wide Internal Roads",
-  "24/7 Security Guard",
-  "Piped Water Supply",
-  "Electricity Connection",
-  "Landscaped Parks",
-  "Underground Drainage",
-  "Clear Plot Demarcation",
-  "Phased Infrastructure",
-];
-
-const serviceCards = [
-  {
-    num: "01",
-    title: "Plot Selling",
-    desc: "Residential land parcels in Lucknow's high-growth corridors with Jila Panchayat approvals, clear title deeds, and complete legal documentation.",
-    to: "/plot-selling",
-    image: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-selling-600x800.jpg",
-  },
-  {
-    num: "02",
-    title: "Construction & Build",
-    desc: "Full home construction from foundation to finishing with quality materials, experienced teams, and complete transparency at every phase.",
-    to: "/construction-build",
-    image:
-      "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/construction-site-600x800.jpg",
-  },
-  {
-    num: "03",
-    title: "Investment Consulting",
-    desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors with ROI assessments and location analysis.",
-    to: "/investment-consulting",
-    image:
-      "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/investment-consulting-600x800.jpg",
-  },
-  {
-    num: "04",
-    title: "Architecture & Design",
-    desc: "In-house architectural planning tailored to your vision, from concept layouts and elevations to complete blueprint documentation.",
-    to: "/architecture-design",
-    image:
-      "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/steve-driscoll-VsBl5PwVZpY-unsplash-scaled.jpg",
-  },
-];
-
-const trustPoints = [
-  {
-    num: "01",
-    title: "Complete Transparency, Always",
-    desc: "Zero ambiguity in every transaction. Plot details, legal status, and pricing are disclosed fully upfront - no fine print and no surprises.",
-  },
-  {
-    num: "02",
-    title: "High-Growth Location Intelligence",
-    desc: "Dubagga and surrounding corridors in Lucknow are on a proven appreciation trajectory. We identify and secure high-potential land before the curve.",
-  },
-  {
-    num: "03",
-    title: "Government-Approved, Legally Secure",
-    desc: "Every project carries Jila Panchayat approvals and verified title deeds, ensuring your investment is legally clean and protected.",
-  },
-  {
-    num: "04",
-    title: "One Team, Every Step",
-    desc: "Plot acquisition, construction, architecture, and investment advisory all sit under one roof, so you do not have to coordinate across agencies.",
-  },
-  {
-    num: "05",
-    title: "Your Land, Your Terms",
-    desc: "Build now or hold for appreciation - both are valid strategies, and we support both with equal commitment and zero pressure.",
-  },
-];
+/**
+ * Enhanced DevelopersSection with scroll animations and floating images
+ */
 
 export function EnhancedDevelopersSection() {
   const ref = useRef<HTMLDivElement>(null);
@@ -92,31 +17,40 @@ export function EnhancedDevelopersSection() {
     offset: ["start end", "end start"],
   });
 
+  // Parallax background effect
   const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
-    <div
-      ref={ref}
-      className="relative overflow-hidden bg-gradient-to-b from-white via-sand/30 to-white"
-    >
-      <section className="relative py-24 md:py-32 px-6">
-        <div className="mx-auto max-w-7xl">
+    <div ref={ref} className="relative overflow-hidden bg-background">
+      {/* Prime Estate Flagship Section */}
+      <section className="relative py-24 md:py-32 px-6 min-h-[80vh] flex items-center">
+        {/* 3D Background Layer for Flagship */}
+        <div className="absolute inset-0 z-0">
+          <Luxury3DScene />
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+        </div>
+
+        <div className="mx-auto max-w-7xl relative z-10">
+          {/* Eyebrow */}
           <Reveal delay={0}>
             <SectionEyebrow>Flagship Project</SectionEyebrow>
           </Reveal>
 
+          {/* Main Grid: Image + Content */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mt-12">
+            {/* Floating Image */}
             <Reveal direction="left" delay={0.1}>
-              <div className="relative h-96 md:h-[560px] rounded-2xl overflow-hidden shadow-luxe">
+              <div className="relative h-96 md:h-[500px] rounded-[40px] overflow-hidden shadow-luxe border border-white/5">
                 <FloatingImageScroll
                   src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg"
-                  alt="Prime Estate masterplan"
+                  alt="Prime Estate Luxury Interior"
                   className="h-full"
                   intensity={0.8}
                 />
               </div>
             </Reveal>
 
+            {/* Content */}
             <Reveal direction="right" delay={0.2}>
               <div className="space-y-8">
                 <motion.div
@@ -125,103 +59,58 @@ export function EnhancedDevelopersSection() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.3 }}
                 >
-                  <h2 className="typography-section-title text-ink mb-4">
-                    Prime Estate <br />
-                    <span className="text-bronze">Masterplan</span>
-                  </h2>
-                  <p className="typography-body text-gray-700 leading-relaxed">
-                    A masterfully planned residential plot colony at Dubagga, Lucknow - designed
-                    for those who want the freedom to build on their own terms in a location primed
-                    for significant growth.
+                  <SwipeReveal>
+                    <h2 className="typography-section-title text-white mb-4">
+                      Prime Estate <br />
+                      <span className="text-luxe-cyan italic font-serif">Luxury Living</span>
+                    </h2>
+                  </SwipeReveal>
+                  <p className="typography-body text-white/70 leading-relaxed font-light text-lg">
+                    Experience the pinnacle of luxury living in Lucknow's most coveted location.
+                    Prime Estate represents a new era of sophisticated urban development with
+                    world-class amenities and architectural excellence.
                   </p>
                 </motion.div>
 
+                {/* Key Features */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.8, delay: 0.4 }}
-                  className="grid grid-cols-2 gap-3"
+                  className="space-y-6 border-l-2 border-luxe-cyan pl-6"
                 >
-                  {projectStats.map((stat, idx) => (
+                  {[
+                    { title: "150+ Premium Plots", desc: "Carefully curated land parcels" },
+                    { title: "World-Class Amenities", desc: "Clubhouse, gardens, security" },
+                    { title: "Green Living", desc: "40% green space allocation" },
+                  ].map((feature, idx) => (
                     <motion.div
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
+                      key={feature.title}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: 0.45 + idx * 0.08 }}
-                      className="rounded-2xl border border-[var(--bronze)]/15 bg-white p-5 shadow-card"
+                      transition={{ delay: 0.5 + idx * 0.1 }}
                     >
-                      <p className="font-display text-3xl md:text-4xl gradient-bronze-text">
-                        {stat.value}
+                      <p className="font-semibold text-white text-sm md:text-base uppercase tracking-wider">
+                        {feature.title}
                       </p>
-                      <p className="mt-2 text-[11px] uppercase tracking-[0.25em] text-gray-500">
-                        {stat.label}
-                      </p>
+                      <p className="text-xs md:text-sm text-white/40 mt-1">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                  className="rounded-2xl border border-gray-100 bg-white/90 p-6 shadow-card"
-                >
-                  <p className="text-[11px] uppercase tracking-[0.25em] text-[var(--bronze)] mb-4">
-                    Premium Amenities
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {projectAmenities.map((amenity, idx) => (
-                      <motion.p
-                        key={amenity}
-                        initial={{ opacity: 0, x: -16 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.55 + idx * 0.04 }}
-                        className="text-sm text-gray-700 flex items-center gap-3"
-                      >
-                        <span className="h-2 w-2 rounded-full bg-[var(--bronze)]/70" />
-                        {amenity}
-                      </motion.p>
-                    ))}
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.7 }}
-                  className="rounded-2xl border border-[var(--bronze)]/20 bg-[var(--bronze)]/5 p-5"
-                >
-                  <p className="text-sm text-gray-700 leading-relaxed">
-                    All plots are <span className="font-semibold text-ink">Jila Panchayat Approved</span>{" "}
-                    with clear title deeds, structured layout planning, transparent pricing, and
-                    full legal documentation at every stage.
-                  </p>
-                </motion.div>
-
+                {/* CTA Button */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.8 }}
-                  className="flex flex-col sm:flex-row gap-4"
                 >
-                  <Link
-                    to="/contact"
-                    className="inline-flex items-center justify-center px-6 py-3 bg-[var(--bronze)] text-white font-semibold rounded-lg hover:opacity-90 transition-opacity duration-300"
-                  >
-                    Enquire Now
-                  </Link>
-                  <a
-                    href="tel:+919616061166"
-                    className="inline-flex items-center justify-center px-6 py-3 border border-[var(--bronze)]/40 text-[var(--bronze)] font-semibold rounded-lg hover:bg-[var(--bronze)]/10 transition-colors duration-300"
-                  >
-                    Schedule Visit
-                  </a>
+                  <button className="btn-magnetic btn-luxe px-10">
+                    Explore Prime Estate
+                    <span className="ml-3">→</span>
+                  </button>
                 </motion.div>
               </div>
             </Reveal>
@@ -229,103 +118,153 @@ export function EnhancedDevelopersSection() {
         </div>
       </section>
 
-      <section className="relative py-24 md:py-32 px-6 bg-white">
-        <div className="mx-auto max-w-7xl">
+      {/* Services Grid Section */}
+      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
+        <Section3DBackground opacity={0.2} />
+
+        <div className="mx-auto max-w-7xl relative z-10">
           <Reveal delay={0}>
-            <SectionEyebrow>What We Offer</SectionEyebrow>
+            <SectionEyebrow light>Our Services</SectionEyebrow>
           </Reveal>
 
-          <Reveal delay={0.1}>
-            <h2 className="typography-section-title text-center text-ink mt-8 mb-16">
-              Four Pillars of Our Expertise
+          <SwipeReveal className="flex justify-center">
+            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+              Comprehensive Real Estate{" "}
+              <em className="text-luxe-cyan italic font-serif">Mastery</em>
             </h2>
-          </Reveal>
+          </SwipeReveal>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
-            {serviceCards.map((service, idx) => (
-              <SlideInOnScroll key={service.title} direction={idx % 2 === 0 ? "up" : "down"} delay={idx * 0.12}>
-                <TiltCard3D intensity={10} className="h-[420px]">
-                  <Link
-                    to={service.to}
-                    className="group relative block overflow-hidden rounded-xl shadow-card hover:shadow-luxe transition-all duration-500 h-full"
-                  >
-                    <div className="absolute inset-0 overflow-hidden">
-                      <motion.img
-                        src={service.image}
-                        alt={service.title}
-                        className="w-full h-full object-cover"
-                        whileHover={{ scale: 1.08 }}
-                        transition={{ duration: 0.6 }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-transparent" />
-                    </div>
+          {/* Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {[
+              {
+                icon: "🏗️",
+                title: "Construction & Build",
+                desc: "End-to-end construction management with quality assurance at every stage.",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/construction-site-600x800.jpg",
+              },
+              {
+                icon: "📊",
+                title: "Investment Consulting",
+                desc: "Expert guidance on real estate investments with proven ROI strategies.",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/investment-consulting-600x800.jpg",
+              },
+              {
+                icon: "🎯",
+                title: "Plot Selling",
+                desc: "Premium plot selection in high-growth locations with transparent dealings.",
+                image:
+                  "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/plot-selling-600x800.jpg",
+              },
+            ].map((service, idx) => (
+              <SlideInOnScroll
+                key={service.title}
+                direction={idx % 2 === 0 ? "up" : "down"}
+                delay={idx * 0.15}
+              >
+                <motion.div
+                  whileHover={{ y: -12, scale: 1.02 }}
+                  className="group relative overflow-hidden rounded-[32px] shadow-card hover:shadow-luxe transition-all duration-500 h-[500px] border border-white/5"
+                >
+                  {/* Background Image */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <motion.img
+                      src={service.image}
+                      alt={service.title}
+                      className="w-full h-full object-cover brightness-50"
+                      whileHover={{ scale: 1.1, filter: "brightness(0.7)" }}
+                      transition={{ duration: 0.8 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+                  </div>
 
-                    <div className="relative h-full flex flex-col justify-end p-8 text-white">
-                      <p className="text-[11px] uppercase tracking-[0.3em] text-[var(--bronze)] mb-3">
-                        {service.num}
-                      </p>
-                      <h3 className="text-xl md:text-2xl font-semibold mb-3 group-hover:text-bronze transition-colors duration-300">
-                        {service.title}
-                      </h3>
-                      <p className="text-sm md:text-base text-white/90 leading-relaxed">
-                        {service.desc}
-                      </p>
+                  {/* Content */}
+                  <div className="relative h-full flex flex-col justify-end p-10 text-white">
+                    <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 origin-left">
+                      {service.icon}
                     </div>
-                  </Link>
-                </TiltCard3D>
+                    <h3 className="font-display text-2xl md:text-3xl mb-4 group-hover:text-luxe-cyan transition-colors duration-300">
+                      {service.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
+                      {service.desc}
+                    </p>
+                    <div className="mt-8 flex items-center gap-3 text-luxe-cyan text-[10px] uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                      View Expertise <span>→</span>
+                    </div>
+                  </div>
+                </motion.div>
               </SlideInOnScroll>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="relative py-24 md:py-32 px-6 bg-gradient-to-br from-ink via-ink/95 to-ink">
-        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-5 pointer-events-none">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-bronze rounded-full blur-3xl" />
+      {/* Why TrustOn Section */}
+      <section className="relative py-24 md:py-32 px-6 bg-background">
+        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-20 right-20 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px]" />
+          <div className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-luxe-cyan rounded-full blur-[120px]" />
         </motion.div>
 
         <div className="mx-auto max-w-6xl relative z-10">
           <BlurReveal>
-            <SectionEyebrow light>The Truston Difference</SectionEyebrow>
+            <SectionEyebrow>Why Choose TrustOn</SectionEyebrow>
           </BlurReveal>
 
           <BlurReveal>
-            <h2 className="typography-section-title text-center text-white mt-8 mb-6">
-              Why Buyers Choose Truston
+            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+              Elite Standard of <em className="text-luxe-cyan italic font-serif">Trust</em>
             </h2>
           </BlurReveal>
 
-          <BlurReveal>
-            <p className="max-w-3xl mx-auto text-center text-white/65 mb-16 leading-relaxed">
-              Five reasons why Lucknow's smartest investors trust us with their most important
-              decisions.
-            </p>
-          </BlurReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {trustPoints.map((point, idx) => (
+          {/* Trust Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+            {[
+              {
+                num: "01",
+                title: "Transparent Dealings",
+                desc: "Complete documentation, legal clarity, and zero hidden costs. Every transaction is documented and verified.",
+              },
+              {
+                num: "02",
+                title: "High-Growth Locations",
+                desc: "Strategic locations with proven infrastructure development and long-term appreciation potential.",
+              },
+              {
+                num: "03",
+                title: "Expert Guidance",
+                desc: "Our team of seasoned professionals provides personalized investment strategies tailored to your goals.",
+              },
+              {
+                num: "04",
+                title: "End-to-End Support",
+                desc: "From property selection to legal completion, we handle every aspect of your investment journey.",
+              },
+            ].map((pillar, idx) => (
               <motion.div
-                key={point.num}
+                key={pillar.num}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.12, duration: 0.8 }}
-                className={idx === trustPoints.length - 1 ? "md:col-span-2" : ""}
+                transition={{ delay: idx * 0.15, duration: 0.8 }}
+                className="group border-b border-white/5 pb-10"
               >
-                <div className="h-full rounded-2xl border border-white/10 bg-white/5 p-8 backdrop-blur-sm">
-                  <div className="flex gap-5">
-                    <span className="inline-flex items-center justify-center h-12 w-12 rounded-xl bg-bronze/15 text-bronze text-sm font-semibold tracking-[0.2em]">
-                      {point.num}
+                <div className="flex gap-8">
+                  <div className="flex-shrink-0">
+                    <span className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-luxe-blue/10 text-luxe-cyan text-2xl font-display group-hover:bg-luxe-blue group-hover:text-white transition-all duration-500 border border-luxe-cyan/20">
+                      {pillar.num}
                     </span>
-                    <div>
-                      <h3 className="text-lg md:text-xl font-semibold text-white mb-3">
-                        {point.title}
-                      </h3>
-                      <p className="text-sm md:text-base text-white/75 leading-relaxed">
-                        {point.desc}
-                      </p>
-                    </div>
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl text-white mb-3 group-hover:text-luxe-cyan transition-colors duration-300">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
+                      {pillar.desc}
+                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -334,30 +273,33 @@ export function EnhancedDevelopersSection() {
         </div>
       </section>
 
-      <section className="relative py-16 md:py-20 px-6 bg-gradient-to-r from-bronze to-blue-600">
-        <div className="mx-auto max-w-4xl text-center">
+      {/* CTA Strip */}
+      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-luxe-blue/20 to-luxe-cyan/20 opacity-30" />
+        <Section3DBackground opacity={0.15} />
+
+        <div className="mx-auto max-w-4xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-[11px] uppercase tracking-[0.3em] text-white/80 mb-4">
-              47 Plots Still Available - Prime Estate - Dubagga
-            </p>
-            <h3 className="text-2xl md:text-4xl font-bold text-white mb-6">
-              Ready to Build Your Legacy?
+            <h3 className="font-display text-4xl md:text-6xl text-white mb-8 tracking-tight">
+              Ready to Build Your <em className="text-luxe-cyan italic font-serif">Legacy?</em>
             </h3>
-            <p className="text-white/90 text-base md:text-lg mb-8 leading-relaxed">
-              Prices start at Rs 12 Lakhs with a clear, zero-pressure consultation from the team
-              behind Truston's flagship development.
+            <p className="text-white/50 text-lg md:text-xl mb-12 leading-relaxed font-light max-w-2xl mx-auto">
+              Join the elite circle of investors who have chosen TrustOn as their gateway to premium
+              real estate.
             </p>
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-bronze font-bold rounded-lg hover:bg-cream transition-all duration-300 shadow-lg hover:shadow-2xl"
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
+              className="btn-magnetic btn-luxe px-12 py-5"
             >
-              Explore Prime Estate
-            </Link>
+              Secure Your Future
+              <span className="ml-3">→</span>
+            </motion.button>
           </motion.div>
         </div>
       </section>

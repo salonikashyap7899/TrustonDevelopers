@@ -35,11 +35,21 @@ html {
   animation: fadeInScroll 0.8s ease-out forwards;
 }
 
-.stagger-item:nth-child(1) { animation-delay: 0.1s; }
-.stagger-item:nth-child(2) { animation-delay: 0.2s; }
-.stagger-item:nth-child(3) { animation-delay: 0.3s; }
-.stagger-item:nth-child(4) { animation-delay: 0.4s; }
-.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.stagger-item:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.stagger-item:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.stagger-item:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.stagger-item:nth-child(5) {
+  animation-delay: 0.5s;
+}
 
 /* Smooth scale animation on hover */
 .hover-scale {
@@ -52,8 +62,9 @@ html {
 
 /* Smooth color transition */
 .color-transition {
-  transition: color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition:
+    color 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* Parallax scroll effect */
@@ -71,13 +82,13 @@ html {
 }
 
 .underline-animation::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
   width: 0;
   height: 2px;
-  background-color: var(--bronze);
+  background-color: var(--luxe-blue);
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -228,7 +239,8 @@ html {
 }
 
 @keyframes pulseSmoothly {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -242,7 +254,8 @@ html {
 }
 
 @keyframes bounceSmoothly {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -256,11 +269,12 @@ html {
 }
 
 @keyframes glowSmoothly {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(45, 107, 196, 0.5);
+  0%,
+  100% {
+    box-shadow: 0 0 5px rgba(200, 150, 100, 0.5);
   }
   50% {
-    box-shadow: 0 0 20px rgba(45, 107, 196, 0.8);
+    box-shadow: 0 0 20px rgba(200, 150, 100, 0.8);
   }
 }
 
@@ -485,10 +499,10 @@ html {
 
 @keyframes textShadowSmooth {
   from {
-    text-shadow: 0 0 0 rgba(45, 107, 196, 0);
+    text-shadow: 0 0 0 rgba(200, 150, 100, 0);
   }
   to {
-    text-shadow: 0 10px 20px rgba(45, 107, 196, 0.3);
+    text-shadow: 0 10px 20px rgba(200, 150, 100, 0.3);
   }
 }
 
@@ -503,112 +517,5 @@ html {
   }
   to {
     filter: blur(0px) brightness(1);
-  }
-}
-
-/* ============================================
-   SOBHA-STYLE 3D EFFECTS
-   ============================================ */
-
-.sobha-card-3d {
-  transform-style: preserve-3d;
-  transition: box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.sobha-card-3d:hover {
-  box-shadow:
-    0 25px 60px rgba(45, 107, 196, 0.15),
-    0 10px 30px rgba(0, 0, 0, 0.08);
-}
-
-.sobha-gallery-card {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.sobha-gallery-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    transparent 40%,
-    rgba(59, 137, 232, 0.08) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.sobha-gallery-card:hover::after {
-  opacity: 1;
-}
-
-/* Ken Burns zoom for hero video */
-.ken-burns {
-  animation: kenBurns 20s ease-in-out infinite alternate;
-}
-
-@keyframes kenBurns {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.08); }
-}
-
-/* Horizontal scroll section */
-.sobha-horizontal-scroll {
-  display: flex;
-  gap: 2rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-}
-
-.sobha-horizontal-scroll::-webkit-scrollbar {
-  display: none;
-}
-
-.sobha-horizontal-scroll > * {
-  scroll-snap-align: start;
-  flex-shrink: 0;
-}
-
-/* Text depth shadow for large headlines */
-.text-depth-3d {
-  text-shadow:
-    0 1px 0 rgba(45, 107, 196, 0.3),
-    0 4px 12px rgba(0, 0, 0, 0.4),
-    0 20px 40px rgba(0, 0, 0, 0.2);
-}
-
-/* Floating animation for decorative elements */
-@keyframes float3d {
-  0%, 100% { transform: translateY(0) rotateX(0deg); }
-  50% { transform: translateY(-12px) rotateX(2deg); }
-}
-
-.float-3d {
-  animation: float3d 6s ease-in-out infinite;
-}
-
-/* Clip-path section reveal */
-.sobha-clip-reveal {
-  clip-path: inset(0 0 0 0);
-  animation: sobhaClipReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes sobhaClipReveal {
-  from { clip-path: inset(100% 0 0 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .ken-burns,
-  .float-3d,
-  .sobha-clip-reveal {
-    animation: none;
   }
 }

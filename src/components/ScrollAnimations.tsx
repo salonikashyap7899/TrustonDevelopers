@@ -187,7 +187,7 @@ export function SlideInOnScroll({
 export function HighlightText({
   children,
   className = "",
-  highlightColor = "var(--bronze)",
+  highlightColor = "var(--luxe-cyan)",
 }: {
   children: ReactNode;
   className?: string;
@@ -232,18 +232,15 @@ export function FloatingCard({
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [50 * intensity, -50 * intensity]);
-  const shadowBlur = useTransform(scrollYProgress, [0, 1], [20, 40]);
-  const shadowOpacity = useTransform(scrollYProgress, [0, 1], [0.1, 0.2]);
+  const scrollY = useTransform(scrollYProgress, [0, 1], [50 * intensity, -50 * intensity]);
 
   return (
     <motion.div
       ref={ref}
+      animate={{ y: [0, -8, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
       style={{
-        y,
-        boxShadow: shadowBlur.get
-          ? `0 ${shadowBlur.get()}px 40px rgba(0, 0, 0, ${shadowOpacity.get()})`
-          : "0 20px 40px rgba(0, 0, 0, 0.1)",
+        y: scrollY,
       }}
       className={`transition-shadow duration-300 ${className}`}
     >

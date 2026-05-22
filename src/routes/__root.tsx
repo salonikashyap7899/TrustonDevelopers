@@ -7,20 +7,18 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
+import { LuxeNav } from "@/components/LuxeNav";
 import { SobhaStyleNav } from "@/components/SobhaStyleNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
-import { CustomCursor } from "@/components/globals/CustomCursor";
-import { PageTransition } from "@/components/globals/PageTransition";
-import { Preloader } from "@/components/globals/Preloader";
+import { CursorGlow } from "@/components/CursorGlow";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import Lenis from "lenis";
 import { useEffect } from "react";
 
 import appCss from "../styles.css?url";
 import sobhaAnimationsCss from "../styles/sobha-animations.css?url";
-import luxuryPremiumCss from "../styles/luxury-premium.css?url";
 
 function NotFoundComponent() {
   return (
@@ -84,20 +82,19 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TrustOn - Premium Real Estate & Luxury Living" },
+      { title: "TrustOn — Premium Real Estate & Luxury Living" },
       {
         name: "description",
-        content: "Prime Estate by TrustOn - Jila Panchayat approved luxury township in Lucknow.",
+        content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
       },
       { name: "author", content: "TrustOn Developers" },
-      { property: "og:title", content: "TrustOn - Own the Ground. Build the Legacy." },
+      { property: "og:title", content: "TrustOn — Own the Ground. Build the Legacy." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: sobhaAnimationsCss },
-      { rel: "stylesheet", href: luxuryPremiumCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -152,14 +149,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ScrollProgressBar />
-      <CustomCursor />
-      <Preloader />
+      <CursorGlow />
       <IntroScreen />
       <SobhaStyleNav />
       <main className="min-h-screen">
-        <PageTransition>
-          <Outlet />
-        </PageTransition>
+        <Outlet />
       </main>
       <SiteFooter />
       <WhatsAppButton />

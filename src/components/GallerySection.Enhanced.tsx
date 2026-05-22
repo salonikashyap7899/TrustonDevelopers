@@ -1,7 +1,7 @@
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import { TiltCard3D } from "@/components/animations/TiltCard3D";
+import { Reveal, SectionEyebrow } from "./Reveal";
+import { Section3DBackground } from "./Section3DBackground";
 
 /**
  * Enhanced Gallery Section with floating images and scroll animations
@@ -55,14 +55,16 @@ export function EnhancedGallerySection() {
   ];
 
   return (
-    <section ref={ref} className="relative py-24 md:py-32 px-6 overflow-hidden bg-white">
+    <section ref={ref} className="relative py-24 md:py-32 px-6 overflow-hidden bg-background">
+      <Section3DBackground opacity={0.2} />
+
       {/* Background Parallax Effect */}
       <motion.div
         style={{ y: bgY, scale: bgScale }}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute top-0 right-0 w-96 h-96 bg-sand/40 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-sand/30 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-luxe-blue/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-luxe-cyan/5 rounded-full blur-3xl" />
       </motion.div>
 
       <div className="mx-auto max-w-7xl relative z-10">
@@ -72,67 +74,26 @@ export function EnhancedGallerySection() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <h2 className="typography-section-title text-center text-ink mt-8 mb-4">
-            Visual Excellence
+          <h2 className="font-display text-5xl md:text-7xl text-center text-white mt-8 mb-6 tracking-tight">
+            Visual <em className="text-luxe-cyan italic font-serif">Excellence</em>
           </h2>
-          <p className="text-center typography-body text-gray-600 max-w-2xl mx-auto mb-16">
+          <p className="text-center text-white/40 max-w-2xl mx-auto mb-20 font-light text-lg">
             Explore the architectural brilliance and natural beauty of Prime Estate through our
             curated collection of premium imagery.
           </p>
         </Reveal>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {galleryItems.map((item, idx) => (
-            <Reveal key={item.id} delay={idx * 0.1}>
-              <TiltCard3D intensity={8} className="h-80 md:h-96">
-                <motion.div
-                  onMouseEnter={() => setHoveredIndex(idx)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  className="group relative h-full rounded-xl overflow-hidden shadow-card hover:shadow-luxe transition-all duration-500 cursor-pointer sobha-gallery-card"
-                >
-                  {/* Image Container */}
-                  <div className="relative w-full h-full overflow-hidden">
-                    <motion.img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                      whileHover={{ scale: 1.12 }}
-                      transition={{ duration: 0.6 }}
-                    />
-
-                    {/* Overlay Gradient */}
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={hoveredIndex === idx ? { opacity: 1 } : { opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
-                    />
-                  </div>
-
-                  {/* Content Overlay */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={hoveredIndex === idx ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3 }}
-                    className="absolute inset-0 flex flex-col justify-end p-6 text-white"
-                  >
-                    <div className="inline-block mb-3">
-                      <span className="text-xs font-bold uppercase tracking-widest text-bronze bg-bronze/20 px-3 py-1 rounded-full">
-                        {item.category}
-                      </span>
-                    </div>
-                    <h3 className="text-xl md:text-2xl font-bold mb-2">{item.title}</h3>
-                    <p className="text-sm text-white/90 leading-relaxed">{item.description}</p>
-                  </motion.div>
-
-                  {/* Static Content */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white group-hover:opacity-0 transition-opacity duration-300">
-                    <h3 className="text-lg md:text-xl font-bold">{item.title}</h3>
-                  </div>
-                </motion.div>
-              </TiltCard3D>
-            </Reveal>
+            <GalleryCard
+              key={item.id}
+              item={item}
+              idx={idx}
+              isHovered={hoveredIndex === idx}
+              setHovered={() => setHoveredIndex(idx)}
+              clearHovered={() => setHoveredIndex(null)}
+            />
           ))}
         </div>
 
@@ -142,20 +103,124 @@ export function EnhancedGallerySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.8 }}
-          className="text-center mt-16"
+          className="text-center mt-24"
         >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-3 text-bronze font-bold text-sm md:text-base uppercase tracking-widest hover:gap-4 transition-all duration-300 border-2 border-bronze px-8 py-4 rounded-lg hover:bg-bronze/10"
-          >
+          <button className="btn-magnetic btn-luxe px-12">
             View Full Gallery
-            <motion.span animate={{ x: [0, 4, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-              →
-            </motion.span>
-          </motion.button>
+            <span className="ml-3">→</span>
+          </button>
         </motion.div>
       </div>
     </section>
+  );
+}
+
+interface GalleryCardProps {
+  item: {
+    id: number;
+    title: string;
+    category: string;
+    image: string;
+    description: string;
+  };
+  idx: number;
+  isHovered: boolean;
+  setHovered: () => void;
+  clearHovered: () => void;
+}
+
+function GalleryCard({ item, idx, isHovered, setHovered, clearHovered }: GalleryCardProps) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x);
+  const mouseYSpring = useSpring(y);
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    clearHovered();
+  };
+
+  return (
+    <Reveal delay={idx * 0.1}>
+      <motion.div
+        onMouseMove={handleMouseMove}
+        onMouseEnter={setHovered}
+        onMouseLeave={handleMouseLeave}
+        style={{
+          rotateX,
+          rotateY,
+          transformStyle: "preserve-3d",
+        }}
+        whileHover={{
+          y: -12,
+          scale: 1.03,
+        }}
+        className="group relative h-[450px] rounded-[32px] overflow-hidden shadow-luxe transition-all duration-500 cursor-none border border-white/5"
+      >
+        {/* Image Container */}
+        <div
+          className="relative w-full h-full overflow-hidden"
+          style={{ transform: "translateZ(20px)" }}
+        >
+          <motion.img
+            src={item.image}
+            alt={item.title}
+            className="w-full h-full object-cover brightness-75"
+            whileHover={{ scale: 1.15, filter: "brightness(0.5)" }}
+            transition={{ duration: 0.8 }}
+          />
+
+          {/* Overlay Gradient */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isHovered ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent"
+          />
+        </div>
+
+        {/* Content Overlay */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isHovered ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ duration: 0.4 }}
+          className="absolute inset-0 flex flex-col justify-end p-8 text-white"
+          style={{ transform: "translateZ(60px)" }}
+        >
+          <div className="inline-block mb-4">
+            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-luxe-cyan bg-luxe-blue/20 px-4 py-1.5 rounded-full border border-luxe-cyan/20">
+              {item.category}
+            </span>
+          </div>
+          <h3 className="font-display text-3xl mb-3 tracking-tight">{item.title}</h3>
+          <p className="text-sm text-white/50 leading-relaxed font-light">{item.description}</p>
+        </motion.div>
+
+        {/* Static Content */}
+        <div
+          className="absolute bottom-0 left-0 right-0 p-8 text-white group-hover:opacity-0 transition-opacity duration-300"
+          style={{ transform: "translateZ(40px)" }}
+        >
+          <h3 className="font-display text-2xl tracking-tight">{item.title}</h3>
+        </div>
+      </motion.div>
+    </Reveal>
   );
 }

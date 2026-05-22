@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({ meta: [{ title: "Admin — TrustOn" }, { name: "robots", content: "noindex" }] }),
@@ -22,60 +23,96 @@ function AdminPage() {
 
   if (loading || !user || !isAdmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-foreground/60">
-        Loading…
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground/60">
+        <motion.div
+          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="text-luxe-cyan font-serif text-2xl italic"
+        >
+          TrustOn Secure Access...
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <main className="min-h-screen bg-cream">
-      <header className="border-b border-border bg-white">
-        <div className="mx-auto max-w-7xl px-6 py-5 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-bronze text-2xl font-serif italic">Trust</span>
-            <span className="text-ink text-2xl font-serif">On</span>
-            <span className="ml-3 text-[11px] uppercase tracking-luxe text-bronze">Admin</span>
+    <main className="min-h-screen bg-ink text-white selection:bg-luxe-cyan selection:text-ink">
+      {/* Cinematic Background */}
+      <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-luxe-cyan rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
+      </div>
+
+      <header className="relative z-10 glass-premium border-b border-white/5">
+        <div className="mx-auto max-w-7xl px-6 py-6 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 group">
+            <span className="text-white text-2xl font-display group-hover:scale-110 transition-transform duration-500">
+              TrustOn
+            </span>
+            <div className="h-4 w-px bg-white/20 mx-2" />
+            <span className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan font-bold">
+              Empire Control
+            </span>
           </Link>
-          <div className="flex items-center gap-4">
+
+          <div className="flex items-center gap-6">
             <Link
               to="/"
-              className="text-xs uppercase tracking-luxe text-foreground/70 hover:text-bronze"
+              className="text-[10px] uppercase tracking-widest text-white/50 hover:text-luxe-cyan transition-colors font-bold"
             >
-              View site
+              Live Site
             </Link>
             <button
               onClick={async () => {
                 await supabase.auth.signOut();
                 navigate({ to: "/admin/login" });
               }}
-              className="text-xs uppercase tracking-luxe bronze-border rounded-full px-4 py-2 text-bronze hover:bg-bronze hover:text-cream transition-colors"
+              className="text-[10px] uppercase tracking-widest bg-white/5 hover:bg-luxe-cyan hover:text-ink border border-white/10 px-6 py-2.5 rounded-full transition-all duration-500 font-bold"
             >
               Sign out
             </button>
           </div>
         </div>
-        <nav className="mx-auto max-w-7xl px-6 flex gap-1">
+
+        <nav className="mx-auto max-w-7xl px-6 flex gap-2">
           {(["content", "media", "submissions"] as const).map((t) => (
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`px-5 py-3 text-[11px] uppercase tracking-luxe border-b-2 transition-colors ${
-                tab === t
-                  ? "border-bronze text-bronze"
-                  : "border-transparent text-foreground/60 hover:text-foreground"
+              className={`relative px-8 py-5 text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
+                tab === t ? "text-luxe-cyan" : "text-white/30 hover:text-white"
               }`}
             >
-              {t === "content" ? "Page Content" : t === "media" ? "Media Library" : "Submissions"}
+              {t === "content"
+                ? "Global Architecture"
+                : t === "media"
+                  ? "Cinematic Assets"
+                  : "Investor Portfolio"}
+              {tab === t && (
+                <motion.div
+                  layoutId="admin-tab"
+                  className="absolute bottom-0 left-0 right-0 h-1 bg-luxe-cyan"
+                />
+              )}
             </button>
           ))}
         </nav>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-10">
-        {tab === "content" && <ContentPanel />}
-        {tab === "media" && <MediaPanel />}
-        {tab === "submissions" && <SubmissionsPanel />}
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={tab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {tab === "content" && <ContentPanel />}
+            {tab === "media" && <MediaPanel />}
+            {tab === "submissions" && <SubmissionsPanel />}
+          </motion.div>
+        </AnimatePresence>
       </div>
     </main>
   );
@@ -106,7 +143,7 @@ function ContentPanel() {
     }
   };
   useEffect(() => {
-    load(); /* eslint-disable-next-line */
+    load();
   }, []);
 
   const current = rows.find((r) => r.key === selected);
@@ -124,7 +161,7 @@ function ContentPanel() {
       .eq("id", current.id);
     setBusy(false);
     if (error) return toast.error(error.message);
-    toast.success("Saved");
+    toast.success("Empire architecture updated");
     load();
   };
 
@@ -132,7 +169,6 @@ function ContentPanel() {
     ? Object.keys({
         eyebrow: "",
         title: "",
-        title_accent: "",
         subtitle: "",
         image_url: "",
         video_url: "",
@@ -141,42 +177,50 @@ function ContentPanel() {
     : [];
 
   return (
-    <div className="grid md:grid-cols-[260px_1fr] gap-8">
-      <aside className="space-y-1">
-        <p className="text-[10px] uppercase tracking-luxe text-foreground/50 mb-3 px-3">
-          Content blocks
+    <div className="grid lg:grid-cols-[350px_1fr] gap-16">
+      <aside className="space-y-3">
+        <p className="text-[10px] uppercase tracking-[0.5em] text-luxe-cyan/40 mb-10 px-6 font-bold">
+          System Modules
         </p>
         {rows.map((r) => (
           <button
             key={r.id}
             onClick={() => setSelected(r.key)}
-            className={`w-full text-left px-3 py-2.5 rounded-sm text-sm transition-colors ${
-              selected === r.key ? "bg-ink text-cream" : "hover:bg-white text-foreground/80"
+            className={`w-full text-left px-8 py-6 rounded-3xl text-sm transition-all duration-500 border ${
+              selected === r.key
+                ? "bg-luxe-cyan text-ink border-luxe-cyan shadow-luxe"
+                : "bg-white/5 text-white/50 border-white/5 hover:bg-white/10"
             }`}
           >
-            <div className="font-serif">{r.label}</div>
-            <div className="text-[10px] opacity-60 uppercase tracking-wider">{r.key}</div>
+            <div className="font-display text-xl">{r.label}</div>
+            <div
+              className={`text-[9px] uppercase tracking-widest mt-2 font-bold ${selected === r.key ? "text-ink/60" : "text-white/20"}`}
+            >
+              {r.key}
+            </div>
           </button>
         ))}
       </aside>
 
       {current ? (
-        <section className="bg-white card-shadow rounded-md p-8">
-          <div className="flex items-center justify-between mb-6">
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <div className="flex items-center justify-between mb-12 pb-12 border-b border-white/5">
             <div>
-              <p className="text-[11px] uppercase tracking-luxe text-bronze">{current.key}</p>
-              <h2 className="font-display text-2xl mt-1">{current.label}</h2>
+              <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-3 font-bold">
+                {current.key}
+              </p>
+              <h2 className="font-display text-5xl text-white tracking-tight">{current.label}</h2>
             </div>
             <button
               onClick={save}
               disabled={busy}
-              className="bg-ink text-cream px-5 py-2.5 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors disabled:opacity-60"
+              className="bg-luxe-cyan text-ink px-12 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 active:scale-95 transition-all duration-500 disabled:opacity-50"
             >
-              {busy ? "Saving…" : "Save changes"}
+              {busy ? "Syncing..." : "Update Asset"}
             </button>
           </div>
 
-          <div className="space-y-5">
+          <div className="grid gap-10">
             {fields.map((k) => (
               <Field
                 key={k}
@@ -185,11 +229,17 @@ function ContentPanel() {
                 onChange={(v) => setDraft({ ...draft, [k]: v })}
               />
             ))}
-            <AddField onAdd={(k) => setDraft({ ...draft, [k]: "" })} />
+            <div className="pt-12 mt-12 border-t border-white/5">
+              <AddField onAdd={(k) => setDraft({ ...draft, [k]: "" })} />
+            </div>
           </div>
         </section>
       ) : (
-        <p className="text-foreground/60">Select a content block.</p>
+        <div className="flex items-center justify-center h-[500px] border border-dashed border-white/10 rounded-[40px]">
+          <p className="text-white/20 uppercase tracking-[0.4em] text-[12px] font-bold">
+            Select a module to architect
+          </p>
+        </div>
       )}
     </div>
   );
@@ -207,50 +257,55 @@ function Field({
   const isMedia = name.includes("image_url") || name.includes("video_url");
   const isLong =
     name === "subtitle" || name === "body" || (typeof value === "string" && value.length > 80);
+
   return (
-    <div>
-      <label className="text-[11px] uppercase tracking-luxe text-foreground/70 flex items-center gap-2">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
+      <label className="text-[10px] uppercase tracking-[0.3em] text-white/30 flex items-center gap-3 font-bold">
         {name.replace(/_/g, " ")}
-        {isMedia && <span className="text-bronze">(paste URL from Media Library)</span>}
+        {isMedia && <span className="text-luxe-cyan opacity-80">(Media Asset)</span>}
       </label>
+
       {isLong ? (
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          rows={3}
-          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+          rows={5}
+          className="w-full bg-white/[0.03] border border-white/10 rounded-[24px] px-8 py-6 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light text-lg"
         />
       ) : (
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="mt-2 w-full border border-border rounded-sm px-4 py-3 bg-cream focus:outline-none focus:border-bronze"
+          className="w-full bg-white/[0.03] border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light text-lg"
         />
       )}
-      {isMedia &&
-        value &&
-        (value.match(/\.(mp4|webm|mov)$/i) ? (
-          <video src={value} className="mt-2 max-h-32 rounded-sm" muted />
-        ) : (
-          <img src={value} alt="" className="mt-2 max-h-32 rounded-sm" />
-        ))}
-    </div>
+
+      {isMedia && value && (
+        <div className="mt-6 rounded-[32px] overflow-hidden border border-white/5 bg-black/40 p-3 shadow-luxe">
+          {value.match(/\.(mp4|webm|mov)$/i) ? (
+            <video src={value} className="max-h-64 w-auto rounded-2xl" muted controls />
+          ) : (
+            <img src={value} alt="" className="max-h-64 w-auto rounded-2xl" />
+          )}
+        </div>
+      )}
+    </motion.div>
   );
 }
 
 function AddField({ onAdd }: { onAdd: (k: string) => void }) {
   const [name, setName] = useState("");
   return (
-    <div className="flex items-end gap-3 pt-4 border-t border-border">
+    <div className="flex items-end gap-6">
       <div className="flex-1">
-        <label className="text-[10px] uppercase tracking-luxe text-foreground/50">
-          Add custom field
+        <label className="text-[10px] uppercase tracking-[0.4em] text-white/20 mb-4 block font-bold">
+          New Schema Property
         </label>
         <input
           value={name}
           onChange={(e) => setName(e.target.value.replace(/[^a-z0-9_]/gi, "_").toLowerCase())}
-          placeholder="e.g. cta_label"
-          className="mt-2 w-full border border-border rounded-sm px-4 py-2 bg-cream focus:outline-none focus:border-bronze text-sm"
+          placeholder="e.g. section_glow_intensity"
+          className="w-full bg-white/[0.03] border border-white/5 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/30 transition-colors text-sm font-light"
         />
       </div>
       <button
@@ -261,9 +316,9 @@ function AddField({ onAdd }: { onAdd: (k: string) => void }) {
             setName("");
           }
         }}
-        className="bronze-border text-bronze px-4 py-2 rounded-full text-[11px] uppercase tracking-luxe"
+        className="px-10 py-4 bg-white/5 hover:bg-luxe-cyan hover:text-ink text-luxe-cyan border border-luxe-cyan/20 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-500"
       >
-        Add
+        Append
       </button>
     </div>
   );
@@ -322,7 +377,7 @@ function MediaPanel() {
         });
         if (insErr) throw insErr;
       }
-      toast.success("Uploaded");
+      toast.success("Cinematic assets integrated");
       load();
     } catch (e) {
       toast.error((e as Error).message);
@@ -332,20 +387,21 @@ function MediaPanel() {
   };
 
   const remove = async (m: MediaRow) => {
-    if (!confirm(`Delete ${m.name}?`)) return;
-    await supabase.storage.from("site-media").remove([m.storage_path]);
-    const { error } = await supabase.from("media").delete().eq("id", m.id);
-    if (error) return toast.error(error.message);
-    toast.success("Deleted");
+    if (!confirm("Are you sure you want to remove this cinematic asset?")) return;
+    const { error: stErr } = await supabase.storage.from("site-media").remove([m.storage_path]);
+    if (stErr) return toast.error(stErr.message);
+    const { error: dbErr } = await supabase.from("media").delete().eq("id", m.id);
+    if (dbErr) return toast.error(dbErr.message);
+    toast.success("Asset removed from library");
     load();
   };
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-display text-2xl">Media library</h2>
-        <label className="bg-ink text-cream px-5 py-2.5 rounded-full text-[11px] uppercase tracking-luxe hover:bg-bronze transition-colors cursor-pointer">
-          {uploading ? "Uploading…" : "Upload images / videos"}
+      <div className="flex items-center justify-between mb-16">
+        <h2 className="font-display text-5xl text-white tracking-tight">Cinematic Vault</h2>
+        <label className="bg-luxe-cyan text-ink px-10 py-4 rounded-full text-[10px] uppercase tracking-[0.4em] font-bold hover:scale-105 transition-all duration-500 cursor-pointer shadow-luxe">
+          {uploading ? "Ingesting..." : "Upload New Assets"}
           <input
             type="file"
             multiple
@@ -356,43 +412,50 @@ function MediaPanel() {
           />
         </label>
       </div>
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
         {items.map((m) => (
-          <div key={m.id} className="bg-white card-shadow rounded-md overflow-hidden">
-            <div className="aspect-video bg-sand flex items-center justify-center overflow-hidden">
+          <motion.div
+            key={m.id}
+            layout
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="group glass-premium rounded-[32px] overflow-hidden border border-white/5"
+          >
+            <div className="aspect-[16/10] bg-white/5 flex items-center justify-center overflow-hidden">
               {m.type === "video" ? (
-                <video src={m.url} className="w-full h-full object-cover" muted />
+                <video src={m.url} className="w-full h-full object-cover brightness-75" muted />
               ) : (
-                <img src={m.url} alt={m.name} className="w-full h-full object-cover" />
+                <img
+                  src={m.url}
+                  alt={m.name}
+                  className="w-full h-full object-cover group-hover:scale-115 transition-transform duration-[3s] brightness-75"
+                />
               )}
             </div>
-            <div className="p-3">
-              <p className="text-xs truncate font-serif">{m.name}</p>
-              <div className="flex items-center gap-2 mt-2">
+            <div className="p-8">
+              <p className="text-[11px] truncate font-bold text-white/40 mb-6 uppercase tracking-widest">
+                {m.name}
+              </p>
+              <div className="flex gap-3">
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(m.url);
-                    toast.success("URL copied");
+                    toast.success("Path copied to clipboard");
                   }}
-                  className="flex-1 text-[10px] uppercase tracking-luxe text-bronze bronze-border rounded-full px-2 py-1"
+                  className="flex-1 text-[10px] uppercase tracking-widest text-luxe-cyan bg-white/5 hover:bg-luxe-cyan hover:text-ink border border-luxe-cyan/20 rounded-full py-3 transition-all font-bold"
                 >
-                  Copy URL
+                  Copy Path
                 </button>
                 <button
                   onClick={() => remove(m)}
-                  className="text-[10px] uppercase tracking-luxe text-destructive border border-destructive/40 rounded-full px-2 py-1 hover:bg-destructive hover:text-cream"
+                  className="px-5 text-[10px] uppercase tracking-widest text-white/20 hover:text-destructive transition-colors font-bold"
                 >
-                  ×
+                  Delete
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-        {!items.length && (
-          <p className="text-foreground/60 col-span-full">
-            No media yet — upload your first image or video.
-          </p>
-        )}
       </div>
     </div>
   );
@@ -423,39 +486,63 @@ function SubmissionsPanel() {
     load();
   }, []);
 
-  const del = async (id: string) => {
-    if (!confirm("Delete this submission?")) return;
+  const remove = async (id: string) => {
+    if (!confirm("Archive this investor lead?")) return;
     const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
     if (error) return toast.error(error.message);
+    toast.success("Lead archived");
     load();
   };
 
   return (
     <div>
-      <h2 className="font-display text-2xl mb-6">Contact submissions</h2>
-      <div className="space-y-3">
+      <h2 className="font-display text-5xl text-white mb-16 tracking-tight">
+        Exclusive Investor Intel
+      </h2>
+      <div className="grid gap-8">
         {items.map((s) => (
-          <article key={s.id} className="bg-white card-shadow rounded-md p-5">
-            <div className="flex items-start justify-between gap-4">
+          <motion.article
+            key={s.id}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="glass-premium rounded-[40px] p-12 border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 shadow-luxe"
+          >
+            <div className="flex items-start justify-between">
               <div>
-                <p className="font-serif text-lg">{s.name}</p>
-                <p className="text-xs text-foreground/60">
-                  {[s.email, s.phone].filter(Boolean).join(" · ")} ·{" "}
-                  {new Date(s.created_at).toLocaleString()}
-                  {s.source ? ` · ${s.source}` : ""}
-                </p>
+                <p className="font-display text-3xl text-white mb-4 tracking-tight">{s.name}</p>
+                <div className="flex flex-wrap gap-6 text-[11px] uppercase tracking-[0.2em] text-white/30 font-bold">
+                  <span className="text-luxe-cyan">{s.email}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
+                  <span className="text-luxe-cyan">{s.phone}</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
+                  <span>{new Date(s.created_at).toLocaleString()}</span>
+                  {s.source && (
+                    <>
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
+                      <span className="text-luxe-cyan/60">{s.source}</span>
+                    </>
+                  )}
+                </div>
               </div>
               <button
-                onClick={() => del(s.id)}
-                className="text-xs text-destructive hover:underline"
+                onClick={() => remove(s.id)}
+                className="text-[10px] uppercase tracking-widest text-white/20 hover:text-destructive transition-colors font-bold"
               >
-                Delete
+                Archive Lead
               </button>
             </div>
-            <p className="mt-3 text-foreground/80 whitespace-pre-wrap">{s.message}</p>
-          </article>
+            <p className="mt-10 text-white/60 text-lg font-light leading-relaxed max-w-5xl border-t border-white/5 pt-10">
+              {s.message}
+            </p>
+          </motion.article>
         ))}
-        {!items.length && <p className="text-foreground/60">No submissions yet.</p>}
+        {!items.length && (
+          <div className="flex flex-col items-center justify-center py-32 border border-dashed border-white/5 rounded-[40px]">
+            <p className="text-white/20 uppercase tracking-[0.5em] text-sm font-bold">
+              Awaiting Investor Engagement
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

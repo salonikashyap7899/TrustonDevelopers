@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
-export const ensureFirstAdmin = (createServerFn({ method: "POST" }) as any)
+export const ensureFirstAdmin = createServerFn({ method: "POST" })
   .validator((userId: unknown) => {
     if (typeof userId !== "string" || !userId) throw new Error("Invalid userId");
     return userId;
