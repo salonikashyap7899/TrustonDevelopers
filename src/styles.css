@@ -94,26 +94,24 @@
   }
 
   /* GPU acceleration for animated elements - optimized for smoothness */
-  [class*="motion"],
-  .scroll-progress-bar,
   video,
-  .fixed,
-  [data-framer-motion-optimized] {
+  .fixed video {
     will-change: transform;
     transform: translateZ(0);
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    contain: layout style paint;
   }
 
-  /* Reduce repaints for fixed elements */
-  .fixed video {
-    contain: strict;
-  }
-
-  /* Optimize transitions */
-  * {
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   body {

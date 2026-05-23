@@ -23,7 +23,6 @@ import {
   TrustonWhySection, 
   TrustonCTAStrip 
 } from "@/components/TrustonDevelopersSection";
-import { ImageTrailGallery } from "@/components/ImageTrailGallery";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -192,9 +191,6 @@ function Index() {
 
       {/* Enhanced Developers Section with Floating Images */}
       <EnhancedDevelopersSection />
-
-      {/* Image Trail Gallery Section */}
-      <ImageTrailGallery />
 
       {/* Wealth Calculator */}
       <WealthCalculator />

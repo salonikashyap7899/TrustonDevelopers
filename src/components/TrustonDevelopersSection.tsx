@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Reveal, SectionEyebrow } from './Reveal';
+import { Reveal } from './Reveal';
 import { Section3DBackground } from './Section3DBackground';
 import { Link } from '@tanstack/react-router';
 
@@ -29,13 +29,13 @@ export function TrustonWhoWeAreSection() {
   ];
 
   const stats = [
-    { num: '120+', label: 'Total Plots' },
-    { num: '47', label: 'Still Available' },
-    { num: '12L+', label: 'Starting Price' },
+    { num: '120', sup: '+', label: 'Total Plots' },
+    { num: '47', sup: '', label: 'Still Available' },
+    { num: '₹12', sup: 'L+', label: 'Starting Price' },
   ];
 
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden">
+    <section className="relative overflow-hidden">
       {/* White Card with rounded top */}
       <div className="bg-[#F8F5EE] text-[#1A1810] rounded-t-[24px] md:rounded-t-[48px] -mt-16 relative z-10">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-24">
@@ -125,19 +125,8 @@ export function TrustonWhoWeAreSection() {
               {stats.map((stat) => (
                 <div key={stat.label} className="bg-[#F8F5EE] py-8 md:py-12 text-center">
                   <p className="font-serif text-4xl md:text-6xl font-light text-[#1A1810] mb-2">
-                    {stat.num.includes('+') ? (
-                      <>
-                        {stat.num.replace('+', '')}
-                        <sup className="text-xl md:text-2xl text-[#004aad]">+</sup>
-                      </>
-                    ) : stat.num.includes('L') ? (
-                      <>
-                        {stat.num.replace('L+', '')}
-                        <sup className="text-xl md:text-2xl text-[#004aad]">L+</sup>
-                      </>
-                    ) : (
-                      stat.num
-                    )}
+                    {stat.num}
+                    {stat.sup && <sup className="text-xl md:text-2xl text-[#004aad]">{stat.sup}</sup>}
                   </p>
                   <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-[#8A8578]">
                     {stat.label}
@@ -150,13 +139,15 @@ export function TrustonWhoWeAreSection() {
           {/* Explore Website Button */}
           <Reveal delay={0.5}>
             <div className="flex justify-center mt-12">
-              <Link
-                to="/"
+              <a
+                href="https://trustondevelopers.com"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-4 border border-[#004aad] text-[#004aad] px-10 py-4 text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#004aad] hover:text-white transition-all duration-500 rounded-full"
               >
                 <span>Explore Website</span>
                 <span className="text-lg">→</span>
-              </Link>
+              </a>
             </div>
           </Reveal>
         </div>
@@ -174,28 +165,24 @@ export function TrustonServicesSection() {
       num: '01',
       name: 'Plot Selling',
       desc: 'Residential land parcels in Lucknow\'s high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.',
-      link: '/plot-selling',
       linkText: 'Explore Plots',
     },
     {
       num: '02',
       name: 'Construction',
       desc: 'Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.',
-      link: '/construction-build',
       linkText: 'Build With Us',
     },
     {
       num: '03',
       name: 'Investment Consultancy',
       desc: 'Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow\'s real estate landscape.',
-      link: '/investment-consulting',
       linkText: 'Grow Your Assets',
     },
     {
       num: '04',
       name: 'Architecture & Design',
       desc: 'In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.',
-      link: '/architecture-design',
       linkText: 'Design Your Space',
     },
   ];
@@ -231,10 +218,7 @@ export function TrustonServicesSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#1A1810]/10">
           {services.map((service, idx) => (
             <Reveal key={service.num} delay={idx * 0.1}>
-              <motion.div
-                whileHover={{ backgroundColor: '#F0ECE2' }}
-                className="bg-[#F8F5EE] p-8 relative overflow-hidden group cursor-pointer h-full"
-              >
+              <div className="bg-[#F8F5EE] p-8 relative overflow-hidden group cursor-pointer h-full hover:bg-[#F0ECE2] transition-colors duration-300">
                 {/* Background Number */}
                 <span className="absolute top-2 right-4 font-serif text-[6rem] font-light text-[#1A1810]/5 leading-none select-none pointer-events-none">
                   {service.num}
@@ -287,13 +271,10 @@ export function TrustonServicesSection() {
                 <p className="text-sm text-[#8A8578] leading-relaxed mb-6">
                   {service.desc}
                 </p>
-                <Link
-                  to={service.link}
-                  className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#004aad] font-medium group-hover:gap-4 transition-all duration-300"
-                >
+                <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#004aad] font-medium group-hover:gap-4 transition-all duration-300">
                   {service.linkText} <span>→</span>
-                </Link>
-              </motion.div>
+                </span>
+              </div>
             </Reveal>
           ))}
         </div>
@@ -375,10 +356,7 @@ export function TrustonWhySection() {
           <div>
             {reasons.map((reason, idx) => (
               <Reveal key={reason.num} delay={0.1 + idx * 0.1}>
-                <motion.div
-                  whileHover={{ paddingLeft: '1rem' }}
-                  className={`py-8 ${idx === 0 ? 'border-t' : ''} border-b border-white/5 grid grid-cols-[3rem_1fr] gap-6 cursor-default transition-all duration-300`}
-                >
+                <div className={`py-8 ${idx === 0 ? 'border-t' : ''} border-b border-white/5 grid grid-cols-[3rem_1fr] gap-6 cursor-default hover:pl-4 transition-all duration-300`}>
                   <span className="text-xs text-luxe-cyan tracking-wide font-light">
                     {reason.num}
                   </span>
@@ -390,7 +368,7 @@ export function TrustonWhySection() {
                       {reason.text}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               </Reveal>
             ))}
           </div>
