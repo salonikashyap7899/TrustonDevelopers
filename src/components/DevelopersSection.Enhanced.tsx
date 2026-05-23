@@ -23,50 +23,50 @@ export function EnhancedDevelopersSection() {
   return (
     <div ref={ref} className="relative overflow-hidden bg-background">
       {/* Prime Estate Flagship Section */}
-      <section className="relative py-24 md:py-32 px-6 min-h-[80vh] flex items-center">
-        {/* 3D Background Layer for Flagship */}
+      <section className="relative py-16 md:py-24 lg:py-32 px-4 md:px-6 min-h-[70vh] md:min-h-[80vh] flex items-center">
+        {/* Background Layer */}
         <div className="absolute inset-0 z-0">
           <Luxury3DScene />
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
         </div>
 
-        <div className="mx-auto max-w-7xl relative z-10">
+        <div className="mx-auto max-w-7xl relative z-10 w-full">
           {/* Eyebrow */}
           <Reveal delay={0}>
             <SectionEyebrow>Flagship Project</SectionEyebrow>
           </Reveal>
 
           {/* Main Grid: Image + Content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center mt-12">
-            {/* Floating Image */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center mt-8 md:mt-12">
+            {/* Image */}
             <Reveal direction="left" delay={0.1}>
-              <div className="relative h-96 md:h-[500px] rounded-[40px] overflow-hidden shadow-luxe border border-white/5">
+              <div className="relative h-72 sm:h-80 md:h-96 lg:h-[500px] rounded-2xl md:rounded-[40px] overflow-hidden shadow-2xl border border-white/5">
                 <FloatingImageScroll
                   src="https://truston.advrtisinguru.com/wp-content/uploads/2026/04/luxury-interior-design-600x800.jpg"
                   alt="Prime Estate Luxury Interior"
                   className="h-full"
-                  intensity={0.8}
+                  intensity={0.5}
                 />
               </div>
             </Reveal>
 
             {/* Content */}
             <Reveal direction="right" delay={0.2}>
-              <div className="space-y-8">
+              <div className="space-y-6 md:space-y-8">
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.3 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
                 >
                   <SwipeReveal>
-                    <h2 className="typography-section-title text-white mb-4">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display text-white mb-3 md:mb-4">
                       Prime Estate <br />
                       <span className="text-luxe-cyan italic font-serif">Luxury Living</span>
                     </h2>
                   </SwipeReveal>
-                  <p className="typography-body text-white/70 leading-relaxed font-light text-lg">
-                    Experience the pinnacle of luxury living in Lucknow's most coveted location.
+                  <p className="text-white/60 leading-relaxed font-light text-sm md:text-base lg:text-lg">
+                    Experience the pinnacle of luxury living in Lucknow&apos;s most coveted location.
                     Prime Estate represents a new era of sophisticated urban development with
                     world-class amenities and architectural excellence.
                   </p>
@@ -77,8 +77,8 @@ export function EnhancedDevelopersSection() {
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                  className="space-y-6 border-l-2 border-luxe-cyan pl-6"
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="space-y-4 md:space-y-6 border-l-2 border-luxe-cyan pl-4 md:pl-6"
                 >
                   {[
                     { title: "150+ Premium Plots", desc: "Carefully curated land parcels" },
@@ -90,26 +90,26 @@ export function EnhancedDevelopersSection() {
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
-                      transition={{ delay: 0.5 + idx * 0.1 }}
+                      transition={{ delay: 0.4 + idx * 0.1 }}
                     >
-                      <p className="font-semibold text-white text-sm md:text-base uppercase tracking-wider">
+                      <p className="font-semibold text-white text-xs md:text-sm uppercase tracking-wider">
                         {feature.title}
                       </p>
-                      <p className="text-xs md:text-sm text-white/40 mt-1">{feature.desc}</p>
+                      <p className="text-[10px] md:text-xs text-white/40 mt-1">{feature.desc}</p>
                     </motion.div>
                   ))}
                 </motion.div>
 
                 {/* CTA Button */}
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.8 }}
+                  transition={{ delay: 0.5 }}
                 >
-                  <button className="btn-magnetic btn-luxe px-10">
+                  <button className="btn-magnetic btn-luxe px-6 md:px-10 py-3 md:py-4 text-[10px] md:text-xs">
                     Explore Prime Estate
-                    <span className="ml-3">→</span>
+                    <span className="ml-2 md:ml-3">→</span>
                   </button>
                 </motion.div>
               </div>
@@ -119,8 +119,8 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* Services Grid Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
-        <Section3DBackground opacity={0.2} />
+      <section className="relative py-16 md:py-24 lg:py-32 px-4 md:px-6 bg-ink overflow-hidden">
+        <Section3DBackground opacity={0.15} />
 
         <div className="mx-auto max-w-7xl relative z-10">
           <Reveal delay={0}>
@@ -128,14 +128,14 @@ export function EnhancedDevelopersSection() {
           </Reveal>
 
           <SwipeReveal className="flex justify-center">
-            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-center text-white mt-6 md:mt-8 mb-12 md:mb-20 tracking-tight">
               Comprehensive Real Estate{" "}
               <em className="text-luxe-cyan italic font-serif">Mastery</em>
             </h2>
           </SwipeReveal>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10">
             {[
               {
                 icon: "🏗️",
@@ -162,36 +162,35 @@ export function EnhancedDevelopersSection() {
               <SlideInOnScroll
                 key={service.title}
                 direction={idx % 2 === 0 ? "up" : "down"}
-                delay={idx * 0.15}
+                delay={idx * 0.1}
               >
                 <motion.div
-                  whileHover={{ y: -12, scale: 1.02 }}
-                  className="group relative overflow-hidden rounded-[32px] shadow-card hover:shadow-luxe transition-all duration-500 h-[500px] border border-white/5"
+                  whileHover={{ y: -8, scale: 1.01 }}
+                  className="group relative overflow-hidden rounded-2xl md:rounded-[32px] shadow-xl hover:shadow-2xl transition-all duration-500 h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px] border border-white/5"
                 >
                   {/* Background Image */}
                   <div className="absolute inset-0 overflow-hidden">
-                    <motion.img
+                    <img
                       src={service.image}
                       alt={service.title}
-                      className="w-full h-full object-cover brightness-50"
-                      whileHover={{ scale: 1.1, filter: "brightness(0.7)" }}
-                      transition={{ duration: 0.8 }}
+                      loading="lazy"
+                      className="w-full h-full object-cover brightness-50 group-hover:scale-105 group-hover:brightness-[0.6] transition-all duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-transparent" />
                   </div>
 
                   {/* Content */}
-                  <div className="relative h-full flex flex-col justify-end p-10 text-white">
-                    <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 origin-left">
+                  <div className="relative h-full flex flex-col justify-end p-6 md:p-8 lg:p-10 text-white">
+                    <div className="text-4xl md:text-5xl mb-4 md:mb-6 group-hover:scale-110 transition-transform duration-500 origin-left">
                       {service.icon}
                     </div>
-                    <h3 className="font-display text-2xl md:text-3xl mb-4 group-hover:text-luxe-cyan transition-colors duration-300">
+                    <h3 className="font-display text-xl md:text-2xl lg:text-3xl mb-2 md:mb-4 group-hover:text-luxe-cyan transition-colors duration-300">
                       {service.title}
                     </h3>
-                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
+                    <p className="text-xs md:text-sm lg:text-base text-white/50 leading-relaxed font-light">
                       {service.desc}
                     </p>
-                    <div className="mt-8 flex items-center gap-3 text-luxe-cyan text-[10px] uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                    <div className="mt-4 md:mt-8 flex items-center gap-3 text-luxe-cyan text-[9px] md:text-[10px] uppercase tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
                       View Expertise <span>→</span>
                     </div>
                   </div>
@@ -203,11 +202,11 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* Why TrustOn Section */}
-      <section className="relative py-24 md:py-32 px-6 bg-background">
-        <motion.div style={{ y: bgY }} className="absolute inset-0 opacity-10 pointer-events-none">
-          <div className="absolute top-20 right-20 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px]" />
-          <div className="absolute bottom-20 left-20 w-[600px] h-[600px] bg-luxe-cyan rounded-full blur-[120px]" />
-        </motion.div>
+      <section className="relative py-16 md:py-24 lg:py-32 px-4 md:px-6 bg-background">
+        <div className="absolute inset-0 opacity-10 pointer-events-none">
+          <div className="absolute top-20 right-10 md:right-20 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-luxe-blue rounded-full blur-[80px] md:blur-[100px]" />
+          <div className="absolute bottom-20 left-10 md:left-20 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-luxe-cyan rounded-full blur-[80px] md:blur-[100px]" />
+        </div>
 
         <div className="mx-auto max-w-6xl relative z-10">
           <BlurReveal>
@@ -215,13 +214,13 @@ export function EnhancedDevelopersSection() {
           </BlurReveal>
 
           <BlurReveal>
-            <h2 className="typography-section-title text-center text-white mt-8 mb-20 tracking-tight">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display text-center text-white mt-6 md:mt-8 mb-12 md:mb-20 tracking-tight">
               Elite Standard of <em className="text-luxe-cyan italic font-serif">Trust</em>
             </h2>
           </BlurReveal>
 
           {/* Trust Pillars */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 md:gap-x-16 gap-y-8 md:gap-y-12">
             {[
               {
                 num: "01",
@@ -246,23 +245,23 @@ export function EnhancedDevelopersSection() {
             ].map((pillar, idx) => (
               <motion.div
                 key={pillar.num}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: idx * 0.15, duration: 0.8 }}
-                className="group border-b border-white/5 pb-10"
+                transition={{ delay: idx * 0.1, duration: 0.6 }}
+                className="group border-b border-white/5 pb-6 md:pb-10"
               >
-                <div className="flex gap-8">
+                <div className="flex gap-4 md:gap-8">
                   <div className="flex-shrink-0">
-                    <span className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-luxe-blue/10 text-luxe-cyan text-2xl font-display group-hover:bg-luxe-blue group-hover:text-white transition-all duration-500 border border-luxe-cyan/20">
+                    <span className="inline-flex items-center justify-center h-12 w-12 md:h-16 md:w-16 rounded-xl md:rounded-2xl bg-luxe-blue/10 text-luxe-cyan text-lg md:text-2xl font-display group-hover:bg-luxe-blue group-hover:text-white transition-all duration-500 border border-luxe-cyan/20">
                       {pillar.num}
                     </span>
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl text-white mb-3 group-hover:text-luxe-cyan transition-colors duration-300">
+                    <h3 className="font-display text-lg md:text-xl lg:text-2xl text-white mb-2 md:mb-3 group-hover:text-luxe-cyan transition-colors duration-300">
                       {pillar.title}
                     </h3>
-                    <p className="text-sm md:text-base text-white/50 leading-relaxed font-light">
+                    <p className="text-xs md:text-sm lg:text-base text-white/50 leading-relaxed font-light">
                       {pillar.desc}
                     </p>
                   </div>
@@ -274,31 +273,31 @@ export function EnhancedDevelopersSection() {
       </section>
 
       {/* CTA Strip */}
-      <section className="relative py-24 md:py-32 px-6 bg-ink overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-luxe-blue/20 to-luxe-cyan/20 opacity-30" />
-        <Section3DBackground opacity={0.15} />
+      <section className="relative py-16 md:py-24 lg:py-32 px-4 md:px-6 bg-ink overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-luxe-blue/20 to-luxe-cyan/20 opacity-20" />
+        <Section3DBackground opacity={0.1} />
 
-        <div className="mx-auto max-w-4xl text-center relative z-10">
+        <div className="mx-auto max-w-4xl text-center relative z-10 px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
           >
-            <h3 className="font-display text-4xl md:text-6xl text-white mb-8 tracking-tight">
+            <h3 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl text-white mb-4 md:mb-8 tracking-tight text-balance">
               Ready to Build Your <em className="text-luxe-cyan italic font-serif">Legacy?</em>
             </h3>
-            <p className="text-white/50 text-lg md:text-xl mb-12 leading-relaxed font-light max-w-2xl mx-auto">
+            <p className="text-white/50 text-sm md:text-lg lg:text-xl mb-8 md:mb-12 leading-relaxed font-light max-w-2xl mx-auto">
               Join the elite circle of investors who have chosen TrustOn as their gateway to premium
               real estate.
             </p>
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              className="btn-magnetic btn-luxe px-12 py-5"
+              className="btn-magnetic btn-luxe px-8 md:px-12 py-4 md:py-5 text-[10px] md:text-xs"
             >
               Secure Your Future
-              <span className="ml-3">→</span>
+              <span className="ml-2 md:ml-3">→</span>
             </motion.button>
           </motion.div>
         </div>

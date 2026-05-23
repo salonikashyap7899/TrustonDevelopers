@@ -20,28 +20,28 @@ export const ContainerScroll = ({
       setIsMobile(window.innerWidth <= 768);
     };
     checkMobile();
-    window.addEventListener("resize", checkMobile);
+    window.addEventListener("resize", checkMobile, { passive: true });
     return () => {
       window.removeEventListener("resize", checkMobile);
     };
   }, []);
 
   const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
+    return isMobile ? [0.8, 0.95] : [1.02, 1];
   };
 
-  // Use 60% scroll range for smoother animation
-  const rotate = useTransform(scrollYProgress, [0, 0.6], [20, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.6], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 0.6], [0, -100]);
+  // Optimized scroll range
+  const rotate = useTransform(scrollYProgress, [0, 0.5], [15, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], scaleDimensions());
+  const translate = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
 
   return (
     <div
-      className="h-[50rem] md:h-[60rem] flex items-center justify-center relative p-2 md:p-20"
+      className="h-[40rem] md:h-[50rem] lg:h-[60rem] flex items-center justify-center relative p-2 md:p-10 lg:p-20"
       ref={containerRef}
     >
       <div
-        className="py-10 md:py-40 w-full relative"
+        className="py-6 md:py-20 lg:py-40 w-full relative"
         style={{
           perspective: "1000px",
         }}
@@ -67,7 +67,7 @@ export const Header = ({
       style={{
         translateY: translate,
       }}
-      className="div max-w-5xl mx-auto text-center"
+      className="max-w-5xl mx-auto text-center px-4"
     >
       {titleComponent}
     </motion.div>
@@ -92,9 +92,9 @@ export const Card = ({
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className="max-w-5xl -mt-12 mx-auto h-[30rem] md:h-[40rem] w-full border border-white/10 p-2 md:p-6 bg-[var(--ink)] rounded-[30px] shadow-2xl"
+      className="max-w-5xl -mt-8 md:-mt-12 mx-auto h-[24rem] sm:h-[28rem] md:h-[35rem] lg:h-[40rem] w-full border border-white/10 p-2 md:p-4 lg:p-6 bg-ink rounded-2xl md:rounded-[30px] shadow-2xl"
     >
-      <div className="h-full w-full overflow-hidden rounded-2xl bg-[var(--background)] md:rounded-2xl md:p-4">
+      <div className="h-full w-full overflow-hidden rounded-xl md:rounded-2xl bg-background p-2 md:p-4">
         {children}
       </div>
     </motion.div>

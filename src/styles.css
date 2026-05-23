@@ -110,59 +110,15 @@
     overflow-x: hidden;
   }
 
-  /* Luxury Noise Grain Effect */
+  /* Luxury Noise Grain Effect - Static for better performance */
   body::after {
     content: "";
     position: fixed;
-    top: -50%;
-    left: -50%;
-    right: -50%;
-    bottom: -50%;
-    width: 200%;
-    height: 200%;
-    background: transparent url("https://assets.iceable.com/img/noise-transparent.png") repeat;
-    opacity: 0.04;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.025;
     pointer-events: none;
     z-index: 9999;
-    animation: noise 0.5s steps(4) infinite;
-    will-change: transform;
-    transform: translateZ(0);
-  }
-
-  @keyframes noise {
-    0% {
-      transform: translate(0, 0);
-    }
-    10% {
-      transform: translate(-5%, -5%);
-    }
-    20% {
-      transform: translate(-10%, 5%);
-    }
-    30% {
-      transform: translate(5%, -10%);
-    }
-    40% {
-      transform: translate(-5%, 15%);
-    }
-    50% {
-      transform: translate(-10%, 5%);
-    }
-    60% {
-      transform: translate(15%, 0);
-    }
-    70% {
-      transform: translate(0, 10%);
-    }
-    80% {
-      transform: translate(-15%, 0);
-    }
-    90% {
-      transform: translate(10%, 5%);
-    }
-    100% {
-      transform: translate(5%, 0);
-    }
   }
 
   img {
@@ -170,11 +126,9 @@
     max-width: 100%;
   }
 
-  /* Custom luxury cursor — hide default on desktop */
+  /* Custom luxury cursor — hide default on desktop (only for interactive elements) */
   @media (pointer: fine) {
-    *,
-    *::before,
-    *::after {
+    a, button, [role="button"], input, select, textarea, label, [data-cursor] {
       cursor: none !important;
     }
   }
@@ -270,34 +224,43 @@
     box-shadow: 0 40px 80px -20px oklch(0 0 0 / 0.6);
   }
 
-  /* Ken Burns slow zoom */
+  /* Ken Burns slow zoom - reduced for performance */
   @keyframes ken-burns {
     0% {
-      transform: scale(1.05);
+      transform: scale(1);
     }
     100% {
-      transform: scale(1.2);
+      transform: scale(1.08);
     }
   }
   .ken-burns {
-    animation: ken-burns 30s ease-out infinite alternate;
+    animation: ken-burns 20s ease-out forwards;
   }
 
-  /* Float animations */
+  /* Float animations - optimized */
   @keyframes float {
     0%,
     100% {
       transform: translateY(0px);
     }
     50% {
-      transform: translateY(-20px);
+      transform: translateY(-10px);
     }
   }
   .float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
   .float-slow {
-    animation: float 10s ease-in-out infinite;
+    animation: float 12s ease-in-out infinite;
+  }
+  
+  /* Reduce animations for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   /* Typography */

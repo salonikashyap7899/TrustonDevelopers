@@ -1,54 +1,65 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, Sphere } from "@react-three/drei";
-import * as THREE from "three";
+import { motion } from "framer-motion";
 
-function AnimatedShape() {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((state) => {
-    if (!meshRef.current) return;
-    meshRef.current.rotation.x = state.clock.getElapsedTime() * 0.2;
-    meshRef.current.rotation.y = state.clock.getElapsedTime() * 0.3;
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={1} floatIntensity={1}>
-      <Sphere ref={meshRef} args={[1, 100, 100]} scale={2}>
-        <MeshDistortMaterial
-          color="oklch(0.55 0.15 250)"
-          speed={3}
-          distort={0.4}
-          radius={1}
-          metalness={0.8}
-          roughness={0.2}
-          emissive="oklch(0.75 0.12 220)"
-          emissiveIntensity={0.2}
-        />
-      </Sphere>
-    </Float>
-  );
-}
-
+/**
+ * Lightweight CSS-based 3D background effect
+ * Replaces heavy Three.js Canvas for better performance
+ */
 export function Section3DBackground({ opacity = 0.4 }: { opacity?: number }) {
   return (
     <div
-      className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000`}
+      className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
       style={{ opacity }}
     >
-      <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-        <ambientLight intensity={0.5} />
-        <spotLight
-          position={[10, 10, 10]}
-          angle={0.15}
-          penumbra={1}
-          intensity={2}
-          color="oklch(0.75 0.12 220)"
+      {/* Animated gradient sphere simulation */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[500px] md:h-[500px]"
+        animate={{ 
+          rotate: 360,
+          scale: [1, 1.05, 1]
+        }}
+        transition={{ 
+          rotate: { duration: 30, repeat: Infinity, ease: "linear" },
+          scale: { duration: 8, repeat: Infinity, ease: "easeInOut" }
+        }}
+      >
+        {/* Core glow */}
+        <div 
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: "radial-gradient(circle at 30% 30%, var(--luxe-cyan) 0%, transparent 60%)",
+            opacity: 0.3,
+            filter: "blur(40px)",
+          }}
         />
-        <pointLight position={[-10, -10, -10]} intensity={1} color="oklch(0.55 0.15 250)" />
-        <AnimatedShape />
-      </Canvas>
+        {/* Secondary glow */}
+        <div 
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: "radial-gradient(circle at 70% 70%, var(--luxe-blue) 0%, transparent 60%)",
+            opacity: 0.4,
+            filter: "blur(50px)",
+          }}
+        />
+        {/* Inner highlight */}
+        <div 
+          className="absolute inset-[15%] rounded-full border border-white/5"
+          style={{
+            background: "radial-gradient(circle at 40% 40%, rgba(255,255,255,0.1) 0%, transparent 50%)",
+          }}
+        />
+      </motion.div>
+      
+      {/* Subtle grid overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(var(--luxe-cyan) 1px, transparent 1px),
+            linear-gradient(90deg, var(--luxe-cyan) 1px, transparent 1px)
+          `,
+          backgroundSize: "80px 80px",
+        }}
+      />
     </div>
   );
 }
