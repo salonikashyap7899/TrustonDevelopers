@@ -314,6 +314,12 @@
     animation: float 10s ease-in-out infinite;
   }
 
+  /* Marquee scroll */
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
   /* Typography */
   .typography-hero {
     font-family: var(--font-display);

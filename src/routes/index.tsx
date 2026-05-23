@@ -213,26 +213,22 @@ function Marquee() {
     "Prime Location",
     "Transparent Dealings",
   ];
+  const items = [...words, ...words];
   return (
     <div className="bg-ink border-y border-white/5 py-8 overflow-hidden relative">
-      <motion.div
-        className="flex whitespace-nowrap marquee gap-24"
-        animate={{ x: [0, -1200] }}
-        transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+      <div
+        className="flex whitespace-nowrap"
+        style={{ animation: "marquee-scroll 35s linear infinite", willChange: "transform" }}
       >
-        {[...Array(2)].map((_, k) => (
-          <div key={k} className="flex gap-24 shrink-0">
-            {words.map((w, i) => (
-              <motion.span
-                key={`${k}-${i}`}
-                className="font-display text-2xl italic text-white/30 hover:text-luxe-cyan transition-colors duration-500 cursor-default uppercase tracking-widest"
-              >
-                {w} <span className="text-luxe-cyan mx-8 not-italic text-sm">✦</span>
-              </motion.span>
-            ))}
-          </div>
+        {items.map((w, i) => (
+          <span
+            key={i}
+            className="font-display text-2xl italic text-white/30 hover:text-luxe-cyan transition-colors duration-500 cursor-default uppercase tracking-widest shrink-0 px-12"
+          >
+            {w} <span className="text-luxe-cyan not-italic text-sm">✦</span>
+          </span>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 }

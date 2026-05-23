@@ -1,143 +1,116 @@
-import { useRef, Suspense } from "react";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, MeshTransmissionMaterial, Environment } from "@react-three/drei";
+import { motion } from "framer-motion";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
-import * as THREE from "three";
 
-// 3D Building Block Component
-function BuildingBlock({ position, scale, color, delay = 0 }: { 
-  position: [number, number, number]; 
-  scale: [number, number, number]; 
-  color: string;
-  delay?: number;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + delay) * 0.1;
-    }
-  });
+function CssBuildingScene() {
+  const buildings = [
+    { h: "60%", w: 14, x: 20, delay: 0, accent: false },
+    { h: "85%", w: 18, x: 38, delay: 0.1, accent: true },
+    { h: "100%", w: 22, x: 62, delay: 0.2, accent: false },
+    { h: "70%", w: 16, x: 88, delay: 0.15, accent: false },
+    { h: "45%", w: 12, x: 108, delay: 0.25, accent: true },
+    { h: "90%", w: 20, x: 130, delay: 0.05, accent: false },
+    { h: "55%", w: 14, x: 154, delay: 0.3, accent: false },
+  ];
 
   return (
-    <mesh ref={meshRef} position={position} scale={scale}>
-      <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial 
-        color={color} 
-        metalness={0.3} 
-        roughness={0.4}
-        transparent
-        opacity={0.9}
-      />
-    </mesh>
-  );
-}
-
-// 3D Plot Grid Component
-function PlotGrid() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {/* Grid lines */}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <mesh key={`h-${i}`} position={[0, -0.5, i * 0.5 - 1.25]}>
-          <boxGeometry args={[3, 0.02, 0.02]} />
-          <meshStandardMaterial color="#00BFFF" opacity={0.3} transparent />
-        </mesh>
-      ))}
-      {Array.from({ length: 6 }).map((_, i) => (
-        <mesh key={`v-${i}`} position={[i * 0.6 - 1.5, -0.5, 0]}>
-          <boxGeometry args={[0.02, 0.02, 2.5]} />
-          <meshStandardMaterial color="#00BFFF" opacity={0.3} transparent />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-// 3D Floating Structure
-function FloatingStructure() {
-  const groupRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.1;
-    }
-  });
-
-  return (
-    <Float speed={2} rotationIntensity={0.2} floatIntensity={0.5}>
-      <group ref={groupRef}>
-        {/* Main tower */}
-        <BuildingBlock position={[0, 0.5, 0]} scale={[0.8, 2, 0.8]} color="#1a3a4a" delay={0} />
-        
-        {/* Secondary buildings */}
-        <BuildingBlock position={[-1.2, 0, 0.3]} scale={[0.6, 1.2, 0.6]} color="#0d2a3a" delay={1} />
-        <BuildingBlock position={[1.2, 0.2, -0.2]} scale={[0.5, 1.5, 0.5]} color="#153040" delay={2} />
-        
-        {/* Accent structures */}
-        <BuildingBlock position={[-0.5, -0.2, 1]} scale={[0.4, 0.8, 0.4]} color="#00BFFF" delay={3} />
-        <BuildingBlock position={[0.8, -0.1, 0.8]} scale={[0.3, 0.6, 0.3]} color="#00BFFF" delay={4} />
-        
-        {/* Plot grid */}
-        <PlotGrid />
-        
-        {/* Ground plane with glass effect */}
-        <mesh position={[0, -0.55, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-          <planeGeometry args={[4, 4]} />
-          <meshStandardMaterial 
-            color="#00BFFF" 
-            opacity={0.1} 
-            transparent 
-            metalness={0.8}
-            roughness={0.2}
-          />
-        </mesh>
-      </group>
-    </Float>
-  );
-}
-
-// Main 3D Scene
-function Scene3D() {
-  return (
-    <Canvas
-      camera={{ position: [4, 3, 4], fov: 45 }}
-      style={{ background: 'transparent' }}
-      gl={{ alpha: true, antialias: true }}
+    <div className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-2xl border border-white/5"
+      style={{ background: "linear-gradient(180deg, #050b12 0%, #0a1a2a 100%)" }}
     >
-      <ambientLight intensity={0.4} />
-      <pointLight position={[10, 10, 10]} intensity={1} color="#00BFFF" />
-      <pointLight position={[-10, -10, -10]} intensity={0.5} color="#ffffff" />
-      <spotLight
-        position={[0, 10, 0]}
-        angle={0.3}
-        penumbra={1}
-        intensity={1}
-        color="#00BFFF"
+      {/* Ambient glow */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80%] h-32 rounded-full"
+        style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.12) 0%, transparent 70%)" }}
       />
-      <FloatingStructure />
-      <Environment preset="city" />
-    </Canvas>
+
+      {/* Grid lines on ground */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00BFFF]/20" />
+      <div className="absolute bottom-8 left-0 right-0 h-px bg-white/5" />
+
+      {/* Buildings */}
+      <div className="relative flex items-end gap-0 h-[85%] px-8 pb-0">
+        {buildings.map((b, i) => (
+          <motion.div
+            key={i}
+            className="relative shrink-0 rounded-t-sm"
+            style={{ width: b.w, height: b.h, marginLeft: i === 0 ? 0 : 6 }}
+            initial={{ scaleY: 0, originY: 1 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: b.delay, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {/* Building body */}
+            <div
+              className="w-full h-full rounded-t-sm"
+              style={{
+                background: b.accent
+                  ? "linear-gradient(180deg, #003a5c 0%, #001a2e 100%)"
+                  : "linear-gradient(180deg, #0a1e2f 0%, #040d14 100%)",
+                border: b.accent ? "1px solid rgba(0,191,255,0.3)" : "1px solid rgba(255,255,255,0.05)",
+                borderBottom: "none",
+                boxShadow: b.accent ? "0 0 20px rgba(0,191,255,0.1)" : "none",
+              }}
+            >
+              {/* Window lights */}
+              <div className="flex flex-col gap-1 p-1 h-full">
+                {Array.from({ length: Math.floor(parseInt(b.h) / 15) }).map((_, r) => (
+                  <div key={r} className="flex gap-[2px] justify-center">
+                    {Array.from({ length: Math.floor(b.w / 5) }).map((_, c) => (
+                      <motion.div
+                        key={c}
+                        className="rounded-sm"
+                        style={{
+                          width: 2,
+                          height: 3,
+                          background: Math.random() > 0.4
+                            ? (b.accent ? "rgba(0,191,255,0.7)" : "rgba(255,255,255,0.25)")
+                            : "transparent",
+                        }}
+                        animate={{ opacity: [1, Math.random() > 0.8 ? 0.3 : 1, 1] }}
+                        transition={{
+                          duration: 2 + Math.random() * 3,
+                          repeat: Infinity,
+                          delay: Math.random() * 5,
+                        }}
+                      />
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Antenna on tallest */}
+            {b.accent && i === 1 && (
+              <motion.div
+                className="absolute -top-4 left-1/2 -translate-x-1/2 w-px bg-[#00BFFF]/60"
+                style={{ height: 16 }}
+                animate={{ opacity: [0.4, 1, 0.4] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              />
+            )}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Cyan grid overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-5"
+        style={{
+          backgroundImage: "linear-gradient(rgba(0,191,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,191,255,1) 1px, transparent 1px)",
+          backgroundSize: "20px 20px",
+        }}
+      />
+
+      {/* Label */}
+      <div className="absolute top-4 left-4 text-[9px] uppercase tracking-[0.3em] text-[#00BFFF]/40 font-bold">
+        Prime Estate · Lucknow
+      </div>
+    </div>
   );
 }
 
 export function PlotsAndStructures() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
   return (
-    <section
-      ref={containerRef}
-      className="relative py-32 px-6 bg-background overflow-hidden"
-    >
+    <section className="relative py-32 px-6 bg-background overflow-hidden">
       <Section3DBackground opacity={0.2} />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -154,7 +127,9 @@ export function PlotsAndStructures() {
             <div className="space-y-8 text-white/50 text-lg font-light leading-relaxed">
               <Reveal delay={0.2}>
                 <p>
-                  Discover the ultimate foundation for your architectural dreams. Our premium building plots are strategically located in Lucknow&apos;s most promising corridors, offering 100% legal clearance and Jila Panchayat approval.
+                  Discover the ultimate foundation for your architectural dreams. Our premium building
+                  plots are strategically located in Lucknow&apos;s most promising corridors, offering
+                  100% legal clearance and Jila Panchayat approval.
                 </p>
               </Reveal>
 
@@ -162,27 +137,20 @@ export function PlotsAndStructures() {
                 <div className="flex gap-12 pt-8">
                   <div className="border-l border-luxe-cyan/30 pl-6">
                     <p className="text-3xl font-display text-white mb-2">150+</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold">Premium Plots</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Premium Plots</p>
                   </div>
                   <div className="border-l border-luxe-cyan/30 pl-6">
                     <p className="text-3xl font-display text-white mb-2">Elite</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold">Architectural Support</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Architectural Support</p>
                   </div>
                 </div>
               </Reveal>
             </div>
           </div>
 
-          {/* 3D Visual Side */}
-          <div className="order-1 lg:order-2 h-[400px] md:h-[500px] relative">
-            <div className="absolute inset-0 bg-gradient-to-br from-luxe-cyan/5 to-transparent rounded-3xl border border-white/5" />
-            <Suspense fallback={
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="w-16 h-16 border-2 border-luxe-cyan/30 border-t-luxe-cyan rounded-full animate-spin" />
-              </div>
-            }>
-              <Scene3D />
-            </Suspense>
+          {/* Visual Side — pure CSS building scene */}
+          <div className="order-1 lg:order-2 h-[380px] md:h-[460px] relative">
+            <CssBuildingScene />
           </div>
         </div>
       </div>
