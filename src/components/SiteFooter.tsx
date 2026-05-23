@@ -17,36 +17,6 @@ const company = [
 export function SiteFooter() {
   return (
     <footer className="bg-ink text-white/70">
-      {/* Top CTA strip */}
-      <div className="border-b border-white/5 py-16 md:py-24 lg:py-32 px-4 md:px-6 relative overflow-hidden">
-        <div className="absolute inset-0 opacity-15 pointer-events-none">
-          <div className="absolute top-0 right-0 w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-luxe-blue rounded-full blur-[100px]" />
-          <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-luxe-cyan rounded-full blur-[80px]" />
-        </div>
-        <div className="mx-auto max-w-7xl flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 relative z-10">
-          <div className="text-center lg:text-left">
-            <p className="text-[10px] md:text-xs uppercase tracking-[0.4em] md:tracking-[0.5em] text-luxe-cyan mb-4 md:mb-6 font-bold">
-              Begin Your Journey
-            </p>
-            <h3 className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white leading-tight mb-2 tracking-tight text-balance">
-              Own the Ground.
-              <br />
-              Build the <em className="gradient-luxe-text not-italic">Legacy.</em>
-            </h3>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link to="/contact" className="btn-magnetic btn-luxe px-6 md:px-10 py-4 md:py-5 text-center text-xs md:text-sm">
-              Enquire Now →
-            </Link>
-            <a
-              href="tel:+919616061166"
-              className="inline-flex items-center justify-center gap-2 md:gap-3 border border-white/10 text-white/70 px-6 md:px-10 py-4 md:py-5 text-[10px] md:text-[11px] uppercase tracking-wider md:tracking-widest hover:border-luxe-cyan hover:text-luxe-cyan transition-all duration-300 rounded-full font-bold"
-            >
-              +91 96160-61166
-            </a>
-          </div>
-        </div>
-      </div>
 
       {/* Main footer grid */}
       <div className="mx-auto max-w-7xl px-4 md:px-6 py-12 md:py-16 lg:py-24 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 md:gap-12 lg:gap-16">
