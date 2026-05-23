@@ -49,10 +49,6 @@ export function ImageTrailGallery() {
             containerRef={ref}
             rotationRange={20}
             interval={80}
-            animationSequence={[
-              [{ scale: 1.1, opacity: 1 }, { duration: 0.15, ease: "circOut" }],
-              [{ scale: 0, opacity: 0 }, { duration: 0.6, ease: "circIn" }],
-            ]}
           >
             {images.map((url, index) => (
               <div
