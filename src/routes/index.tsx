@@ -14,8 +14,6 @@ import {
   TrustonCTAStrip,
 } from "@/components/TrustonDevelopersSection";
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
-import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,8 +35,8 @@ function Index() {
   return (
     <div className="bg-[#04090f] text-foreground overflow-x-hidden">
 
-      {/* ── Hero — Full-screen video (sticky so Who We Are overlays it) ── */}
-      <section className="sticky top-0 h-screen bg-[#04090f] overflow-hidden z-0">
+      {/* ── Hero — Full-screen video ── */}
+      <section className="relative h-screen bg-[#04090f] overflow-hidden z-0">
         <div className="absolute inset-0 z-0">
           <video
             autoPlay
@@ -120,7 +118,7 @@ function Index() {
               opacity: { duration: 1, delay: 1.5 },
               y: { duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1.5 },
             }}
-            onClick={() => document.getElementById("who-we-are-section")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("gallery-section")?.scrollIntoView({ behavior: "smooth" })}
             className="absolute bottom-10 w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/40 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,9 +127,6 @@ function Index() {
           </motion.div>
         </div>
       </section>
-
-      {/* Who We Are — ContainerScroll */}
-      <WhoWeAreScrollSection />
 
       {/* Site Photography — Every detail, captured */}
       <GallerySection />
@@ -169,161 +164,6 @@ function Index() {
       {/* CTA Strip */}
       <TrustonCTAStrip />
     </div>
-  );
-}
-
-/* ── Who We Are (ContainerScroll) ───────────────────────────────── */
-const whoWeArePillars = [
-  {
-    num: "01",
-    name: "Transparent Documentation",
-    desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions at every stage of the transaction.",
-  },
-  {
-    num: "02",
-    name: "High-Growth Locations",
-    desc: "Projects placed in proven growth corridors with verified infrastructure readiness and long-term appreciation potential.",
-  },
-  {
-    num: "03",
-    name: "End-to-End Partnership",
-    desc: "From plot acquisition to construction and architectural design — one trusted team, start to finish.",
-  },
-];
-
-function WhoWeAreScrollSection() {
-  return (
-    <section id="who-we-are-section" className="relative z-10 overflow-hidden" style={{ background: "#060c16", marginTop: "-50vh" }}>
-      {/* Gradient blends this section over the sticky hero video above — 50% overlap */}
-      <div className="absolute top-0 left-0 right-0 h-[50vh] pointer-events-none z-20"
-        style={{ background: "linear-gradient(to bottom, transparent 0%, #060c16 100%)" }} />
-      <ContainerScroll
-        titleComponent={
-          <div className="mb-6 text-center">
-            <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 flex items-center justify-center gap-3">
-              <span className="w-8 h-px bg-[#00BFFF]" />
-              Who We Are
-              <span className="w-8 h-px bg-[#00BFFF]" />
-            </p>
-            <h2 className="text-4xl md:text-6xl font-serif text-white tracking-tight leading-tight">
-              Shaping{" "}
-              <em className="text-[#00BFFF] italic">Legacies</em>
-              <br />
-              in Lucknow
-            </h2>
-            <p className="text-white/40 text-base mt-4 font-light max-w-xl mx-auto">
-              Truston Developers — built on a single founding principle: buying land should be
-              simple, transparent, and deeply empowering.
-            </p>
-          </div>
-        }
-      >
-        <div className="h-full w-full overflow-y-auto p-4 md:p-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full">
-            {/* Left — text + pillars */}
-            <div className="flex flex-col justify-between">
-              <div>
-                <p className="text-white/60 text-sm md:text-base leading-relaxed mb-6 font-light">
-                  We don&apos;t merely sell plots — we help you make one of the most significant
-                  decisions of your life with complete clarity, verified documentation, and a
-                  team that stands behind every commitment.
-                </p>
-                <div className="space-y-0">
-                  {whoWeArePillars.map((pillar, idx) => (
-                    <motion.div
-                      key={pillar.num}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: idx * 0.1 }}
-                      className={`flex items-start gap-4 py-4 ${idx === 0 ? "border-t" : ""} border-b border-white/10`}
-                    >
-                      <span className="font-serif text-xl font-light text-[#00BFFF] w-8 flex-shrink-0">
-                        {pillar.num}
-                      </span>
-                      <div>
-                        <h3 className="text-xs md:text-sm font-medium text-white mb-1 tracking-wide">
-                          {pillar.name}
-                        </h3>
-                        <p className="text-xs text-white/45 leading-relaxed">
-                          {pillar.desc}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              {/* CTA link */}
-              <div className="mt-6">
-                <a
-                  href="/about-us"
-                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] font-bold text-[#00BFFF] hover:gap-5 transition-all duration-300"
-                >
-                  <span className="w-8 h-px bg-[#00BFFF]" />
-                  Our Story
-                </a>
-              </div>
-            </div>
-
-            {/* Right — visual card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="relative rounded-2xl overflow-hidden border border-[#00BFFF]/15 bg-gradient-to-br from-[#0d1e30] to-[#070d18] flex flex-col justify-end min-h-[240px] md:min-h-auto"
-            >
-              <img
-                src={luxuryInteriorImg}
-                alt="TrustOn Prime Estate"
-                className="absolute inset-0 w-full h-full object-cover brightness-[0.35]"
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,191,255,0.03) 40px, rgba(0,191,255,0.03) 41px)",
-                }}
-              />
-              <div className="absolute top-4 left-4 bg-[#00BFFF]/10 border border-[#00BFFF]/30 text-[#00BFFF] px-3 py-1 text-[10px] uppercase tracking-[0.15em] font-medium rounded-full">
-                Prime Estate · 2025
-              </div>
-              {/* Animated concentric rings */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-                {[120, 90, 60].map((size, i) => (
-                  <motion.div
-                    key={size}
-                    className="absolute rounded-full border border-[#00BFFF]/10"
-                    style={{
-                      width: size,
-                      height: size,
-                      top: -size / 2,
-                      left: -size / 2,
-                    }}
-                    animate={{ rotate: i % 2 === 0 ? 360 : -360 }}
-                    transition={{ duration: 18 + i * 6, repeat: Infinity, ease: "linear" }}
-                  />
-                ))}
-                <div className="w-10 h-10 bg-[#00BFFF]/10 border border-[#00BFFF]/30 rounded-full flex items-center justify-center">
-                  <span className="text-lg font-serif text-[#00BFFF]">T</span>
-                </div>
-              </div>
-              <div className="relative z-10 p-6 bg-gradient-to-t from-[#070d18]/95 via-[#070d18]/60 to-transparent">
-                <p className="font-serif text-lg md:text-xl font-light italic text-white/80 leading-relaxed">
-                  &quot;We build the foundation.
-                  <br />
-                  You build the dream.&quot;
-                </p>
-                <p className="text-[10px] text-[#00BFFF]/60 uppercase tracking-[0.2em] mt-2">
-                  — Truston Developers, Lucknow
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </ContainerScroll>
-    </section>
   );
 }
 

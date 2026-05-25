@@ -3,6 +3,7 @@ import { PlotTracker } from "@/components/PlotTracker";
 import { WealthCalculator } from "@/components/WealthCalculator";
 import { GallerySection } from "@/components/GallerySection";
 import { InnerHero } from "@/components/InnerHero";
+import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
 
 export const Route = createFileRoute("/expenses")({
   head: () => ({
@@ -24,7 +25,7 @@ function ExpensesPage() {
         eyebrow="TrustOn"
         title={<span>Expenses</span>}
         subtitle="Transparent costs, zero hidden charges. Experience clarity in every rupee."
-        poster="/attached_assets/image_1779159211927.png"
+        poster={lucknowAerialImg}
         alt="Luxury lifestyle interior"
       />
 

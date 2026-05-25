@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/hero-estate.jpg";
-import { submitContactMessage } from "@/lib/contactSubmit.server";
+import { submitContactMessage } from "@/lib/contactSubmit";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
