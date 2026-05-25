@@ -63,20 +63,6 @@ function Index() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Eyebrow */}
-            <motion.div
-              className="flex items-center justify-center gap-4 mb-8"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
-            >
-              <span className="w-10 h-px bg-[#00BFFF]" />
-              <p className="text-[10px] md:text-[11px] text-[#00BFFF] uppercase font-bold tracking-[0.45em]">
-                Lucknow's Premier Plot Studio
-              </p>
-              <span className="w-10 h-px bg-[#00BFFF]" />
-            </motion.div>
-
             {/* Main headline */}
             <motion.h1
               className="font-serif text-5xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-[0.85] mb-6"
