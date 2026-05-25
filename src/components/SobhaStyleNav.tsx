@@ -16,7 +16,7 @@ const leftLinks = [
 ] as const;
 
 const rightLinks = [
-  { label: "LIFESTYLE", to: "/lifestyle" },
+  { label: "EXPENSES", to: "/expenses" },
   { label: "CONTACT US", to: "/contact" },
 ] as const;
 
@@ -98,11 +98,14 @@ export function SobhaStyleNav() {
                   <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </button>
 
+                {/* Invisible bridge — fills gap between button and dropdown so mouseLeave doesn't fire */}
+                <div className="absolute left-0 right-0 top-full h-3 z-40" />
+
                 <div
-                  className={`absolute left-0 top-full w-64 bg-ink border border-white/10 shadow-luxe overflow-hidden transition-all duration-300 backdrop-blur-xl rounded-2xl ${
+                  className={`absolute left-0 top-[calc(100%+12px)] w-64 bg-ink border border-white/10 shadow-luxe overflow-hidden transition-all duration-300 backdrop-blur-xl rounded-2xl ${
                     svcOpen
-                      ? "opacity-100 translate-y-4 pointer-events-auto"
-                      : "opacity-0 translate-y-0 pointer-events-none"
+                      ? "opacity-100 translate-y-0 pointer-events-auto"
+                      : "opacity-0 -translate-y-2 pointer-events-none"
                   }`}
                 >
                   <Link

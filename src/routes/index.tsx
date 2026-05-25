@@ -47,14 +47,14 @@ function Index() {
             playsInline
             preload="metadata"
             className="w-full h-full object-cover"
-            style={{ opacity: 0.75, transform: "translateZ(0)", backfaceVisibility: "hidden" }}
+            style={{ opacity: 0.92, transform: "translateZ(0)", backfaceVisibility: "hidden" }}
           >
             <source
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
               type="video/mp4"
             />
           </video>
-          <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/40 via-[#04090f]/10 to-[#04090f]/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#04090f]/80" />
         </div>
 
         <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6">
@@ -136,6 +136,9 @@ function Index() {
       {/* Site Photography — Every detail, captured */}
       <GallerySection />
 
+      {/* Stats Bar — after gallery */}
+      <EnhancedStatsBar />
+
       {/* Prime Estate Project */}
       <PrimeEstateSection />
 
@@ -159,9 +162,6 @@ function Index() {
 
       {/* Marquee */}
       <Marquee />
-
-      {/* Stats Bar */}
-      <EnhancedStatsBar />
 
       {/* Testimonials */}
       <Testimonials />
@@ -189,12 +189,6 @@ const whoWeArePillars = [
     name: "End-to-End Partnership",
     desc: "From plot acquisition to construction and architectural design — one trusted team, start to finish.",
   },
-];
-
-const whoWeAreStats = [
-  { num: "120", sup: "+", label: "Total Plots" },
-  { num: "47", sup: "", label: "Still Available" },
-  { num: "₹12", sup: "L+", label: "Starting Price" },
 ];
 
 function WhoWeAreScrollSection() {
@@ -260,21 +254,15 @@ function WhoWeAreScrollSection() {
                 </div>
               </div>
 
-              {/* Stats row */}
-              <div className="grid grid-cols-3 gap-px bg-white/5 mt-6 rounded-lg overflow-hidden">
-                {whoWeAreStats.map((stat) => (
-                  <div key={stat.label} className="bg-[#060c16] py-5 text-center">
-                    <p className="font-serif text-2xl md:text-3xl font-light text-white leading-none">
-                      {stat.num}
-                      {stat.sup && (
-                        <sup className="text-sm text-[#00BFFF]">{stat.sup}</sup>
-                      )}
-                    </p>
-                    <p className="text-[9px] uppercase tracking-[0.2em] text-white/40 mt-1">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
+              {/* CTA link */}
+              <div className="mt-6">
+                <a
+                  href="/about-us"
+                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.3em] font-bold text-[#00BFFF] hover:gap-5 transition-all duration-300"
+                >
+                  <span className="w-8 h-px bg-[#00BFFF]" />
+                  Our Story
+                </a>
               </div>
             </div>
 

@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { GalleryLightbox, type GalleryItem } from "./GalleryLightbox";
 import { SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
+import { ImageCursorTrail } from "./ImageCursorTrail";
 
 const ALL_IMAGES: GalleryItem[] = [
   {
@@ -120,22 +121,27 @@ export function GallerySection() {
       />
 
       <div className="relative mx-auto max-w-7xl z-10">
-        {/* ── Header ── */}
-        <motion.div
-          className="text-center mb-20"
-          initial={{ opacity: 0, y: 40 }}
-          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SectionEyebrow light>Site Photography</SectionEyebrow>
-          <h2 className="font-display text-5xl md:text-8xl text-white leading-[0.9] tracking-tighter mb-6">
-            Every detail, <em className="gradient-luxe-text not-italic">captured.</em>
-          </h2>
-          <p className="text-white/40 mt-6 max-w-xl mx-auto text-lg leading-relaxed font-light">
-            Experience architectural brilliance in high definition. Explore our curated selection of
-            premium sites and designs.
-          </p>
-        </motion.div>
+        {/* ── Header with cursor trail ── */}
+        <ImageCursorTrail className="mb-20 rounded-3xl py-12">
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 40 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <SectionEyebrow light>Site Photography</SectionEyebrow>
+            <h2 className="font-display text-5xl md:text-8xl text-white leading-[0.9] tracking-tighter mb-6">
+              Every detail, <em className="gradient-luxe-text not-italic">captured.</em>
+            </h2>
+            <p className="text-white/40 mt-6 max-w-xl mx-auto text-lg leading-relaxed font-light">
+              Experience architectural brilliance in high definition. Explore our curated selection of
+              premium sites and designs.
+            </p>
+            <p className="text-white/20 text-[10px] uppercase tracking-[0.4em] mt-8 font-bold">
+              Move cursor over this area to explore
+            </p>
+          </motion.div>
+        </ImageCursorTrail>
 
         {/* ── Filter tabs ── */}
         <motion.div

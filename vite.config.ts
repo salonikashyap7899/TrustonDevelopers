@@ -1,18 +1,37 @@
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
+import tsConfigPaths from "vite-tsconfig-paths";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 
 export default defineConfig({
-  cloudflare: false,
-  tanstackStart: {},
-  vite: {
-    server: {
-      host: "0.0.0.0",
-      port: 5000,
-      allowedHosts: true,
+  plugins: [
+    tailwindcss(),
+    tsConfigPaths({ projects: ["./tsconfig.json"] }),
+    tanstackStart({}),
+    react(),
+  ],
+  resolve: {
+    alias: {
+      "@": `${process.cwd()}/src`,
     },
-    preview: {
-      host: "0.0.0.0",
-      port: 5000,
-      allowedHosts: true,
-    },
+    dedupe: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "@tanstack/react-query",
+      "@tanstack/query-core",
+    ],
+  },
+  server: {
+    host: "0.0.0.0",
+    port: 5000,
+    allowedHosts: true,
+  },
+  preview: {
+    host: "0.0.0.0",
+    port: 5000,
+    allowedHosts: true,
   },
 });
