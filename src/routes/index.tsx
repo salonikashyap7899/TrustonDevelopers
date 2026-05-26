@@ -141,18 +141,12 @@ function Index() {
         <PrimeEstateSection />
       </div>
 
-      {/* Gallery Section — Moved here as per request */}
+      {/* Gallery Section */}
       <div className="-mt-1">
         <GallerySection />
       </div>
 
-      {/* Why Truston — Now with Accordion & specific text animation */}
-      <TrustonWhySection />
-
-      {/* Services (Four Pillars) */}
-      <TrustonServicesSection />
-
-      {/* Philosophy — Moved here as per request (third image section) */}
+      {/* Philosophy — After Gallery */}
       <PhilosophySection />
 
       {/* Stats Bar */}
@@ -160,8 +154,14 @@ function Index() {
         <EnhancedStatsBar />
       </div>
 
-      {/* Intro Highlight */}
+      {/* Intro Highlight (New Generation) */}
       <IntroHighlightSection />
+
+      {/* Why Truston — Now with Accordion & specific text animation */}
+      <TrustonWhySection />
+
+      {/* Services (Four Pillars) */}
+      <TrustonServicesSection />
 
       {/* Testimonials */}
       <Testimonials />
