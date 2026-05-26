@@ -31,6 +31,14 @@ const PARALLAX_IMAGES = [
     src: "https://truston.advrtisinguru.com/wp-content/uploads/2026/04/avi-werde-hHz4yrvxwlA-unsplash-scaled.jpg",
     alt: "Construction Quality",
   },
+  {
+    src: "/assets/photo_1.jpg",
+    alt: "Estate Detail 1",
+  },
+  {
+    src: "/assets/photo_2.jpg",
+    alt: "Estate Detail 2",
+  },
 ];
 
 export function GallerySection() {
