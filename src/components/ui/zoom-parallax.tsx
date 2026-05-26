@@ -84,7 +84,31 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
   const opacity6 = useTransform(scrollYProgress, [0, 0.1, 0.5, 0.7], [0.7, 0.9, 0.2, 0]);
   const opacity7 = useTransform(scrollYProgress, [0, 0.05, 0.45, 0.65], [0.65, 0.85, 0.1, 0]);
 
-  const limited = images.slice(0, 7);
+  const limited = images.slice(0, 9);
+
+  // All images scale up and move towards center, eventually becoming ONE image
+  // The center image stays put while others zoom in and merge into it
+
+  // Extra raw scales and springs for additional images
+  const rawScale8 = useTransform(scrollYProgress, [0, 0.1, 0.4, 1], [0.25, 0.65, 5, 14]);
+  const rawScale9 = useTransform(scrollYProgress, [0, 0.05, 0.35, 1], [0.2, 0.6, 5.5, 16]);
+
+  const scale8 = useSpring(rawScale8, springConfig);
+  const scale9 = useSpring(rawScale9, springConfig);
+
+  // Extra positions
+  const x8 = useTransform(scrollYProgress, [0, 0.6, 1], ["-45vw", "-12vw", "0vw"]);
+  const x9 = useTransform(scrollYProgress, [0, 0.6, 1], ["45vw", "12vw", "0vw"]);
+  const y8 = useTransform(scrollYProgress, [0, 0.6, 1], ["15vh", "5vh", "0vh"]);
+  const y9 = useTransform(scrollYProgress, [0, 0.6, 1], ["-35vh", "-10vh", "0vh"]);
+
+  const springX8 = useSpring(x8, springConfig);
+  const springX9 = useSpring(x9, springConfig);
+  const springY8 = useSpring(y8, springConfig);
+  const springY9 = useSpring(y9, springConfig);
+
+  const opacity8 = useTransform(scrollYProgress, [0, 0.05, 0.4, 0.6], [0.6, 0.8, 0.1, 0]);
+  const opacity9 = useTransform(scrollYProgress, [0, 0.02, 0.35, 0.55], [0.55, 0.75, 0.1, 0]);
 
   // Image configurations
   const imageConfigs = [
@@ -95,10 +119,12 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
     { scale: scale5, x: springX5, y: springY5, opacity: opacity5, zIndex: 6, size: "h-[18vh] w-[22vw] md:h-[20vh] md:w-[16vw]" },
     { scale: scale6, x: springX6, y: springY6, opacity: opacity6, zIndex: 5, size: "h-[16vh] w-[20vw] md:h-[18vh] md:w-[14vw]" },
     { scale: scale7, x: springX7, y: springY7, opacity: opacity7, zIndex: 4, size: "h-[14vh] w-[18vw] md:h-[16vh] md:w-[12vw]" },
+    { scale: scale8, x: springX8, y: springY8, opacity: opacity8, zIndex: 3, size: "h-[12vh] w-[16vw] md:h-[14vh] md:w-[10vw]" },
+    { scale: scale9, x: springX9, y: springY9, opacity: opacity9, zIndex: 2, size: "h-[10vh] w-[14vw] md:h-[12vh] md:w-[8vw]" },
   ];
 
   return (
-    <div ref={container} className="relative h-[350vh]">
+    <div ref={container} className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
         {/* Ambient glow effect */}
         <motion.div 
@@ -134,11 +160,9 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
                   src={src || "/placeholder.svg"}
                   alt={alt || `Gallery image ${index + 1}`}
                   className="h-full w-full object-cover"
-                  style={{
-                    filter: index === 0 ? "brightness(0.9) saturate(1.15)" : "brightness(0.8) saturate(1.1)",
-                  }}
                   loading={index === 0 ? "eager" : "lazy"}
                 />
+
 
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/50 via-transparent to-transparent pointer-events-none" />
