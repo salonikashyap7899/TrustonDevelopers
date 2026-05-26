@@ -354,7 +354,7 @@ function EnhancedStatsBar() {
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
                   viewport={{ once: true }}
-                �� transition={{ duration: 1.2, delay: i * 0.15 }}
+                  transition={{ duration: 1.2, delay: i * 0.15 }}
                 />
               </div>
               <motion.span
