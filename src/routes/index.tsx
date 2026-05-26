@@ -14,6 +14,7 @@ import {
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { GallerySection } from "@/components/GallerySection";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -32,6 +33,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const heroContent = usePageContent("home.hero", {
+    eyebrow: "Own the Ground. Build the Legacy.",
+    title: "TRUST",
+    title_accent: "ON",
+    subtitle: "Curated land, architectural mastery and construction excellence — under one roof.",
+  });
+
   return (
     <div className="bg-[#04090f] text-foreground overflow-x-hidden">
 
@@ -45,7 +53,7 @@ function Index() {
             style={{ opacity: 0.88, transform: "translateZ(0)" }}
           >
             <source
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
+              src={heroContent.video_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"}
               type="video/mp4"
             />
           </video>
@@ -69,7 +77,7 @@ function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              TRUST<span style={{ color: "#00BFFF" }}>ON</span>
+              {heroContent.title}<span style={{ color: "#00BFFF" }}>{heroContent.title_accent}</span>
             </motion.h1>
 
             {/* Tagline */}
@@ -79,7 +87,7 @@ function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.75 }}
             >
-              Own the Ground. Build the Legacy.
+              {heroContent.eyebrow}
             </motion.p>
 
             <motion.p
@@ -88,7 +96,7 @@ function Index() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
             >
-              Curated land, architectural mastery and construction excellence — under one roof.
+              {heroContent.subtitle}
             </motion.p>
 
             {/* CTA Buttons */}
@@ -180,6 +188,15 @@ function Index() {
 
 /* ── Philosophy ───────────────────────────────────────────────────── */
 function PhilosophySection() {
+  const content = usePageContent("home.philosophy", {
+    eyebrow: "Our Philosophy",
+    title: "Crafting",
+    title_accent: "Timeless",
+    subtitle: "Legacies",
+    body: "TrustOn stands at the intersection of architectural brilliance and strategic investment. We don't just sell plots; we provide the foundation for your future aspirations.",
+    body_secondary: "Our commitment to quality and transparency ensures that every square foot you own is a testament to enduring luxury — built to outlast trends and appreciate with time.",
+  });
+
   return (
     <section className="py-28 md:py-36 px-6 bg-[#050b14] relative overflow-hidden">
       <Section3DBackground opacity={0.10} />
@@ -196,16 +213,16 @@ function PhilosophySection() {
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-[#00BFFF]" />
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
-                Our Philosophy
+                {content.eyebrow}
               </p>
             </div>
 
             {/* Heading */}
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-white mb-6 leading-[1.1] tracking-tight">
-              Crafting{" "}
-              <em className="text-[#00BFFF] italic font-light">Timeless</em>
+              {content.title}{" "}
+              <em className="text-[#00BFFF] italic font-light">{content.title_accent}</em>
               <br />
-              Legacies
+              {content.subtitle}
             </h2>
 
             {/* Divider */}
@@ -213,14 +230,10 @@ function PhilosophySection() {
 
             {/* Body */}
             <p className="text-white/60 text-base md:text-lg leading-relaxed mb-4 font-light">
-              TrustOn stands at the intersection of architectural brilliance and strategic
-              investment. We don&apos;t just sell plots; we provide the foundation for your
-              future aspirations.
+              {content.body}
             </p>
             <p className="text-white/40 text-base leading-relaxed mb-10 font-light">
-              Our commitment to quality and transparency ensures that every square foot you
-              own is a testament to enduring luxury — built to outlast trends and appreciate
-              with time.
+              {content.body_secondary}
             </p>
 
             {/* Stats row */}
@@ -256,7 +269,7 @@ function PhilosophySection() {
             {/* Main image */}
             <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
               <img
-                src="/assets/aerial-township.jpg"
+                src={content.image_url || "/assets/aerial-township.jpg"}
                 alt="Prime Estate — Aerial Township"
                 className="w-full h-full object-cover brightness-75"
               />

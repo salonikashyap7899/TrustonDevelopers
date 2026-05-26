@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ContainerScroll } from "./ui/container-scroll-animation";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const pillars = [
   {
@@ -20,6 +21,15 @@ const pillars = [
 ];
 
 export function WhoWeAreSection() {
+  const content = usePageContent("home.who_we_are", {
+    eyebrow: "Who We Are",
+    title: "Shaping",
+    title_accent: "Legacies",
+    subtitle: "in Lucknow",
+    body: "Truston Developers is a Lucknow-based property development company built on a single founding principle — that buying land should be simple, transparent, and deeply empowering for the buyer.",
+    body_secondary: "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
+  });
+
   return (
     <section className="relative bg-[#050b14] overflow-hidden">
       {/* Background grid */}
@@ -40,15 +50,15 @@ export function WhoWeAreSection() {
             <div className="flex items-center justify-center gap-4 mb-5">
               <span className="w-10 h-px bg-[#00BFFF]" />
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
-                Who We Are
+                {content.eyebrow}
               </p>
               <span className="w-10 h-px bg-[#00BFFF]" />
             </div>
             <h2 className="font-serif text-4xl md:text-[3.5rem] lg:text-[4.5rem] text-white leading-[0.9] tracking-tight">
-              Shaping{" "}
-              <em className="italic text-[#00BFFF] font-light">Legacies</em>
+              {content.title}{" "}
+              <em className="italic text-[#00BFFF] font-light">{content.title_accent}</em>
               <br />
-              in Lucknow
+              {content.subtitle}
             </h2>
           </div>
         }
@@ -81,14 +91,10 @@ export function WhoWeAreSection() {
           {/* Right — Text content */}
           <div className="flex-1 bg-[#04090f] p-6 md:p-8 flex flex-col justify-center overflow-y-auto">
             <p className="text-white/65 text-sm md:text-base leading-relaxed mb-3 font-light">
-              Truston Developers is a Lucknow-based property development company built on a
-              single founding principle — that buying land should be simple, transparent, and
-              deeply empowering for the buyer.
+              {content.body}
             </p>
             <p className="text-white/40 text-sm leading-relaxed mb-6 font-light">
-              We don't merely sell plots; we help you make one of the most significant decisions
-              of your life with complete clarity, verified documentation, and a team that stands
-              behind every commitment.
+              {content.body_secondary}
             </p>
 
             {/* Pillars */}

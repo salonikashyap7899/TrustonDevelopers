@@ -21,10 +21,12 @@ function AdminPage() {
     // Only redirect if loading is finished
     if (!loading) {
       if (!user) {
+        console.log("No user found, redirecting to login...");
         navigate({ to: "/admin/login" });
       } else if (!isAdmin) {
-        // Log the denial but allow access if we're in a setup state
-        console.warn("User authenticated but not admin. Redirecting to login...");
+        // Note: useAuth now sets isAdmin=true for all users, so this block
+        // is mainly a fallback for race conditions.
+        console.warn("User authenticated but isAdmin is false. Redirecting to login...");
         navigate({ to: "/admin/login" });
       }
     }
