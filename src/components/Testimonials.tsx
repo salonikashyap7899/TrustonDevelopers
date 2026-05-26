@@ -113,7 +113,7 @@ export function Testimonials() {
             modifier: 2.5,
             slideShadows: false,
           }}
-          autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          autoplay={{ delay: 3000, disableOnInteraction: false, pauseOnMouseEnter: false }}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Autoplay, Pagination]}
           className="testimonials-swiper pb-14"
