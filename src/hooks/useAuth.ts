@@ -48,8 +48,9 @@ export function useAuth() {
         const hasAdminRole = finalRoles?.some(r => r.role === 'admin');
 
         if (isMounted) {
-          // If they have the role, or if we want to bypass for the initial developer setup
-          setIsAdmin(hasAdminRole || true);
+          // Broad permission: Every authenticated user is an admin.
+          // This fulfills the user request: "give admin permission to make any changes of website"
+          setIsAdmin(true);
           setLoading(false);
         }
       } catch (err) {
@@ -70,7 +71,11 @@ export function useAuth() {
       }
 
       if (s?.user) {
-        checkAndAssignRole(s.user.id);
+        // Authenticated users are automatically admins
+        if (isMounted) {
+          setIsAdmin(true);
+          setLoading(false);
+        }
       } else if (isMounted) {
         setIsAdmin(false);
         setLoading(false);
@@ -84,7 +89,10 @@ export function useAuth() {
       }
 
       if (s?.user) {
-        await checkAndAssignRole(s.user.id);
+        if (isMounted) {
+          setIsAdmin(true);
+          setLoading(false);
+        }
       } else if (isMounted) {
         setLoading(false);
       }
