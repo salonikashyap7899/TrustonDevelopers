@@ -22,122 +22,207 @@ export const Route = createFileRoute("/")({
       { title: "TRUSTON" },
       {
         name: "description",
-        content: "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
+        content:
+          "Prime Estate by TrustOn — Jila Panchayat approved luxury township in Lucknow.",
       },
       { property: "og:title", content: "TRUSTON" },
       { property: "og:image", content: heroImg },
     ],
-    links: [{ rel: "preload", as: "image", href: heroImg, fetchPriority: "high" } as never],
+    links: [
+      {
+        rel: "preload",
+        as: "image",
+        href: heroImg,
+        fetchPriority: "high",
+      } as never,
+    ],
   }),
   component: Index,
 });
 
 function Index() {
   const heroContent = usePageContent("home.hero", {
-    eyebrow: "TRUSTON",
-    title: "TRUSTON",
-    title_accent: "",
-    subtitle: "TRUSTON",
+    eyebrow: "BEGIN YOUR JOURNEY",
+    title: "TRUST",
+    title_accent: "ON",
+    subtitle: "Own the Ground. Build the Legacy.",
   });
 
   return (
-    <div className="bg-[#04090f] text-foreground overflow-x-hidden">
+    <div className="bg-[#04090f] text-white overflow-x-hidden">
+      
+      {/* HERO SECTION */}
+      <section className="relative h-screen overflow-hidden bg-black">
 
-      {/* ── Hero — Full-screen video ── */}
-      <section className="relative h-screen bg-[#04090f] overflow-hidden">
-        {/* Video background */}
+        {/* VIDEO BACKGROUND */}
         <div className="absolute inset-0 z-0">
           <video
-            autoPlay muted loop playsInline preload="metadata"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
             className="w-full h-full object-cover"
-            style={{ opacity: 0.88, transform: "translateZ(0)" }}
+            style={{
+              opacity: 0.82,
+              transform: "translateZ(0)",
+            }}
           >
             <source
-              src={heroContent.video_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"}
+              src={
+                heroContent.video_url ||
+                "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
+              }
               type="video/mp4"
             />
           </video>
-          {/* Multi-layer gradient for depth */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/40 via-transparent to-[#04090f]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/60 via-transparent to-transparent" />
+
+          {/* DARK OVERLAY */}
+          <div className="absolute inset-0 bg-black/55" />
+
+          {/* BLUE GLOW */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#00BFFF]/10 via-transparent to-black" />
+
+          {/* VIGNETTE */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.85)_100%)]" />
         </div>
 
-        {/* Center-aligned hero layout */}
-        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 md:px-16 max-w-[1200px] mx-auto w-full">
-          <motion.div
-            className="w-full"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            {/* Main headline */}
-            <motion.h1
-              className="font-serif text-5xl md:text-7xl lg:text-8xl text-white tracking-tighter leading-[0.85] mb-6"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            >
-              {heroContent.title}<span style={{ color: "#00BFFF" }}>{heroContent.title_accent}</span>
-            </motion.h1>
+        {/* TOP NAV GLASS EFFECT */}
+        <div className="absolute top-0 left-0 w-full h-28 bg-black/20 backdrop-blur-md border-b border-white/5 z-20" />
 
-            {/* Tagline */}
-            <motion.p
-              className="text-white/60 text-base md:text-lg font-light tracking-widest uppercase mb-3"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.75 }}
-            >
-              {heroContent.eyebrow}
-            </motion.p>
+        {/* NAVBAR */}
+        <header className="absolute top-0 left-0 w-full z-30 px-8 md:px-16 py-8">
+          <div className="flex items-center justify-between">
 
-            <motion.p
-              className="text-white/30 text-sm font-light max-w-xl mx-auto leading-relaxed mb-10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              {heroContent.subtitle}
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 1.1 }}
-            >
-              <Link
-                to="/contact"
-                className="px-10 py-4 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105"
-                style={{ background: "#00BFFF", color: "#04090f" }}
-              >
-                Enquire Now →
-              </Link>
-              <a
-                href="tel:+919616061166"
-                className="px-10 py-4 border border-white/20 text-white/75 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500"
-              >
-                +91 96160-61166
+            {/* LEFT MENU */}
+            <div className="hidden md:flex items-center gap-14">
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                About
               </a>
-            </motion.div>
-          </motion.div>
 
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                Projects
+              </a>
+
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                Properties
+              </a>
+            </div>
+
+            {/* LOGO */}
+            <div className="text-center">
+              <h2 className="text-4xl font-semibold tracking-tight">
+                <span className="text-white/30">TRUST</span>
+                <span className="text-[#00BFFF]">ON</span>
+              </h2>
+            </div>
+
+            {/* RIGHT MENU */}
+            <div className="hidden md:flex items-center gap-14">
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                Services
+              </a>
+
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                Lifestyle
+              </a>
+
+              <a className="text-white/80 text-sm tracking-[0.35em] uppercase hover:text-[#00BFFF] transition-all duration-500 cursor-pointer">
+                Contact
+              </a>
+            </div>
+          </div>
+        </header>
+
+        {/* HERO CONTENT */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+
+          {/* SMALL TOP TEXT */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+            className="text-[#00BFFF] text-sm md:text-base uppercase tracking-[0.45em] mb-8 font-light"
+          >
+            {heroContent.eyebrow}
+          </motion.p>
+
+          {/* MAIN HEADING */}
+          <motion.h1
+            initial={{ opacity: 0, y: 80 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 1.6,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+            className="font-serif leading-[0.85] tracking-tight mb-8"
+          >
+            <span className="block text-white text-6xl md:text-8xl lg:text-[10rem] font-light">
+              {heroContent.title}
+              <span className="text-[#00BFFF]">
+                {heroContent.title_accent}
+              </span>
+            </span>
+          </motion.h1>
+
+          {/* SUBTITLE */}
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.8, duration: 1 }}
+            className="text-white/55 text-lg md:text-2xl tracking-[0.35em] uppercase mb-14 max-w-5xl leading-relaxed"
+          >
+            {heroContent.subtitle}
+          </motion.p>
+
+          {/* CTA BUTTONS */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 1 }}
+            className="flex flex-col sm:flex-row items-center gap-5"
+          >
+
+            {/* ENQUIRE BUTTON */}
+            <Link
+              to="/contact"
+              className="px-12 py-5 rounded-full bg-[#00BFFF] text-black uppercase tracking-[0.25em] text-sm font-bold hover:scale-105 transition-all duration-500 shadow-[0_0_40px_rgba(0,191,255,0.35)]"
+            >
+              Enquire Now →
+            </Link>
+
+            {/* PHONE BUTTON */}
+            <a
+              href="tel:+919616061166"
+              className="px-12 py-5 rounded-full border border-white/15 text-white/75 uppercase tracking-[0.25em] text-sm font-bold hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500 backdrop-blur-md"
+            >
+              +91 96160-61166
+            </a>
+          </motion.div>
         </div>
 
-        {/* Scroll indicator */}
+        {/* SCROLL INDICATOR */}
         <motion.div
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{
-            opacity: { duration: 1, delay: 2 },
-            y: { duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 2 },
+          animate={{
+            opacity: 1,
+            y: [0, 10, 0],
           }}
-          onClick={() => document.getElementById("gallery-section")?.scrollIntoView({ behavior: "smooth" })}
-          className="absolute bottom-10 right-8 md:right-16 lg:right-24 w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/40 hover:border-[#00BFFF] hover:text-[#00BFFF] transition-colors duration-500 cursor-pointer"
+          transition={{
+            opacity: {
+              delay: 2,
+              duration: 1,
+            },
+            y: {
+              duration: 2,
+              repeat: Infinity,
+            },
+          }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20"
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M19 9l-7 7-7-7" />
-          </svg>
+          <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:text-[#00BFFF] hover:border-[#00BFFF] transition-all duration-500 cursor-pointer">
+            ↓
+          </div>
         </motion.div>
       </section>
 
