@@ -53,7 +53,7 @@ export function IntroHighlightSection() {
               {/* Circular image with mask */}
               <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
                 <img
-                  src="/assets/building-render.jpg"
+                  src="/assets/photo_1.jpg"
                   alt="Prime Estate — Luxury Living"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 brightness-90"
                 />

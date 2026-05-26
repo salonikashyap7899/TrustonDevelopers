@@ -146,12 +146,12 @@ function Page() {
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { src: "/assets/prime-estate-gate.jpg", label: "Main Entrance Gate" },
-              { src: "/assets/gate-02.jpg", label: "Prime Estate Gate-02" },
-              { src: "/assets/internal-street.jpg", label: "Internal Street Design" },
-              { src: "/assets/infrastructure-road.jpg", label: "Wide Internal Roads" },
-              { src: "/assets/green-amenities.jpg", label: "Landscaped Park & Play Area" },
-              { src: "/assets/aerial-township.jpg", label: "Aerial Township Overview" },
+              { src: "/assets/photo_1.jpg", label: "Main Entrance Gate" },
+              { src: "/assets/photo_8.jpg", label: "Prime Estate Gate-02" },
+              { src: "/assets/photo_5.jpg", label: "Internal Street Design" },
+              { src: "/assets/photo_4.jpg", label: "Wide Internal Roads" },
+              { src: "/assets/photo_6.jpg", label: "Landscaped Park & Play Area" },
+              { src: "/assets/photo_7.jpg", label: "Aerial Township Overview" },
             ].map((img, i) => (
               <Reveal key={img.label} delay={i * 0.07}>
                 <div className="relative overflow-hidden rounded-2xl group aspect-[4/3]">

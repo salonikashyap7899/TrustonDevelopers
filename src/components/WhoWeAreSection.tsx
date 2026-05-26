@@ -69,7 +69,7 @@ export function WhoWeAreSection() {
           {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
             <img
-              src="/assets/aerial-township.jpg"
+              src="/assets/photo_7.jpg"
               alt="Prime Estate — Township Overview"
               className="w-full h-full object-cover"
             />
