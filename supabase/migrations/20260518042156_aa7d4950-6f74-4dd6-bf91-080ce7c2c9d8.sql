@@ -101,7 +101,7 @@ CREATE TRIGGER trg_first_admin AFTER INSERT ON auth.users
 
 -- Seed default content blocks
 INSERT INTO public.site_content (key, label, data) VALUES
-('home.hero', 'Home — Hero', '{"eyebrow":"Lucknow''s Premier Plot Studio","title":"Own the Ground.","title_accent":"Build the Legacy.","subtitle":"Curated land, architectural mastery and construction excellence — under one roof.","image_url":"","video_url":""}'::jsonb),
+('home.hero', 'Home — Hero', '{"eyebrow":"TRUSTON.","title":"Own the Ground.","title_accent":"Build the Legacy.","subtitle":"Curated land, architectural mastery and construction excellence — under one roof. Build your legacy with every investment, every plot, every dream realized.","image_url":"","video_url":""}'::jsonb),
 ('about.hero', 'About — Hero', '{"eyebrow":"About TrustOn","title":"Crafting Lucknow''s most coveted addresses.","subtitle":"","image_url":"","video_url":""}'::jsonb),
 ('contact.hero', 'Contact — Hero', '{"eyebrow":"Get in touch","title":"Let''s begin your legacy.","subtitle":"","image_url":"","video_url":""}'::jsonb),
 ('services.hero', 'Services — Hero', '{"eyebrow":"Our Services","title":"Everything you need, under one roof.","subtitle":"","image_url":"","video_url":""}'::jsonb),
