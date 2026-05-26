@@ -45,15 +45,14 @@ export function IntroHighlightSection() {
               transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
             />
             
-            {/* Main circular gradient container */}
+            {/* Main circular image container */}
             <div className="relative w-[75vw] max-w-[500px] aspect-square lg:w-[35vw]">
               {/* Glow effect behind circle */}
               <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
               
-              {/* Circular gradient with mask */}
-              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10 bg-gradient-to-br from-luxe-cyan/20 via-background to-luxe-blue/10">
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
-              </div>
+              {/* Circular gradient container */}
+              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10 bg-gradient-to-br from-luxe-cyan/20 via-background to-luxe-blue/10" />
+
               
               {/* Floating accent dots */}
               <motion.div 
