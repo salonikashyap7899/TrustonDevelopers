@@ -153,9 +153,15 @@ function Index() {
       <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
         <PrimeEstateSection />
       </div>
+      
+      
+
 
       {/* Philosophy */}
       <PhilosophySection />
+     {/* Plots & Structures — CSS building scene */}
+      <PlotsAndStructures />
+
 
       {/* Intro Highlight (New Generation) */}
       <IntroHighlightSection />
@@ -174,8 +180,7 @@ function Index() {
       {/* Testimonials (Client Narratives) */}
       <Testimonials />
 
-      {/* Plots & Structures — CSS building scene */}
-      <PlotsAndStructures />
+
 
       {/* Marquee */}
       <Marquee />
