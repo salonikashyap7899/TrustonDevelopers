@@ -33,7 +33,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="bg-[#04090f] text-foreground overflow-x-hidden">
+    <div className="bg-[#04090f] text-foreground overflow-x-hidden min-h-screen">
 
       {/* ── Hero — Full-screen video ── */}
       <section className="relative h-screen bg-[#04090f] overflow-hidden">
