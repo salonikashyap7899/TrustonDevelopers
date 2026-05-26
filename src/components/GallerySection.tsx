@@ -73,11 +73,11 @@ export function GallerySection() {
   return (
     <section id="gallery-section" className="relative bg-[#04090f] w-full select-none">
       
-      {/* 200vh Scroll Timeline Track - matches original HTML */}
-      <div ref={containerRef} className="h-[200vh] w-full relative">
+      {/* 150vh Scroll Timeline Track - reduced for less empty space */}
+      <div ref={containerRef} className="h-[150vh] w-full relative">
         
         {/* Sticky Pinned Viewport Stage */}
-        <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#fcfbfa]">
+        <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#04090f]">
           
           {/* Symmetrical Window Layer - matches HTML layout */}
           <div className="relative w-full max-w-[1400px] h-[85vh] mx-auto top-1/2 -translate-y-1/2 flex items-center justify-center">

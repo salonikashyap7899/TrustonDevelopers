@@ -271,15 +271,15 @@ function PhilosophySection() {
             {/* Glow */}
             <div className="absolute -inset-6 bg-[#00BFFF]/5 blur-3xl rounded-3xl pointer-events-none" />
 
-            {/* Main image */}
-            <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
-              <img
-                src={content.image_url || "/assets/aerial-township.jpg"}
-                alt="Prime Estate — Aerial Township"
-                className="w-full h-full object-cover brightness-75"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#050b14]/70 via-transparent to-transparent" />
-            </div>
+            {/* Main image */}
+            <div className="relative rounded-3xl overflow-hidden border border-white/5 shadow-2xl aspect-[4/3]">
+              <img
+                src={content.image_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_7_2026-05-25_19-38-16-Ru25BaU6uVTKVShPzVE4zWC1f9Bomk.jpg"}
+                alt="Prime Estate — Aerial Township Layout"
+                className="w-full h-full object-cover brightness-75"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050b14]/70 via-transparent to-transparent" />
+            </div>
 
             {/* Floating badge */}
             <div className="absolute -bottom-5 -left-5 bg-[#050b14] border border-[#00BFFF]/25 rounded-2xl px-6 py-4 shadow-xl backdrop-blur-xl">
