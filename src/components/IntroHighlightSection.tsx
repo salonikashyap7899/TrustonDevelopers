@@ -3,8 +3,21 @@ import { useRef } from "react";
 import { SwipeReveal } from "./TextReveal";
 import { Reveal } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export function IntroHighlightSection() {
+  const content = usePageContent("home.intro_highlight", {
+    eyebrow: "New Generation",
+    title: "Redefining",
+    title_accent: "Luxury",
+    subtitle: "Real Estate",
+    body: "Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.",
+    body_secondary:
+      "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.",
+    image_url: "/assets/photo_1.jpg",
+    button_text: "Discover Our Vision",
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -13,7 +26,6 @@ export function IntroHighlightSection() {
 
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
 
   return (
@@ -31,46 +43,32 @@ export function IntroHighlightSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Visual Side - Circular Image like Sobha reference */}
-          <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
-            {/* Decorative rotating ring */}
-            <motion.div 
+          {/* Visual Side - Circular Image */}
+          <motion.div
+            style={{ scale, y: y1 }}
+            className="relative flex items-center justify-center"
+          >
+            <motion.div
               className="absolute w-[85%] aspect-square border border-white/5 rounded-full"
               animate={{ rotate: 360 }}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
             />
-            <motion.div 
+            <motion.div
               className="absolute w-[95%] aspect-square border border-luxe-cyan/10 rounded-full"
               animate={{ rotate: -360 }}
               transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
             />
-            
-            {/* Main circular image container */}
+
             <div className="relative w-[75vw] max-w-[500px] aspect-square lg:w-[35vw]">
-              {/* Glow effect behind circle */}
               <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
-              
-              {/* Circular image with mask */}
               <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
                 <img
-                  src="/assets/photo_1.jpg"
-                  alt="Prime Estate — Luxury Living"
+                  src={content.image_url}
+                  alt="Luxury Living"
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-110 brightness-90"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent" />
               </div>
-              
-              {/* Floating accent dots */}
-              <motion.div 
-                className="absolute -top-4 -right-4 w-4 h-4 rounded-full bg-luxe-cyan/60"
-                animate={{ y: [0, -10, 0], opacity: [0.6, 1, 0.6] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div 
-                className="absolute -bottom-2 -left-2 w-3 h-3 rounded-full bg-white/40"
-                animate={{ y: [0, 8, 0], opacity: [0.4, 0.8, 0.4] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              />
             </div>
 
             {/* Floating Detail Card */}
@@ -93,34 +91,30 @@ export function IntroHighlightSection() {
               <div className="flex items-center gap-4 mb-4">
                 <span className="w-12 h-px bg-luxe-cyan" />
                 <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">
-                  New Generation
+                  {content.eyebrow}
                 </span>
               </div>
             </Reveal>
 
             <SwipeReveal>
               <h2 className="font-display text-white text-6xl lg:text-8xl leading-[0.9] tracking-tighter">
-                Redefining <br />
-                <span className="text-luxe-cyan italic font-serif">Luxury</span> Real Estate
+                {content.title} <br />
+                <span className="text-luxe-cyan italic font-serif">
+                  {content.title_accent}
+                </span>{" "}
+                {content.subtitle}
               </h2>
             </SwipeReveal>
 
             <Reveal delay={0.3}>
               <div className="space-y-6 text-white/50 text-lg lg:text-xl font-light leading-relaxed">
-                <p>
-                  Welcome to the era of TrustOn, where we blend cinematic storytelling with
-                  architectural excellence. Our mission is to create billion-dollar luxury
-                  experiences that transcend traditional real estate.
-                </p>
-                <p>
-                  From interactive 3D environments to immersive lifestyle offerings, every detail is
-                  crafted for the elite.
-                </p>
+                <p>{content.body}</p>
+                <p>{content.body_secondary}</p>
               </div>
             </Reveal>
 
             <Reveal delay={0.5}>
-              <button className="btn-magnetic btn-luxe px-12">Discover Our Vision</button>
+              <button className="btn-magnetic btn-luxe px-12">{content.button_text}</button>
             </Reveal>
           </div>
         </div>

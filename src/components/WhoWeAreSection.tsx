@@ -27,7 +27,8 @@ export function WhoWeAreSection() {
     title_accent: "Legacies",
     subtitle: "in Lucknow",
     body: "Truston Developers is a Lucknow-based property development company built on a single founding principle — that buying land should be simple, transparent, and deeply empowering for the buyer.",
-    body_secondary: "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
+    body_secondary:
+      "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
   });
 
   return (
@@ -65,7 +66,6 @@ export function WhoWeAreSection() {
       >
         {/* Entire section content inside the 3D scroll card */}
         <div className="relative w-full h-full flex flex-col md:flex-row overflow-hidden rounded-xl">
-
           {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
             <img
@@ -113,9 +113,7 @@ export function WhoWeAreSection() {
                     <p className="text-white font-semibold text-xs mb-1 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-500 uppercase">
                       {p.title}
                     </p>
-                    <p className="text-white/35 text-xs leading-relaxed font-light">
-                      {p.desc}
-                    </p>
+                    <p className="text-white/35 text-xs leading-relaxed font-light">{p.desc}</p>
                   </div>
                 </motion.div>
               ))}

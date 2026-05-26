@@ -123,7 +123,7 @@ export function EnhancedGallerySection() {
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
-            
+
             {/* Overlay Content */}
             <motion.div
               className="absolute bottom-0 left-0 right-0 p-8 md:p-12"

@@ -1,10 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import { PlotTrackerCompact } from "@/components/PlotTracker";
 import heroImg from "@/assets/hero-estate.jpg";
+import { useSingleRecord } from "@/hooks/useCollections";
+import { usePageContent } from "@/hooks/usePageContent";
+
+type HeroSection = {
+  title: string;
+  title_accent: string;
+  subtitle: string;
+  image_url: string;
+};
 
 export const Route = createFileRoute("/investment-consulting")({
   head: () => ({
@@ -19,33 +27,6 @@ export const Route = createFileRoute("/investment-consulting")({
   }),
   component: InvestmentConsultingPage,
 });
-
-const investmentServices = [
-  {
-    title: "First-Time Buyer Guidance",
-    desc: "Buying your first plot can feel overwhelming. We demystify the process, explain legal requirements, assess affordability, evaluate locations, and guide you toward land that aligns with your budget.",
-  },
-  {
-    title: "Experienced Investor Portfolio Strategy",
-    desc: "If you already own property, we help optimize your portfolio. We analyze existing holdings, identify portfolio gaps, recommend diversification, and structure new investments to maximize overall returns.",
-  },
-  {
-    title: "NRI Investment Solutions",
-    desc: "Investing from abroad brings unique challenges—currency fluctuations, regulatory compliance, property management distance. We provide NRI-specific guidance covering foreign investment regulations.",
-  },
-  {
-    title: "Location Intelligence & Growth Analysis",
-    desc: "We identify high-potential locations before the curve. Our analysis covers infrastructure development, commercial activity, population growth, and long-term demand drivers.",
-  },
-  {
-    title: "Legal & Compliance Verification",
-    desc: "Investment is only worthwhile if the foundation is legal and clear. We conduct thorough title audits, verify Jila Panchayat approvals, and confirm ownership documentation.",
-  },
-  {
-    title: "Exit Strategy & Wealth Realization",
-    desc: "Investment is ultimately about realization. We help you plan exit strategies, understand optimal holding periods, navigate sale processes, and realize maximum value.",
-  },
-];
 
 const metrics = [
   {
@@ -70,62 +51,6 @@ const metrics = [
   },
 ];
 
-const investorTypes = [
-  {
-    type: "Conservative Builder",
-    desc: "You want to buy a plot and build your family home or hold for long-term appreciation.",
-    benefits: [
-      "Plot selection tailored to your vision",
-      "Architecture & design coordination",
-      "Construction guidance & oversight",
-      "Long-term appreciation strategy",
-    ],
-  },
-  {
-    type: "Portfolio Growth Investor",
-    desc: "You're building a real estate portfolio focused on capital appreciation and multiple wealth streams.",
-    benefits: [
-      "Multi-property portfolio analysis",
-      "High-growth corridor identification",
-      "ROI optimization per holding",
-      "Tax-efficient structuring",
-    ],
-  },
-  {
-    type: "NRI Wealth Builder",
-    desc: "You're investing from abroad seeking India's real estate growth with regulatory compliance and management support.",
-    benefits: [
-      "NRI-specific legal guidance",
-      "Currency optimization strategies",
-      "Remote property management",
-      "Repatriation planning",
-    ],
-  },
-];
-
-const testimonials = [
-  {
-    quote: "I purchased two plots through TrustOn after thorough market research. The appreciation over 18 months has been exceptional. Their investment consulting team provided data-driven insights.",
-    author: "Priya Sharma",
-    role: "Investor — Lucknow",
-  },
-  {
-    quote: "Managing a real estate investment from abroad is always nerve-wracking, but TrustOn made every step crystal clear. Documentation was impeccable and legal clearance was pristine.",
-    author: "Vikram Agarwal",
-    role: "NRI Investor — Dubai",
-  },
-  {
-    quote: "As a channel partner, I have referred over 20 clients. The team is responsive, the commission structure is fair, and the product is genuinely good. Best partnership.",
-    author: "Mohammed Irfan",
-    role: "Channel Partner",
-  },
-  {
-    quote: "The ROI projections have held up remarkably well. Highly recommended for anyone serious about real estate wealth.",
-    author: "Rajesh Kumar",
-    role: "Plot Investor — Phase 1",
-  },
-];
-
 const strategyItems = [
   "Location & Market Analysis",
   "ROI Projections & Scenario Planning",
@@ -137,71 +62,19 @@ const strategyItems = [
   "Long-Term Wealth Management",
 ];
 
-function ROICalculator() {
-  const [investment, setInvestment] = useState(2500000);
-  const [years, setYears] = useState(10);
-  const [growth, setGrowth] = useState(15);
-  const [results, setResults] = useState({ finalValue: 0, profit: 0, multiple: 0 });
-
-  useEffect(() => {
-    const finalValue = investment * Math.pow(1 + growth / 100, years);
-    const profit = finalValue - investment;
-    const multiple = finalValue / investment;
-    setResults({ finalValue, profit, multiple });
-  }, [investment, years, growth]);
-
-  return (
-    <div className="bg-[#060c16] p-10 rounded-[32px] border border-white/5">
-      <h3 className="font-serif text-3xl text-white mb-10">Project Your Investment Returns</h3>
-      <div className="grid md:grid-cols-3 gap-8 mb-12">
-        <div className="space-y-3">
-          <label className="text-white/40 text-xs uppercase tracking-widest font-bold">Initial Investment (₹)</label>
-          <input
-            type="number"
-            value={investment}
-            onChange={(e) => setInvestment(Number(e.target.value))}
-            className="w-full bg-[#04090f] border border-white/10 rounded-xl px-6 py-4 text-white focus:border-[#00BFFF] outline-none transition-all"
-          />
-        </div>
-        <div className="space-y-3">
-          <label className="text-white/40 text-xs uppercase tracking-widest font-bold">Time Horizon (Years)</label>
-          <input
-            type="number"
-            value={years}
-            onChange={(e) => setYears(Number(e.target.value))}
-            className="w-full bg-[#04090f] border border-white/10 rounded-xl px-6 py-4 text-white focus:border-[#00BFFF] outline-none transition-all"
-          />
-        </div>
-        <div className="space-y-3">
-          <label className="text-white/40 text-xs uppercase tracking-widest font-bold">Annual Growth Rate (%)</label>
-          <input
-            type="number"
-            value={growth}
-            onChange={(e) => setGrowth(Number(e.target.value))}
-            className="w-full bg-[#04090f] border border-white/10 rounded-xl px-6 py-4 text-white focus:border-[#00BFFF] outline-none transition-all"
-          />
-        </div>
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="bg-[#04090f] p-8 rounded-2xl text-center border border-white/5">
-          <p className="text-[#00BFFF] font-serif text-4xl mb-2">₹{(results.finalValue / 10000000).toFixed(2)}Cr</p>
-          <p className="text-white/30 text-[10px] uppercase tracking-widest font-bold">Final Valuation</p>
-        </div>
-        <div className="bg-[#04090f] p-8 rounded-2xl text-center border border-white/5">
-          <p className="text-[#00BFFF] font-serif text-4xl mb-2">₹{(results.profit / 10000000).toFixed(2)}Cr</p>
-          <p className="text-white/30 text-[10px] uppercase tracking-widest font-bold">Total Profit</p>
-        </div>
-        <div className="bg-[#04090f] p-8 rounded-2xl text-center border border-white/5">
-          <p className="text-[#00BFFF] font-serif text-4xl mb-2">{results.multiple.toFixed(1)}x</p>
-          <p className="text-white/30 text-[10px] uppercase tracking-widest font-bold">Return Multiple</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function InvestmentConsultingPage() {
+  const { data: hero } = useSingleRecord<HeroSection>(
+    "hero_sections",
+    "page_key",
+    "investment-consulting",
+  );
+  const content = usePageContent("investment.main", {
+    intro_title: "Build Wealth Through",
+    intro_title_accent: "Strategic Land Investment",
+    intro_body:
+      "Land is one of India's most predictable wealth-building assets. At TrustOn, we transform real estate investment from guesswork into strategic certainty. Our consulting approach combines deep local market expertise, transparent ROI analysis, and long-term portfolio strategy.",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -209,13 +82,13 @@ function InvestmentConsultingPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={hero?.image_url || heroImg}
             alt="Investment Consulting"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.25) saturate(0.7)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/60 via-transparent to-[#04090f]" />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/40 to-transparent" />
         </div>
         <Section3DBackground opacity={0.1} />
         <div className="relative z-10 max-w-7xl mx-auto px-6">
@@ -225,10 +98,12 @@ function InvestmentConsultingPage() {
                 Strategic Wealth Building
               </p>
               <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-                Investment <em className="text-[#00BFFF] italic">Consulting</em>
+                {hero?.title || "Investment"}{" "}
+                <em className="text-[#00BFFF] italic">{hero?.title_accent || "Consulting"}</em>
               </h1>
               <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light mb-12">
-                Real estate wealth isn't built by chance—it's built by strategy. Our investment consulting team provides data-driven guidance for seeking robust land investment opportunities in Lucknow's highest-growth corridors.
+                {hero?.subtitle ||
+                  "Real estate wealth isn't built by chance—it's built by strategy. Our investment consulting team provides data-driven guidance for seeking robust land investment opportunities in Lucknow's highest-growth corridors."}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
@@ -256,26 +131,20 @@ function InvestmentConsultingPage() {
             <Reveal>
               <div>
                 <h2 className="font-serif text-4xl md:text-6xl text-white mb-8 leading-tight">
-                  Build Wealth Through <em className="text-[#00BFFF] italic">Strategic Land Investment</em>
+                  {content.intro_title}{" "}
+                  <em className="text-[#00BFFF] italic">{content.intro_title_accent}</em>
                 </h2>
                 <div className="space-y-6 text-white/50 text-lg leading-relaxed font-light">
-                  <p>
-                    Land is one of India's most predictable wealth-building assets. At TrustOn, we transform real estate investment from guesswork into strategic certainty. Our consulting approach combines deep local market expertise, transparent ROI analysis, and long-term portfolio strategy.
-                  </p>
-                  <h3 className="text-white font-serif text-2xl mt-12 mb-6">Our Investment Philosophy</h3>
-                  <p>
-                    Great investment decisions are rooted in data, not hunches. We analyze location fundamentals, growth trajectories, legal clarity, and long-term appreciation potential. Every recommendation is backed by market research.
-                  </p>
-                  <p>
-                    We believe in transparency above all. You'll understand why we recommend a specific plot, what its appreciation potential is, what risks exist, and how it fits into your broader goals.
-                  </p>
+                  <p>{content.intro_body}</p>
                 </div>
               </div>
             </Reveal>
 
             <Reveal delay={0.2}>
               <div className="bg-[#060c16] border border-white/5 p-12 rounded-[48px]">
-                <h3 className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] font-bold mb-8">Investment Services Include</h3>
+                <h3 className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] font-bold mb-8">
+                  Investment Services Include
+                </h3>
                 <ul className="space-y-6">
                   {strategyItems.map((item) => (
                     <li key={item} className="flex items-center gap-4 text-white/70 text-lg">
@@ -286,30 +155,6 @@ function InvestmentConsultingPage() {
                 </ul>
               </div>
             </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Grid */}
-      <section className="py-32 px-6 bg-[#060c16]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Our Investment <em className="text-[#00BFFF] italic">Services</em>
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {investmentServices.map((service, i) => (
-              <Reveal key={service.title} delay={i * 0.1}>
-                <div className="bg-[#04090f] border-l-4 border-transparent hover:border-[#00BFFF] p-10 rounded-2xl transition-all duration-500 hover:bg-[#00BFFF]/5 h-full">
-                  <h3 className="font-serif text-2xl text-white mb-6">{service.title}</h3>
-                  <p className="text-white/45 text-sm leading-relaxed">{service.desc}</p>
-                </div>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
@@ -342,87 +187,6 @@ function InvestmentConsultingPage() {
         </div>
       </section>
 
-      {/* Investor Types */}
-      <section className="py-32 px-6 bg-[#060c16]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6 leading-tight">
-                Investment Strategies by <em className="text-[#00BFFF] italic">Investor Type</em>
-              </h2>
-              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                Different investors have different goals. We tailor strategies to align with your timeline and risk appetite.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {investorTypes.map((investor, i) => (
-              <Reveal key={investor.type} delay={i * 0.1}>
-                <div className="bg-[#04090f] border-b-4 border-[#00BFFF] p-10 rounded-3xl flex flex-col h-full">
-                  <h3 className="font-serif text-2xl text-white mb-4">{investor.type}</h3>
-                  <p className="text-white/45 text-sm leading-relaxed mb-10 flex-grow">{investor.desc}</p>
-                  <ul className="space-y-4">
-                    {investor.benefits.map((b) => (
-                      <li key={b} className="text-white/60 text-xs flex items-start gap-3">
-                        <span className="text-[#00BFFF]">✓</span> {b}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Tools Section (ROI & Plot Tracker) */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Data & <em className="text-[#00BFFF] italic">Insights</em>
-              </h2>
-            </div>
-          </Reveal>
-
-          <div className="grid lg:grid-cols-2 gap-12">
-            <Reveal direction="left">
-              <ROICalculator />
-            </Reveal>
-            <Reveal direction="right" delay={0.2}>
-              <PlotTrackerCompact />
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-32 px-6 bg-[#060c16]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <h2 className="font-serif text-4xl md:text-6xl text-white mb-20 text-center">
-              Investor <em className="text-[#00BFFF] italic">Testimonials</em>
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((t, i) => (
-              <Reveal key={t.author} delay={i * 0.1}>
-                <div className="bg-[#04090f] border-l-4 border-[#00BFFF] p-10 rounded-2xl h-full flex flex-col">
-                  <p className="text-white/60 italic text-lg leading-relaxed mb-8 flex-grow">"{t.quote}"</p>
-                  <div>
-                    <p className="text-white font-bold">{t.author}</p>
-                    <p className="text-[#00BFFF] text-xs uppercase tracking-widest mt-1">{t.role}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-32 px-6 text-center">
         <Reveal>
@@ -431,7 +195,8 @@ function InvestmentConsultingPage() {
               Ready to Build Your Real Estate <em className="text-[#00BFFF] italic">Wealth</em>?
             </h2>
             <p className="text-white/50 text-lg mb-12">
-              Schedule a confidential consultation with our investment advisory team. We'll analyze your goals, assess your risk profile, and create a personalized strategy.
+              Schedule a confidential consultation with our investment advisory team. We'll analyze
+              your goals, assess your risk profile, and create a personalized strategy.
             </p>
             <Link
               to="/contact"

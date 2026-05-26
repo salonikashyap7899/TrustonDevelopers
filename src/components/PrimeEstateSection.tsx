@@ -1,9 +1,23 @@
 import { motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 import { Link } from "@tanstack/react-router";
+import { useSingleRecord } from "@/hooks/useCollections";
+
+type ProjectData = {
+  title: string;
+  title_accent: string;
+  description: string;
+  image_url: string;
+  content_json: {
+    amenities: string[];
+    stats: { val: string; sup?: string; label: string }[];
+  };
+};
 
 export function PrimeEstateSection() {
-  const amenities = [
+  const { data: project } = useSingleRecord<ProjectData>("projects", "slug", "prime-estate");
+
+  const amenities = project?.content_json?.amenities || [
     "Wide Internal Roads",
     "24/7 Security Guard",
     "Piped Water Supply",
@@ -14,7 +28,7 @@ export function PrimeEstateSection() {
     "Phased Infrastructure",
   ];
 
-  const stats = [
+  const stats = project?.content_json?.stats || [
     { val: "120", sup: "+", label: "Total Plots" },
     { val: "47", sup: "", label: "Available Now" },
     { val: "2,400", sup: "", label: "Sq. Ft Range" },
@@ -35,14 +49,15 @@ export function PrimeEstateSection() {
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-serif text-4xl md:text-6xl font-light leading-tight text-white">
-                Prime{" "}
-                <em className="italic text-[#00BFFF]">Estate</em>
+                {project?.title || "Prime"}{" "}
+                <em className="italic text-[#00BFFF]">{project?.title_accent || "Estate"}</em>
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.2}>
             <p className="text-base md:text-lg text-white/40 leading-relaxed font-light">
-              A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth.
+              {project?.description ||
+                "A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth."}
             </p>
           </Reveal>
         </div>
@@ -60,7 +75,7 @@ export function PrimeEstateSection() {
             <div className="relative overflow-hidden min-h-[420px] md:min-h-[600px] flex flex-col justify-end p-10 md:p-12 bg-[#161613]">
               {/* Background image */}
               <img
-                src="/assets/photo_4.jpg"
+                src={project?.image_url || "/assets/photo_4.jpg"}
                 alt="Prime Estate — Internal Street"
                 className="absolute inset-0 w-full h-full object-cover"
               />
@@ -74,14 +89,11 @@ export function PrimeEstateSection() {
                   Residential Plot Colony · Dubagga
                 </p>
                 <h3 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight mb-2">
-                  Prime
+                  {project?.title || "Prime"}
                   <br />
-                  <em className="italic text-[#00BFFF]">Estate</em>
+                  <em className="italic text-[#00BFFF]">{project?.title_accent || "Estate"}</em>
                 </h3>
                 <p className="text-sm text-white/40 mt-2">Dubagga, Lucknow · Uttar Pradesh</p>
-                <p className="text-[10px] text-white/25 tracking-widest uppercase mt-1">
-                  Launched · January 5, 2025
-                </p>
               </div>
             </div>
 
@@ -96,9 +108,7 @@ export function PrimeEstateSection() {
                   >
                     <p className="font-serif text-3xl md:text-4xl font-light text-white leading-none">
                       {s.val}
-                      {s.sup && (
-                        <sup className="text-base md:text-lg text-[#00BFFF]">{s.sup}</sup>
-                      )}
+                      {s.sup && <sup className="text-base md:text-lg text-[#00BFFF]">{s.sup}</sup>}
                     </p>
                     <p className="text-[10px] uppercase tracking-[0.18em] text-white/30 mt-2">
                       {s.label}
@@ -144,10 +154,10 @@ export function PrimeEstateSection() {
                   Enquire Now
                 </Link>
                 <Link
-                  to="/contact"
+                  to="/project"
                   className="flex-1 text-center border border-[#00BFFF]/25 text-white/50 py-3.5 text-[11px] uppercase tracking-[0.15em] font-medium hover:border-[#00BFFF]/60 hover:text-[#00BFFF] transition-all duration-400 rounded-full"
                 >
-                  Schedule Visit →
+                  Learn More →
                 </Link>
               </div>
             </div>

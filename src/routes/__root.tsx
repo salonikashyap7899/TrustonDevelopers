@@ -8,7 +8,6 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { LuxeNav } from "@/components/LuxeNav";
 import { SobhaStyleNav } from "@/components/SobhaStyleNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
@@ -17,9 +16,18 @@ import { CursorGlow } from "@/components/CursorGlow";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
 import Lenis from "lenis";
 import { useEffect } from "react";
+import { useSingleRecord } from "@/hooks/useCollections";
 
 import appCss from "../styles.css?url";
 import sobhaAnimationsCss from "../styles/sobha-animations.css?url";
+
+type SEOConfig = {
+  page_path: string;
+  title: string;
+  description: string;
+  og_title: string;
+  og_image: string;
+};
 
 function NotFoundComponent() {
   return (
@@ -128,6 +136,25 @@ function RootShell({ children }: { children: React.ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RootInner />
+    </QueryClientProvider>
+  );
+}
+
+function RootInner() {
+  const location = useLocation();
+  const { data: seo } = useSingleRecord<SEOConfig>("seo_configs", "page_path", location.pathname);
+
+  useEffect(() => {
+    if (seo) {
+      document.title = seo.title || document.title;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute("content", seo.description || "");
+    }
+  }, [seo]);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.6,
@@ -154,7 +181,7 @@ function RootComponent() {
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <ScrollProgressBar />
       <CursorGlow />
       <IntroScreen />
@@ -164,6 +191,6 @@ function RootComponent() {
       </main>
       <SiteFooter />
       <WhatsAppButton />
-    </QueryClientProvider>
+    </>
   );
 }

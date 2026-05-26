@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useRef } from "react";
 import { ImageTrail } from "@/components/ui/image-trail";
@@ -13,7 +13,7 @@ const images = [
   "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c",
   "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea",
   "https://images.unsplash.com/photo-1512917774080-9991f1c4c750",
-].map(url => `${url}?auto=format&fit=crop&w=300&q=80`);
+].map((url) => `${url}?auto=format&fit=crop&w=300&q=80`);
 
 export function ImageTrailGallery() {
   const ref = useRef<HTMLDivElement>(null);
@@ -21,7 +21,7 @@ export function ImageTrailGallery() {
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-background min-h-[80vh]">
       <Section3DBackground opacity={0.2} />
-      
+
       <div className="mx-auto max-w-7xl relative z-10">
         {/* Header */}
         <Reveal delay={0}>
@@ -40,16 +40,12 @@ export function ImageTrailGallery() {
       </div>
 
       {/* Image Trail Area */}
-      <div 
+      <div
         className="relative w-full h-[60vh] flex justify-center items-center overflow-hidden cursor-none"
         ref={ref}
       >
         <div className="absolute inset-0 z-0">
-          <ImageTrail 
-            containerRef={ref}
-            rotationRange={20}
-            interval={80}
-          >
+          <ImageTrail containerRef={ref} rotationRange={20} interval={80}>
             {images.map((url, index) => (
               <div
                 key={index}
@@ -65,9 +61,9 @@ export function ImageTrailGallery() {
             ))}
           </ImageTrail>
         </div>
-        
+
         {/* Center Text */}
-        <motion.h1 
+        <motion.h1
           className="text-6xl md:text-9xl font-display font-bold z-10 select-none pointer-events-none"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}

@@ -55,13 +55,13 @@
   --primary: #004aad; /* Truston Blue */
   --primary-foreground: oklch(0.98 0.004 240);
   --luxe-blue: #004aad;
-  --luxe-cyan: #00BFFF;
+  --luxe-cyan: #00bfff;
 
   --secondary: oklch(0.15 0.02 250);
   --secondary-foreground: oklch(0.98 0.004 240);
   --muted: oklch(0.15 0.02 250);
   --muted-foreground: oklch(0.5 0.05 250);
-  --accent: #00BFFF; /* Cyan Accent */
+  --accent: #00bfff; /* Cyan Accent */
   --accent-foreground: oklch(0.1 0.01 250);
   --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(0.99 0.004 240);
@@ -91,15 +91,15 @@
   background: #050a12;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #004aad 0%, #00BFFF 100%);
+  background: linear-gradient(180deg, #004aad 0%, #00bfff 100%);
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00BFFF;
+  background: #00bfff;
 }
 * {
   scrollbar-width: thin;
-  scrollbar-color: #00BFFF #050a12;
+  scrollbar-color: #00bfff #050a12;
 }
 
 @layer base {
@@ -336,8 +336,12 @@
 
   /* Marquee scroll */
   @keyframes marquee-scroll {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
   }
 
   /* Typography */
@@ -401,8 +405,9 @@
 
   /* Enhanced image transitions */
   .premium-image {
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), 
-                filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    transition:
+      transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
   }
 
@@ -412,9 +417,10 @@
 
   /* Smooth card hover effects */
   .premium-card {
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.4s ease;
+    transition:
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      border-color 0.4s ease;
   }
 
   .premium-card:hover {

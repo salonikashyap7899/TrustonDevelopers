@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { InnerHero } from "@/components/InnerHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import projectImg from "@/assets/project-prime.jpg";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { useSingleRecord } from "@/hooks/useCollections";
 
 export const Route = createFileRoute("/channel-partner")({
   head: () => ({
@@ -38,28 +38,29 @@ const benefits = [
   },
 ];
 
-const marqueeWords = [
-  "Prime Estate",
-  "Investment Opportunities",
-  "Billion Dollar Vision",
-  "Residential Plots",
-  "Elite Commissions",
-];
-
 function Page() {
+  const { data: hero } = useSingleRecord<Record<string, string | undefined>>(
+    "hero_sections",
+    "page_key",
+    "channel-partner",
+  );
+
   return (
     <div className="bg-background text-foreground overflow-hidden">
       <InnerHero
         eyebrow="Partnership Ecosystem"
         title={
           <>
-            Scale your business.
+            {hero?.title || "Scale your business."}
             <br />
-            Earn more, <em className="text-luxe-cyan not-italic font-serif italic">together.</em>
+            {hero?.title_accent || "Earn more, together."}
           </>
         }
-        subtitle="Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision."
-        poster="/attached_assets/image_1779159211927.png"
+        subtitle={
+          hero?.subtitle ||
+          "Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision."
+        }
+        poster={hero?.image_url || "/attached_assets/image_1779159211927.png"}
         alt="Channel Partner Program"
       />
 
@@ -89,13 +90,6 @@ function Page() {
               </Reveal>
             ))}
           </div>
-          <Reveal>
-            <div className="mt-20 text-center">
-              <Link to="/about-us" className="btn-magnetic btn-luxe px-12 py-5">
-                Learn More
-              </Link>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -127,23 +121,6 @@ function Page() {
         </div>
       </section>
 
-      <div className="border-y border-white/5 py-10 overflow-hidden bg-ink relative z-10">
-        <div className="flex whitespace-nowrap marquee gap-24">
-          {[...Array(2)].map((_, k) => (
-            <div key={k} className="flex gap-24 shrink-0">
-              {marqueeWords.map((w, i) => (
-                <span
-                  key={`${k}-${i}`}
-                  className="font-display text-3xl italic text-white/20 uppercase tracking-widest"
-                >
-                  {w} <span className="text-luxe-cyan mx-10">✦</span>
-                </span>
-              ))}
-            </div>
-          ))}
-        </div>
-      </div>
-
       <section className="py-32 px-6 relative">
         <div className="mx-auto max-w-4xl relative z-10">
           <Reveal>
@@ -151,36 +128,19 @@ function Page() {
             <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-10 tracking-tighter leading-none">
               Initialize <em className="text-luxe-cyan italic font-serif">Alliance.</em>
             </h2>
-            <p className="text-center text-white/40 mb-20 font-light text-xl leading-relaxed max-w-3xl mx-auto">
-              Join the global network of partners already scaling with TrustOn. Our private portal
-              access will be authorized within 24 hours.
-            </p>
           </Reveal>
           <Reveal>
-            <form className="glass-premium rounded-[48px] p-12 md:p-16 border border-white/10 shadow-luxe grid sm:grid-cols-2 gap-10">
-              <Field label="Full Identity" />
-              <Field label="Communication Number" type="tel" />
-              <Field label="Digital Mail" type="email" />
-              <Field label="Jurisdiction (City)" />
-              <label className="block sm:col-span-2">
-                <span className="text-[10px] uppercase tracking-[0.3em] text-white/30 font-bold mb-4 block">
-                  Industry Tenure
-                </span>
-                <select className="w-full bg-white/[0.03] border border-white/10 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/50 transition-colors font-light appearance-none">
-                  <option className="bg-ink">Select tenure</option>
-                  <option className="bg-ink">Primary Stage (&lt; 1 yr)</option>
-                  <option className="bg-ink">Established (1–3 yrs)</option>
-                  <option className="bg-ink">Senior (3–5 yrs)</option>
-                  <option className="bg-ink">Empire Tier (5+ yrs)</option>
-                </select>
-              </label>
-              <div className="sm:col-span-2">
-                <Field label="Organization / Firm Architecture (Optional)" />
+            <form className="glass-premium rounded-[48px] p-12 md:p-16 border border-white/10 shadow-luxe flex flex-col gap-10">
+              <div className="grid sm:grid-cols-2 gap-10">
+                <Field label="Full Identity" />
+                <Field label="Communication Number" type="tel" />
+                <Field label="Digital Mail" type="email" />
+                <Field label="Jurisdiction (City)" />
               </div>
-              <div className="sm:col-span-2 flex justify-center mt-8">
-                <button type="submit" className="btn-magnetic btn-luxe px-16 py-5 rounded-full">
-                  Submit Credentials →
-                </button>
+              <div className="flex justify-center mt-8">
+                <Link to="/contact" className="btn-magnetic btn-luxe px-16 py-5 rounded-full">
+                  Connect With Us →
+                </Link>
               </div>
             </form>
           </Reveal>

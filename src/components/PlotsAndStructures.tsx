@@ -1,15 +1,88 @@
 import { motion } from "framer-motion";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const BUILDINGS = [
-  { h: 55, w: 14, delay: 0.0, accent: false, windows: [[1,0,1],[0,1,1],[1,0,0]] },
-  { h: 80, w: 18, delay: 0.1, accent: true,  windows: [[1,1,0],[1,0,1],[0,1,1]] },
-  { h: 100, w: 22, delay: 0.2, accent: false, windows: [[0,1,1,0],[1,0,0,1],[1,1,0,1],[0,1,1,0]] },
-  { h: 68, w: 16, delay: 0.15, accent: false, windows: [[1,0,1],[0,1,0],[1,1,0]] },
-  { h: 42, w: 12, delay: 0.25, accent: true,  windows: [[1,0],[0,1],[1,1]] },
-  { h: 88, w: 20, delay: 0.05, accent: false, windows: [[1,0,1,0],[0,1,0,1],[1,1,0,1],[0,0,1,0]] },
-  { h: 52, w: 14, delay: 0.3,  accent: false, windows: [[0,1,1],[1,0,1],[0,1,0]] },
+  {
+    h: 55,
+    w: 14,
+    delay: 0.0,
+    accent: false,
+    windows: [
+      [1, 0, 1],
+      [0, 1, 1],
+      [1, 0, 0],
+    ],
+  },
+  {
+    h: 80,
+    w: 18,
+    delay: 0.1,
+    accent: true,
+    windows: [
+      [1, 1, 0],
+      [1, 0, 1],
+      [0, 1, 1],
+    ],
+  },
+  {
+    h: 100,
+    w: 22,
+    delay: 0.2,
+    accent: false,
+    windows: [
+      [0, 1, 1, 0],
+      [1, 0, 0, 1],
+      [1, 1, 0, 1],
+      [0, 1, 1, 0],
+    ],
+  },
+  {
+    h: 68,
+    w: 16,
+    delay: 0.15,
+    accent: false,
+    windows: [
+      [1, 0, 1],
+      [0, 1, 0],
+      [1, 1, 0],
+    ],
+  },
+  {
+    h: 42,
+    w: 12,
+    delay: 0.25,
+    accent: true,
+    windows: [
+      [1, 0],
+      [0, 1],
+      [1, 1],
+    ],
+  },
+  {
+    h: 88,
+    w: 20,
+    delay: 0.05,
+    accent: false,
+    windows: [
+      [1, 0, 1, 0],
+      [0, 1, 0, 1],
+      [1, 1, 0, 1],
+      [0, 0, 1, 0],
+    ],
+  },
+  {
+    h: 52,
+    w: 14,
+    delay: 0.3,
+    accent: false,
+    windows: [
+      [0, 1, 1],
+      [1, 0, 1],
+      [0, 1, 0],
+    ],
+  },
 ] as const;
 
 function CssBuildingScene() {
@@ -27,21 +100,29 @@ function CssBuildingScene() {
         { top: "10%", left: "55%", size: 2, delay: 1 },
         { top: "20%", left: "75%", size: 1.5, delay: 0.3 },
         { top: "35%", left: "88%", size: 1, delay: 0.8 },
-        { top: "8%",  left: "42%", size: 1, delay: 1.2 },
+        { top: "8%", left: "42%", size: 1, delay: 1.2 },
       ].map((star, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full bg-white"
           style={{ top: star.top, left: star.left, width: star.size, height: star.size }}
           animate={{ opacity: [0.2, 0.8, 0.2] }}
-          transition={{ duration: 2 + i * 0.7, repeat: Infinity, delay: star.delay, ease: "easeInOut" }}
+          transition={{
+            duration: 2 + i * 0.7,
+            repeat: Infinity,
+            delay: star.delay,
+            ease: "easeInOut",
+          }}
         />
       ))}
 
       {/* Glow from city below */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-24 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.08) 0%, transparent 70%)", filter: "blur(10px)" }}
+        style={{
+          background: "radial-gradient(ellipse, rgba(0,191,255,0.08) 0%, transparent 70%)",
+          filter: "blur(10px)",
+        }}
       />
 
       {/* Ground line */}
@@ -68,14 +149,22 @@ function CssBuildingScene() {
                   background: b.accent
                     ? "linear-gradient(180deg, #003a5c 0%, #001828 100%)"
                     : "linear-gradient(180deg, #081624 0%, #020a12 100%)",
-                  borderTop: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
-                  borderLeft: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
-                  borderRight: b.accent ? "1px solid rgba(0,191,255,0.25)" : "1px solid rgba(255,255,255,0.04)",
+                  borderTop: b.accent
+                    ? "1px solid rgba(0,191,255,0.25)"
+                    : "1px solid rgba(255,255,255,0.04)",
+                  borderLeft: b.accent
+                    ? "1px solid rgba(0,191,255,0.25)"
+                    : "1px solid rgba(255,255,255,0.04)",
+                  borderRight: b.accent
+                    ? "1px solid rgba(0,191,255,0.25)"
+                    : "1px solid rgba(255,255,255,0.04)",
                   borderBottom: "none",
-                  boxShadow: b.accent ? "0 0 16px rgba(0,191,255,0.08), inset 0 0 20px rgba(0,191,255,0.04)" : "none",
+                  boxShadow: b.accent
+                    ? "0 0 16px rgba(0,191,255,0.08), inset 0 0 20px rgba(0,191,255,0.04)"
+                    : "none",
                 }}
               >
-                {/* Window rows — deterministic, no Math.random() */}
+                {/* Window rows */}
                 {b.windows.map((row, ri) => (
                   <div key={ri} className="flex gap-[2px] justify-center">
                     {row.map((lit, ci) => (
@@ -86,15 +175,21 @@ function CssBuildingScene() {
                           width: 2,
                           height: 3,
                           background: lit
-                            ? (b.accent ? "rgba(0,191,255,0.65)" : "rgba(200,230,255,0.22)")
+                            ? b.accent
+                              ? "rgba(0,191,255,0.65)"
+                              : "rgba(200,230,255,0.22)"
                             : "transparent",
                         }}
                         animate={lit ? { opacity: [1, 0.5, 1] } : {}}
-                        transition={lit ? {
-                          duration: 3 + ci * 0.5 + ri * 0.3,
-                          repeat: Infinity,
-                          delay: bi * 0.3 + ci * 0.2,
-                        } : {}}
+                        transition={
+                          lit
+                            ? {
+                                duration: 3 + ci * 0.5 + ri * 0.3,
+                                repeat: Infinity,
+                                delay: bi * 0.3 + ci * 0.2,
+                              }
+                            : {}
+                        }
                       />
                     ))}
                   </div>
@@ -134,6 +229,17 @@ function CssBuildingScene() {
 }
 
 export function PlotsAndStructures() {
+  const content = usePageContent("home.plots_and_structures", {
+    eyebrow: "Strategic Masterpieces",
+    title: "Building",
+    title_accent: "Plots & Structures",
+    body: "Discover the ultimate foundation for your architectural dreams. Our premium building plots are strategically located in Lucknow's most promising corridors, offering 100% legal clearance and Jila Panchayat approval.",
+    stat_1_val: "150+",
+    stat_1_label: "Premium Plots",
+    stat_2_val: "Elite",
+    stat_2_label: "Architectural Support",
+  });
+
   return (
     <section className="relative py-32 px-6 bg-[#060c16] overflow-hidden">
       <Section3DBackground opacity={0.15} />
@@ -142,31 +248,31 @@ export function PlotsAndStructures() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Content Side */}
           <div className="order-2 lg:order-1">
-            <SectionEyebrow>Strategic Masterpieces</SectionEyebrow>
+            <SectionEyebrow>{content.eyebrow}</SectionEyebrow>
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
-                Building <em className="text-[#00BFFF] italic">Plots & Structures</em>
+                {content.title} <em className="text-[#00BFFF] italic">{content.title_accent}</em>
               </h2>
             </Reveal>
 
             <div className="space-y-8 text-white/60 text-lg font-light leading-relaxed">
               <Reveal delay={0.2}>
-                <p>
-                  Discover the ultimate foundation for your architectural dreams. Our premium building
-                  plots are strategically located in Lucknow&apos;s most promising corridors, offering
-                  100% legal clearance and Jila Panchayat approval.
-                </p>
+                <p>{content.body}</p>
               </Reveal>
 
               <Reveal delay={0.4}>
                 <div className="flex gap-12 pt-6">
                   <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">150+</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Premium Plots</p>
+                    <p className="text-3xl font-serif text-white mb-1">{content.stat_1_val}</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">
+                      {content.stat_1_label}
+                    </p>
                   </div>
                   <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">Elite</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Architectural Support</p>
+                    <p className="text-3xl font-serif text-white mb-1">{content.stat_2_val}</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">
+                      {content.stat_2_label}
+                    </p>
                   </div>
                 </div>
               </Reveal>

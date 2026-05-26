@@ -24,12 +24,16 @@ export function IntroScreen() {
   useEffect(() => {
     if (!visible) return;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [visible]);
 
   useEffect(() => {
     if (!visible) return;
-    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") handleExit(); };
+    const esc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleExit();
+    };
     document.addEventListener("keydown", esc);
     return () => document.removeEventListener("keydown", esc);
   }, [visible, handleExit]);
@@ -70,7 +74,10 @@ export function IntroScreen() {
           transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Concentric rings */}
-          <div className="relative flex items-center justify-center" style={{ width: 160, height: 160 }}>
+          <div
+            className="relative flex items-center justify-center"
+            style={{ width: 160, height: 160 }}
+          >
             {[160, 120, 84].map((size, i) => (
               <motion.div
                 key={size}
@@ -85,8 +92,10 @@ export function IntroScreen() {
               />
             ))}
             {/* Centre badge */}
-            <div className="relative z-10 flex flex-col items-center justify-center w-16 h-16 rounded-full border border-[#00BFFF]/40 bg-[#080807]/60"
-              style={{ backdropFilter: "blur(8px)" }}>
+            <div
+              className="relative z-10 flex flex-col items-center justify-center w-16 h-16 rounded-full border border-[#00BFFF]/40 bg-[#080807]/60"
+              style={{ backdropFilter: "blur(8px)" }}
+            >
               <span className="text-white font-serif text-[10px] uppercase tracking-[0.15em] leading-none">
                 TRUST
               </span>
@@ -96,7 +105,6 @@ export function IntroScreen() {
             </div>
           </div>
         </motion.div>
-
 
         {/* Exit curtain */}
         <motion.div
@@ -128,7 +136,6 @@ export function IntroScreen() {
             </motion.span>
             <span className="absolute inset-0 bg-[#00BFFF]/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-full" />
           </button>
-
         </motion.div>
       </motion.div>
     </AnimatePresence>

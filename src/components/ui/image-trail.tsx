@@ -1,9 +1,7 @@
-'use client';
+"use client";
 
 import { Children, useCallback, useMemo, useRef, useEffect } from "react";
-import {
-  useAnimationFrame,
-} from "framer-motion";
+import { useAnimationFrame } from "framer-motion";
 
 import { useMouseVector } from "@/hooks/use-mouse-vector";
 
@@ -57,8 +55,7 @@ const ImageTrail = ({
       };
 
       // Increment index and wrap around if needed
-      currentIndexRef.current =
-        (currentIndexRef.current + 1) % childrenArray.length;
+      currentIndexRef.current = (currentIndexRef.current + 1) % childrenArray.length;
 
       if (newOnTop) {
         trailRef.current.push(newItem);
@@ -66,7 +63,7 @@ const ImageTrail = ({
         trailRef.current.unshift(newItem);
       }
     },
-    [childrenArray, rotationRange, newOnTop]
+    [childrenArray, rotationRange, newOnTop],
   );
 
   const removeFromTrail = useCallback((itemId: string) => {
@@ -120,18 +117,18 @@ const TrailItemComponent = ({ item, onComplete }: TrailItemProps) => {
     hasAnimated.current = true;
 
     const element = elementRef.current;
-    
+
     // Create a simple animation sequence using Web Animations API
     const keyframes = [
-      { transform: 'scale(1) translate(-50%, -50%)', opacity: 1 },
-      { transform: 'scale(1.1) translate(-50%, -50%)', opacity: 1 },
-      { transform: 'scale(0) translate(-50%, -50%)', opacity: 0 },
+      { transform: "scale(1) translate(-50%, -50%)", opacity: 1 },
+      { transform: "scale(1.1) translate(-50%, -50%)", opacity: 1 },
+      { transform: "scale(0) translate(-50%, -50%)", opacity: 0 },
     ];
-    
+
     const animation = element.animate(keyframes, {
       duration: 750,
-      easing: 'ease-out',
-      fill: 'forwards',
+      easing: "ease-out",
+      fill: "forwards",
     });
 
     animation.onfinish = () => {

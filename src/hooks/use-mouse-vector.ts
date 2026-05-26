@@ -1,8 +1,6 @@
 import { RefObject, useEffect, useState } from "react";
 
-export const useMouseVector = (
-  containerRef?: RefObject<HTMLElement | SVGElement | null>
-) => {
+export const useMouseVector = (containerRef?: RefObject<HTMLElement | SVGElement | null>) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [vector, setVector] = useState({ dx: 0, dy: 0 });
   const [isMounted, setIsMounted] = useState(false);
@@ -13,7 +11,7 @@ export const useMouseVector = (
 
   useEffect(() => {
     if (!isMounted) return;
-    
+
     let lastPosition = { x: 0, y: 0 };
 
     const updatePosition = (x: number, y: number) => {

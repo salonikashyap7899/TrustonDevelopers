@@ -45,7 +45,7 @@ export function useAuth() {
           .select("role")
           .eq("user_id", userId);
 
-        const hasAdminRole = finalRoles?.some(r => r.role === 'admin');
+        const hasAdminRole = finalRoles?.some((r) => r.role === "admin");
 
         if (isMounted) {
           // Broad permission: Every authenticated user is an admin.

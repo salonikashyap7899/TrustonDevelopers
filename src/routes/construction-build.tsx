@@ -3,6 +3,15 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import heroImg from "@/assets/hero-estate.jpg";
+import { useSingleRecord } from "@/hooks/useCollections";
+import { usePageContent } from "@/hooks/usePageContent";
+
+type HeroSection = {
+  title: string;
+  title_accent: string;
+  subtitle: string;
+  image_url: string;
+};
 
 export const Route = createFileRoute("/construction-build")({
   head: () => ({
@@ -45,43 +54,19 @@ const constructionFeatures = [
   },
 ];
 
-const processSteps = [
-  {
-    num: "01",
-    title: "Site Preparation",
-    desc: "We begin with comprehensive site analysis, grading, and foundation engineering to ensure a solid base for your legacy.",
-  },
-  {
-    num: "02",
-    title: "Structural Shell",
-    desc: "Execution of the main structure using premium steel and concrete systems, adhering to the highest safety and design standards.",
-  },
-  {
-    num: "03",
-    title: "Finishing & MEP",
-    desc: "Installation of mechanical, electrical, and plumbing systems followed by high-end interior and exterior finishing works.",
-  },
-  {
-    num: "04",
-    title: "Handover",
-    desc: "Thorough quality inspection, snag resolution, and formal handover with complete documentation and support.",
-  },
-];
-
-const constructionTestimonials = [
-  {
-    quote: "The quality of construction is visible in every corner. They delivered exactly what was shown in the 3D renders. Truly professional team.",
-    author: "Rajesh Kumar",
-    role: "Homeowner — Phase 1",
-  },
-  {
-    quote: "Managed the entire build while I was away. The transparency and regular updates gave me complete peace of mind. Highly recommended.",
-    author: "Anil Singh",
-    role: "NRI Homeowner",
-  },
-];
-
 function ConstructionBuildPage() {
+  const { data: hero } = useSingleRecord<HeroSection>(
+    "hero_sections",
+    "page_key",
+    "construction-build",
+  );
+  const content = usePageContent("construction.main", {
+    intro_title: "Built with",
+    intro_title_accent: "Precision",
+    intro_body:
+      "We combine traditional craftsmanship with modern engineering to deliver homes that stand the test of time.",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -89,7 +74,7 @@ function ConstructionBuildPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={hero?.image_url || heroImg}
             alt="Construction & Build"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.25) saturate(0.7)" }}
@@ -105,10 +90,12 @@ function ConstructionBuildPage() {
                 Building Reality
               </p>
               <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-                Construction & <em className="text-[#00BFFF] italic">Build</em>
+                {hero?.title || "Construction &"}{" "}
+                <em className="text-[#00BFFF] italic">{hero?.title_accent || "Build"}</em>
               </h1>
               <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light mb-12">
-                Quality construction where architectural dreams become tangible reality. Meticulous attention to detail, premium materials, and unwavering commitment to timely delivery—your home, built perfectly.
+                {hero?.subtitle ||
+                  "Quality construction where architectural dreams become tangible reality. Meticulous attention to detail, premium materials, and unwavering commitment to timely delivery—your home, built perfectly."}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
@@ -135,10 +122,11 @@ function ConstructionBuildPage() {
           <Reveal>
             <div className="text-center mb-20">
               <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Built with <em className="text-[#00BFFF] italic">Precision</em>
+                {content.intro_title}{" "}
+                <em className="text-[#00BFFF] italic">{content.intro_title_accent}</em>
               </h2>
               <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                We combine traditional craftsmanship with modern engineering to deliver homes that stand the test of time.
+                {content.intro_body}
               </p>
             </div>
           </Reveal>
@@ -158,59 +146,6 @@ function ConstructionBuildPage() {
         </div>
       </section>
 
-      {/* Build Process */}
-      <section className="py-32 px-6 bg-[#060c16]">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <div className="text-center mb-20">
-              <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                The Build <em className="text-[#00BFFF] italic">Process</em>
-              </h2>
-              <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                From breaking ground to the final polish, our process is structured for quality and clarity.
-              </p>
-            </div>
-          </Reveal>
-
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
-            {processSteps.map((step, i) => (
-              <Reveal key={step.num} delay={i * 0.1}>
-                <div className="text-center">
-                  <div className="font-serif text-6xl text-[#00BFFF] mb-6">{step.num}</div>
-                  <h4 className="font-serif text-xl text-white mb-4">{step.title}</h4>
-                  <p className="text-white/40 text-sm leading-relaxed">{step.desc}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials */}
-      <section className="py-32 px-6">
-        <div className="max-w-7xl mx-auto">
-          <Reveal>
-            <h2 className="font-serif text-4xl md:text-6xl text-white mb-20 text-center">
-              What Homeowners <em className="text-[#00BFFF] italic">Say</em>
-            </h2>
-          </Reveal>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            {constructionTestimonials.map((t, i) => (
-              <Reveal key={t.author} delay={i * 0.1}>
-                <div className="bg-[#060c16] border-l-4 border-[#00BFFF] p-10 rounded-2xl">
-                  <p className="text-white/60 italic text-lg leading-relaxed mb-8">"{t.quote}"</p>
-                  <div>
-                    <p className="text-white font-bold">{t.author}</p>
-                    <p className="text-[#00BFFF] text-xs uppercase tracking-widest mt-1">{t.role}</p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-32 px-6 text-center">
         <Reveal>
@@ -219,7 +154,8 @@ function ConstructionBuildPage() {
               Build Your <em className="text-[#00BFFF] italic">Legacy</em>
             </h2>
             <p className="text-white/50 text-lg mb-12">
-              Ready to turn your architectural vision into reality? Connect with our construction team for a detailed project consultation and quote.
+              Ready to turn your architectural vision into reality? Connect with our construction
+              team for a detailed project consultation and quote.
             </p>
             <Link
               to="/contact"

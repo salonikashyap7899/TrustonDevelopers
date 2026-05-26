@@ -5,6 +5,16 @@ import { Section3DBackground } from "@/components/Section3DBackground";
 import { GlowCard } from "@/components/ui/spotlight-card";
 import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
+import { useSingleRecord } from "@/hooks/useCollections";
+
+type HeroSection = {
+  title: string;
+  title_accent: string;
+  subtitle: string;
+  image_url: string;
+  phone_number: string;
+};
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
@@ -12,7 +22,8 @@ export const Route = createFileRoute("/about-us")({
       { title: "About Us — TrustOn Developers" },
       {
         name: "description",
-        content: "TrustOn Developers — Own the Ground. Build the Legacy. A real estate company rooted in Lucknow's growth story.",
+        content:
+          "TrustOn Developers — Own the Ground. Build the Legacy. A real estate company rooted in Lucknow's growth story.",
       },
     ],
   }),
@@ -110,10 +121,26 @@ const services = [
 ];
 
 const processSteps = [
-  { num: "01", title: "Site Visit & Consultation", desc: "We start by understanding your needs and showing you the plot in person. Complete transparency from the very first meeting." },
-  { num: "02", title: "Legal Review & Approval", desc: "Our legal team reviews all documents — title deeds, JP approvals, and compliance certificates — before any commitment is made." },
-  { num: "03", title: "Documentation & Registration", desc: "We handle the complete paperwork process — from registry to mutation — ensuring your ownership is clean and undisputed." },
-  { num: "04", title: "Handover & After-Sales", desc: "Plot handover with full boundary marking, possession letter, and continued support for construction planning if needed." },
+  {
+    num: "01",
+    title: "Site Visit & Consultation",
+    desc: "We start by understanding your needs and showing you the plot in person. Complete transparency from the very first meeting.",
+  },
+  {
+    num: "02",
+    title: "Legal Review & Approval",
+    desc: "Our legal team reviews all documents — title deeds, JP approvals, and compliance certificates — before any commitment is made.",
+  },
+  {
+    num: "03",
+    title: "Documentation & Registration",
+    desc: "We handle the complete paperwork process — from registry to mutation — ensuring your ownership is clean and undisputed.",
+  },
+  {
+    num: "04",
+    title: "Handover & After-Sales",
+    desc: "Plot handover with full boundary marking, possession letter, and continued support for construction planning if needed.",
+  },
 ];
 
 const teamMembers = [
@@ -131,17 +158,25 @@ const teamMembers = [
   },
 ];
 
-const buildingImg = lucknowAerialImg;
-
 function AboutPage() {
+  const { data: hero } = useSingleRecord<HeroSection>("hero_sections", "page_key", "about-us");
+  const content = usePageContent("about.main", {
+    company_title: "We Don't Just Sell Land",
+    company_title_accent: "We Craft Opportunities",
+    company_body:
+      "TrustOn Developers is a trusted name in real estate development, built on a foundation of transparency, quality, and long-term vision. Our flagship project, Prime Estate, is a Jila Panchayat approved township that combines legal security, prime location, and future-ready infrastructure — setting a new standard for residential plot development in Lucknow.",
+    company_body_secondary:
+      "From land acquisition to final delivery, we follow a structured, transparent process that keeps you informed and in control at every stage.",
+    company_image_url: luxuryInteriorImg,
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
-
       {/* ── Cinematic Hero ── */}
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <div className="absolute inset-0 z-0">
           <img
-            src={buildingImg}
+            src={hero?.image_url || lucknowAerialImg}
             alt="TrustOn — About Us"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.28) saturate(0.7)" }}
@@ -153,7 +188,9 @@ function AboutPage() {
         {/* Animated cyan orb */}
         <motion.div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(circle, rgba(0,191,255,0.06) 0%, transparent 70%)" }}
+          style={{
+            background: "radial-gradient(circle, rgba(0,191,255,0.06) 0%, transparent 70%)",
+          }}
           animate={{ scale: [1, 1.15, 1] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -175,9 +212,9 @@ function AboutPage() {
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-8xl font-serif tracking-tighter leading-none mb-6"
           >
-            Own the Ground.
+            {hero?.title || "Own the Ground."}
             <br />
-            <em className="text-[#00BFFF] italic">Build the Legacy.</em>
+            <em className="text-[#00BFFF] italic">{hero?.title_accent || "Build the Legacy."}</em>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -185,8 +222,8 @@ function AboutPage() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-white/50 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
-            A real estate company rooted in Lucknow's growth story — building trust,
-            one plot at a time since 2025.
+            {hero?.subtitle ||
+              "A real estate company rooted in Lucknow's growth story — building trust, one plot at a time since 2025."}
           </motion.p>
 
           <motion.p
@@ -203,11 +240,19 @@ function AboutPage() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y: [0, 8, 0] }}
-          transition={{ opacity: { delay: 1.5, duration: 1 }, y: { duration: 2, repeat: Infinity } }}
+          transition={{
+            opacity: { delay: 1.5, duration: 1 },
+            y: { duration: 2, repeat: Infinity },
+          }}
           className="absolute bottom-8 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/30"
         >
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            />
           </svg>
         </motion.div>
       </section>
@@ -245,7 +290,7 @@ function AboutPage() {
             <div className="relative">
               <div className="absolute -inset-6 bg-[#00BFFF]/5 blur-3xl rounded-3xl" />
               <img
-                src={luxuryInteriorImg}
+                src={content.company_image_url || luxuryInteriorImg}
                 alt="TrustOn — Our Company"
                 className="relative rounded-[32px] border border-white/5 shadow-2xl w-full"
                 style={{ filter: "saturate(0.85) brightness(0.8)" }}
@@ -268,30 +313,37 @@ function AboutPage() {
                 About Our Company
               </p>
               <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-3 text-white">
-                We Don&apos;t Just Sell Land
+                {content.company_title}
               </h2>
               <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-8 text-white">
-                <em className="text-[#00BFFF] italic">We Craft Opportunities</em>
+                <em className="text-[#00BFFF] italic">{content.company_title_accent}</em>
               </h2>
               <p className="text-white/60 text-base leading-relaxed mb-4 font-light">
-                TrustOn Developers is a trusted name in real estate development, built on a
-                foundation of transparency, quality, and long-term vision. Our flagship project,
-                Prime Estate, is a Jila Panchayat approved township that combines legal security,
-                prime location, and future-ready infrastructure — setting a new standard for
-                residential plot development in Lucknow.
+                {content.company_body}
               </p>
               <p className="text-white/45 text-base leading-relaxed mb-10 font-light">
-                From land acquisition to final delivery, we follow a structured, transparent
-                process that keeps you informed and in control at every stage.
+                {content.company_body_secondary}
               </p>
 
               {/* 4 feature pills */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { t: "Strategic Development", d: "Every project planned with long-term vision, focusing on location intelligence and future value appreciation." },
-                  { t: "Execution Excellence", d: "Structured process from land acquisition to delivery — quality construction, on-time handover, regulatory compliance." },
-                  { t: "Legal Transparency", d: "All projects are JP approved with clear title deeds. Zero hidden charges, complete documentation from day one." },
-                  { t: "Investor-First Approach", d: "We structure projects to deliver strong appreciation potential alongside the freedom to build your dream home." },
+                  {
+                    t: "Strategic Development",
+                    d: "Every project planned with long-term vision, focusing on location intelligence and future value appreciation.",
+                  },
+                  {
+                    t: "Execution Excellence",
+                    d: "Structured process from land acquisition to delivery — quality construction, on-time handover, regulatory compliance.",
+                  },
+                  {
+                    t: "Legal Transparency",
+                    d: "All projects are JP approved with clear title deeds. Zero hidden charges, complete documentation from day one.",
+                  },
+                  {
+                    t: "Investor-First Approach",
+                    d: "We structure projects to deliver strong appreciation potential alongside the freedom to build your dream home.",
+                  },
                 ].map((f, i) => (
                   <motion.div
                     key={f.t}
@@ -309,7 +361,7 @@ function AboutPage() {
 
               <div className="flex gap-4 mt-10">
                 <Link
-                  to="/projects"
+                  to="/project"
                   className="px-8 py-3 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500"
                   style={{ background: "#00BFFF", color: "#04090f" }}
                 >
@@ -378,9 +430,7 @@ function AboutPage() {
                   <h3 className="font-serif text-2xl md:text-3xl text-white mb-5 leading-tight">
                     {card.title}
                   </h3>
-                  <p className="text-white/50 text-sm font-light leading-relaxed">
-                    {card.desc}
-                  </p>
+                  <p className="text-white/50 text-sm font-light leading-relaxed">{card.desc}</p>
                   <div className="mt-8 flex items-center gap-3">
                     <div className="w-10 h-px bg-[#00BFFF]/30" />
                     <span className="text-[#00BFFF] text-[9px] uppercase tracking-[0.3em] font-bold">
@@ -412,9 +462,9 @@ function AboutPage() {
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-white/45 text-base md:text-lg leading-relaxed font-light">
-                From finding the right plot to designing, building, and advising on your
-                investment — TrustOn Developers is your single trusted partner across every
-                step of the real estate journey.
+                From finding the right plot to designing, building, and advising on your investment
+                — TrustOn Developers is your single trusted partner across every step of the real
+                estate journey.
               </p>
               <p className="text-[#00BFFF]/50 text-sm uppercase tracking-[0.2em] font-bold mt-4">
                 04 Expert Services
@@ -460,7 +510,10 @@ function AboutPage() {
       <section className="py-32 px-6 bg-[#060c16] relative overflow-hidden">
         <div
           className="absolute inset-0 opacity-15"
-          style={{ background: "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,191,255,0.08) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 50% at 50% 100%, rgba(0,191,255,0.08) 0%, transparent 70%)",
+          }}
         />
         <div className="max-w-7xl mx-auto relative z-10">
           <Reveal>
@@ -473,8 +526,8 @@ function AboutPage() {
               How We <em className="text-[#00BFFF] italic">Deliver Excellence</em>
             </h2>
             <p className="text-white/40 text-center text-base font-light mb-20 max-w-xl mx-auto">
-              A proven four-step process that ensures every project is delivered with
-              transparency, quality, and complete client satisfaction.
+              A proven four-step process that ensures every project is delivered with transparency,
+              quality, and complete client satisfaction.
             </p>
           </Reveal>
 
@@ -514,14 +567,19 @@ function AboutPage() {
               Our Core <em className="text-[#00BFFF] italic">Values</em>
             </h2>
             <p className="text-white/40 text-center text-lg font-light mb-16 max-w-xl mx-auto">
-              Six principles that govern every plot we sell, every home we design, every promise we make.
+              Six principles that govern every plot we sell, every home we design, every promise we
+              make.
             </p>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
             {coreValues.map((v, i) => (
               <Reveal key={v.title} delay={i * 0.07}>
-                <GlowCard glowColor="blue" customSize className="p-8 md:p-10 min-h-[240px] flex flex-col">
+                <GlowCard
+                  glowColor="blue"
+                  customSize
+                  className="p-8 md:p-10 min-h-[240px] flex flex-col"
+                >
                   <div className="flex items-start justify-between mb-5">
                     <span className="text-3xl">{v.icon}</span>
                     <span className="font-serif text-4xl text-white/5">{v.num}</span>
@@ -529,7 +587,9 @@ function AboutPage() {
                   <h3 className="text-white font-serif text-xl md:text-2xl mb-3 leading-snug">
                     {v.title}
                   </h3>
-                  <p className="text-white/45 text-sm leading-relaxed font-light flex-1">{v.desc}</p>
+                  <p className="text-white/45 text-sm leading-relaxed font-light flex-1">
+                    {v.desc}
+                  </p>
                   <div className="mt-6 w-8 h-px bg-[#00BFFF]/25" />
                 </GlowCard>
               </Reveal>
@@ -549,15 +609,14 @@ function AboutPage() {
                 Our Leaders
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-                The People Leading{" "}
-                <em className="text-[#00BFFF] italic">Our Vision</em>
+                The People Leading <em className="text-[#00BFFF] italic">Our Vision</em>
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-white/45 text-base leading-relaxed font-light">
-                Every great development begins with a great team. TrustOn's founders bring
-                together expertise in architecture, construction, and investment to deliver
-                projects that stand the test of time.
+                Every great development begins with a great team. TrustOn's founders bring together
+                expertise in architecture, construction, and investment to deliver projects that
+                stand the test of time.
               </p>
               <Link
                 to="/contact"
@@ -596,7 +655,9 @@ function AboutPage() {
                       {member.role}
                     </p>
                     <div className="w-8 h-px bg-[#00BFFF]/25 mb-4" />
-                    <p className="text-white/45 text-sm leading-relaxed font-light">{member.desc}</p>
+                    <p className="text-white/45 text-sm leading-relaxed font-light">
+                      {member.desc}
+                    </p>
                   </div>
                 </div>
               </Reveal>
@@ -613,8 +674,8 @@ function AboutPage() {
                 <div className="p-7 flex flex-col flex-1">
                   <h3 className="font-serif text-xl text-white mb-3">Join Our Growing Team</h3>
                   <p className="text-white/40 text-sm leading-relaxed font-light flex-1">
-                    We are always looking for passionate professionals in real estate, design,
-                    and project management to join TrustOn's journey.
+                    We are always looking for passionate professionals in real estate, design, and
+                    project management to join TrustOn's journey.
                   </p>
                   <Link
                     to="/contact"
@@ -633,7 +694,10 @@ function AboutPage() {
       <section className="py-40 px-6 bg-[#04090f] text-center relative overflow-hidden">
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{ background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,30,80,0.4) 0%, transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0,30,80,0.4) 0%, transparent 70%)",
+          }}
         />
         <Section3DBackground opacity={0.12} />
 
@@ -665,22 +729,22 @@ function AboutPage() {
               The second best time is today.&rdquo;
             </blockquote>
             <p className="text-white/40 text-base font-light mb-14 max-w-md mx-auto leading-relaxed">
-              Talk to TrustOn Developers and take the first step toward owning your plot
-              in Prime Estate, Lucknow.
+              Talk to TrustOn Developers and take the first step toward owning your plot in Prime
+              Estate, Lucknow.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
-                to="/projects"
+                to="/project"
                 className="px-12 py-5 rounded-full text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 hover:scale-105 border border-white/20 text-white hover:border-[#00BFFF] hover:text-[#00BFFF]"
               >
                 View Prime Estate
               </Link>
               <a
-                href="tel:+919616061166"
+                href={`tel:${hero?.phone_number || "+919616061166"}`}
                 className="px-12 py-5 rounded-full text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 hover:scale-105"
                 style={{ background: "#00BFFF", color: "#04090f" }}
               >
-                +91 96160-61166
+                {hero?.phone_number || "+91 96160-61166"}
               </a>
             </div>
           </Reveal>

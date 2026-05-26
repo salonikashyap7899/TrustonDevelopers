@@ -28,7 +28,7 @@ function AnimatedNumber({ to, duration = 1800 }: { to: number; duration?: number
 function AnimatedProgress({ value, color }: { value: number; color: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true });
-  
+
   return (
     <motion.div
       ref={ref}
@@ -51,37 +51,37 @@ export function PlotTracker() {
   const bookedPct = Math.round((booked / total) * 100);
 
   const stats = [
-    { 
-      label: "TOTAL PLOTS", 
-      value: total, 
-      sub: "Full Inventory", 
+    {
+      label: "TOTAL PLOTS",
+      value: total,
+      sub: "Full Inventory",
       color: "text-white",
       bgColor: "bg-white/[0.02]",
-      borderColor: "border-white/10"
+      borderColor: "border-white/10",
     },
-    { 
-      label: "SOLD", 
-      value: sold, 
-      sub: "30% Complete", 
+    {
+      label: "SOLD",
+      value: sold,
+      sub: "30% Complete",
       color: "text-[#00BFFF]",
       bgColor: "bg-[#00BFFF]/[0.03]",
-      borderColor: "border-[#00BFFF]/20"
+      borderColor: "border-[#00BFFF]/20",
     },
-    { 
-      label: "BOOKED", 
-      value: booked, 
-      sub: "Processing", 
+    {
+      label: "BOOKED",
+      value: booked,
+      sub: "Processing",
       color: "text-amber-400",
       bgColor: "bg-amber-400/[0.03]",
-      borderColor: "border-amber-400/20"
+      borderColor: "border-amber-400/20",
     },
-    { 
-      label: "AVAILABLE", 
-      value: available, 
-      sub: "Ready to Book", 
+    {
+      label: "AVAILABLE",
+      value: available,
+      sub: "Ready to Book",
       color: "text-emerald-400",
       bgColor: "bg-emerald-400/[0.03]",
-      borderColor: "border-emerald-400/20"
+      borderColor: "border-emerald-400/20",
     },
   ];
 
@@ -117,7 +117,10 @@ export function PlotTracker() {
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.1}>
               <motion.div
-                whileHover={{ y: -4, borderColor: s.color === "text-white" ? "rgba(255,255,255,0.2)" : undefined }}
+                whileHover={{
+                  y: -4,
+                  borderColor: s.color === "text-white" ? "rgba(255,255,255,0.2)" : undefined,
+                }}
                 className={`${s.bgColor} border ${s.borderColor} rounded-2xl p-6 transition-all duration-500`}
               >
                 <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-3 font-medium">
@@ -126,9 +129,7 @@ export function PlotTracker() {
                 <p className={`font-serif text-4xl md:text-5xl ${s.color} mb-2 tracking-tight`}>
                   <AnimatedNumber to={s.value} />
                 </p>
-                <p className="text-[11px] text-white/30 font-light">
-                  {s.sub}
-                </p>
+                <p className="text-[11px] text-white/30 font-light">{s.sub}</p>
               </motion.div>
             </Reveal>
           ))}

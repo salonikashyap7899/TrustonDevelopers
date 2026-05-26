@@ -1,9 +1,6 @@
 export function Section3DBackground({ opacity = 0.4 }: { opacity?: number }) {
   return (
-    <div
-      className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
-      style={{ opacity }}
-    >
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" style={{ opacity }}>
       {/* Static ambient glow — top right (no animation = no GPU thrash) */}
       <div
         className="absolute -top-1/4 -right-1/4 w-[70vw] h-[70vw] rounded-full"

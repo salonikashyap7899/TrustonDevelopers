@@ -22,10 +22,10 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
   // All images scale up and move towards center, eventually becoming ONE image
   // The center image stays put while others zoom in and merge into it
-  
+
   // Center image scale - starts normal, zooms in slightly
   const rawCenterScale = useTransform(scrollYProgress, [0, 0.5, 1], [1, 1.5, 4]);
-  
+
   // Surrounding images start spread out, then zoom and converge to center
   const rawScale2 = useTransform(scrollYProgress, [0, 0.4, 0.7, 1], [0.8, 1.2, 2.5, 6]);
   const rawScale3 = useTransform(scrollYProgress, [0, 0.35, 0.65, 1], [0.7, 1.1, 2.8, 7]);
@@ -112,22 +112,85 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 
   // Image configurations
   const imageConfigs = [
-    { scale: centerScale, x: "0vw", y: "0vh", opacity: centerOpacity, zIndex: 10, size: "h-[35vh] w-[35vw] md:h-[40vh] md:w-[30vw]" },
-    { scale: scale2, x: springX2, y: springY2, opacity: opacity2, zIndex: 9, size: "h-[25vh] w-[30vw] md:h-[28vh] md:w-[22vw]" },
-    { scale: scale3, x: springX3, y: springY3, opacity: opacity3, zIndex: 8, size: "h-[22vh] w-[28vw] md:h-[25vh] md:w-[20vw]" },
-    { scale: scale4, x: springX4, y: springY4, opacity: opacity4, zIndex: 7, size: "h-[20vh] w-[25vw] md:h-[22vh] md:w-[18vw]" },
-    { scale: scale5, x: springX5, y: springY5, opacity: opacity5, zIndex: 6, size: "h-[18vh] w-[22vw] md:h-[20vh] md:w-[16vw]" },
-    { scale: scale6, x: springX6, y: springY6, opacity: opacity6, zIndex: 5, size: "h-[16vh] w-[20vw] md:h-[18vh] md:w-[14vw]" },
-    { scale: scale7, x: springX7, y: springY7, opacity: opacity7, zIndex: 4, size: "h-[14vh] w-[18vw] md:h-[16vh] md:w-[12vw]" },
-    { scale: scale8, x: springX8, y: springY8, opacity: opacity8, zIndex: 3, size: "h-[12vh] w-[16vw] md:h-[14vh] md:w-[10vw]" },
-    { scale: scale9, x: springX9, y: springY9, opacity: opacity9, zIndex: 2, size: "h-[10vh] w-[14vw] md:h-[12vh] md:w-[8vw]" },
+    {
+      scale: centerScale,
+      x: "0vw",
+      y: "0vh",
+      opacity: centerOpacity,
+      zIndex: 10,
+      size: "h-[35vh] w-[35vw] md:h-[40vh] md:w-[30vw]",
+    },
+    {
+      scale: scale2,
+      x: springX2,
+      y: springY2,
+      opacity: opacity2,
+      zIndex: 9,
+      size: "h-[25vh] w-[30vw] md:h-[28vh] md:w-[22vw]",
+    },
+    {
+      scale: scale3,
+      x: springX3,
+      y: springY3,
+      opacity: opacity3,
+      zIndex: 8,
+      size: "h-[22vh] w-[28vw] md:h-[25vh] md:w-[20vw]",
+    },
+    {
+      scale: scale4,
+      x: springX4,
+      y: springY4,
+      opacity: opacity4,
+      zIndex: 7,
+      size: "h-[20vh] w-[25vw] md:h-[22vh] md:w-[18vw]",
+    },
+    {
+      scale: scale5,
+      x: springX5,
+      y: springY5,
+      opacity: opacity5,
+      zIndex: 6,
+      size: "h-[18vh] w-[22vw] md:h-[20vh] md:w-[16vw]",
+    },
+    {
+      scale: scale6,
+      x: springX6,
+      y: springY6,
+      opacity: opacity6,
+      zIndex: 5,
+      size: "h-[16vh] w-[20vw] md:h-[18vh] md:w-[14vw]",
+    },
+    {
+      scale: scale7,
+      x: springX7,
+      y: springY7,
+      opacity: opacity7,
+      zIndex: 4,
+      size: "h-[14vh] w-[18vw] md:h-[16vh] md:w-[12vw]",
+    },
+    {
+      scale: scale8,
+      x: springX8,
+      y: springY8,
+      opacity: opacity8,
+      zIndex: 3,
+      size: "h-[12vh] w-[16vw] md:h-[14vh] md:w-[10vw]",
+    },
+    {
+      scale: scale9,
+      x: springX9,
+      y: springY9,
+      opacity: opacity9,
+      zIndex: 2,
+      size: "h-[10vh] w-[14vw] md:h-[12vh] md:w-[8vw]",
+    },
   ];
 
   return (
     <div ref={container} className="relative h-[200vh]">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center justify-center">
         {/* Ambient glow effect */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 pointer-events-none"
           style={{ opacity: useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 1, 0.3]) }}
         >
@@ -162,7 +225,6 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
                   className="h-full w-full object-cover"
                   loading={index === 0 ? "eager" : "lazy"}
                 />
-
 
                 {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/50 via-transparent to-transparent pointer-events-none" />

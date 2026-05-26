@@ -33,21 +33,15 @@ export function NewGenerationSection() {
     offset: ["start end", "end start"],
   });
 
-  const bgY    = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
-  const lineW  = useTransform(scrollYProgress, [0, 0.6], ["0%", "100%"]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const lineW = useTransform(scrollYProgress, [0, 0.6], ["0%", "100%"]);
   const titleY = useTransform(scrollYProgress, [0, 0.5], [60, 0]);
   const titleO = useTransform(scrollYProgress, [0, 0.35], [0, 1]);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden bg-[#04090f] py-28 md:py-40"
-    >
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#04090f] py-28 md:py-40">
       {/* ── Parallax full-bleed image ── */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{ y: bgY, willChange: "transform" }}
-      >
+      <motion.div className="absolute inset-0 z-0" style={{ y: bgY, willChange: "transform" }}>
         <img
           src="/assets/photo_3.jpg"
           alt="Prime Estate — Wide Internal Roads"
@@ -69,15 +63,11 @@ export function NewGenerationSection() {
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-16">
-
         {/* ── Header ── */}
         <div className="mb-20 md:mb-28">
           {/* Animated horizontal rule */}
           <div className="overflow-hidden mb-8 h-px bg-white/5">
-            <motion.div
-              className="h-full bg-[#00BFFF]"
-              style={{ width: lineW }}
-            />
+            <motion.div className="h-full bg-[#00BFFF]" style={{ width: lineW }} />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
@@ -86,9 +76,8 @@ export function NewGenerationSection() {
                 <span className="w-6 h-px bg-[#00BFFF]" /> New Generation
               </p>
               <h2 className="font-serif text-5xl md:text-7xl lg:text-8xl text-white leading-[0.88] tracking-tighter">
-                Redefining{" "}
-                <br />
-                <em className="italic text-[#00BFFF] font-light">Luxury</em>{" "}Real Estate
+                Redefining <br />
+                <em className="italic text-[#00BFFF] font-light">Luxury</em> Real Estate
               </h2>
             </motion.div>
 

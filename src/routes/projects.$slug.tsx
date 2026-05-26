@@ -1,47 +1,73 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { InnerHero } from "@/components/InnerHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import projectImg from "@/assets/project-prime.jpg";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { useSingleRecord } from "@/hooks/useCollections";
+
+type Project = {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  category: string;
+  slug: string;
+  content_json: any;
+};
 
 export const Route = createFileRoute("/projects/$slug")({
   head: () => ({
     meta: [
-      { title: "Prime Estate — Lucknow, Uttar Pradesh | TrustOn" },
-      {
-        name: "description",
-        content:
-          "Prime Estate — a Jila Panchayat approved residential plots colony in Lucknow with structured planning, wide internal roads, and clear documentation.",
-      },
-      { property: "og:title", content: "Prime Estate — Lucknow" },
-      { property: "og:image", content: projectImg },
+      { title: "Project Details | TrustOn" },
+      { property: "og:title", content: "Project Details | TrustOn" },
     ],
   }),
   component: Page,
 });
 
-const amenities = [
-  "Wide Internal Roads",
-  "24/7 Security Guard",
-  "Piped Water Supply",
-  "Electricity Connection",
-  "Landscaped Parks",
-  "Underground Drainage",
-];
-
 function Page() {
+  const { slug } = Route.useParams();
+  const { data: project } = useSingleRecord<Project>("projects", "slug", slug);
+
+  if (!project)
+    return (
+      <div className="min-h-screen bg-ink flex items-center justify-center text-white">
+        Loading...
+      </div>
+    );
+
+  const amenities = project.content_json?.amenities || [
+    "Wide Internal Roads",
+    "24/7 Security Guard",
+    "Piped Water Supply",
+    "Electricity Connection",
+    "Landscaped Parks",
+    "Underground Drainage",
+  ];
+
+  const highlights = project.content_json?.highlights || [
+    "High Growth Intelligence",
+    "Verified Documentation",
+    "Strategic Yield Potential",
+    "Planned Infrastructure",
+    "Wide Internal Architecture",
+    "Clear Plot Demarcation",
+  ];
+
   return (
     <div className="bg-background text-foreground overflow-hidden">
       <InnerHero
-        eyebrow="Flagship Development · Lucknow"
+        eyebrow={`${project.category} · Lucknow`}
         title={
           <>
-            Prime <em className="text-luxe-cyan not-italic font-serif italic">Estate.</em>
+            {project.title.split(" ").slice(0, -1).join(" ")}{" "}
+            <em className="text-luxe-cyan not-italic font-serif italic">
+              {project.title.split(" ").slice(-1)}
+            </em>
           </>
         }
-        subtitle="Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy."
-        poster="/attached_assets/image_1779159211927.png"
-        alt="Prime Estate Lucknow"
+        subtitle={project.description}
+        poster={project.image_url || "/attached_assets/image_1779159211927.png"}
+        alt={project.title}
       />
 
       <section className="py-32 px-6 relative">
@@ -55,27 +81,16 @@ function Page() {
               </span>
             </div>
             <h2 className="font-display text-5xl md:text-7xl text-white mb-10 leading-[0.9] tracking-tighter">
-              Strategic Infrastructure <br />
-              <em className="text-luxe-cyan italic font-serif">for Modern Legacy.</em>
+              {project.content_json?.detail_title || "Strategic Infrastructure"} <br />
+              <em className="text-luxe-cyan italic font-serif">
+                {project.content_json?.detail_title_accent || "for Modern Legacy."}
+              </em>
             </h2>
             <p className="text-white/50 text-xl leading-relaxed mb-8 font-light">
-              Prime Estate is a thoughtfully planned residential plots colony designed for those who
-              want the freedom to build on their own terms. Located in a promising growth corridor,
-              the project offers well-defined plots and essential infrastructure.
-            </p>
-            <p className="text-white/50 text-lg leading-relaxed mb-12 font-light">
-              With clear planning and a focus on value appreciation, Prime Estate gives you the
-              foundation to create a space that truly reflects your billion-dollar vision.
+              {project.content_json?.body || project.description}
             </p>
             <ul className="grid grid-cols-2 gap-y-6 text-sm">
-              {[
-                "High Growth Intelligence",
-                "Verified Documentation",
-                "Strategic Yield Potential",
-                "Planned Infrastructure",
-                "Wide Internal Architecture",
-                "Clear Plot Demarcation",
-              ].map((b) => (
+              {highlights.map((b: string) => (
                 <li
                   key={b}
                   className="flex items-center gap-3 text-white/70 font-bold uppercase tracking-widest text-[10px]"
@@ -88,9 +103,9 @@ function Page() {
           <Reveal delay={0.15}>
             <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-[40px] overflow-hidden shadow-luxe">
               {[
-                ["Engagement", "Elite Investors"],
-                ["Category", "Residential"],
-                ["Release", "January 2025"],
+                ["Engagement", project.content_json?.engagement || "Elite Investors"],
+                ["Category", project.category],
+                ["Release", project.content_json?.release || "January 2025"],
                 ["System", "truston.com"],
               ].map(([k, v]) => (
                 <div key={k} className="bg-ink/50 p-10 hover:bg-white/[0.03] transition-colors">
@@ -132,45 +147,6 @@ function Page() {
         </p>
       </section>
 
-      {/* Gallery Section */}
-      <section className="py-24 px-6 bg-[#060c16] relative">
-        <div className="mx-auto max-w-7xl relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="w-8 h-px bg-luxe-cyan" />
-              <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">Project Gallery</span>
-            </div>
-            <h2 className="font-display text-4xl md:text-6xl text-white mb-12 tracking-tighter">
-              Inside Prime <em className="text-luxe-cyan italic font-serif">Estate</em>
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { src: "/assets/photo_1.jpg", label: "Main Entrance Gate" },
-              { src: "/assets/photo_8.jpg", label: "Prime Estate Gate-02" },
-              { src: "/assets/photo_5.jpg", label: "Internal Street Design" },
-              { src: "/assets/photo_4.jpg", label: "Wide Internal Roads" },
-              { src: "/assets/photo_6.jpg", label: "Landscaped Park & Play Area" },
-              { src: "/assets/photo_7.jpg", label: "Aerial Township Overview" },
-            ].map((img, i) => (
-              <Reveal key={img.label} delay={i * 0.07}>
-                <div className="relative overflow-hidden rounded-2xl group aspect-[4/3]">
-                  <img
-                    src={img.src}
-                    alt={img.label}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 brightness-80"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#060c16]/80 via-transparent to-transparent" />
-                  <p className="absolute bottom-4 left-4 text-white/70 text-xs uppercase tracking-[0.2em] font-bold">
-                    {img.label}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="py-32 px-6 relative">
         <div className="mx-auto max-w-7xl relative z-10">
           <Reveal>
@@ -180,7 +156,7 @@ function Page() {
             </h2>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {amenities.map((a, i) => (
+            {amenities.map((a: string, i: number) => (
               <Reveal key={a} delay={i * 0.05}>
                 <div className="glass-premium p-10 h-full flex items-center gap-8 rounded-3xl border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500">
                   <span className="font-display text-4xl text-luxe-cyan/20 leading-none">
@@ -201,10 +177,12 @@ function Page() {
             <SectionEyebrow light>Limited Engagement</SectionEyebrow>
             <h2 className="font-display text-4xl md:text-8xl mb-12 text-white tracking-tighter leading-none">
               Reserve your position at <br />
-              <em className="text-luxe-cyan italic font-serif">Prime Estate.</em>
+              <em className="text-luxe-cyan italic font-serif">{project.title}.</em>
             </h2>
             <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-16">
-              <button className="btn-magnetic btn-luxe px-16 py-5">Schedule Private Tour</button>
+              <Link to="/contact" className="btn-magnetic btn-luxe px-16 py-5">
+                Schedule Private Tour
+              </Link>
               <a
                 href="tel:+919616061166"
                 className="font-display text-4xl text-white hover:text-luxe-cyan transition-colors tracking-tight"

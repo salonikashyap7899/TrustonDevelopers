@@ -14,7 +14,8 @@ export function WhoWeAre() {
               Who <em className="text-[#00BFFF] italic">We Are</em>
             </h1>
             <p className="text-white/50 text-sm md:text-lg max-w-2xl mx-auto font-light">
-              Building tomorrow&apos;s landmarks with integrity, innovation, and unwavering commitment to excellence.
+              Building tomorrow&apos;s landmarks with integrity, innovation, and unwavering
+              commitment to excellence.
             </p>
           </>
         }
@@ -32,7 +33,8 @@ export function WhoWeAre() {
                   Our Heritage
                 </h3>
                 <p className="text-white/40 text-sm leading-relaxed font-light">
-                  Founded on principles of integrity and architectural excellence, TrustOn has been at the forefront of luxury real estate for over a decade.
+                  Founded on principles of integrity and architectural excellence, TrustOn has been
+                  at the forefront of luxury real estate for over a decade.
                 </p>
               </div>
             </div>
@@ -47,7 +49,8 @@ export function WhoWeAre() {
                   Our Vision
                 </h3>
                 <p className="text-white/40 text-sm leading-relaxed font-light">
-                  We redefine premium living by blending futuristic technology with timeless design, creating spaces that inspire and endure.
+                  We redefine premium living by blending futuristic technology with timeless design,
+                  creating spaces that inspire and endure.
                 </p>
               </div>
             </div>
@@ -62,7 +65,8 @@ export function WhoWeAre() {
                   Our Commitment
                 </h3>
                 <p className="text-white/40 text-sm leading-relaxed font-light">
-                  Every plot we sell is a testament to our commitment to quality, transparency, and long-term investor success.
+                  Every plot we sell is a testament to our commitment to quality, transparency, and
+                  long-term investor success.
                 </p>
               </div>
             </div>
@@ -72,15 +76,21 @@ export function WhoWeAre() {
           <div className="mt-8 md:mt-12 flex justify-center gap-12 md:gap-20 pt-8 border-t border-white/5">
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">10+</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Years Legacy</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">
+                Years Legacy
+              </p>
             </div>
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">150+</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Premium Plots</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">
+                Premium Plots
+              </p>
             </div>
             <div className="text-center">
               <p className="text-3xl md:text-4xl font-serif text-[#00BFFF]">100%</p>
-              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">Transparency</p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 mt-2">
+                Transparency
+              </p>
             </div>
           </div>
         </div>

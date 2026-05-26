@@ -5,14 +5,22 @@ import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import { useCollection } from "@/hooks/useCollections";
 
-const testimonials = [
+type Testimonial = {
+  name: string;
+  designation: string;
+  description: string;
+  profile_image: string;
+};
+
+const DEFAULT_TESTIMONIALS = [
   {
     name: "Ramesh Verma",
     designation: "Plot Owner, Phase 1",
     description:
       "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
-    profileImage:
+    profile_image:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
   },
   {
@@ -20,7 +28,7 @@ const testimonials = [
     designation: "Homeowners",
     description:
       "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined beautiful and within budget.",
-    profileImage:
+    profile_image:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
   },
   {
@@ -28,23 +36,18 @@ const testimonials = [
     designation: "Channel Partner",
     description:
       "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
-    profileImage:
+    profile_image:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop",
   },
 ];
 
-function TestimonialCard({
-  name,
-  designation,
-  description,
-  profileImage,
-}: (typeof testimonials)[number]) {
+function TestimonialCard({ name, designation, description, profile_image }: Testimonial) {
   return (
     <div className="relative bg-[#04090f] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none group">
       {/* Profile photo */}
       <div className="w-[160px] md:w-[200px] flex-shrink-0 relative overflow-hidden">
         <img
-          src={profileImage}
+          src={profile_image}
           alt={name}
           className="w-full h-full object-cover brightness-75 group-hover:scale-110 transition-transform duration-700"
         />
@@ -70,7 +73,9 @@ function TestimonialCard({
         {/* Author */}
         <div className="mt-4 pt-4 border-t border-white/5">
           <p className="font-bold text-white text-sm tracking-wide">{name}</p>
-          <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest mt-1 font-bold">{designation}</p>
+          <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest mt-1 font-bold">
+            {designation}
+          </p>
         </div>
       </div>
 
@@ -83,6 +88,11 @@ function TestimonialCard({
 }
 
 export function Testimonials() {
+  const { data: remoteTestimonials } = useCollection<Testimonial>("testimonials", {
+    order: "order_index",
+  });
+  const items = remoteTestimonials?.length ? remoteTestimonials : DEFAULT_TESTIMONIALS;
+
   return (
     <section className="relative py-32 px-4 bg-[#04090f] overflow-hidden">
       <Section3DBackground opacity={0.08} />
@@ -100,8 +110,7 @@ export function Testimonials() {
         <Reveal>
           <SectionEyebrow light>Client Narratives</SectionEyebrow>
           <h2 className="font-serif text-5xl md:text-7xl text-center text-white mb-4 max-w-4xl mx-auto tracking-tight leading-tight">
-            Distinguished{" "}
-            <em className="text-[#00BFFF] italic">Partnerships</em>
+            Distinguished <em className="text-[#00BFFF] italic">Partnerships</em>
           </h2>
           <p className="text-center text-white/40 mt-4 mb-16 max-w-xl mx-auto font-light text-lg">
             Voices of excellence from our growing network of homeowners, investors, and partners.
@@ -128,8 +137,8 @@ export function Testimonials() {
           modules={[EffectCoverflow, Autoplay, Pagination]}
           className="testimonials-swiper pb-14"
         >
-          {testimonials.map((t) => (
-            <SwiperSlide key={t.name} style={{ width: "clamp(300px, 70vw, 580px)" }}>
+          {items.map((t, idx) => (
+            <SwiperSlide key={idx} style={{ width: "clamp(300px, 70vw, 580px)" }}>
               <TestimonialCard {...t} />
             </SwiperSlide>
           ))}

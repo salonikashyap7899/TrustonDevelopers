@@ -218,7 +218,13 @@ const TestimonialCard = ({
       <motion.button
         layoutId={layout ? `card-${testimonial.name}` : undefined}
         onClick={handleExpand}
-        whileHover={{ rotateX: 2, rotateY: 2, rotate: 1, scale: 1.02, transition: { duration: 0.3 } }}
+        whileHover={{
+          rotateX: 2,
+          rotateY: 2,
+          rotate: 1,
+          scale: 1.02,
+          transition: { duration: 0.3 },
+        }}
         className="text-left"
       >
         <div

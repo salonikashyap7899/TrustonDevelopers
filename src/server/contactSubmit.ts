@@ -22,7 +22,13 @@ export const submitContactMessage = createServerFn({ method: "POST" })
     await db.query(
       `INSERT INTO contact_messages (name, email, phone, service, message)
        VALUES ($1, $2, $3, $4, $5)`,
-      [data.name, data.email || null, data.phone || null, data.service || null, data.message || null]
+      [
+        data.name,
+        data.email || null,
+        data.phone || null,
+        data.service || null,
+        data.message || null,
+      ],
     );
     return { success: true };
   });

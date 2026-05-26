@@ -58,8 +58,7 @@ export function ImageCursorTrail({
     last = { x, y };
   };
 
-  const distanceFromLast = (x: number, y: number) =>
-    Math.hypot(x - last.x, y - last.y);
+  const distanceFromLast = (x: number, y: number) => Math.hypot(x - last.x, y - last.y);
 
   const deactivate = (image: HTMLImageElement) => {
     image.dataset.status = "inactive";
@@ -69,7 +68,8 @@ export function ImageCursorTrail({
     if (distanceFromLast(e.clientX, e.clientY) > window.innerWidth / distance) {
       const lead = refs.current[globalIndex % refs.current.length].current;
       const tail =
-        refs.current[(globalIndex - maxNumberOfImages + refs.current.length) % refs.current.length]?.current;
+        refs.current[(globalIndex - maxNumberOfImages + refs.current.length) % refs.current.length]
+          ?.current;
       if (lead) activate(lead, e.clientX, e.clientY);
       if (tail) deactivate(tail);
       globalIndex++;

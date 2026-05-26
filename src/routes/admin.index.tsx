@@ -10,7 +10,7 @@ export const Route = createFileRoute("/admin/")({
   component: AdminPage,
 });
 
-type Tab = "content" | "media" | "submissions";
+type Tab = "content" | "heroes" | "collections" | "global" | "media" | "submissions";
 
 function AdminPage() {
   const { user, isAdmin, loading } = useAuth();
@@ -18,15 +18,8 @@ function AdminPage() {
   const [tab, setTab] = useState<Tab>("content");
 
   useEffect(() => {
-    // Only redirect if loading is finished
     if (!loading) {
-      if (!user) {
-        console.log("No user found, redirecting to login...");
-        navigate({ to: "/admin/login" });
-      } else if (!isAdmin) {
-        // Note: useAuth now sets isAdmin=true for all users, so this block
-        // is mainly a fallback for race conditions.
-        console.warn("User authenticated but isAdmin is false. Redirecting to login...");
+      if (!user || !isAdmin) {
         navigate({ to: "/admin/login" });
       }
     }
@@ -46,14 +39,10 @@ function AdminPage() {
     );
   }
 
-  // If no user or not admin, we return null as the useEffect will handle the redirect
-  if (!user || !isAdmin) {
-    return null;
-  }
+  if (!user || !isAdmin) return null;
 
   return (
     <main className="min-h-screen bg-ink text-white selection:bg-luxe-cyan selection:text-ink">
-      {/* Cinematic Background */}
       <div className="fixed inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-luxe-blue rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-luxe-cyan rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
@@ -90,28 +79,36 @@ function AdminPage() {
           </div>
         </div>
 
-        <nav className="mx-auto max-w-7xl px-6 flex gap-2">
-          {(["content", "media", "submissions"] as const).map((t) => (
-            <button
-              key={t}
-              onClick={() => setTab(t)}
-              className={`relative px-8 py-5 text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 ${
-                tab === t ? "text-luxe-cyan" : "text-white/30 hover:text-white"
-              }`}
-            >
-              {t === "content"
-                ? "Global Architecture"
-                : t === "media"
-                  ? "Cinematic Assets"
-                  : "Investor Portfolio"}
-              {tab === t && (
-                <motion.div
-                  layoutId="admin-tab"
-                  className="absolute bottom-0 left-0 right-0 h-1 bg-luxe-cyan"
-                />
-              )}
-            </button>
-          ))}
+        <nav className="mx-auto max-w-7xl px-6 flex gap-2 overflow-x-auto no-scrollbar">
+          {(["content", "heroes", "collections", "global", "media", "submissions"] as const).map(
+            (t) => (
+              <button
+                key={t}
+                onClick={() => setTab(t)}
+                className={`relative px-6 py-5 text-[10px] uppercase tracking-[0.3em] font-bold transition-all duration-500 whitespace-nowrap ${
+                  tab === t ? "text-luxe-cyan" : "text-white/30 hover:text-white"
+                }`}
+              >
+                {t === "content"
+                  ? "Page Blocks"
+                  : t === "heroes"
+                    ? "Hero Sections"
+                    : t === "collections"
+                      ? "Collections"
+                      : t === "global"
+                        ? "SEO & UI"
+                        : t === "media"
+                          ? "Cinematic Assets"
+                          : "Investor Portfolio"}
+                {tab === t && (
+                  <motion.div
+                    layoutId="admin-tab"
+                    className="absolute bottom-0 left-0 right-0 h-1 bg-luxe-cyan"
+                  />
+                )}
+              </button>
+            ),
+          )}
         </nav>
       </header>
 
@@ -125,6 +122,9 @@ function AdminPage() {
             transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             {tab === "content" && <ContentPanel />}
+            {tab === "heroes" && <HeroPanel />}
+            {tab === "collections" && <CollectionsPanel />}
+            {tab === "global" && <GlobalPanel />}
             {tab === "media" && <MediaPanel />}
             {tab === "submissions" && <SubmissionsPanel />}
           </motion.div>
@@ -134,136 +134,34 @@ function AdminPage() {
   );
 }
 
-// ---------- Content ----------
-type ContentRow = {
-  id: string;
-  key: string;
+// ---------- Shared Components ----------
+
+function SectionHeader({
+  title,
+  label,
+  onSave,
+  busy,
+}: {
+  title: string;
   label: string;
-  data: Record<string, unknown>;
-  updated_at: string;
-};
-
-function ContentPanel() {
-  const [rows, setRows] = useState<ContentRow[]>([]);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [draft, setDraft] = useState<Record<string, unknown>>({});
-  const [busy, setBusy] = useState(false);
-
-  const load = async () => {
-    try {
-      const { data, error } = await supabase.from("site_content").select("*").order("label");
-      if (error) {
-        toast.error(error.message);
-        return;
-      }
-      setRows((data ?? []) as ContentRow[]);
-      if (!selected && data && data.length) {
-        setSelected(data[0].key);
-        setDraft((data[0].data as Record<string, unknown>) ?? {});
-      }
-    } catch (e) {
-      console.error("Load error:", e);
-    }
-  };
-  useEffect(() => {
-    load();
-  }, []);
-
-  const current = rows.find((r) => r.key === selected);
-
-  useEffect(() => {
-    if (current) setDraft((current.data as Record<string, unknown>) ?? {});
-  }, [selected]); // eslint-disable-line
-
-  const save = async () => {
-    if (!current) return;
-    setBusy(true);
-    const { error } = await supabase
-      .from("site_content")
-      .update({ data: draft as never })
-      .eq("id", current.id);
-    setBusy(false);
-    if (error) return toast.error(error.message);
-    toast.success("Empire architecture updated");
-    load();
-  };
-
-  const fields = current
-    ? Object.keys({
-        eyebrow: "",
-        title: "",
-        subtitle: "",
-        image_url: "",
-        video_url: "",
-        ...(current.data as object),
-      })
-    : [];
-
+  onSave: () => void;
+  busy: boolean;
+}) {
   return (
-    <div className="grid lg:grid-cols-[350px_1fr] gap-16">
-      <aside className="space-y-3">
-        <p className="text-[10px] uppercase tracking-[0.5em] text-luxe-cyan/40 mb-10 px-6 font-bold">
-          System Modules
+    <div className="flex items-center justify-between mb-12 pb-12 border-b border-white/5">
+      <div>
+        <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-3 font-bold">
+          {label}
         </p>
-        {rows.map((r) => (
-          <button
-            key={r.id}
-            onClick={() => setSelected(r.key)}
-            className={`w-full text-left px-8 py-6 rounded-3xl text-sm transition-all duration-500 border ${
-              selected === r.key
-                ? "bg-luxe-cyan text-ink border-luxe-cyan shadow-luxe"
-                : "bg-white/5 text-white/50 border-white/5 hover:bg-white/10"
-            }`}
-          >
-            <div className="font-display text-xl">{r.label}</div>
-            <div
-              className={`text-[9px] uppercase tracking-widest mt-2 font-bold ${selected === r.key ? "text-ink/60" : "text-white/20"}`}
-            >
-              {r.key}
-            </div>
-          </button>
-        ))}
-      </aside>
-
-      {current ? (
-        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
-          <div className="flex items-center justify-between mb-12 pb-12 border-b border-white/5">
-            <div>
-              <p className="text-[10px] uppercase tracking-[0.4em] text-luxe-cyan mb-3 font-bold">
-                {current.key}
-              </p>
-              <h2 className="font-display text-5xl text-white tracking-tight">{current.label}</h2>
-            </div>
-            <button
-              onClick={save}
-              disabled={busy}
-              className="bg-luxe-cyan text-ink px-12 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 active:scale-95 transition-all duration-500 disabled:opacity-50"
-            >
-              {busy ? "Syncing..." : "Update Asset"}
-            </button>
-          </div>
-
-          <div className="grid gap-10">
-            {fields.map((k) => (
-              <Field
-                key={k}
-                name={k}
-                value={(draft[k] as string) ?? ""}
-                onChange={(v) => setDraft({ ...draft, [k]: v })}
-              />
-            ))}
-            <div className="pt-12 mt-12 border-t border-white/5">
-              <AddField onAdd={(k) => setDraft({ ...draft, [k]: "" })} />
-            </div>
-          </div>
-        </section>
-      ) : (
-        <div className="flex items-center justify-center h-[500px] border border-dashed border-white/10 rounded-[40px]">
-          <p className="text-white/20 uppercase tracking-[0.4em] text-[12px] font-bold">
-            Select a module to architect
-          </p>
-        </div>
-      )}
+        <h2 className="font-display text-5xl text-white tracking-tight">{title}</h2>
+      </div>
+      <button
+        onClick={onSave}
+        disabled={busy}
+        className="bg-luxe-cyan text-ink px-12 py-4 rounded-full text-[10px] uppercase tracking-[0.3em] font-bold hover:scale-105 active:scale-95 transition-all duration-500 disabled:opacity-50 shadow-luxe"
+      >
+        {busy ? "Syncing..." : "Update Asset"}
+      </button>
     </div>
   );
 }
@@ -272,14 +170,25 @@ function Field({
   name,
   value,
   onChange,
+  type = "text",
 }: {
   name: string;
   value: string;
   onChange: (v: string) => void;
+  type?: "text" | "textarea" | "media";
 }) {
-  const isMedia = name.includes("image_url") || name.includes("video_url");
+  const isMedia =
+    type === "media" ||
+    name.includes("image") ||
+    name.includes("video") ||
+    name.includes("url") ||
+    name === "src";
   const isLong =
-    name === "subtitle" || name === "body" || (typeof value === "string" && value.length > 80);
+    type === "textarea" ||
+    name === "subtitle" ||
+    name === "description" ||
+    name === "body" ||
+    (typeof value === "string" && value.length > 80);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-4">
@@ -304,11 +213,11 @@ function Field({
       )}
 
       {isMedia && value && (
-        <div className="mt-6 rounded-[32px] overflow-hidden border border-white/5 bg-black/40 p-3 shadow-luxe">
+        <div className="mt-6 rounded-[32px] overflow-hidden border border-white/5 bg-black/40 p-3 shadow-luxe max-w-md">
           {value.match(/\.(mp4|webm|mov)$/i) ? (
-            <video src={value} className="max-h-64 w-auto rounded-2xl" muted controls />
+            <video src={value} className="w-full rounded-2xl" muted controls />
           ) : (
-            <img src={value} alt="" className="max-h-64 w-auto rounded-2xl" />
+            <img src={value} alt="" className="w-full rounded-2xl" />
           )}
         </div>
       )}
@@ -316,58 +225,768 @@ function Field({
   );
 }
 
-function AddField({ onAdd }: { onAdd: (k: string) => void }) {
-  const [name, setName] = useState("");
+// ---------- Panels ----------
+
+type ContentRow = {
+  id: string;
+  key: string;
+  label: string;
+  data: Record<string, unknown>;
+};
+
+function ContentPanel() {
+  const [rows, setRows] = useState<ContentRow[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
+  const [draft, setDraft] = useState<Record<string, unknown>>({});
+  const [busy, setBusy] = useState(false);
+
+  const load = async () => {
+    const { data } = await supabase.from("site_content").select("*").order("label");
+    const formattedData = (data ?? []) as ContentRow[];
+    setRows(formattedData);
+    if (!selected && formattedData.length) setSelected(formattedData[0].key);
+  };
+  useEffect(() => {
+    load();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const current = rows.find((r) => r.key === selected);
+  useEffect(() => {
+    if (current) setDraft((current.data as Record<string, unknown>) || {});
+  }, [selected, current]);
+
+  const save = async () => {
+    if (!current) return;
+    setBusy(true);
+    const { error } = await supabase
+      .from("site_content")
+      .update({ data: draft as any })
+      .eq("id", current.id);
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Empire architecture updated");
+      load();
+    }
+  };
+
   return (
-    <div className="flex items-end gap-6">
-      <div className="flex-1">
-        <label className="text-[10px] uppercase tracking-[0.4em] text-white/20 mb-4 block font-bold">
-          New Schema Property
-        </label>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value.replace(/[^a-z0-9_]/gi, "_").toLowerCase())}
-          placeholder="e.g. section_glow_intensity"
-          className="w-full bg-white/[0.03] border border-white/5 rounded-full px-8 py-4 text-white focus:outline-none focus:border-luxe-cyan/30 transition-colors text-sm font-light"
-        />
-      </div>
-      <button
-        type="button"
-        onClick={() => {
-          if (name) {
-            onAdd(name);
-            setName("");
-          }
-        }}
-        className="px-10 py-4 bg-white/5 hover:bg-luxe-cyan hover:text-ink text-luxe-cyan border border-luxe-cyan/20 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all duration-500"
-      >
-        Append
-      </button>
+    <div className="grid lg:grid-cols-[350px_1fr] gap-16">
+      <aside className="space-y-3">
+        {rows.map((r) => (
+          <button
+            key={r.id}
+            onClick={() => setSelected(r.key)}
+            className={`w-full text-left px-8 py-6 rounded-3xl text-sm transition-all duration-500 border ${
+              selected === r.key
+                ? "bg-luxe-cyan text-ink border-luxe-cyan shadow-luxe"
+                : "bg-white/5 text-white/50 border-white/5 hover:bg-white/10"
+            }`}
+          >
+            <div className="font-display text-xl">{r.label}</div>
+            <div
+              className={`text-[9px] uppercase tracking-widest mt-2 font-bold ${selected === r.key ? "text-ink/60" : "text-white/20"}`}
+            >
+              {r.key}
+            </div>
+          </button>
+        ))}
+      </aside>
+      {current && (
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <SectionHeader title={current.label} label={current.key} onSave={save} busy={busy} />
+          <div className="grid gap-10">
+            {Object.keys(draft).map((k) => (
+              <Field
+                key={k}
+                name={k}
+                value={(draft[k] as string) ?? ""}
+                onChange={(v) => setDraft({ ...draft, [k]: v })}
+              />
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
 
-// ---------- Media ----------
-type MediaRow = {
+type HeroRow = {
   id: string;
-  name: string;
-  type: string;
-  url: string;
-  storage_path: string;
-  created_at: string;
+  page_key: string;
+  [key: string]: any;
 };
 
+function HeroPanel() {
+  const [heroes, setHeroes] = useState<HeroRow[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [draft, setDraft] = useState<Record<string, any>>({});
+  const [busy, setBusy] = useState(false);
+
+  const load = async () => {
+    const { data } = await supabase.from("hero_sections").select("*").order("page_key");
+    const formattedData = (data ?? []) as HeroRow[];
+    setHeroes(formattedData);
+    if (!selectedId && formattedData.length) setSelectedId(formattedData[0].id);
+  };
+  useEffect(() => {
+    load();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const current = heroes.find((h) => h.id === selectedId);
+  useEffect(() => {
+    if (current) {
+      const { id, created_at, updated_at, ...rest } = current;
+      setDraft(rest);
+    }
+  }, [selectedId, current]);
+
+  const save = async () => {
+    if (!selectedId) return;
+    setBusy(true);
+    const { error } = await supabase.from("hero_sections").update(draft).eq("id", selectedId);
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Hero section updated");
+      load();
+    }
+  };
+
+  return (
+    <div className="grid lg:grid-cols-[350px_1fr] gap-16">
+      <aside className="space-y-3">
+        {heroes.map((h) => (
+          <button
+            key={h.id}
+            onClick={() => setSelectedId(h.id)}
+            className={`w-full text-left px-8 py-6 rounded-3xl transition-all duration-500 border ${
+              selectedId === h.id
+                ? "bg-luxe-cyan text-ink border-luxe-cyan shadow-luxe"
+                : "bg-white/5 text-white/50 border-white/5 hover:bg-white/10"
+            }`}
+          >
+            <div className="font-display text-xl">{h.page_key}</div>
+          </button>
+        ))}
+      </aside>
+      {current && (
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <SectionHeader title={current.page_key} label="Hero Section" onSave={save} busy={busy} />
+          <div className="grid gap-10">
+            {Object.keys(draft).map((k) => (
+              <Field
+                key={k}
+                name={k}
+                value={(draft[k] as string) ?? ""}
+                onChange={(v) => setDraft({ ...draft, [k]: v })}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function CollectionsPanel() {
+  const collections = ["gallery", "testimonials", "services", "projects", "plots", "articles"];
+  const [active, setActive] = useState(collections[0]);
+  const [items, setItems] = useState<any[]>([]);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [draft, setDraft] = useState<Record<string, any>>({});
+  const [busy, setBusy] = useState(false);
+
+  const load = async () => {
+    const { data } = await supabase
+      .from(active)
+      .select("*")
+      .order("created_at", { ascending: false });
+    setItems(data ?? []);
+  };
+  useEffect(() => {
+    load();
+  }, [active]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    const item = items.find((i) => i.id === selectedId);
+    if (item) {
+      const { id, created_at, ...rest } = item;
+      setDraft(rest);
+    } else {
+      setDraft({});
+    }
+  }, [selectedId, items]);
+
+  const save = async () => {
+    setBusy(true);
+    let error;
+    if (selectedId) {
+      const { error: err } = await supabase.from(active).update(draft).eq("id", selectedId);
+      error = err;
+    } else {
+      const { error: err } = await supabase.from(active).insert(draft);
+      error = err;
+    }
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else {
+      toast.success(`${active} item saved`);
+      setSelectedId(null);
+      load();
+    }
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm("Delete this item?")) return;
+    const { error } = await supabase.from(active).delete().eq("id", id);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Item removed");
+      load();
+    }
+  };
+
+  return (
+    <div className="space-y-12">
+      <div className="flex gap-4 p-2 bg-white/5 rounded-full w-fit">
+        {collections.map((c) => (
+          <button
+            key={c}
+            onClick={() => {
+              setActive(c);
+              setSelectedId(null);
+            }}
+            className={`px-8 py-3 rounded-full text-[10px] uppercase tracking-widest font-bold transition-all ${
+              active === c ? "bg-luxe-cyan text-ink" : "text-white/40 hover:text-white"
+            }`}
+          >
+            {c}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-16">
+        <div className="space-y-6">
+          <button
+            onClick={() => {
+              setSelectedId(null);
+              setDraft({});
+            }}
+            className="w-full py-4 border border-dashed border-white/20 rounded-3xl text-[10px] uppercase tracking-widest font-bold text-white/40 hover:border-luxe-cyan hover:text-luxe-cyan transition-all"
+          >
+            + Add New {active}
+          </button>
+          <div className="grid gap-4">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className={`flex items-center justify-between p-6 rounded-3xl border transition-all ${
+                  selectedId === item.id
+                    ? "bg-luxe-cyan/10 border-luxe-cyan"
+                    : "bg-white/5 border-white/5 hover:bg-white/10"
+                }`}
+              >
+                <div onClick={() => setSelectedId(item.id)} className="flex-1 cursor-pointer">
+                  <p className="font-display text-xl text-white">
+                    {item.name || item.title || item.alt || item.id.slice(0, 8)}
+                  </p>
+                  <p className="text-[9px] uppercase tracking-widest text-white/30 mt-1">
+                    {item.id}
+                  </p>
+                </div>
+                <button
+                  onClick={() => remove(item.id)}
+                  className="text-white/20 hover:text-destructive transition-colors px-4"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {(selectedId || Object.keys(draft).length > 0) && (
+          <div className="glass-premium rounded-[40px] p-12 border border-white/5 h-fit sticky top-8">
+            <SectionHeader
+              title={selectedId ? "Edit Item" : "New Item"}
+              label={active}
+              onSave={save}
+              busy={busy}
+            />
+            <div className="grid gap-8">
+              {active === "gallery" && (
+                <>
+                  <Field
+                    name="src"
+                    value={(draft.src as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, src: v })}
+                  />
+                  <Field
+                    name="alt"
+                    value={(draft.alt as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, alt: v })}
+                  />
+                  <Field
+                    name="category"
+                    value={(draft.category as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, category: v })}
+                  />
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
+              {active === "plots" && (
+                <>
+                  <Field
+                    name="name"
+                    value={(draft.name as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, name: v })}
+                  />
+                  <Field
+                    name="location"
+                    value={(draft.location as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, location: v })}
+                  />
+                  <Field
+                    name="tag"
+                    value={(draft.tag as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, tag: v })}
+                  />
+                  <Field
+                    name="tag_color"
+                    value={(draft.tag_color as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, tag_color: v })}
+                  />
+                  <Field
+                    name="price"
+                    value={(draft.price as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, price: v })}
+                  />
+                  <Field
+                    name="subtitle"
+                    value={(draft.subtitle as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, subtitle: v })}
+                  />
+                  <Field
+                    name="area"
+                    value={(draft.area as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, area: v })}
+                  />
+                  <Field
+                    name="dimensions"
+                    value={(draft.dimensions as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, dimensions: v })}
+                  />
+                  <Field
+                    name="facing"
+                    value={(draft.facing as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, facing: v })}
+                  />
+                  <Field
+                    name="road"
+                    value={(draft.road as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, road: v })}
+                  />
+                  <Field
+                    name="type"
+                    value={(draft.type as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, type: v })}
+                  />
+                  <div className="flex gap-8 py-4">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!draft.is_featured}
+                        onChange={(e) => setDraft({ ...draft, is_featured: e.target.checked })}
+                      />
+                      <span className="text-[10px] uppercase tracking-widest font-bold text-white/50">
+                        Featured
+                      </span>
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={!!draft.is_sold}
+                        onChange={(e) => setDraft({ ...draft, is_sold: e.target.checked })}
+                      />
+                      <span className="text-[10px] uppercase tracking-widest font-bold text-white/50">
+                        Sold Out
+                      </span>
+                    </label>
+                  </div>
+                </>
+              )}
+              {active === "articles" && (
+                <>
+                  <Field
+                    name="title"
+                    value={(draft.title as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, title: v })}
+                  />
+                  <Field
+                    name="category"
+                    value={(draft.category as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, category: v })}
+                  />
+                  <Field
+                    name="excerpt"
+                    value={(draft.excerpt as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, excerpt: v })}
+                    type="textarea"
+                  />
+                  <Field
+                    name="image_url"
+                    value={(draft.image_url as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, image_url: v })}
+                  />
+                  <Field
+                    name="author"
+                    value={(draft.author as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, author: v })}
+                  />
+                  <Field
+                    name="read_time"
+                    value={(draft.read_time as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, read_time: v })}
+                  />
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
+              {active === "testimonials" && (
+                <>
+                  <Field
+                    name="name"
+                    value={(draft.name as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, name: v })}
+                  />
+                  <Field
+                    name="designation"
+                    value={(draft.designation as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, designation: v })}
+                  />
+                  <Field
+                    name="description"
+                    value={(draft.description as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, description: v })}
+                    type="textarea"
+                  />
+                  <Field
+                    name="profile_image"
+                    value={(draft.profile_image as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, profile_image: v })}
+                  />
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
+              {active === "services" && (
+                <>
+                  <Field
+                    name="name"
+                    value={(draft.name as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, name: v })}
+                  />
+                  <Field
+                    name="description"
+                    value={(draft.description as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, description: v })}
+                    type="textarea"
+                  />
+                  <Field
+                    name="image_url"
+                    value={(draft.image_url as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, image_url: v })}
+                  />
+                  <Field
+                    name="link_text"
+                    value={(draft.link_text as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, link_text: v })}
+                  />
+                  <Field
+                    name="link_url"
+                    value={(draft.link_url as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, link_url: v })}
+                  />
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
+              {active === "projects" && (
+                <>
+                  <Field
+                    name="title"
+                    value={(draft.title as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, title: v })}
+                  />
+                  <Field
+                    name="slug"
+                    value={(draft.slug as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, slug: v })}
+                  />
+                  <Field
+                    name="description"
+                    value={(draft.description as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, description: v })}
+                    type="textarea"
+                  />
+                  <Field
+                    name="image_url"
+                    value={(draft.image_url as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, image_url: v })}
+                  />
+                  <Field
+                    name="category"
+                    value={(draft.category as string) || ""}
+                    onChange={(v) => setDraft({ ...draft, category: v })}
+                  />
+                  <Field
+                    name="order_index"
+                    value={(draft.order_index as string) || "0"}
+                    onChange={(v) => setDraft({ ...draft, order_index: parseInt(v) || 0 })}
+                  />
+                </>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function GlobalPanel() {
+  const [seo, setSeo] = useState<any[]>([]);
+  const [nav, setNav] = useState<any[]>([]);
+  const [footer, setFooter] = useState<any[]>([]);
+  const [selectedSeo, setSelectedSeo] = useState<string | null>(null);
+  const [selectedNav, setSelectedNav] = useState<string | null>(null);
+  const [selectedFooter, setSelectedFooter] = useState<string | null>(null);
+  const [seoDraft, setSeoDraft] = useState<any>({});
+  const [navDraft, setNavDraft] = useState<any>({});
+  const [footerDraft, setFooterDraft] = useState<any>({});
+  const [busy, setBusy] = useState(false);
+
+  const load = async () => {
+    const { data: seoData } = await supabase.from("seo_configs").select("*");
+    const { data: navData } = await supabase.from("navbar_links").select("*").order("order_index");
+    const { data: footerData } = await supabase.from("footer_configs").select("*");
+    setSeo(seoData ?? []);
+    setNav(navData ?? []);
+    setFooter(footerData ?? []);
+  };
+  useEffect(() => {
+    load();
+  }, []);
+
+  const saveSeo = async () => {
+    if (!selectedSeo) return;
+    setBusy(true);
+    const { error } = await supabase.from("seo_configs").update(seoDraft).eq("id", selectedSeo);
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else toast.success("SEO updated");
+  };
+
+  const saveNav = async () => {
+    setBusy(true);
+    let error;
+    if (selectedNav) {
+      const { error: err } = await supabase
+        .from("navbar_links")
+        .update(navDraft)
+        .eq("id", selectedNav);
+      error = err;
+    } else {
+      const { error: err } = await supabase.from("navbar_links").insert(navDraft);
+      error = err;
+    }
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Nav updated");
+      load();
+    }
+  };
+
+  const saveFooter = async () => {
+    if (!selectedFooter) return;
+    setBusy(true);
+    const { error } = await supabase
+      .from("footer_configs")
+      .update({ data: footerDraft })
+      .eq("id", selectedFooter);
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else toast.success("Footer updated");
+  };
+
+  return (
+    <div className="grid lg:grid-cols-2 gap-16">
+      <div className="space-y-12">
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <h3 className="font-display text-3xl mb-8">SEO Engine</h3>
+          <select
+            onChange={(e) => {
+              const item = seo.find((s) => s.id === e.target.value);
+              setSelectedSeo(e.target.value);
+              setSeoDraft(item || {});
+            }}
+            className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 mb-8"
+          >
+            <option value="">Select Page Path</option>
+            {seo.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.page_path}
+              </option>
+            ))}
+          </select>
+          {selectedSeo && (
+            <div className="grid gap-6">
+              <Field
+                name="title"
+                value={seoDraft.title || ""}
+                onChange={(v) => setSeoDraft({ ...seoDraft, title: v })}
+              />
+              <Field
+                name="description"
+                value={seoDraft.description || ""}
+                onChange={(v) => setSeoDraft({ ...seoDraft, description: v })}
+                type="textarea"
+              />
+              <button
+                onClick={saveSeo}
+                disabled={busy}
+                className="bg-luxe-cyan text-ink py-4 rounded-full font-bold uppercase tracking-widest text-[10px]"
+              >
+                Update SEO
+              </button>
+            </div>
+          )}
+        </section>
+
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5">
+          <h3 className="font-display text-3xl mb-8">Navigation Links</h3>
+          <div className="space-y-4 mb-8">
+            {nav.map((n) => (
+              <div
+                key={n.id}
+                onClick={() => {
+                  setSelectedNav(n.id);
+                  setNavDraft(n);
+                }}
+                className="p-4 bg-white/5 rounded-xl cursor-pointer hover:bg-white/10 flex justify-between items-center"
+              >
+                <span>
+                  {n.label} ({n.to})
+                </span>
+                <span className="text-[10px] opacity-30">Order: {n.order_index}</span>
+              </div>
+            ))}
+          </div>
+          <div className="grid gap-6 p-6 border border-white/5 rounded-2xl bg-white/2">
+            <Field
+              name="label"
+              value={navDraft.label || ""}
+              onChange={(v) => setNavDraft({ ...navDraft, label: v })}
+            />
+            <Field
+              name="to"
+              value={navDraft.to || ""}
+              onChange={(v) => setNavDraft({ ...navDraft, to: v })}
+            />
+            <Field
+              name="order_index"
+              value={navDraft.order_index || 0}
+              onChange={(v) => setNavDraft({ ...navDraft, order_index: parseInt(v) || 0 })}
+            />
+            <button
+              onClick={saveNav}
+              disabled={busy}
+              className="bg-luxe-cyan text-ink py-4 rounded-full font-bold uppercase tracking-widest text-[10px]"
+            >
+              {selectedNav ? "Update Link" : "Add Link"}
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <div className="space-y-12">
+        <section className="glass-premium rounded-[40px] p-12 border border-white/5 h-fit">
+          <h3 className="font-display text-3xl mb-8">Footer Configuration</h3>
+          <select
+            onChange={(e) => {
+              const item = footer.find((f) => f.id === e.target.value);
+              setSelectedFooter(e.target.value);
+              setFooterDraft(item?.data || {});
+            }}
+            className="w-full bg-white/5 border border-white/10 rounded-full px-6 py-3 mb-8"
+          >
+            <option value="">Select Footer Section</option>
+            {footer.map((f) => (
+              <option key={f.id} value={f.id}>
+                {f.section_key}
+              </option>
+            ))}
+          </select>
+          {selectedFooter && (
+            <div className="grid gap-6">
+              <Field
+                name="phone"
+                value={footerDraft.phone || ""}
+                onChange={(v) => setFooterDraft({ ...footerDraft, phone: v })}
+              />
+              <Field
+                name="email"
+                value={footerDraft.email || ""}
+                onChange={(v) => setFooterDraft({ ...footerDraft, email: v })}
+              />
+              <Field
+                name="address"
+                value={footerDraft.address || ""}
+                onChange={(v) => setFooterDraft({ ...footerDraft, address: v })}
+                type="textarea"
+              />
+              <button
+                onClick={saveFooter}
+                disabled={busy}
+                className="bg-luxe-cyan text-ink py-4 rounded-full font-bold uppercase tracking-widest text-[10px]"
+              >
+                Update Footer
+              </button>
+            </div>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
+
+// ---------- Existing Media & Submissions ----------
+
 function MediaPanel() {
-  const [items, setItems] = useState<MediaRow[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const [uploading, setUploading] = useState(false);
 
   const load = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("media")
       .select("*")
       .order("created_at", { ascending: false });
-    if (error) toast.error(error.message);
-    setItems((data ?? []) as MediaRow[]);
+    setItems(data ?? []);
   };
   useEffect(() => {
     load();
@@ -380,17 +999,14 @@ function MediaPanel() {
       for (const file of Array.from(files)) {
         const ext = file.name.split(".").pop();
         const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
-        const { error: upErr } = await supabase.storage
-          .from("site-media")
-          .upload(path, file, { contentType: file.type });
-        if (upErr) throw upErr;
+        await supabase.storage.from("site-media").upload(path, file);
         const {
           data: { publicUrl },
         } = supabase.storage.from("site-media").getPublicUrl(path);
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        const { error: insErr } = await supabase.from("media").insert({
+        await supabase.from("media").insert({
           name: file.name,
           type: file.type.startsWith("video") ? "video" : "image",
           url: publicUrl,
@@ -398,24 +1014,21 @@ function MediaPanel() {
           size_bytes: file.size,
           uploaded_by: user?.id,
         });
-        if (insErr) throw insErr;
       }
-      toast.success("Cinematic assets integrated");
+      toast.success("Assets integrated");
       load();
-    } catch (e) {
-      toast.error((e as Error).message);
+    } catch (e: any) {
+      toast.error(e.message);
     } finally {
       setUploading(false);
     }
   };
 
-  const remove = async (m: MediaRow) => {
-    if (!confirm("Are you sure you want to remove this cinematic asset?")) return;
-    const { error: stErr } = await supabase.storage.from("site-media").remove([m.storage_path]);
-    if (stErr) return toast.error(stErr.message);
-    const { error: dbErr } = await supabase.from("media").delete().eq("id", m.id);
-    if (dbErr) return toast.error(dbErr.message);
-    toast.success("Asset removed from library");
+  const remove = async (m: any) => {
+    if (!confirm("Remove this asset?")) return;
+    await supabase.storage.from("site-media").remove([m.storage_path]);
+    await supabase.from("media").delete().eq("id", m.id);
+    toast.success("Asset removed");
     load();
   };
 
@@ -463,7 +1076,7 @@ function MediaPanel() {
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(m.url);
-                    toast.success("Path copied to clipboard");
+                    toast.success("Path copied");
                   }}
                   className="flex-1 text-[10px] uppercase tracking-widest text-luxe-cyan bg-white/5 hover:bg-luxe-cyan hover:text-ink border border-luxe-cyan/20 rounded-full py-3 transition-all font-bold"
                 >
@@ -484,35 +1097,22 @@ function MediaPanel() {
   );
 }
 
-// ---------- Submissions ----------
-type Sub = {
-  id: string;
-  name: string;
-  email: string | null;
-  phone: string | null;
-  message: string;
-  source: string | null;
-  created_at: string;
-};
-
 function SubmissionsPanel() {
-  const [items, setItems] = useState<Sub[]>([]);
+  const [items, setItems] = useState<any[]>([]);
   const load = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("contact_submissions")
       .select("*")
       .order("created_at", { ascending: false });
-    if (error) toast.error(error.message);
-    setItems((data ?? []) as Sub[]);
+    setItems(data ?? []);
   };
   useEffect(() => {
     load();
   }, []);
 
   const remove = async (id: string) => {
-    if (!confirm("Archive this investor lead?")) return;
-    const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (!confirm("Archive lead?")) return;
+    await supabase.from("contact_submissions").delete().eq("id", id);
     toast.success("Lead archived");
     load();
   };
@@ -539,12 +1139,6 @@ function SubmissionsPanel() {
                   <span className="text-luxe-cyan">{s.phone}</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
                   <span>{new Date(s.created_at).toLocaleString()}</span>
-                  {s.source && (
-                    <>
-                      <span className="w-1.5 h-1.5 rounded-full bg-white/10 mt-1.5" />
-                      <span className="text-luxe-cyan/60">{s.source}</span>
-                    </>
-                  )}
                 </div>
               </div>
               <button
@@ -559,13 +1153,6 @@ function SubmissionsPanel() {
             </p>
           </motion.article>
         ))}
-        {!items.length && (
-          <div className="flex flex-col items-center justify-center py-32 border border-dashed border-white/5 rounded-[40px]">
-            <p className="text-white/20 uppercase tracking-[0.5em] text-sm font-bold">
-              Awaiting Investor Engagement
-            </p>
-          </div>
-        )}
       </div>
     </div>
   );
