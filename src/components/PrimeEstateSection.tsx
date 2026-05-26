@@ -60,7 +60,7 @@ export function PrimeEstateSection() {
             <div className="relative overflow-hidden min-h-[420px] md:min-h-[600px] flex flex-col justify-end p-10 md:p-12 bg-[#161613]">
               {/* Background image */}
               <img
-                src="/assets/internal-street.jpg"
+                src="/assets/photo_4.jpg"
                 alt="Prime Estate — Internal Street"
                 className="absolute inset-0 w-full h-full object-cover"
               />

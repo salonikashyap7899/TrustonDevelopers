@@ -139,28 +139,28 @@ export function TrustonServicesSection() {
       name: 'Plot Selling',
       desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.",
       linkText: 'Explore Plots',
-      img: '/assets/plot-selling.jpg',
+      img: '/assets/photo_2.jpg',
     },
     {
       num: '02',
       name: 'Construction',
       desc: 'Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.',
       linkText: 'Build With Us',
-      img: '/assets/internal-street.jpg',
+      img: '/assets/photo_5.jpg',
     },
     {
       num: '03',
       name: 'Investment Consultancy',
       desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.",
       linkText: 'Grow Your Assets',
-      img: '/assets/aerial-township.jpg',
+      img: '/assets/photo_9.jpg',
     },
     {
       num: '04',
       name: 'Architecture & Design',
       desc: 'In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.',
       linkText: 'Design Your Space',
-      img: '/assets/architecture-design.jpg',
+      img: '/assets/photo_6.jpg',
     },
   ];
 

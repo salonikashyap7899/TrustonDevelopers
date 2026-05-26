@@ -49,7 +49,7 @@ export function NewGenerationSection() {
         style={{ y: bgY, willChange: "transform" }}
       >
         <img
-          src="/assets/infrastructure-road.jpg"
+          src="/assets/photo_3.jpg"
           alt="Prime Estate — Wide Internal Roads"
           className="w-full h-full object-cover scale-110"
         />
