@@ -11,7 +11,7 @@ export type ContentBlock = {
   [k: string]: unknown;
 };
 
-const POLL_INTERVAL = 8000;
+const POLL_INTERVAL = 15000;
 
 export function usePageContent(key: string, fallback: ContentBlock = {}): ContentBlock {
   const [data, setData] = useState<ContentBlock>(fallback);
@@ -19,38 +19,58 @@ export function usePageContent(key: string, fallback: ContentBlock = {}): Conten
   const fallbackRef = useRef(fallback);
   fallbackRef.current = fallback;
 
-  const fetchContent = useCallback(async () => {
-    try {
-      const { data: row, error } = await supabase
-        .from("site_content")
-        .select("data")
-        .eq("key", key)
-        .maybeSingle();
+  // Monotonically-increasing version counter.
+  // Realtime updates bump this; poll results are discarded if their
+  // version is older than the current one.
+  const versionRef = useRef(0);
+  const lastRealtimeRef = useRef(0);
 
-      if (cancelRef.current) return;
+  const fetchContent = useCallback(
+    async (requestVersion: number) => {
+      try {
+        const { data: row, error } = await supabase
+          .from("site_content")
+          .select("data")
+          .eq("key", key)
+          .maybeSingle();
 
-      if (error) {
-        console.warn(`[usePageContent] Error fetching ${key}:`, error);
-        return;
+        if (cancelRef.current) return;
+        if (error) {
+          console.warn(`[usePageContent] Error fetching ${key}:`, error);
+          return;
+        }
+
+        // Discard if a newer update (Realtime or later poll) already arrived
+        if (requestVersion < versionRef.current) return;
+
+        if (row?.data) {
+          versionRef.current = requestVersion;
+          setData({ ...fallbackRef.current, ...(row.data as ContentBlock) });
+        }
+      } catch (e) {
+        console.warn(`[usePageContent] Exception fetching ${key}:`, e);
       }
-
-      if (row?.data) {
-        setData({ ...fallbackRef.current, ...(row.data as ContentBlock) });
-      }
-    } catch (e) {
-      console.warn(`[usePageContent] Exception fetching ${key}:`, e);
-    }
-  }, [key]);
+    },
+    [key],
+  );
 
   useEffect(() => {
     cancelRef.current = false;
+    versionRef.current = 0;
+    lastRealtimeRef.current = 0;
 
-    fetchContent();
+    // Initial fetch
+    const initialVersion = ++versionRef.current;
+    fetchContent(initialVersion);
 
+    // Polling — always uses the current version so it can't win over Realtime
     const pollTimer = setInterval(() => {
-      if (!cancelRef.current) fetchContent();
+      if (cancelRef.current) return;
+      const v = ++versionRef.current;
+      fetchContent(v);
     }, POLL_INTERVAL);
 
+    // Realtime subscription — wins over any poll
     const subscription = supabase
       .channel(`site_content_${key}`)
       .on(
@@ -63,23 +83,27 @@ export function usePageContent(key: string, fallback: ContentBlock = {}): Conten
         },
         (payload) => {
           if (cancelRef.current) return;
+
+          // Realtime always takes priority — bump version high so polls lose
+          versionRef.current += 1000;
+          lastRealtimeRef.current = versionRef.current;
+
           if (payload.eventType === "DELETE") {
             setData(fallbackRef.current);
-          } else {
-            const newData = (payload.new as { data?: ContentBlock })?.data;
-            if (newData) {
-              setData({ ...fallbackRef.current, ...newData });
-            } else {
-              fetchContent();
-            }
+            return;
           }
-        }
+
+          const newData = (payload.new as { data?: ContentBlock })?.data;
+          if (newData) {
+            setData({ ...fallbackRef.current, ...newData });
+          } else {
+            // Realtime fired but payload had no data — do a fresh fetch
+            const v = versionRef.current;
+            fetchContent(v);
+          }
+        },
       )
-      .subscribe((status) => {
-        if (status === "SUBSCRIBED") {
-          fetchContent();
-        }
-      });
+      .subscribe();
 
     return () => {
       cancelRef.current = true;
