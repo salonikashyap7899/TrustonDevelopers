@@ -12,12 +12,14 @@ export type ContentBlock = {
 };
 
 const cache = new Map<string, ContentBlock>();
+let channelCounter = 0;
 
 export function usePageContent(key: string, fallback: ContentBlock = {}) {
   const [data, setData] = useState<ContentBlock>(cache.get(key) ?? fallback);
 
   useEffect(() => {
     let cancel = false;
+    let subscription: any = null;
 
     // Initial fetch
     const fetchData = async () => {
@@ -28,10 +30,17 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
           .eq("key", key)
           .maybeSingle();
 
-        if (cancel || !row) return;
-        const merged = { ...fallback, ...(row.data as ContentBlock) };
-        cache.set(key, merged);
-        setData(merged);
+        if (cancel) return;
+        
+        if (row?.data) {
+          const merged = { ...fallback, ...(row.data as ContentBlock) };
+          cache.set(key, merged);
+          setData(merged);
+          console.log("[v0] Fetched content for key:", key, merged);
+        } else {
+          console.log("[v0] No content found for key:", key);
+          setData(fallback);
+        }
       } catch (error) {
         console.error("[v0] Failed to fetch content:", error);
       }
@@ -40,32 +49,50 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
     fetchData();
 
     // Subscribe to real-time changes
-    const subscription = supabase
-      .channel(`content:${key}`)
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "site_content",
-          filter: `key=eq.${key}`,
-        },
-        (payload) => {
-          if (cancel) return;
-          const newData = payload.new as { data: ContentBlock } | null;
-          if (newData?.data) {
-            const merged = { ...fallback, ...newData.data };
-            cache.set(key, merged);
-            setData(merged);
-            console.log("[v0] Content updated for key:", key);
-          }
-        }
-      )
-      .subscribe();
+    const setupSubscription = async () => {
+      try {
+        const uniqueChannelId = `content:${key}:${++channelCounter}`;
+        console.log("[v0] Setting up real-time subscription for:", uniqueChannelId);
+        
+        subscription = supabase
+          .channel(uniqueChannelId, { config: { broadcast: { self: true } } })
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "site_content",
+              filter: `key=eq.${key}`,
+            },
+            (payload: any) => {
+              if (cancel) return;
+              
+              console.log("[v0] Real-time update received for", key, ":", payload);
+              
+              if (payload.new?.data) {
+                const merged = { ...fallback, ...(payload.new.data as ContentBlock) };
+                cache.set(key, merged);
+                setData(merged);
+                console.log("[v0] Content updated for key:", key, merged);
+              }
+            }
+          )
+          .subscribe((status: string) => {
+            console.log("[v0] Subscription status for", key, ":", status);
+          });
+      } catch (error) {
+        console.error("[v0] Failed to setup subscription:", error);
+      }
+    };
+
+    setupSubscription();
 
     return () => {
       cancel = true;
-      subscription.unsubscribe();
+      if (subscription) {
+        supabase.removeChannel(subscription);
+        console.log("[v0] Cleaned up subscription for:", key);
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key]);

@@ -184,7 +184,12 @@ function ContentPanel() {
       .eq("id", current.id);
     setBusy(false);
     if (error) return toast.error(error.message);
+    
+    // Force refresh from database after save
     toast.success("Empire architecture updated");
+    
+    // Small delay to ensure database write completes
+    await new Promise(resolve => setTimeout(resolve, 500));
     load();
   };
 
