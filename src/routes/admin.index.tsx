@@ -346,6 +346,60 @@ function AdminPage() {
   );
 }
 
+type CardItem = { num?: string; name: string; desc: string; linkText?: string; [k: string]: unknown };
+
+function CardArrayEditor({
+  cards,
+  onChange,
+}: {
+  cards: CardItem[];
+  onChange: (updated: CardItem[]) => void;
+}) {
+  const update = (idx: number, field: keyof CardItem, val: string) => {
+    const next = cards.map((c, i) => i === idx ? { ...c, [field]: val } : c);
+    onChange(next);
+  };
+
+  return (
+    <div className="space-y-4">
+      {cards.map((card, idx) => (
+        <div key={idx} className="rounded-2xl border border-border bg-background/60 p-5">
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-3">
+            Card {card.num ?? String(idx + 1)}
+          </p>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div>
+              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Name / Title</label>
+              <input
+                value={card.name ?? ""}
+                onChange={(e) => update(idx, "name", e.target.value)}
+                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground"
+              />
+            </div>
+            <div>
+              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Button / Link Text</label>
+              <input
+                value={String(card.linkText ?? "")}
+                onChange={(e) => update(idx, "linkText", e.target.value)}
+                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <label className="block text-xs uppercase tracking-[0.25em] text-muted-foreground mb-1">Description</label>
+              <textarea
+                value={card.desc ?? ""}
+                onChange={(e) => update(idx, "desc", e.target.value)}
+                rows={3}
+                className="w-full rounded-xl border border-border bg-input px-3 py-2 text-sm text-foreground resize-none leading-relaxed"
+              />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function BlockCard({
   block, value, onChange, onSave, saving, justSaved,
 }: {
@@ -362,6 +416,9 @@ function BlockCard({
   const simpleFields = parsed
     ? Object.entries(parsed).filter(([, v]) => typeof v === "string" || typeof v === "number")
     : [];
+
+  const cardArray: CardItem[] | null =
+    parsed && Array.isArray(parsed.cards) ? (parsed.cards as CardItem[]) : null;
 
   const preview = previewUrl(block.key);
 
@@ -410,6 +467,21 @@ function BlockCard({
               />
             </div>
           ))}
+        </div>
+      )}
+
+      {cardArray && cardArray.length > 0 && (
+        <div className="mt-6">
+          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">
+            Service Cards — edit each card individually
+          </p>
+          <CardArrayEditor
+            cards={cardArray}
+            onChange={(updated) => {
+              if (!parsed) return;
+              onChange(JSON.stringify({ ...parsed, cards: updated }, null, 2));
+            }}
+          />
         </div>
       )}
 

@@ -104,63 +104,45 @@ export function TrustonWhoWeAreSection() {
   );
 }
 
+type ServiceCard = { num: string; name: string; desc: string; linkText: string };
+
+const SERVICE_ICONS = [
+  <svg key="01" className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M3 21h18M9 21V10h6v11M5 21V7l7-4 7 4v14M12 7v0" strokeLinecap="round" strokeLinejoin="round"/>
+    <rect x="7" y="10" width="10" height="3" fill="currentColor" fillOpacity="0.1"/>
+  </svg>,
+  <svg key="02" className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M2 20h20M4 20V10l8-6 8 6v10M10 20v-6h4v6" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M15 10h2v2h-2z" fill="currentColor" fillOpacity="0.3"/>
+    <path d="M7 10h2v2H7z" fill="currentColor" fillOpacity="0.3"/>
+  </svg>,
+  <svg key="03" className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>,
+  <svg key="04" className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3zM13 13l6 6" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>,
+];
+
+const DEFAULT_CARDS: ServiceCard[] = [
+  { num: "01", name: "Plot Selling", desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.", linkText: "Explore Plots" },
+  { num: "02", name: "Construction", desc: "Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.", linkText: "Build With Us" },
+  { num: "03", name: "Investment Consultancy", desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.", linkText: "Grow Your Assets" },
+  { num: "04", name: "Architecture & Design", desc: "In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.", linkText: "Design Your Space" },
+];
+
 export function TrustonServicesSection() {
   const c = usePageContent("home.services", {
     eyebrow: "What We Offer",
     title: "Four Pillars of",
     title_accent: "Our Expertise",
     body: "Truston Developers is your complete real estate ecosystem in Lucknow. Whether you're buying land, building a home, seeking investment guidance, or designing your dream space, we bring deep local knowledge and end-to-end capability.",
+    cards: DEFAULT_CARDS,
   });
 
-  const services = [
-    {
-      num: '01',
-      name: 'Plot Selling',
-      desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.",
-      linkText: 'Explore Plots',
-      icon: (
-        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M3 21h18M9 21V10h6v11M5 21V7l7-4 7 4v14M12 7v0" strokeLinecap="round" strokeLinejoin="round"/>
-          <rect x="7" y="10" width="10" height="3" fill="currentColor" fillOpacity="0.1"/>
-        </svg>
-      ),
-    },
-    {
-      num: '02',
-      name: 'Construction',
-      desc: 'Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.',
-      linkText: 'Build With Us',
-      icon: (
-        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M2 20h20M4 20V10l8-6 8 6v10M10 20v-6h4v6" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M15 10h2v2h-2z" fill="currentColor" fillOpacity="0.3"/>
-          <path d="M7 10h2v2H7z" fill="currentColor" fillOpacity="0.3"/>
-        </svg>
-      ),
-    },
-    {
-      num: '03',
-      name: 'Investment Consultancy',
-      desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.",
-      linkText: 'Grow Your Assets',
-      icon: (
-        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-    },
-    {
-      num: '04',
-      name: 'Architecture & Design',
-      desc: 'In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.',
-      linkText: 'Design Your Space',
-      icon: (
-        <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3zM13 13l6 6" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-      ),
-    },
-  ];
+  const services: ServiceCard[] = Array.isArray(c.cards) && c.cards.length > 0
+    ? (c.cards as ServiceCard[])
+    : DEFAULT_CARDS;
 
   return (
     <section className="bg-[#050b14] text-white relative z-10 border-t border-white/5">
@@ -190,11 +172,11 @@ export function TrustonServicesSection() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
           {services.map((service, idx) => (
-            <Reveal key={service.num} delay={idx * 0.1}>
+            <Reveal key={service.num ?? idx} delay={idx * 0.1}>
               <div className="bg-[#050b14] relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20 flex flex-col">
                 <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-[#0a1628] to-[#050b14] shrink-0">
                   <div className="text-[#00BFFF]/40 group-hover:text-[#00BFFF] group-hover:scale-110 transition-all duration-500">
-                    {service.icon}
+                    {SERVICE_ICONS[idx] ?? SERVICE_ICONS[0]}
                   </div>
                   <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">{service.num}</span>
                 </div>

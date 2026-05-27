@@ -109,6 +109,32 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
       title: "Four Pillars of",
       title_accent: "Our Expertise",
       body: "Truston Developers is your complete real estate ecosystem in Lucknow. Whether you're buying land, building a home, seeking investment guidance, or designing your dream space, we bring deep local knowledge and end-to-end capability.",
+      cards: [
+        {
+          num: "01",
+          name: "Plot Selling",
+          desc: "Residential land parcels in Lucknow's high-growth corridors. Jila Panchayat approvals, clear title deeds, and complete legal documentation — every plot backed by full transparency.",
+          linkText: "Explore Plots",
+        },
+        {
+          num: "02",
+          name: "Construction",
+          desc: "Full home construction — from foundation to finishing. Quality materials, experienced teams, and complete transparency at every phase with on-time delivery guaranteed.",
+          linkText: "Build With Us",
+        },
+        {
+          num: "03",
+          name: "Investment Consultancy",
+          desc: "Expert land investment guidance for first-time buyers, NRIs, and seasoned investors. ROI assessments, location analysis, and long-term portfolio strategy crafted for Lucknow's real estate landscape.",
+          linkText: "Grow Your Assets",
+        },
+        {
+          num: "04",
+          name: "Architecture & Design",
+          desc: "In-house architectural planning tailored to your vision. Concept layouts, elevation designs, complete blueprint documentation — bringing your idea of home to life before a single brick is laid.",
+          linkText: "Design Your Space",
+        },
+      ],
     },
   },
   {
