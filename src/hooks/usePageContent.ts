@@ -11,10 +11,11 @@ export type ContentBlock = {
   [k: string]: unknown;
 };
 
-const cache = new Map<string, ContentBlock>();
-
+// Admin-driven content should update reliably.
+// The previous global cache could cause stale headings until a full refresh.
 export function usePageContent(key: string, fallback: ContentBlock = {}) {
-  const [data, setData] = useState<ContentBlock>(cache.get(key) ?? fallback);
+  const [data, setData] = useState<ContentBlock>(fallback);
+
 
   useEffect(() => {
     let cancel = false;
@@ -26,8 +27,8 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
       .then(({ data: row }) => {
         if (cancel || !row) return;
         const merged = { ...fallback, ...(row.data as ContentBlock) };
-        cache.set(key, merged);
         setData(merged);
+
       });
     return () => {
       cancel = true;

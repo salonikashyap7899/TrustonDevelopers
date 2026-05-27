@@ -76,20 +76,20 @@ function Index() {
   }}
   className="text-center mb-10"
 >
-  {/* TRUSTON */}
+  {/* TRUSTON (Admin-editable via site_content key: home.hero) */}
   <h1 className="font-serif leading-[0.85] tracking-tight">
     <span className="text-white text-6xl md:text-8xl lg:text-[10rem] font-light">
-      TRUST
+      {heroContent.title || "TRUST"}
     </span>
 
     <span className="text-[#00BFFF] text-6xl md:text-8xl lg:text-[10rem] font-light">
-      ON
+      {heroContent.title_accent || "ON"}
     </span>
   </h1>
 
   {/* SUB HEADING */}
   <p className="mt-6 text-white/70 text-sm md:text-xl uppercase tracking-[0.35em]">
-    Own the Ground. Build the Legacy.
+    {heroContent.subtitle || "Own the Ground. Build the Legacy."}
   </p>
 </motion.div>
             <motion.p
@@ -147,9 +147,9 @@ function Index() {
       <WhoWeAreSection />
 
       {/* Gallery Section */}
-      <div className="-mt-6">
-        <GallerySection />
-      </div>
+      <div className="-mt-1">
+        <GallerySection />
+      </div>
 
       {/* Prime Estate Project (Building Plots & Structures) — After Gallery */}
       <div className="pb-12 md:pb-20 bg-[#0F0F0D]">
