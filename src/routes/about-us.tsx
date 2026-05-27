@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import { GlowCard } from "@/components/ui/spotlight-card";
+import { usePageContent } from "@/hooks/usePageContent";
 import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 
@@ -134,6 +135,15 @@ const teamMembers = [
 const buildingImg = lucknowAerialImg;
 
 function AboutPage() {
+  // Load hero content from admin panel with fallbacks
+  const heroContent = usePageContent("about.hero", {
+    eyebrow: "About Truston Developers",
+    title: "Own the Ground.",
+    title_accent: "Build the Legacy.",
+    subtitle: "A real estate company rooted in Lucknow's growth story — building trust, one plot at a time since 2025.",
+    image_url: lucknowAerialImg,
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
 
@@ -141,7 +151,7 @@ function AboutPage() {
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <div className="absolute inset-0 z-0">
           <img
-            src={buildingImg}
+            src={(heroContent.image_url as string) || buildingImg}
             alt="TrustOn — About Us"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.28) saturate(0.7)" }}
@@ -166,7 +176,7 @@ function AboutPage() {
             className="text-[10px] md:text-xs text-[#00BFFF] uppercase font-bold mb-6 tracking-[0.4em] flex items-center justify-center gap-3"
           >
             <span className="w-8 h-px bg-[#00BFFF]" />
-            About Truston Developers
+            {heroContent.eyebrow || "About Truston Developers"}
             <span className="w-8 h-px bg-[#00BFFF]" />
           </motion.p>
           <motion.h1
@@ -175,9 +185,9 @@ function AboutPage() {
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-8xl font-serif tracking-tighter leading-none mb-6"
           >
-            Own the Ground.
+            {heroContent.title || "Own the Ground."}
             <br />
-            <em className="text-[#00BFFF] italic">Build the Legacy.</em>
+            <em className="text-[#00BFFF] italic">{heroContent.title_accent || "Build the Legacy."}</em>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -185,8 +195,7 @@ function AboutPage() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-white/50 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
-            A real estate company rooted in Lucknow's growth story — building trust,
-            one plot at a time since 2025.
+            {heroContent.subtitle || "A real estate company rooted in Lucknow's growth story — building trust, one plot at a time since 2025."}
           </motion.p>
 
           <motion.p
