@@ -5,6 +5,7 @@ import { Reveal } from './Reveal';
 import { Section3DBackground } from './Section3DBackground';
 import { Link } from '@tanstack/react-router';
 import { SwipeReveal } from './TextReveal';
+import { usePageContent } from '@/hooks/usePageContent';
 import {
   Accordion,
   AccordionContent,
@@ -14,21 +15,9 @@ import {
 
 export function TrustonWhoWeAreSection() {
   const pillars = [
-    {
-      num: '01',
-      name: 'Transparent Documentation',
-      desc: 'Clear title deeds, Jila Panchayat approvals, and zero hidden conditions at every stage of the transaction.',
-    },
-    {
-      num: '02',
-      name: 'High-Growth Locations',
-      desc: 'Projects placed in proven growth corridors with verified infrastructure readiness and long-term appreciation potential.',
-    },
-    {
-      num: '03',
-      name: 'End-to-End Partnership',
-      desc: 'From plot acquisition to construction and architectural design — one trusted team, start to finish.',
-    },
+    { num: '01', name: 'Transparent Documentation', desc: 'Clear title deeds, Jila Panchayat approvals, and zero hidden conditions at every stage of the transaction.' },
+    { num: '02', name: 'High-Growth Locations', desc: 'Projects placed in proven growth corridors with verified infrastructure readiness and long-term appreciation potential.' },
+    { num: '03', name: 'End-to-End Partnership', desc: 'From plot acquisition to construction and architectural design — one trusted team, start to finish.' },
   ];
 
   const stats = [
@@ -71,16 +60,10 @@ export function TrustonWhoWeAreSection() {
               {pillars.map((pillar, idx) => (
                 <Reveal key={pillar.num} delay={0.2 + idx * 0.1}>
                   <div className={`flex items-start gap-4 py-6 ${idx === 0 ? 'border-t' : ''} border-b border-white/10`}>
-                    <span className="font-serif text-2xl font-light text-[#00BFFF] w-10 flex-shrink-0">
-                      {pillar.num}
-                    </span>
+                    <span className="font-serif text-2xl font-light text-[#00BFFF] w-10 flex-shrink-0">{pillar.num}</span>
                     <div>
-                      <h3 className="text-sm md:text-base font-medium text-white mb-1 tracking-wide">
-                        {pillar.name}
-                      </h3>
-                      <p className="text-sm text-white/50 leading-relaxed">
-                        {pillar.desc}
-                      </p>
+                      <h3 className="text-sm md:text-base font-medium text-white mb-1 tracking-wide">{pillar.name}</h3>
+                      <p className="text-sm text-white/50 leading-relaxed">{pillar.desc}</p>
                     </div>
                   </div>
                 </Reveal>
@@ -91,20 +74,11 @@ export function TrustonWhoWeAreSection() {
           <Reveal delay={0.3}>
             <div className="relative">
               <div className="aspect-[4/5] bg-gradient-to-br from-[#0d1e30] to-[#070d18] rounded-lg overflow-hidden relative border border-white/5">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,191,255,0.04) 40px, rgba(0,191,255,0.04) 41px)'
-                  }}
-                />
-                <div className="absolute top-6 left-6 bg-[#004aad] text-white px-4 py-2 text-[10px] uppercase tracking-[0.15em] font-medium rounded">
-                  Prime Estate · 2025
-                </div>
+                <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(0,191,255,0.04) 40px, rgba(0,191,255,0.04) 41px)' }} />
+                <div className="absolute top-6 left-6 bg-[#004aad] text-white px-4 py-2 text-[10px] uppercase tracking-[0.15em] font-medium rounded">Prime Estate · 2025</div>
                 <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#070d18]/90 to-transparent">
                   <p className="font-serif text-xl md:text-2xl font-light italic text-white/80 leading-relaxed">
-                    &quot;We build the foundation.
-                    <br />
-                    You build the dream.&quot;
+                    &quot;We build the foundation.<br />You build the dream.&quot;
                   </p>
                 </div>
               </div>
@@ -120,9 +94,7 @@ export function TrustonWhoWeAreSection() {
                   {stat.num}
                   {stat.sup && <sup className="text-xl md:text-2xl text-[#00BFFF]">{stat.sup}</sup>}
                 </p>
-                <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/40">
-                  {stat.label}
-                </p>
+                <p className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-white/40">{stat.label}</p>
               </div>
             ))}
           </div>
@@ -133,6 +105,13 @@ export function TrustonWhoWeAreSection() {
 }
 
 export function TrustonServicesSection() {
+  const c = usePageContent("home.services", {
+    eyebrow: "What We Offer",
+    title: "Four Pillars of",
+    title_accent: "Our Expertise",
+    body: "Truston Developers is your complete real estate ecosystem in Lucknow. Whether you're buying land, building a home, seeking investment guidance, or designing your dream space, we bring deep local knowledge and end-to-end capability.",
+  });
+
   const services = [
     {
       num: '01',
@@ -191,20 +170,20 @@ export function TrustonServicesSection() {
             <Reveal>
               <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-4 flex items-center gap-3">
                 <span className="w-8 h-px bg-[#00BFFF]" />
-                What We Offer
+                {c.eyebrow || "What We Offer"}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight text-white">
-                Four Pillars of
+                {c.title || "Four Pillars of"}
                 <br />
-                <em className="text-[#00BFFF] italic">Our Expertise</em>
+                <em className="text-[#00BFFF] italic">{c.title_accent || "Our Expertise"}</em>
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.2}>
             <p className="text-base md:text-lg text-white/55 leading-relaxed font-light self-end">
-              Truston Developers is your complete real estate ecosystem in Lucknow. Whether you&apos;re buying land, building a home, seeking investment guidance, or designing your dream space, we bring deep local knowledge and end-to-end capability to every engagement.
+              {c.body || "Truston Developers is your complete real estate ecosystem in Lucknow."}
             </p>
           </Reveal>
         </div>
@@ -213,23 +192,15 @@ export function TrustonServicesSection() {
           {services.map((service, idx) => (
             <Reveal key={service.num} delay={idx * 0.1}>
               <div className="bg-[#050b14] relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20 flex flex-col">
-                {/* Icon section */}
                 <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-[#0a1628] to-[#050b14] shrink-0">
                   <div className="text-[#00BFFF]/40 group-hover:text-[#00BFFF] group-hover:scale-110 transition-all duration-500">
                     {service.icon}
                   </div>
-                  <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">
-                    {service.num}
-                  </span>
+                  <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">{service.num}</span>
                 </div>
-
                 <div className="p-8 flex flex-col flex-1">
-                  <h3 className="text-base font-medium text-white mb-3 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-300">
-                    {service.name}
-                  </h3>
-                  <p className="text-sm text-white/50 leading-relaxed mb-6 flex-1">
-                    {service.desc}
-                  </p>
+                  <h3 className="text-base font-medium text-white mb-3 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-300">{service.name}</h3>
+                  <p className="text-sm text-white/50 leading-relaxed mb-6 flex-1">{service.desc}</p>
                   <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#00BFFF] font-medium group-hover:gap-4 transition-all duration-300">
                     {service.linkText} <span>→</span>
                   </span>
@@ -244,32 +215,18 @@ export function TrustonServicesSection() {
 }
 
 export function TrustonWhySection() {
+  const c = usePageContent("home.why_truston", {
+    eyebrow: "The Truston Difference",
+    title: "Why Buyers Choose",
+    title_accent: "Truston",
+  });
+
   const reasons = [
-    {
-      num: '01',
-      title: 'Complete Transparency, Always',
-      text: 'Zero ambiguity in every transaction. Plot details, legal status, and pricing disclosed fully upfront — no fine print, no surprises. What you see is exactly what you get.',
-    },
-    {
-      num: '02',
-      title: 'High-Growth Location Intelligence',
-      text: 'Dubagga and surrounding corridors in Lucknow are on a proven appreciation trajectory. We identify and secure high-potential land before the curve, passing that advantage directly to buyers.',
-    },
-    {
-      num: '03',
-      title: 'Government-Approved, Legally Secure',
-      text: 'Every project carries Jila Panchayat approvals and verified title deeds — ensuring your investment is legally clean, compliant, and protected for generations.',
-    },
-    {
-      num: '04',
-      title: 'One Team, Every Step',
-      text: 'Plot acquisition, construction, architecture, investment advisory — all under one roof. No juggling between agencies, no coordination headaches. One trusted partner from search to handover.',
-    },
-    {
-      num: '05',
-      title: 'Your Land, Your Terms',
-      text: 'Build now or hold for appreciation — both are valid strategies and we support both with equal commitment. No pressure, no gimmicks. Just sound advice aligned with your goals.',
-    },
+    { num: '01', title: 'Complete Transparency, Always', text: 'Zero ambiguity in every transaction. Plot details, legal status, and pricing disclosed fully upfront — no fine print, no surprises. What you see is exactly what you get.' },
+    { num: '02', title: 'High-Growth Location Intelligence', text: 'Dubagga and surrounding corridors in Lucknow are on a proven appreciation trajectory. We identify and secure high-potential land before the curve, passing that advantage directly to buyers.' },
+    { num: '03', title: 'Government-Approved, Legally Secure', text: 'Every project carries Jila Panchayat approvals and verified title deeds — ensuring your investment is legally clean, compliant, and protected for generations.' },
+    { num: '04', title: 'One Team, Every Step', text: 'Plot acquisition, construction, architecture, investment advisory — all under one roof. No juggling between agencies, no coordination headaches. One trusted partner from search to handover.' },
+    { num: '05', title: 'Your Land, Your Terms', text: 'Build now or hold for appreciation — both are valid strategies and we support both with equal commitment. No pressure, no gimmicks. Just sound advice aligned with your goals.' },
   ];
 
   return (
@@ -281,7 +238,7 @@ export function TrustonWhySection() {
           <SwipeReveal delay={0.1}>
             <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] flex items-center gap-3">
               <span className="w-8 h-px bg-[#00BFFF]" />
-              The Truston Difference
+              {c.eyebrow || "The Truston Difference"}
             </p>
           </SwipeReveal>
         </div>
@@ -289,9 +246,9 @@ export function TrustonWhySection() {
         <div className="mb-16">
           <SwipeReveal delay={0.3}>
             <h2 className="font-serif text-4xl md:text-6xl font-light leading-tight text-white">
-              Why Buyers Choose
+              {c.title || "Why Buyers Choose"}
               <br />
-              <em className="text-[#00BFFF] italic">Truston</em>
+              <em className="text-[#00BFFF] italic">{c.title_accent || "Truston"}</em>
             </h2>
           </SwipeReveal>
         </div>
@@ -299,16 +256,12 @@ export function TrustonWhySection() {
         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-12 lg:gap-20">
           <Reveal delay={0.2}>
             <div className="lg:sticky lg:top-24 self-start">
-              <span className="font-serif text-[10rem] font-light leading-none text-white/5 block -mb-10">
-                5
-              </span>
+              <span className="font-serif text-[10rem] font-light leading-none text-white/5 block -mb-10">5</span>
               <p className="font-serif text-xl md:text-2xl font-light italic text-white/60 leading-relaxed">
                 Reasons to make Truston your real estate partner
               </p>
               <div className="w-10 h-px bg-[#00BFFF]/40 my-6" />
-              <p className="text-xs text-white/30 tracking-wide uppercase">
-                Lucknow · Uttar Pradesh · Since 2025
-              </p>
+              <p className="text-xs text-white/30 tracking-wide uppercase">Lucknow · Uttar Pradesh · Since 2025</p>
             </div>
           </Reveal>
 
@@ -319,12 +272,8 @@ export function TrustonWhySection() {
                   <AccordionItem value={`item-${idx}`} className="border-white/10 group">
                     <AccordionTrigger className="hover:no-underline py-6">
                       <div className="flex items-center gap-6 text-left">
-                        <span className="text-xs text-[#00BFFF] tracking-wide font-light shrink-0">
-                          {reason.num}
-                        </span>
-                        <h3 className="text-base md:text-lg font-medium text-white tracking-wide group-data-[state=open]:text-[#00BFFF] transition-colors duration-300">
-                          {reason.title}
-                        </h3>
+                        <span className="text-xs text-[#00BFFF] tracking-wide font-light shrink-0">{reason.num}</span>
+                        <h3 className="text-base md:text-lg font-medium text-white tracking-wide group-data-[state=open]:text-[#00BFFF] transition-colors duration-300">{reason.title}</h3>
                       </div>
                     </AccordionTrigger>
                     <AccordionContent className="text-white/55 leading-relaxed font-light pb-8 pl-[calc(1.5rem+3rem)]">
@@ -342,6 +291,13 @@ export function TrustonWhySection() {
 }
 
 export function TrustonCTAStrip() {
+  const c = usePageContent("home.cta", {
+    eyebrow: "47 Plots Still Available · Prime Estate · Dubagga",
+    title: "Ready to Claim",
+    title_accent: "Your Plot?",
+    body: "Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.",
+  });
+
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-[#050b14] border-t border-white/5">
       <div className="absolute inset-0 pointer-events-none">
@@ -356,21 +312,21 @@ export function TrustonCTAStrip() {
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <Reveal>
           <p className="text-[10px] md:text-xs uppercase tracking-[0.3em] text-[#00BFFF] mb-6">
-            47 Plots Still Available · Prime Estate · Dubagga
+            {c.eyebrow || "47 Plots Still Available · Prime Estate · Dubagga"}
           </p>
         </Reveal>
 
         <Reveal delay={0.1}>
           <h2 className="font-serif text-4xl md:text-7xl font-light leading-tight text-white mb-6">
-            Ready to Claim
+            {c.title || "Ready to Claim"}
             <br />
-            Your <em className="text-[#00BFFF] italic">Plot?</em>
+            <em className="text-[#00BFFF] italic">{c.title_accent || "Your Plot?"}</em>
           </h2>
         </Reveal>
 
         <Reveal delay={0.2}>
           <p className="text-base md:text-lg text-white/55 max-w-lg mx-auto mb-10 font-light leading-relaxed">
-            Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment.
+            {c.body || "Prices starting at ₹12 Lakhs. Talk to our team today — no obligations, just complete clarity about your investment."}
           </p>
         </Reveal>
 

@@ -84,7 +84,7 @@ function Index() {
     </span>
 
     <span className="text-[#00BFFF] text-5xl md:text-6xl lg:text-8xl font-light">
-      {heroContent.title_accent ?? "ON"}
+      {heroContent.title_accent || "ON"}
     </span>
   </h1>
 
