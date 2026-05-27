@@ -29,7 +29,12 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
           .eq("key", key)
           .maybeSingle();
 
-        if (cancel || error) return;
+        if (cancel || error) {
+          if (error) console.error("[v0] Fetch error for key", key, ":", error);
+          return;
+        }
+
+        console.log("[v0] Fetched data for key", key, ":", row);
 
         if (row?.data) {
           const merged = { ...fallback, ...(row.data as ContentBlock) };
@@ -40,6 +45,7 @@ export function usePageContent(key: string, fallback: ContentBlock = {}) {
             lastTimestamp = newTimestamp;
             cache.set(key, { data: merged, timestamp: newTimestamp });
             setData(merged);
+            console.log("[v0] Updated content for key", key, "merged:", merged);
           }
         }
       } catch (error) {
