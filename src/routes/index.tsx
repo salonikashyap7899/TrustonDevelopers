@@ -14,6 +14,7 @@ import {
 import { PrimeEstateSection } from "@/components/PrimeEstateSection";
 import { WhoWeAreSection } from "@/components/WhoWeAreSection";
 import { GallerySection } from "@/components/GallerySection";
+import { RedefiningLuxurySection } from "@/components/RedefiningLuxurySection";
 import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/")({
@@ -78,11 +79,11 @@ function Index() {
 >
   {/* TRUSTON (Admin-editable via site_content key: home.hero) */}
   <h1 className="font-serif leading-[0.85] tracking-tight">
-    <span className="text-white text-6xl md:text-8xl lg:text-[10rem] font-light">
+    <span className="text-white text-5xl md:text-6xl lg:text-8xl font-light">
       {heroContent.title ?? "TRUST"}
     </span>
 
-    <span className="text-[#00BFFF] text-6xl md:text-8xl lg:text-[10rem] font-light">
+    <span className="text-[#00BFFF] text-5xl md:text-6xl lg:text-8xl font-light">
       {heroContent.title_accent ?? "ON"}
     </span>
   </h1>
@@ -92,14 +93,6 @@ function Index() {
     {heroContent.subtitle ?? "Own the Ground. Build the Legacy."}
   </p>
 </motion.div>
-            <motion.p
-              className="text-white/30 text-sm font-light max-w-xl mx-auto leading-relaxed mb-10"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1 }}
-            >
-              {heroContent.subtitle}
-            </motion.p>
 
             {/* CTA Buttons */}
             <motion.div

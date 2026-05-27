@@ -23,6 +23,7 @@ export function SobhaStyleNav() {
   const [open, setOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const loc = useLocation();
 
   useEffect(() => {
@@ -31,22 +32,32 @@ export function SobhaStyleNav() {
     setMobileServicesOpen(false);
   }, [loc.pathname]);
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <motion.header
       initial={{ y: -80, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.9, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 bg-transparent`}
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? "bg-[#04090f]/90 backdrop-blur-xl border-b border-white/[0.06] shadow-[0_8px_32px_rgba(0,0,0,0.5)]"
+          : "bg-gradient-to-b from-[#04090f]/70 via-[#04090f]/30 to-transparent"
+      }`}
     >
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className={`flex items-center justify-between transition-all duration-500 h-[140px]`}>
+        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "h-[80px]" : "h-[120px]"}`}>
           {/* Left Nav */}
           <nav className="hidden lg:flex items-center gap-12 flex-1">
             {leftLinks.map((l) => (
               <Link
                 key={l.to}
                 to={l.to}
-                className={`text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
+                className="text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white hover:text-luxe-cyan drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
               >
                 {l.label}
                 <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
@@ -60,7 +71,7 @@ export function SobhaStyleNav() {
               <img
                 src="/logo.png"
                 alt="Logo"
-                className={`w-auto h-36 object-contain brightness-125 group-hover:scale-105 transition-transform duration-700`}
+                className={`w-auto object-contain brightness-125 group-hover:scale-105 transition-all duration-700 ${scrolled ? "h-20" : "h-28"}`}
               />
             </Link>
           </div>
@@ -74,37 +85,23 @@ export function SobhaStyleNav() {
                 onMouseEnter={() => setSvcOpen(true)}
                 onMouseLeave={() => setSvcOpen(false)}
               >
-                <button
-                  className={`flex items-center gap-2 text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
-                >
+                <button className="flex items-center gap-2 text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white hover:text-luxe-cyan drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]">
                   SERVICES
                   <svg
-                    className={`w-3 h-3 transition-transform duration-300 ${
-                      svcOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-3 h-3 transition-transform duration-300 ${svcOpen ? "rotate-180" : ""}`}
                     fill="none"
                     viewBox="0 0 10 8"
-                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path
-                      d="M1 1L5 6.5L9 1"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M1 1L5 6.5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 </button>
 
-                {/* Invisible bridge — fills gap between button and dropdown so mouseLeave doesn't fire */}
                 <div className="absolute left-0 right-0 top-full h-3 z-40" />
 
                 <div
                   className={`absolute left-0 top-[calc(100%+12px)] w-64 bg-ink border border-white/10 shadow-luxe overflow-hidden transition-all duration-300 backdrop-blur-xl rounded-2xl ${
-                    svcOpen
-                      ? "opacity-100 translate-y-0 pointer-events-auto"
-                      : "opacity-0 -translate-y-2 pointer-events-none"
+                    svcOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
                   }`}
                 >
                   <Link
@@ -117,10 +114,8 @@ export function SobhaStyleNav() {
                     <Link
                       key={s.to}
                       to={s.to}
-                      className="block px-6 py-4 text-[13px] text-white/50 hover:text-white hover:bg-white/5 border-b border-white/5 transition-colors last:border-0 font-light"
-                      activeProps={{
-                        className: "text-luxe-cyan bg-white/5",
-                      }}
+                      className="block px-6 py-4 text-[13px] text-white/60 hover:text-white hover:bg-white/5 border-b border-white/5 transition-colors last:border-0 font-light"
+                      activeProps={{ className: "text-luxe-cyan bg-white/5" }}
                     >
                       {s.label}
                     </Link>
@@ -132,7 +127,7 @@ export function SobhaStyleNav() {
                 <Link
                   key={l.to}
                   to={l.to}
-                  className={`text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white/70 hover:text-luxe-cyan`}
+                  className="text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-white hover:text-luxe-cyan drop-shadow-[0_1px_4px_rgba(0,0,0,0.8)]"
                 >
                   {l.label}
                   <span className="absolute -bottom-2 left-0 w-full h-px bg-luxe-cyan scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
@@ -147,31 +142,17 @@ export function SobhaStyleNav() {
             onClick={() => setOpen((v) => !v)}
             className="lg:hidden flex flex-col justify-center gap-[6px] w-10 h-10 items-end"
           >
-            <span
-              className={`block w-8 h-[2px] transition-all duration-300 ${
-                open ? "rotate-45 translate-y-[8px]" : ""
-              } bg-white`}
-            />
-            <span
-              className={`block w-5 h-[2px] transition-all duration-300 ${
-                open ? "opacity-0" : ""
-              } bg-white`}
-            />
-            <span
-              className={`block w-8 h-[2px] transition-all duration-300 ${
-                open ? "-rotate-45 -translate-y-[8px]" : ""
-              } bg-white`}
-            />
+            <span className={`block w-8 h-[2px] transition-all duration-300 ${open ? "rotate-45 translate-y-[8px]" : ""} bg-white`} />
+            <span className={`block w-5 h-[2px] transition-all duration-300 ${open ? "opacity-0" : ""} bg-white`} />
+            <span className={`block w-8 h-[2px] transition-all duration-300 ${open ? "-rotate-45 -translate-y-[8px]" : ""} bg-white`} />
           </button>
         </div>
       </div>
 
       {/* Mobile drawer */}
       <div
-        className={`lg:hidden bg-ink border-t border-white/5 overflow-hidden transition-all duration-500 ${
-          open
-            ? "max-h-screen opacity-100 overflow-y-auto"
-            : "max-h-0 opacity-0 pointer-events-none"
+        className={`lg:hidden bg-[#04090f]/95 backdrop-blur-xl border-t border-white/5 overflow-hidden transition-all duration-500 ${
+          open ? "max-h-screen opacity-100 overflow-y-auto" : "max-h-0 opacity-0 pointer-events-none"
         }`}
       >
         <nav className="flex flex-col px-10 py-12 gap-2">
@@ -193,34 +174,19 @@ export function SobhaStyleNav() {
             >
               SERVICES
               <svg
-                className={`w-5 h-5 transition-transform duration-300 ${
-                  mobileServicesOpen ? "rotate-180" : ""
-                }`}
+                className={`w-5 h-5 transition-transform duration-300 ${mobileServicesOpen ? "rotate-180" : ""}`}
                 fill="none"
                 viewBox="0 0 10 8"
-                xmlns="http://www.w3.org/2000/svg"
               >
-                <path
-                  d="M1 1L5 6.5L9 1"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <path d="M1 1L5 6.5L9 1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
             <motion.div
               initial={false}
-              animate={{
-                height: mobileServicesOpen ? "auto" : 0,
-                opacity: mobileServicesOpen ? 1 : 0,
-              }}
+              animate={{ height: mobileServicesOpen ? "auto" : 0, opacity: mobileServicesOpen ? 1 : 0 }}
               className="overflow-hidden pl-6 flex flex-col gap-2"
             >
-              <Link
-                to="/services"
-                className="py-3 text-[14px] text-luxe-cyan font-bold uppercase tracking-[0.4em]"
-              >
+              <Link to="/services" className="py-3 text-[14px] text-luxe-cyan font-bold uppercase tracking-[0.4em]">
                 All Expertise →
               </Link>
               {services.map((s) => (
