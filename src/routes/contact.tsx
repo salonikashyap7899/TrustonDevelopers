@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import heroImg from "@/assets/hero-estate.jpg";
 import { submitContactMessage } from "@/lib/contactSubmit";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -30,6 +31,26 @@ const services = [
 ];
 
 function ContactPage() {
+  const hero = usePageContent("contact.hero", {
+    eyebrow: "Get in Touch",
+    title: "Let's Start a",
+    title_accent: "Conversation",
+    subtitle: "Whether you're buying a plot, building a home, or exploring investment opportunities — our team responds within 2 hours.",
+  });
+  const info = usePageContent("contact.info", {
+    phone: "+91 96160-61166",
+    email: "trustondevelopers01@gmail.com",
+    address: "UGF, Apple Plaza, Next To HDFC Bank, Hardoi Road, Lucknow — 226003",
+    hours: "Mon–Sat: 9 AM – 7 PM",
+    whatsapp: "919616061166",
+  });
+
+  const phone = String(info.phone || "+91 96160-61166");
+  const email = String(info.email || "trustondevelopers01@gmail.com");
+  const address = String(info.address || "UGF, Apple Plaza, Next To HDFC Bank, Hardoi Road, Lucknow — 226003");
+  const hours = String(info.hours || "Mon–Sat: 9 AM – 7 PM");
+  const whatsapp = String(info.whatsapp || "919616061166");
+
   const [form, setForm] = useState({ name: "", email: "", phone: "", service: "", message: "" });
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
 
@@ -83,15 +104,14 @@ function ContactPage() {
           >
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-[#00BFFF]" />
-              <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">Get in Touch</span>
+              <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">{String(hero.eyebrow || "Get in Touch")}</span>
             </div>
             <h1 className="font-serif text-5xl md:text-7xl font-light text-white leading-none tracking-tight mb-4">
-              Let's Start a<br />
-              <em className="text-[#00BFFF] italic">Conversation</em>
+              {String(hero.title || "Let's Start a")}<br />
+              <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Conversation")}</em>
             </h1>
             <p className="text-white/45 text-base font-light max-w-lg leading-relaxed mt-4">
-              Whether you're buying a plot, building a home, or exploring investment opportunities —
-              our team responds within 2 hours.
+              {String(hero.subtitle || "Whether you're buying a plot, building a home, or exploring investment opportunities — our team responds within 2 hours.")}
             </p>
           </motion.div>
         </div>
@@ -104,22 +124,22 @@ function ContactPage() {
             {
               icon: "📞",
               label: "Direct Line",
-              value: "+91 96160-61166",
-              sub: "Mon – Sat · 9 AM to 7 PM",
-              href: "tel:+919616061166",
+              value: phone,
+              sub: hours,
+              href: `tel:${phone.replace(/[^+\d]/g, "")}`,
             },
             {
               icon: "✉️",
               label: "Email Address",
-              value: "trustondevelopers01@gmail.com",
+              value: email,
               sub: "Replies within 2 hours",
-              href: "mailto:trustondevelopers01@gmail.com",
+              href: `mailto:${email}`,
             },
             {
               icon: "📍",
               label: "Office Location",
-              value: "UGF, Apple Plaza",
-              sub: "Next To HDFC Bank, Hardoi Road, Lucknow — 226003",
+              value: address.split(",")[0] || "UGF, Apple Plaza",
+              sub: address.split(",").slice(1).join(",").trim() || "Hardoi Road, Lucknow",
               href: "https://maps.google.com",
             },
           ].map((card, i) => (
@@ -183,7 +203,7 @@ function ContactPage() {
 
                 {/* WhatsApp */}
                 <a
-                  href="https://wa.me/919616061166?text=Hi%2C%20I%20am%20interested%20in%20TrustOn%20Prime%20Estate."
+                  href={`https://wa.me/${whatsapp}?text=Hi%2C%20I%20am%20interested%20in%20TrustOn%20Prime%20Estate.`}
                   target="_blank"
                   rel="noreferrer"
                   className="mt-10 flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 text-sm group"
@@ -300,10 +320,10 @@ function ContactPage() {
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-6">
           <div>
             <p className="text-white/60 text-sm">TrustOn Developers</p>
-            <p className="text-white/35 text-xs font-light mt-1">UGF, Apple Plaza, Next To HDFC Bank, Hardoi Road, Lucknow — 226003</p>
+            <p className="text-white/35 text-xs font-light mt-1">{address}</p>
           </div>
           <a
-            href="https://wa.me/919616061166?text=Hi%2C%20I%20am%20interested%20in%20TrustOn%20Prime%20Estate."
+            href={`https://wa.me/${whatsapp}?text=Hi%2C%20I%20am%20interested%20in%20TrustOn%20Prime%20Estate.`}
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 text-[#25D366] text-sm border border-[#25D366]/25 px-5 py-2.5 rounded-full hover:bg-[#25D366]/10 transition-colors duration-300"

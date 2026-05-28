@@ -5,6 +5,7 @@ import { EffectCoverflow, Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const testimonials = [
   {
@@ -41,9 +42,7 @@ function TestimonialCard({
 }: (typeof testimonials)[number]) {
   return (
     <div className="relative bg-[#04090f] border border-white/5 rounded-[24px] overflow-hidden shadow-2xl flex h-[220px] md:h-[240px] select-none group">
-      {/* Content */}
       <div className="flex flex-col justify-between p-6 flex-1 overflow-hidden w-full">
-        {/* Stars */}
         <div className="flex gap-1 mb-3">
           {[...Array(5)].map((_, i) => (
             <svg key={i} className="w-4 h-4 text-[#00BFFF] fill-current" viewBox="0 0 20 20">
@@ -52,19 +51,16 @@ function TestimonialCard({
           ))}
         </div>
 
-        {/* Quote */}
         <p className="text-white/60 text-xs md:text-sm leading-relaxed flex-1 overflow-hidden line-clamp-4 font-light italic">
           &ldquo;{description}&rdquo;
         </p>
 
-        {/* Author */}
         <div className="mt-4 pt-4 border-t border-white/5">
           <p className="font-bold text-white text-sm tracking-wide">{name}</p>
           <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest mt-1 font-bold">{designation}</p>
         </div>
       </div>
 
-      {/* Quote badge */}
       <div className="absolute bottom-4 right-4 w-9 h-9 bg-[#04090f] border border-[#00BFFF]/20 rounded-full flex items-center justify-center text-[#00BFFF] text-lg font-serif leading-none shadow-lg">
         ❝
       </div>
@@ -73,6 +69,14 @@ function TestimonialCard({
 }
 
 export function Testimonials() {
+  const c = usePageContent("home.testimonials", {
+    eyebrow: "Client Narratives",
+    title: "Distinguished",
+    title_accent: "Partnerships",
+    subtitle: "Voices of excellence from our growing network of homeowners, investors, and partners.",
+    cta_text: "Join the future of luxury real estate.",
+  });
+
   return (
     <section className="relative py-32 px-4 bg-[#04090f] overflow-hidden">
       <Section3DBackground opacity={0.08} />
@@ -88,17 +92,16 @@ export function Testimonials() {
 
       <div className="relative mx-auto max-w-7xl z-10">
         <Reveal>
-          <SectionEyebrow light>Client Narratives</SectionEyebrow>
+          <SectionEyebrow light>{String(c.eyebrow || "Client Narratives")}</SectionEyebrow>
           <h2 className="font-serif text-5xl md:text-7xl text-center text-white mb-4 max-w-4xl mx-auto tracking-tight leading-tight">
-            Distinguished{" "}
-            <em className="text-[#00BFFF] italic">Partnerships</em>
+            {String(c.title || "Distinguished")}{" "}
+            <em className="text-[#00BFFF] italic">{String(c.title_accent || "Partnerships")}</em>
           </h2>
           <p className="text-center text-white/40 mt-4 mb-16 max-w-xl mx-auto font-light text-lg">
-            Voices of excellence from our growing network of homeowners, investors, and partners.
+            {String(c.subtitle || "Voices of excellence from our growing network of homeowners, investors, and partners.")}
           </p>
         </Reveal>
 
-        {/* Swiper coverflow carousel */}
         <Swiper
           effect="coverflow"
           grabCursor
@@ -128,7 +131,7 @@ export function Testimonials() {
         <div className="mt-16 text-center">
           <Reveal>
             <p className="font-serif italic text-2xl text-white/30 mb-8">
-              Join the future of luxury real estate.
+              {String(c.cta_text || "Join the future of luxury real estate.")}
             </p>
             <a
               href="tel:+919616061166"

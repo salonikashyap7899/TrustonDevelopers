@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import heroImg from "@/assets/luxury-interior.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -191,6 +192,24 @@ const processSteps = [
 ];
 
 function ServicesPage() {
+  const hero = usePageContent("services.hero", {
+    eyebrow: "Complete Real Estate Ecosystem",
+    title: "Our",
+    title_accent: "Services",
+    subtitle: "From land acquisition to handover, TrustOn provides a complete ecosystem of real estate services. One trusted partner, every step of your journey.",
+  });
+  const main = usePageContent("services.main", {
+    eyebrow: "Everything Under One Roof",
+    title: "Four Services.",
+    title_accent: "One Complete Solution.",
+    body: "Each service is designed to work seamlessly with the others.",
+  });
+  const cta = usePageContent("services.cta", {
+    title: "Ready to Begin Your",
+    title_accent: "Journey?",
+    body: "Book a free 30-minute consultation with our team. No obligations — just honest advice about your options.",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -198,7 +217,7 @@ function ServicesPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={String(hero.image_url || heroImg)}
             alt="TrustOn Services"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.22) saturate(0.7)" }}
@@ -210,13 +229,13 @@ function ServicesPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
           <Reveal>
             <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">
-              Complete Real Estate Ecosystem
+              {String(hero.eyebrow || "Complete Real Estate Ecosystem")}
             </p>
             <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-              Our <em className="text-[#00BFFF] italic">Services</em>
+              {String(hero.title || "Our")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Services")}</em>
             </h1>
             <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light max-w-3xl mx-auto mb-12">
-              From land acquisition to handover, TrustOn provides a complete ecosystem of real estate services. One trusted partner, every step of your journey—whether you're buying a plot, building your dream home, or investing strategically.
+              {String(hero.subtitle || "From land acquisition to handover, TrustOn provides a complete ecosystem of real estate services.")}
             </p>
           </Reveal>
         </div>
@@ -228,10 +247,10 @@ function ServicesPage() {
           <Reveal>
             <div className="text-center mb-20">
               <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Four Pillars of <em className="text-[#00BFFF] italic">Expertise</em>
+                {String(main.title || "Four Services.")} <em className="text-[#00BFFF] italic">{String(main.title_accent || "One Complete Solution.")}</em>
               </h2>
               <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                Each service is crafted to deliver excellence, whether you're a first-time buyer, experienced investor, or visionary builder.
+                {String(main.body || "Each service is crafted to deliver excellence.")}
               </p>
             </div>
           </Reveal>

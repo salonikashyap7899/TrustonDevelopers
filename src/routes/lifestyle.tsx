@@ -4,6 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 import lucknowImg from "@/assets/lucknow-aerial.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/lifestyle")({
   head: () => ({
@@ -62,13 +63,40 @@ const pillars = [
 ];
 
 function Page() {
+  const hero = usePageContent("lifestyle.hero", {
+    eyebrow: "The TrustOn Experience",
+    title: "A Life Less",
+    title_accent: "Ordinary",
+    subtitle: "Beyond the ground you own, we curate the lifestyle you live. Discover the difference of a community designed for those who demand excellence in every breath.",
+  });
+  const philosophy = usePageContent("lifestyle.philosophy", {
+    eyebrow: "Our Philosophy",
+    title: "Designed for",
+    title_accent: "Generations",
+    body: "At TrustOn, we believe that true luxury is found in the details of daily life. It's the peace of mind that comes with secure boundaries, the joy of wide open green spaces, and the pride of living in a neighborhood that values excellence above all else.",
+    body_secondary: "Every TrustOn township is a master-planned ecosystem where nature and infrastructure exist in perfect harmony, ensuring your investment doesn't just appreciate in value, but grows in soul.",
+    quote: "TrustOn didn't just sell us a plot; they sold us a future where our children can play safely and we can enjoy the luxury of quiet evenings.",
+    quote_author: "— A Prime Estate Homeowner",
+  });
+  const cta = usePageContent("lifestyle.cta", {
+    eyebrow: "Ready to Elevate Your Standard?",
+    title: "Your New Chapter",
+    title_accent: "Starts Here",
+  });
+  const stats = usePageContent("lifestyle.stats", {
+    stat_1_val: "40%",     stat_1_label: "Green Cover",
+    stat_2_val: "24/7",    stat_2_label: "Surveillance",
+    stat_3_val: "Premier", stat_3_label: "Clubhouse",
+    stat_4_val: "Elite",   stat_4_label: "Neighborhood",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* ── Hero ── */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <div className="absolute inset-0 z-0">
           <img
-            src={luxuryInteriorImg}
+            src={String(hero.image_url || luxuryInteriorImg)}
             alt="TrustOn Lifestyle"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.3) saturate(0.7)" }}
@@ -92,7 +120,7 @@ function Page() {
             className="text-[#00BFFF] text-[10px] md:text-xs uppercase font-bold mb-8 flex items-center justify-center gap-4"
           >
             <span className="w-10 h-px bg-[#00BFFF]/30" />
-            The TrustOn Experience
+            {String(hero.eyebrow || "The TrustOn Experience")}
             <span className="w-10 h-px bg-[#00BFFF]/30" />
           </motion.p>
           <motion.h1
@@ -101,9 +129,9 @@ function Page() {
             transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-8xl font-serif tracking-tighter leading-none mb-8"
           >
-            A Life Less
+            {String(hero.title || "A Life Less")}
             <br />
-            <em className="text-[#00BFFF] italic">Ordinary</em>
+            <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Ordinary")}</em>
           </motion.h1>
           <motion.p
              initial={{ opacity: 0, y: 20 }}
@@ -111,7 +139,7 @@ function Page() {
              transition={{ duration: 1, delay: 0.8 }}
              className="text-white/40 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
-            Beyond the ground you own, we curate the lifestyle you live. Discover the difference of a community designed for those who demand excellence in every breath.
+            {String(hero.subtitle || "Beyond the ground you own, we curate the lifestyle you live.")}
           </motion.p>
         </div>
       </section>
@@ -120,10 +148,10 @@ function Page() {
       <section className="py-20 border-y border-white/5 bg-[#060c16]">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
           {[
-            { val: "40%", label: "Green Cover" },
-            { val: "24/7", label: "Surveillance" },
-            { val: "Premier", label: "Clubhouse" },
-            { val: "Elite", label: "Neighborhood" },
+            { val: String(stats.stat_1_val || "40%"),     label: String(stats.stat_1_label || "Green Cover") },
+            { val: String(stats.stat_2_val || "24/7"),    label: String(stats.stat_2_label || "Surveillance") },
+            { val: String(stats.stat_3_val || "Premier"), label: String(stats.stat_3_label || "Clubhouse") },
+            { val: String(stats.stat_4_val || "Elite"),   label: String(stats.stat_4_label || "Neighborhood") },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 0.1}>
               <p className="font-serif text-3xl md:text-4xl text-white mb-2">{s.val}</p>
@@ -141,20 +169,16 @@ function Page() {
             <Reveal>
               <p className="text-[10px] uppercase tracking-[0.4em] text-[#00BFFF] font-bold mb-6 flex items-center gap-3">
                 <span className="w-8 h-px bg-[#00BFFF]" />
-                Our Philosophy
+                {String(philosophy.eyebrow || "Our Philosophy")}
               </p>
               <h2 className="font-serif text-4xl md:text-6xl leading-tight mb-10">
-                Designed for
+                {String(philosophy.title || "Designed for")}
                 <br />
-                <em className="text-[#00BFFF] italic">Generations</em>
+                <em className="text-[#00BFFF] italic">{String(philosophy.title_accent || "Generations")}</em>
               </h2>
               <div className="space-y-6 text-white/50 text-lg leading-relaxed font-light">
-                <p>
-                  At TrustOn, we believe that true luxury is found in the details of daily life. It's the peace of mind that comes with secure boundaries, the joy of wide open green spaces, and the pride of living in a neighborhood that values excellence above all else.
-                </p>
-                <p>
-                  Every TrustOn township is a master-planned ecosystem where nature and infrastructure exist in perfect harmony, ensuring your investment doesn't just appreciate in value, but grows in soul.
-                </p>
+                <p>{String(philosophy.body || "At TrustOn, we believe that true luxury is found in the details of daily life.")}</p>
+                <p>{String(philosophy.body_secondary || "Every TrustOn township is a master-planned ecosystem where nature and infrastructure exist in perfect harmony.")}</p>
               </div>
 
               <div className="mt-12 flex items-center gap-10">
@@ -221,9 +245,9 @@ function Page() {
           <div className="max-w-4xl mx-auto">
             <span className="text-5xl text-[#00BFFF]/20 font-serif mb-8 block">“</span>
             <p className="font-serif text-3xl md:text-5xl text-white/80 leading-snug italic mb-8">
-              TrustOn didn't just sell us a plot; they sold us a future where our children can play safely and we can enjoy the luxury of quiet evenings.
+              {String(philosophy.quote || "TrustOn didn't just sell us a plot; they sold us a future where our children can play safely and we can enjoy the luxury of quiet evenings.")}
             </p>
-            <p className="text-[11px] uppercase tracking-[0.3em] text-[#00BFFF] font-bold">— A Prime Estate Homeowner</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-[#00BFFF] font-bold">{String(philosophy.quote_author || "— A Prime Estate Homeowner")}</p>
           </div>
         </Reveal>
       </section>

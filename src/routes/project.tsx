@@ -4,6 +4,7 @@ import { useState } from "react";
 import heroImg from "@/assets/hero-estate.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 import { Reveal } from "@/components/Reveal";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/project")({
   head: () => ({
@@ -74,6 +75,14 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 function ProjectPage() {
+  const hero = usePageContent("project.hero", {
+    eyebrow: "Now Selling — Phase 1 & 2",
+    badge: "Flagship Project · Dubagga, Lucknow",
+    title: "Prime",
+    title_accent: "Estate",
+    subtitle: "Residential plots in Lucknow's fastest-growing corridor — highway & metro connected, Jila Panchayat approved, with clear title deeds at every stage.",
+  });
+
   return (
     <div
       className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]"
@@ -93,19 +102,18 @@ function ProjectPage() {
             <div className="flex items-center gap-3 mb-8">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse" />
               <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
-                Now Selling — Phase 1 &amp; 2
+                {String(hero.eyebrow || "Now Selling — Phase 1 & 2")}
               </span>
             </div>
             <p className="text-white/40 text-[11px] uppercase tracking-[0.25em] font-bold mb-4">
-              Flagship Project &nbsp;·&nbsp; Dubagga, Lucknow
+              {String(hero.badge || "Flagship Project · Dubagga, Lucknow")}
             </p>
             <h1 className="font-serif text-6xl md:text-8xl font-light leading-none tracking-tight text-white mb-8">
-              Prime<br />
-              <em className="text-[#00BFFF] italic">Estate</em>
+              {String(hero.title || "Prime")}<br />
+              <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Estate")}</em>
             </h1>
             <p className="text-white/50 text-base leading-[1.95] font-light max-w-md mb-10">
-              Residential plots in Lucknow's fastest-growing corridor — highway &amp; metro connected,
-              Jila Panchayat approved, with clear title deeds at every stage.
+              {String(hero.subtitle || "Residential plots in Lucknow's fastest-growing corridor — highway & metro connected, Jila Panchayat approved, with clear title deeds at every stage.")}
             </p>
             <div className="flex flex-wrap gap-4">
               <a

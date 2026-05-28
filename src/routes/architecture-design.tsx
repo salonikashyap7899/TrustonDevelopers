@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import heroImg from "@/assets/luxury-interior.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/architecture-design")({
   head: () => ({
@@ -131,6 +132,20 @@ const testimonials = [
 ];
 
 function ArchitectureDesignPage() {
+  const hero = usePageContent("architecture.hero", {
+    eyebrow: "Crafting Spaces",
+    title: "Architecture &",
+    title_accent: "Design",
+    subtitle: "Transform your vision into architectural reality. Our in-house design team creates bespoke layouts, stunning elevations, and complete blueprint documentation—each project a masterpiece of form and function.",
+  });
+  const main = usePageContent("architecture.main", {
+    section_1_title: "Your Vision, Our",
+    section_1_accent: "Design",
+    section_1_body: "At TrustOn, we believe exceptional design is where dreams take tangible form. Whether you're starting from an empty plot or reimagining an existing space, our architectural team brings technical expertise, creative innovation, and your personal aspirations into cohesive, buildable designs.",
+    section_1_philosophy_title: "Design Philosophy",
+    section_1_philosophy_body: "Great architecture speaks before words are spoken. It reflects the way you want to live, work, and grow. Our design process begins with listening—understanding your lifestyle, your dreams, and the unique characteristics of your land.",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -138,7 +153,7 @@ function ArchitectureDesignPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={String(hero.image_url || heroImg)}
             alt="Architecture & Design"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.22) saturate(0.7)" }}
@@ -151,13 +166,13 @@ function ArchitectureDesignPage() {
           <Reveal>
             <div className="text-center max-w-4xl mx-auto">
               <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">
-                Crafting Spaces
+                {String(hero.eyebrow || "Crafting Spaces")}
               </p>
               <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-                Architecture & <em className="text-[#00BFFF] italic">Design</em>
+                {String(hero.title || "Architecture &")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Design")}</em>
               </h1>
               <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light mb-12">
-                Transform your vision into architectural reality. Our in-house design team creates bespoke layouts, stunning elevations, and complete blueprint documentation—each project a masterpiece of form and function.
+                {String(hero.subtitle || "Transform your vision into architectural reality.")}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
@@ -185,15 +200,15 @@ function ArchitectureDesignPage() {
             <Reveal>
               <div>
                 <h2 className="font-serif text-4xl md:text-6xl text-white mb-8">
-                  Your Vision, Our <em className="text-[#00BFFF] italic">Design</em>
+                  {String(main.section_1_title || "Your Vision, Our")} <em className="text-[#00BFFF] italic">{String(main.section_1_accent || "Design")}</em>
                 </h2>
                 <div className="space-y-6 text-white/50 text-lg leading-relaxed font-light">
                   <p>
-                    At TrustOn, we believe exceptional design is where dreams take tangible form. Whether you're starting from an empty plot or reimagining an existing space, our architectural team brings technical expertise, creative innovation, and your personal aspirations into cohesive, buildable designs.
+                    {String(main.section_1_body || "At TrustOn, we believe exceptional design is where dreams take tangible form.")}
                   </p>
-                  <h3 className="text-white font-serif text-2xl mt-12 mb-6">Design Philosophy</h3>
+                  <h3 className="text-white font-serif text-2xl mt-12 mb-6">{String(main.section_1_philosophy_title || "Design Philosophy")}</h3>
                   <p>
-                    Great architecture speaks before words are spoken. It reflects the way you want to live, work, and grow. Our design process begins with listening—understanding your lifestyle, your dreams, and the unique characteristics of your land.
+                    {String(main.section_1_philosophy_body || "Great architecture speaks before words are spoken. It reflects the way you want to live, work, and grow.")}
                   </p>
                   <p>
                     From concept sketches to photorealistic 3D renderings, we walk with you through every decision. Each design is tailored to Lucknow's climate, cultural context, and growth trajectories.

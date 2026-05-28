@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import plotImg from "@/assets/plot-tracker.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/plot-selling")({
   head: () => ({
@@ -199,6 +200,12 @@ const faqs = [
 ];
 
 function PlotSellingPage() {
+  const hero = usePageContent("plot_selling.hero", {
+    eyebrow: "Now Selling · Phase 1 & 2 · Dubagga, Lucknow",
+    title: "Prime",
+    title_accent: "Estate",
+    subtitle: "Jila Panchayat approved residential plots in Lucknow's fastest-growing corridor. Highway connected. Metro ready.",
+  });
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filteredPlots =
@@ -218,7 +225,7 @@ function PlotSellingPage() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={plotImg}
+            src={String(hero.image_url || plotImg)}
             alt="Prime Estate"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.2) saturate(0.5)" }}
@@ -251,19 +258,14 @@ function PlotSellingPage() {
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-[#00BFFF]" />
               <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
-                Asset Acquisition · Prime Estate
+                {String(hero.eyebrow || "Asset Acquisition · Prime Estate")}
               </span>
             </div>
             <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight text-white mb-6">
-              Own <em className="text-[#00BFFF] italic">Land</em>
-              <br />
-              That Builds
-              <br />
-              a Legacy
+              {String(hero.title || "Prime")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Estate")}</em>
             </h1>
             <p className="text-white/55 text-base md:text-lg leading-relaxed max-w-md mb-8 font-light">
-              Jila Panchayat approved plots in Lucknow's highest-growth corridors.
-              Zero ambiguity. Complete documentation. Prices starting at ₹12 Lakhs.
+              {String(hero.subtitle || "Jila Panchayat approved plots in Lucknow's highest-growth corridors. Zero ambiguity. Complete documentation. Prices starting at ₹12 Lakhs.")}
             </p>
             <div className="flex flex-wrap gap-4">
               <a

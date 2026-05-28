@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { usePageContent } from "@/hooks/usePageContent";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
@@ -134,6 +135,26 @@ const teamMembers = [
 const buildingImg = lucknowAerialImg;
 
 function AboutPage() {
+  const hero = usePageContent("about.hero", {
+    eyebrow: "About Truston Developers",
+    title: "Own the Ground.",
+    title_accent: "Build the Legacy.",
+    subtitle: "A real estate company rooted in Lucknow's growth story — building trust, one plot at a time since 2025.",
+  });
+  const aboutMission = usePageContent("about.mission", {
+    eyebrow: "About Our Company",
+    title: "We Don't Just Sell Land",
+    title_accent: "We Craft Opportunities",
+    body: "TrustOn Developers is a trusted name in real estate development, built on a foundation of transparency, quality, and long-term vision. Our flagship project, Prime Estate, is a Jila Panchayat approved township that combines legal security, prime location, and future-ready infrastructure — setting a new standard for residential plot development in Lucknow.",
+    body_secondary: "From land acquisition to final delivery, we follow a structured, transparent process that keeps you informed and in control at every stage.",
+  });
+  const aboutStats = usePageContent("about.stats", {
+    stat_1_val: "1+", stat_1_label: "Active Projects",
+    stat_2_val: "4",  stat_2_label: "Core Services",
+    stat_3_val: "100%", stat_3_label: "JP Approved Plots",
+    stat_4_val: "2025", stat_4_label: "Established",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
 
@@ -141,7 +162,7 @@ function AboutPage() {
       <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden pt-[100px]">
         <div className="absolute inset-0 z-0">
           <img
-            src={buildingImg}
+            src={String(hero.image_url || buildingImg)}
             alt="TrustOn — About Us"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.28) saturate(0.7)" }}
@@ -166,7 +187,7 @@ function AboutPage() {
             className="text-[10px] md:text-xs text-[#00BFFF] uppercase font-bold mb-6 tracking-[0.4em] flex items-center justify-center gap-3"
           >
             <span className="w-8 h-px bg-[#00BFFF]" />
-            About Truston Developers
+            {String(hero.eyebrow || "About Truston Developers")}
             <span className="w-8 h-px bg-[#00BFFF]" />
           </motion.p>
           <motion.h1
@@ -175,9 +196,9 @@ function AboutPage() {
             transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-8xl font-serif tracking-tighter leading-none mb-6"
           >
-            Own the Ground.
+            {String(hero.title || "Own the Ground.")}
             <br />
-            <em className="text-[#00BFFF] italic">Build the Legacy.</em>
+            <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Build the Legacy.")}</em>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -185,8 +206,7 @@ function AboutPage() {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-white/50 text-lg md:text-xl font-light max-w-2xl mx-auto leading-relaxed"
           >
-            A real estate company rooted in Lucknow's growth story — building trust,
-            one plot at a time since 2025.
+            {String(hero.subtitle || "A real estate company rooted in Lucknow's growth story — building trust, one plot at a time since 2025.")}
           </motion.p>
 
           <motion.p
@@ -216,10 +236,10 @@ function AboutPage() {
       <section className="border-y border-white/5 bg-[#060c16]">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4">
           {[
-            { val: "1+", label: "Active Projects" },
-            { val: "4", label: "Core Services" },
-            { val: "100%", label: "JP Approved Plots" },
-            { val: "2025", label: "Established" },
+            { val: String(aboutStats.stat_1_val || "1+"),    label: String(aboutStats.stat_1_label || "Active Projects") },
+            { val: String(aboutStats.stat_2_val || "4"),     label: String(aboutStats.stat_2_label || "Core Services") },
+            { val: String(aboutStats.stat_3_val || "100%"),  label: String(aboutStats.stat_3_label || "JP Approved Plots") },
+            { val: String(aboutStats.stat_4_val || "2025"),  label: String(aboutStats.stat_4_label || "Established") },
           ].map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08}>
               <div className="group flex flex-col items-center py-12 px-6 text-center border-r border-white/5 last:border-0 cursor-default">
@@ -265,24 +285,19 @@ function AboutPage() {
             <div>
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-5 flex items-center gap-3">
                 <span className="w-8 h-px bg-[#00BFFF]" />
-                About Our Company
+                {String(aboutMission.eyebrow || "About Our Company")}
               </p>
               <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-3 text-white">
-                We Don&apos;t Just Sell Land
+                {String(aboutMission.title || "We Don't Just Sell Land")}
               </h2>
               <h2 className="font-serif text-4xl md:text-5xl font-light leading-tight mb-8 text-white">
-                <em className="text-[#00BFFF] italic">We Craft Opportunities</em>
+                <em className="text-[#00BFFF] italic">{String(aboutMission.title_accent || "We Craft Opportunities")}</em>
               </h2>
               <p className="text-white/60 text-base leading-relaxed mb-4 font-light">
-                TrustOn Developers is a trusted name in real estate development, built on a
-                foundation of transparency, quality, and long-term vision. Our flagship project,
-                Prime Estate, is a Jila Panchayat approved township that combines legal security,
-                prime location, and future-ready infrastructure — setting a new standard for
-                residential plot development in Lucknow.
+                {String(aboutMission.body || "TrustOn Developers is a trusted name in real estate development, built on a foundation of transparency, quality, and long-term vision.")}
               </p>
               <p className="text-white/45 text-base leading-relaxed mb-10 font-light">
-                From land acquisition to final delivery, we follow a structured, transparent
-                process that keeps you informed and in control at every stage.
+                {String(aboutMission.body_secondary || "From land acquisition to final delivery, we follow a structured, transparent process that keeps you informed and in control at every stage.")}
               </p>
 
               {/* 4 feature pills */}

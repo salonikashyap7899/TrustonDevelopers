@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
 import heroImg from "@/assets/hero-estate.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -109,6 +110,13 @@ const tickerItems = [
 ];
 
 function BlogPage() {
+  const hero = usePageContent("blog.hero", {
+    eyebrow: "Editorial & Insights",
+    title: "The",
+    title_accent: "Legacy",
+    title_suffix: "Journal",
+    subtitle: "Expert perspectives on Lucknow real estate, land investment, architecture, and the art of building generational wealth.",
+  });
   const [activeFilter, setActiveFilter] = useState("All");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -128,7 +136,7 @@ function BlogPage() {
         {/* Background image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={lucknowAerialImg}
+            src={String(hero.image_url || lucknowAerialImg)}
             alt="Blog Hero"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.22) saturate(0.6)" }}
@@ -151,17 +159,16 @@ function BlogPage() {
             <div className="flex items-center gap-3 mb-6">
               <span className="w-8 h-px bg-[#00BFFF]" />
               <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
-                Editorial &amp; Insights
+                {String(hero.eyebrow || "Editorial & Insights")}
               </span>
             </div>
             <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-light leading-none tracking-tight text-white mb-6">
-              The <em className="text-[#00BFFF] italic">Legacy</em>
+              {String(hero.title || "The")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Legacy")}</em>
               <br />
-              Journal
+              {String(hero.title_suffix || "Journal")}
             </h1>
             <p className="text-white/50 text-base md:text-lg font-light max-w-lg leading-relaxed mb-10">
-              Expert perspectives on Lucknow real estate, land investment, architecture,
-              and the art of building generational wealth.
+              {String(hero.subtitle || "Expert perspectives on Lucknow real estate, land investment, architecture, and the art of building generational wealth.")}
             </p>
             {/* Hero meta stats */}
             <div className="flex flex-wrap items-center gap-10 pt-8 border-t border-white/8">

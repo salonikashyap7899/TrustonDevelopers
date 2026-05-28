@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import heroImg from "@/assets/hero-estate.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/construction-build")({
   head: () => ({
@@ -82,6 +83,23 @@ const constructionTestimonials = [
 ];
 
 function ConstructionBuildPage() {
+  const hero = usePageContent("construction.hero", {
+    eyebrow: "Building Reality",
+    title: "Construction &",
+    title_accent: "Build",
+    subtitle: "Quality construction where architectural dreams become tangible reality. Meticulous attention to detail, premium materials, and unwavering commitment to timely delivery—your home, built perfectly.",
+  });
+  const main = usePageContent("construction.main", {
+    section_1_title: "Built with",
+    section_1_accent: "Precision",
+    section_1_body: "We combine traditional craftsmanship with modern engineering to deliver homes that stand the test of time.",
+    section_2_title: "The Build",
+    section_2_accent: "Process",
+    section_2_body: "From breaking ground to the final polish, our process is structured for quality and clarity.",
+    cta_title: "Build Your",
+    cta_accent: "Legacy",
+    cta_body: "Ready to turn your architectural vision into reality? Connect with our construction team for a detailed project consultation and quote.",
+  });
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -89,7 +107,7 @@ function ConstructionBuildPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={String(hero.image_url || heroImg)}
             alt="Construction & Build"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.25) saturate(0.7)" }}
@@ -102,13 +120,13 @@ function ConstructionBuildPage() {
           <Reveal>
             <div className="text-center max-w-4xl mx-auto">
               <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">
-                Building Reality
+                {String(hero.eyebrow || "Building Reality")}
               </p>
               <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-                Construction & <em className="text-[#00BFFF] italic">Build</em>
+                {String(hero.title || "Construction &")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Build")}</em>
               </h1>
               <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light mb-12">
-                Quality construction where architectural dreams become tangible reality. Meticulous attention to detail, premium materials, and unwavering commitment to timely delivery—your home, built perfectly.
+                {String(hero.subtitle || "Quality construction where architectural dreams become tangible reality.")}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link
@@ -135,10 +153,10 @@ function ConstructionBuildPage() {
           <Reveal>
             <div className="text-center mb-20">
               <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                Built with <em className="text-[#00BFFF] italic">Precision</em>
+                {String(main.section_1_title || "Built with")} <em className="text-[#00BFFF] italic">{String(main.section_1_accent || "Precision")}</em>
               </h2>
               <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                We combine traditional craftsmanship with modern engineering to deliver homes that stand the test of time.
+                {String(main.section_1_body || "We combine traditional craftsmanship with modern engineering.")}
               </p>
             </div>
           </Reveal>
@@ -164,10 +182,10 @@ function ConstructionBuildPage() {
           <Reveal>
             <div className="text-center mb-20">
               <h2 className="font-serif text-4xl md:text-6xl text-white mb-6">
-                The Build <em className="text-[#00BFFF] italic">Process</em>
+                {String(main.section_2_title || "The Build")} <em className="text-[#00BFFF] italic">{String(main.section_2_accent || "Process")}</em>
               </h2>
               <p className="text-white/40 max-w-2xl mx-auto text-lg font-light">
-                From breaking ground to the final polish, our process is structured for quality and clarity.
+                {String(main.section_2_body || "From breaking ground to the final polish, our process is structured for quality and clarity.")}
               </p>
             </div>
           </Reveal>
@@ -216,10 +234,10 @@ function ConstructionBuildPage() {
         <Reveal>
           <div className="max-w-4xl mx-auto">
             <h2 className="font-serif text-4xl md:text-6xl mb-8">
-              Build Your <em className="text-[#00BFFF] italic">Legacy</em>
+              {String(main.cta_title || "Build Your")} <em className="text-[#00BFFF] italic">{String(main.cta_accent || "Legacy")}</em>
             </h2>
             <p className="text-white/50 text-lg mb-12">
-              Ready to turn your architectural vision into reality? Connect with our construction team for a detailed project consultation and quote.
+              {String(main.cta_body || "Ready to turn your architectural vision into reality? Connect with our construction team for a detailed project consultation and quote.")}
             </p>
             <Link
               to="/contact"

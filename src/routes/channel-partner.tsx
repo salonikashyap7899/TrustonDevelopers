@@ -3,6 +3,7 @@ import { InnerHero } from "@/components/InnerHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import projectImg from "@/assets/project-prime.jpg";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/channel-partner")({
   head: () => ({
@@ -47,18 +48,47 @@ const marqueeWords = [
 ];
 
 function Page() {
+  const hero = usePageContent("channel_partner.hero", {
+    eyebrow: "Partnership Ecosystem",
+    title: "Scale your business. Earn more,",
+    title_accent: "together.",
+    subtitle: "Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision.",
+  });
+  const main = usePageContent("channel_partner.main", {
+    eyebrow: "Strategic Growth",
+    title: "Accelerate your",
+    title_accent: "yield.",
+    body: "Join the global network of partners already scaling with TrustOn. Our private portal access will be authorized within 24 hours.",
+    benefits_title: "Why partner with TrustOn Empire?",
+    benefit_1_title: "Premium Commissions",
+    benefit_1_desc: "Our tiered structure rewards high-performance — the more you scale, the more you earn.",
+    benefit_2_title: "Strategic Compliance",
+    benefit_2_desc: "Every TrustOn project is Jila Panchayat approved and legally documented for security.",
+    benefit_3_title: "Empire Relationship Manager",
+    benefit_3_desc: "Your personal point of contact for every query, private viewing, and deal closure.",
+    benefit_4_title: "Global Marketing Assets",
+    benefit_4_desc: "Access to high-definition cinematic brochures and 3D architectural visualization tools.",
+  });
+
+  const dynamicBenefits = [
+    { t: String(main.benefit_1_title || "Premium Commissions"), d: String(main.benefit_1_desc || "Our tiered structure rewards high-performance.") },
+    { t: String(main.benefit_2_title || "Strategic Compliance"), d: String(main.benefit_2_desc || "Every TrustOn project is Jila Panchayat approved.") },
+    { t: String(main.benefit_3_title || "Empire Relationship Manager"), d: String(main.benefit_3_desc || "Your personal point of contact for every query.") },
+    { t: String(main.benefit_4_title || "Global Marketing Assets"), d: String(main.benefit_4_desc || "Access to high-definition cinematic brochures.") },
+  ];
+
   return (
     <div className="bg-background text-foreground overflow-hidden">
       <InnerHero
-        eyebrow="Partnership Ecosystem"
+        eyebrow={String(hero.eyebrow || "Partnership Ecosystem")}
         title={
           <>
-            Scale your business.
+            {String(hero.title || "Scale your business. Earn more,").split(",")[0]},
             <br />
-            Earn more, <em className="text-luxe-cyan not-italic font-serif italic">together.</em>
+            Earn more, <em className="text-luxe-cyan not-italic font-serif italic">{String(hero.title_accent || "together.")}</em>
           </>
         }
-        subtitle="Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision."
+        subtitle={String(hero.subtitle || "Built for elite real estate consultants who want to offer premium residential plots backed by a billion-dollar brand vision.")}
         poster="/attached_assets/image_1779159211927.png"
         alt="Channel Partner Program"
       />
@@ -69,7 +99,7 @@ function Page() {
           <Reveal>
             <SectionEyebrow>Strategic Growth</SectionEyebrow>
             <h2 className="font-display text-5xl md:text-8xl text-center mb-24 tracking-tighter leading-none text-white">
-              Accelerate your <em className="text-luxe-cyan italic font-serif">yield.</em>
+              {String(main.title || "Accelerate your")} <em className="text-luxe-cyan italic font-serif">{String(main.title_accent || "yield.")}</em>
             </h2>
           </Reveal>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -92,7 +122,7 @@ function Page() {
           <Reveal>
             <div className="mt-20 text-center">
               <Link to="/about-us" className="btn-magnetic btn-luxe px-12 py-5">
-                Learn More
+                {String(main.eyebrow || "Learn More") && "Learn More"}
               </Link>
             </div>
           </Reveal>
@@ -105,12 +135,11 @@ function Page() {
           <Reveal>
             <SectionEyebrow light>Global Advantages</SectionEyebrow>
             <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-24 tracking-tighter leading-none">
-              Why partner with <br />
-              <em className="text-luxe-cyan italic font-serif">TrustOn Empire?</em>
+              {String(main.benefits_title || "Why partner with TrustOn Empire?")}
             </h2>
           </Reveal>
           <div className="grid md:grid-cols-2 gap-8">
-            {benefits.map((b, i) => (
+            {dynamicBenefits.map((b, i) => (
               <Reveal key={b.t} delay={i * 0.08}>
                 <div className="glass-premium p-12 h-full rounded-[40px] border border-white/5 group hover:border-luxe-cyan/40 transition-all duration-500">
                   <span className="font-display text-6xl text-white/5 group-hover:text-luxe-cyan transition-colors duration-700 leading-none">

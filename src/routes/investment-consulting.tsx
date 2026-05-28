@@ -5,6 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import { PlotTrackerCompact } from "@/components/PlotTracker";
 import heroImg from "@/assets/hero-estate.jpg";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/investment-consulting")({
   head: () => ({
@@ -202,6 +203,21 @@ function ROICalculator() {
 }
 
 function InvestmentConsultingPage() {
+  const hero = usePageContent("investment.hero", {
+    eyebrow: "Strategic Wealth Advisory",
+    title: "Invest with",
+    title_accent: "Intelligence.",
+    subtitle: "Data-driven real estate investment consulting for HNIs, NRIs, and first-time investors. We turn Lucknow's growth story into your wealth story.",
+  });
+  const main = usePageContent("investment.main", {
+    section_1_title: "Why Lucknow",
+    section_1_accent: "Now?",
+    section_1_body: "Lucknow is experiencing unprecedented infrastructure investment — metro expansion, highway upgrades, and smart city initiatives — creating a rare window for strategic real estate investment.",
+    cta_title: "Schedule Your",
+    cta_accent: "Investment Consultation",
+    cta_body: "Book a private session with our investment advisory team. We'll analyze your financial goals, risk appetite, and timeline to build a tailored real estate strategy.",
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
       {/* Hero Section with Background Image */}
@@ -209,7 +225,7 @@ function InvestmentConsultingPage() {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src={String(hero.image_url || heroImg)}
             alt="Investment Consulting"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.25) saturate(0.7)" }}
@@ -222,13 +238,13 @@ function InvestmentConsultingPage() {
           <Reveal>
             <div className="text-center max-w-4xl mx-auto">
               <p className="text-[10px] uppercase tracking-[0.45em] text-[#00BFFF] font-bold mb-6">
-                Strategic Wealth Building
+                {String(hero.eyebrow || "Strategic Wealth Advisory")}
               </p>
               <h1 className="font-serif text-5xl md:text-8xl leading-tight tracking-tight mb-8">
-                Investment <em className="text-[#00BFFF] italic">Consulting</em>
+                {String(hero.title || "Invest with")} <em className="text-[#00BFFF] italic">{String(hero.title_accent || "Intelligence.")}</em>
               </h1>
               <p className="text-white/50 text-lg md:text-xl leading-relaxed font-light mb-12">
-                Real estate wealth isn't built by chance—it's built by strategy. Our investment consulting team provides data-driven guidance for seeking robust land investment opportunities in Lucknow's highest-growth corridors.
+                {String(hero.subtitle || "Data-driven real estate investment consulting for HNIs, NRIs, and first-time investors.")}
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Link

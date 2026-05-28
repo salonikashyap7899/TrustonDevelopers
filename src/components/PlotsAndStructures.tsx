@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
+import { usePageContent } from "@/hooks/usePageContent";
 
 const BUILDINGS = [
   { h: 55, w: 14, delay: 0.0, accent: false, windows: [[1,0,1],[0,1,1],[1,0,0]] },
@@ -20,7 +21,6 @@ function CssBuildingScene() {
       className="relative w-full h-full flex items-end justify-center overflow-hidden rounded-2xl border border-white/5"
       style={{ background: "linear-gradient(180deg, #020810 0%, #050f1c 60%, #071422 100%)" }}
     >
-      {/* Stars */}
       {[
         { top: "15%", left: "10%", size: 1.5, delay: 0 },
         { top: "25%", left: "30%", size: 1, delay: 0.5 },
@@ -38,16 +38,13 @@ function CssBuildingScene() {
         />
       ))}
 
-      {/* Glow from city below */}
       <div
         className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] h-24 rounded-full pointer-events-none"
         style={{ background: "radial-gradient(ellipse, rgba(0,191,255,0.08) 0%, transparent 70%)", filter: "blur(10px)" }}
       />
 
-      {/* Ground line */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-[#00BFFF]/15" />
 
-      {/* Buildings */}
       <div className="relative flex items-end h-[85%] px-6 pb-0 gap-1.5">
         {BUILDINGS.map((b, bi) => {
           const heightPct = (b.h / maxH) * 100;
@@ -61,7 +58,6 @@ function CssBuildingScene() {
               viewport={{ once: true }}
               transition={{ duration: 0.9, delay: b.delay, ease: [0.16, 1, 0.3, 1] }}
             >
-              {/* Building body */}
               <div
                 className="w-full h-full rounded-t-sm flex flex-col p-1 gap-1"
                 style={{
@@ -75,7 +71,6 @@ function CssBuildingScene() {
                   boxShadow: b.accent ? "0 0 16px rgba(0,191,255,0.08), inset 0 0 20px rgba(0,191,255,0.04)" : "none",
                 }}
               >
-                {/* Window rows — deterministic, no Math.random() */}
                 {b.windows.map((row, ri) => (
                   <div key={ri} className="flex gap-[2px] justify-center">
                     {row.map((lit, ci) => (
@@ -101,7 +96,6 @@ function CssBuildingScene() {
                 ))}
               </div>
 
-              {/* Antenna on accent buildings */}
               {b.accent && (
                 <motion.div
                   className="absolute -top-3 left-1/2 -translate-x-1/2 w-px bg-[#00BFFF]/50"
@@ -115,7 +109,6 @@ function CssBuildingScene() {
         })}
       </div>
 
-      {/* Subtle grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
@@ -125,7 +118,6 @@ function CssBuildingScene() {
         }}
       />
 
-      {/* Label */}
       <div className="absolute top-4 left-4 text-[8px] uppercase tracking-[0.3em] text-[#00BFFF]/35 font-bold">
         Prime Estate · Lucknow
       </div>
@@ -134,46 +126,49 @@ function CssBuildingScene() {
 }
 
 export function PlotsAndStructures() {
+  const c = usePageContent("home.plots_structures", {
+    eyebrow: "Strategic Masterpieces",
+    title: "Building",
+    title_accent: "Plots & Structures",
+    body: "Discover the ultimate foundation for your architectural dreams. Our premium building plots are strategically located in Lucknow's most promising corridors, offering 100% legal clearance and Jila Panchayat approval.",
+    stat_1_val: "150+", stat_1_label: "Premium Plots",
+    stat_2_val: "Elite", stat_2_label: "Architectural Support",
+  });
+
   return (
     <section className="relative py-32 px-6 bg-[#060c16] overflow-hidden">
       <Section3DBackground opacity={0.15} />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Content Side */}
           <div className="order-2 lg:order-1">
-            <SectionEyebrow>Strategic Masterpieces</SectionEyebrow>
+            <SectionEyebrow>{String(c.eyebrow || "Strategic Masterpieces")}</SectionEyebrow>
             <Reveal>
               <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
-                Building <em className="text-[#00BFFF] italic">Plots & Structures</em>
+                {String(c.title || "Building")} <em className="text-[#00BFFF] italic">{String(c.title_accent || "Plots & Structures")}</em>
               </h2>
             </Reveal>
 
             <div className="space-y-8 text-white/60 text-lg font-light leading-relaxed">
               <Reveal delay={0.2}>
-                <p>
-                  Discover the ultimate foundation for your architectural dreams. Our premium building
-                  plots are strategically located in Lucknow&apos;s most promising corridors, offering
-                  100% legal clearance and Jila Panchayat approval.
-                </p>
+                <p>{String(c.body || "Discover the ultimate foundation for your architectural dreams.")}</p>
               </Reveal>
 
               <Reveal delay={0.4}>
                 <div className="flex gap-12 pt-6">
                   <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">150+</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Premium Plots</p>
+                    <p className="text-3xl font-serif text-white mb-1">{String(c.stat_1_val || "150+")}</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">{String(c.stat_1_label || "Premium Plots")}</p>
                   </div>
                   <div className="border-l-2 border-[#00BFFF]/40 pl-6">
-                    <p className="text-3xl font-serif text-white mb-1">Elite</p>
-                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">Architectural Support</p>
+                    <p className="text-3xl font-serif text-white mb-1">{String(c.stat_2_val || "Elite")}</p>
+                    <p className="text-[10px] uppercase tracking-widest font-bold text-white/40">{String(c.stat_2_label || "Architectural Support")}</p>
                   </div>
                 </div>
               </Reveal>
             </div>
           </div>
 
-          {/* CSS 3D Building Scene */}
           <div className="order-1 lg:order-2 h-[380px] md:h-[480px] relative">
             <CssBuildingScene />
           </div>

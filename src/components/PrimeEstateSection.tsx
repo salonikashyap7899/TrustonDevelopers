@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Reveal } from "./Reveal";
 import { Link } from "@tanstack/react-router";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export function PrimeEstateSection() {
   const amenities = [
@@ -14,40 +15,52 @@ export function PrimeEstateSection() {
     "Phased Infrastructure",
   ];
 
+  const c = usePageContent("home.prime_estate", {
+    eyebrow: "Flagship Project",
+    title: "Prime",
+    title_accent: "Estate",
+    body: "A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth.",
+    stat_1_val: "120", stat_1_sup: "+", stat_1_label: "Total Plots",
+    stat_2_val: "47",  stat_2_sup: "",  stat_2_label: "Available Now",
+    stat_3_val: "2,400", stat_3_sup: "", stat_3_label: "Sq. Ft Range",
+    stat_4_val: "₹12",  stat_4_sup: "L+", stat_4_label: "Starting Price",
+    image_url: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-cw2VCtfJrtIWHFnZ75BKIzp9ddykUQ.jpg",
+  });
+
   const stats = [
-    { val: "120", sup: "+", label: "Total Plots" },
-    { val: "47", sup: "", label: "Available Now" },
-    { val: "2,400", sup: "", label: "Sq. Ft Range" },
-    { val: "₹12", sup: "L+", label: "Starting Price" },
+    { val: String(c.stat_1_val || "120"), sup: String(c.stat_1_sup ?? "+"), label: String(c.stat_1_label || "Total Plots") },
+    { val: String(c.stat_2_val || "47"),  sup: String(c.stat_2_sup ?? ""),  label: String(c.stat_2_label || "Available Now") },
+    { val: String(c.stat_3_val || "2,400"), sup: String(c.stat_3_sup ?? ""), label: String(c.stat_3_label || "Sq. Ft Range") },
+    { val: String(c.stat_4_val || "₹12"),  sup: String(c.stat_4_sup ?? "L+"), label: String(c.stat_4_label || "Starting Price") },
   ];
+
+  const imgUrl = String(c.image_url || "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-cw2VCtfJrtIWHFnZ75BKIzp9ddykUQ.jpg");
 
   return (
     <section className="bg-[#0F0F0D] py-24 md:py-32 px-6 md:px-16 overflow-hidden">
-      {/* Section Header */}
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-end mb-16">
           <div>
             <Reveal>
               <p className="text-[10px] md:text-xs font-bold uppercase tracking-[0.3em] text-[#00BFFF] mb-4 flex items-center gap-3">
                 <span className="w-7 h-px bg-[#00BFFF]" />
-                Flagship Project
+                {String(c.eyebrow || "Flagship Project")}
               </p>
             </Reveal>
             <Reveal delay={0.1}>
               <h2 className="font-serif text-4xl md:text-6xl font-light leading-tight text-white">
-                Prime{" "}
-                <em className="italic text-[#00BFFF]">Estate</em>
+                {String(c.title || "Prime")}{" "}
+                <em className="italic text-[#00BFFF]">{String(c.title_accent || "Estate")}</em>
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.2}>
             <p className="text-base md:text-lg text-white/40 leading-relaxed font-light">
-              A masterfully planned residential plot colony at Dubagga, Lucknow — designed for those who want the freedom to build on their own terms, in a location primed for significant growth.
+              {String(c.body || "A masterfully planned residential plot colony at Dubagga, Lucknow.")}
             </p>
           </Reveal>
         </div>
 
-        {/* Main Project Card */}
         <Reveal delay={0.1}>
           <motion.div
             className="grid grid-cols-1 lg:grid-cols-[55%_45%] border border-[#00BFFF]/15 overflow-hidden"
@@ -56,27 +69,21 @@ export function PrimeEstateSection() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Left — Visual Panel */}
             <div className="relative overflow-hidden min-h-[420px] md:min-h-[600px] flex flex-col justify-end p-10 md:p-12 bg-[#161613]">
-              {/* Background image */}
               <img
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/photo_1_2026-05-25_19-38-16-cw2VCtfJrtIWHFnZ75BKIzp9ddykUQ.jpg"
+                src={imgUrl}
                 alt="Prime Estate — Main Gate Entrance"
                 className="absolute inset-0 w-full h-full object-cover"
               />
-
-              {/* Gradient overlay at bottom */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#161613] via-[#161613]/50 to-transparent" />
-
-              {/* Text content */}
               <div className="relative z-10">
                 <p className="text-[10px] uppercase tracking-[0.25em] text-[#00BFFF] mb-2 font-medium">
                   Residential Plot Colony · Dubagga
                 </p>
                 <h3 className="font-serif text-5xl md:text-6xl font-light text-white leading-tight mb-2">
-                  Prime
+                  {String(c.title || "Prime")}
                   <br />
-                  <em className="italic text-[#00BFFF]">Estate</em>
+                  <em className="italic text-[#00BFFF]">{String(c.title_accent || "Estate")}</em>
                 </h3>
                 <p className="text-sm text-white/40 mt-2">Dubagga, Lucknow · Uttar Pradesh</p>
                 <p className="text-[10px] text-white/25 tracking-widest uppercase mt-1">
@@ -85,9 +92,7 @@ export function PrimeEstateSection() {
               </div>
             </div>
 
-            {/* Right — Info Panel */}
             <div className="bg-[#161613] p-8 md:p-12 flex flex-col border-l border-[#00BFFF]/10">
-              {/* Stats grid */}
               <div className="grid grid-cols-2 gap-px bg-[#00BFFF]/08">
                 {stats.map((s, i) => (
                   <div
@@ -107,7 +112,6 @@ export function PrimeEstateSection() {
                 ))}
               </div>
 
-              {/* Amenities */}
               <div className="mt-8 flex-1">
                 <p className="text-[10px] uppercase tracking-[0.22em] text-[#00BFFF] mb-4 font-medium">
                   Premium Amenities
@@ -125,7 +129,6 @@ export function PrimeEstateSection() {
                 </div>
               </div>
 
-              {/* Approval note */}
               <div className="mt-6 p-4 border border-[#00BFFF]/15 bg-[#00BFFF]/[0.03] rounded-sm">
                 <p className="text-xs text-white/40 leading-relaxed">
                   All plots are{" "}
@@ -135,7 +138,6 @@ export function PrimeEstateSection() {
                 </p>
               </div>
 
-              {/* CTAs */}
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Link
                   to="/contact"
