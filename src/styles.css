@@ -113,7 +113,7 @@
     -moz-osx-font-smoothing: grayscale;
     /* Ultra-smooth scrolling optimizations */
     scroll-padding-top: 0;
-    overflow-y: scroll;
+    overflow-x: hidden;
   }
 
   /* GPU acceleration for animated elements - optimized for smoothness */
@@ -156,29 +156,26 @@
     font-feature-settings: "ss01", "cv01";
     position: relative;
     overflow-x: hidden;
+    overflow-y: auto;
     /* Optimize scrolling performance */
-    contain: layout style paint;
-    will-change: scroll-position;
+    min-height: 100vh;
   }
 
-  /* Luxury Noise Grain Effect - Optimized for performance */
+  /* Luxury Noise Grain Effect - Disabled for better performance */
   body::after {
     content: "";
     position: fixed;
-    top: -50%;
-    left: -50%;
-    right: -50%;
-    bottom: -50%;
-    width: 200%;
-    height: 200%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
     background: transparent url("https://assets.iceable.com/img/noise-transparent.png") repeat;
-    opacity: 0.02;
+    opacity: 0.015;
     pointer-events: none;
     z-index: 9999;
-    animation: noise 0.5s steps(4) infinite;
-    will-change: transform;
-    transform: translateZ(0);
-    contain: strict;
+    /* Removed animation for better performance */
   }
 
   @keyframes noise {
