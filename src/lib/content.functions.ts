@@ -547,6 +547,74 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
       copyright: "© 2025 TrustOn Developers. Billion Dollar Real Estate Empire.",
     },
   },
+
+  // ── PROJECT DETAIL PAGE ───────────────────────────────────────────
+  {
+    key: "project_detail.hero",
+    label: "Project Detail — Hero",
+    data: {
+      eyebrow: "Flagship Development · Lucknow",
+      title: "Prime Estate",
+      title_accent: "",
+      subtitle: "Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy.",
+      image_url: "/attached_assets/image_1779159211927.png",
+    },
+  },
+  {
+    key: "project_detail.overview",
+    label: "Project Detail — Overview",
+    data: {
+      eyebrow: "Project Intelligence",
+      title: "Strategic Infrastructure",
+      title_accent: "for Modern Legacy.",
+      body: "Prime Estate is a thoughtfully planned residential plots colony designed for those who want the freedom to build on their own terms. Located in a promising growth corridor, the project offers well-defined plots and essential infrastructure.",
+      body_secondary: "With clear planning and a focus on value appreciation, Prime Estate gives you the foundation to create a space that truly reflects your billion-dollar vision.",
+    },
+  },
+  {
+    key: "project_detail.stats",
+    label: "Project Detail — Stats",
+    data: {
+      stat_1_val: "120+",
+      stat_1_label: "Total Plots",
+      stat_2_val: "47",
+      stat_2_label: "Still Available",
+      stat_3_val: "2400",
+      stat_3_label: "Sq. Feet Range",
+      stat_4_val: "₹12L+",
+      stat_4_label: "Starting Unit",
+      footer: "Global Standards · Jila Panchayat Approved · Clear Title Deeds",
+    },
+  },
+  {
+    key: "project_detail.gallery",
+    label: "Project Detail — Gallery",
+    data: {
+      eyebrow: "Project Gallery",
+      title: "Inside Prime",
+      title_accent: "Estate",
+    },
+  },
+  {
+    key: "project_detail.amenities",
+    label: "Project Detail — Amenities",
+    data: {
+      eyebrow: "Elite Amenities",
+      title: "Strategic",
+      title_accent: "Living.",
+    },
+  },
+  {
+    key: "project_detail.cta",
+    label: "Project Detail — Call to Action",
+    data: {
+      eyebrow: "Limited Engagement",
+      title: "Reserve your position at",
+      title_accent: "Prime Estate.",
+      cta_text: "Schedule Private Tour",
+      phone: "+91 96160-61166",
+    },
+  },
 ];
 
 export const getSiteContentBlocks = createServerFn({ method: "POST" })
@@ -616,71 +684,3 @@ export const uploadMedia = createServerFn({ method: "POST" })
     await supabaseAdmin.from("media").insert({ name: filename, type: data.contentType, url, storage_path: storagePath, size_bytes: buffer.length });
     return { url };
   });
-
-  // ── PROJECT DETAIL PAGE ───────────────────────────────────────────
-  {
-    key: "project_detail.hero",
-    label: "Project Detail — Hero",
-    data: {
-      eyebrow: "Flagship Development · Lucknow",
-      title: "Prime Estate",
-      title_accent: "",
-      subtitle: "Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy.",
-      image_url: "/attached_assets/image_1779159211927.png",
-    },
-  },
-  {
-    key: "project_detail.overview",
-    label: "Project Detail — Overview",
-    data: {
-      eyebrow: "Project Intelligence",
-      title: "Strategic Infrastructure",
-      title_accent: "for Modern Legacy.",
-      body: "Prime Estate is a thoughtfully planned residential plots colony designed for those who want the freedom to build on their own terms. Located in a promising growth corridor, the project offers well-defined plots and essential infrastructure.",
-      body_secondary: "With clear planning and a focus on value appreciation, Prime Estate gives you the foundation to create a space that truly reflects your billion-dollar vision.",
-    },
-  },
-  {
-    key: "project_detail.stats",
-    label: "Project Detail — Stats",
-    data: {
-      stat_1_val: "120+",
-      stat_1_label: "Total Plots",
-      stat_2_val: "47",
-      stat_2_label: "Still Available",
-      stat_3_val: "2400",
-      stat_3_label: "Sq. Feet Range",
-      stat_4_val: "₹12L+",
-      stat_4_label: "Starting Unit",
-      footer: "Global Standards · Jila Panchayat Approved · Clear Title Deeds",
-    },
-  },
-  {
-    key: "project_detail.gallery",
-    label: "Project Detail — Gallery",
-    data: {
-      eyebrow: "Project Gallery",
-      title: "Inside Prime",
-      title_accent: "Estate",
-    },
-  },
-  {
-    key: "project_detail.amenities",
-    label: "Project Detail — Amenities",
-    data: {
-      eyebrow: "Elite Amenities",
-      title: "Strategic",
-      title_accent: "Living.",
-    },
-  },
-  {
-    key: "project_detail.cta",
-    label: "Project Detail — Call to Action",
-    data: {
-      eyebrow: "Limited Engagement",
-      title: "Reserve your position at",
-      title_accent: "Prime Estate.",
-      cta_text: "Schedule Private Tour",
-      phone: "+91 96160-61166",
-    },
-  },
