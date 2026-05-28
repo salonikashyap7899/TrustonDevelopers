@@ -24,6 +24,25 @@ export default defineConfig({
       "@tanstack/query-core",
     ],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom'],
+          'animation': ['framer-motion'],
+          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+        },
+      },
+    },
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+      },
+    },
+    sourcemap: false,
+    reportCompressedSize: false,
+  },
   server: {
     host: "0.0.0.0",
     port: 5000,

@@ -31,8 +31,13 @@ export function CursorGlow() {
     let tx = -100,
       ty = -100;
     let isHovering = false;
+    let lastMoveTime = 0;
+    const moveThrottle = 16; // ~60fps
 
     const onMove = (e: MouseEvent) => {
+      const now = performance.now();
+      if (now - lastMoveTime < moveThrottle) return;
+      lastMoveTime = now;
       tx = e.clientX;
       ty = e.clientY;
     };
@@ -69,13 +74,13 @@ export function CursorGlow() {
     };
 
     const loop = () => {
-      // Smoother "Liquid" Physics for Ring - Adjusted for high-end smoothness
-      const ease = 0.12;
+      // Smoother "Liquid" Physics for Ring - Optimized for performance
+      const ease = 0.15; // Slightly increased for responsiveness
       rx += (tx - rx) * ease;
       ry += (ty - ry) * ease;
 
       // Icon follows with very slight damping for premium feel
-      const iconEase = 0.25;
+      const iconEase = 0.28;
       ix += (tx - ix) * iconEase;
       iy += (ty - iy) * iconEase;
 
@@ -83,6 +88,7 @@ export function CursorGlow() {
       const offsetX = -11;
       const offsetY = -11;
 
+      // Use transform3d with GPU acceleration
       icon.style.transform = `translate3d(${ix + offsetX}px, ${iy + offsetY}px, 0) scale(${isHovering ? 1.4 : 1})`;
 
       // Ring follows with lag

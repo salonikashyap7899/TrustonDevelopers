@@ -11,7 +11,10 @@ export type ContentBlock = {
   [k: string]: unknown;
 };
 
-const POLL_INTERVAL = 15000;
+const POLL_INTERVAL = 30000; // Reduced polling frequency for better performance
+
+// Global cache to prevent duplicate subscriptions
+const subscriptionCache = new Map<string, Promise<void>>();
 
 export function usePageContent(key: string, fallback: ContentBlock = {}): ContentBlock {
   const [data, setData] = useState<ContentBlock>(fallback);
@@ -24,6 +27,7 @@ export function usePageContent(key: string, fallback: ContentBlock = {}): Conten
   // version is older than the current one.
   const versionRef = useRef(0);
   const lastRealtimeRef = useRef(0);
+  const pollTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const fetchContent = useCallback(
     async (requestVersion: number) => {
@@ -64,7 +68,8 @@ export function usePageContent(key: string, fallback: ContentBlock = {}): Conten
     fetchContent(initialVersion);
 
     // Polling — always uses the current version so it can't win over Realtime
-    const pollTimer = setInterval(() => {
+    // Only poll if not already subscribed to realtime
+    pollTimerRef.current = setInterval(() => {
       if (cancelRef.current) return;
       const v = ++versionRef.current;
       fetchContent(v);
@@ -107,10 +112,10 @@ export function usePageContent(key: string, fallback: ContentBlock = {}): Conten
 
     return () => {
       cancelRef.current = true;
-      clearInterval(pollTimer);
+      if (pollTimerRef.current) clearInterval(pollTimerRef.current);
       subscription.unsubscribe();
     };
   }, [key, fetchContent]);
-
+  
   return data;
 }
