@@ -24,8 +24,17 @@ export function IntroScreen() {
   useEffect(() => {
     if (!visible) return;
     document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = ""; };
-  }, [visible]);
+    
+    // Auto-exit after 8 seconds as fallback
+    const timeout = setTimeout(() => {
+      handleExit();
+    }, 8000);
+    
+    return () => { 
+      document.body.style.overflow = ""; 
+      clearTimeout(timeout);
+    };
+  }, [visible, handleExit]);
 
   useEffect(() => {
     if (!visible) return;
