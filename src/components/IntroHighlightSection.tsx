@@ -70,8 +70,14 @@ export function IntroHighlightSection() {
 
             <div className="relative w-[75vw] max-w-[500px] aspect-square lg:w-[35vw]">
               <div className="absolute inset-0 rounded-full bg-luxe-cyan/10 blur-[60px] scale-110" />
-              <div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10 bg-gradient-to-br from-luxe-cyan/20 via-background to-luxe-blue/10">
-                <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+<div className="relative h-full w-full rounded-full overflow-hidden shadow-luxe border-2 border-white/10">
+  <img
+    src="/public/assets/Redefining luxury real estate.jpg"
+    alt="Prime Estate luxury real estate"
+    className="absolute inset-0 w-full h-full object-cover"
+  />
+  <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent" />
+</div>
               </div>
               <motion.div
                 className="absolute -top-4 -right-4 w-4 h-4 rounded-full bg-luxe-cyan/60"
