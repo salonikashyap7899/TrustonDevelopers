@@ -314,8 +314,8 @@ function ArchitectureDesignPage() {
       </section>
 
       {/* Gallery Section */}
-    
-
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {galleryItems.map((item, i) => (
               <Reveal key={item.title} delay={i * 0.05}>

@@ -53,7 +53,7 @@ export function SobhaStyleNav() {
       }`}
     >
       <div className="mx-auto max-w-[1600px] px-6 md:px-12">
-        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "h-[72px]" : "h-[100px]"}`}>
+        <div className={`flex items-center justify-between transition-all duration-500 ${scrolled ? "h-[60px]" : "h-[80px]"}`}>
 
           {/* Left Nav */}
           <nav className="hidden lg:flex items-center gap-12 flex-1">
@@ -71,7 +71,7 @@ export function SobhaStyleNav() {
               <img
                 src="/logo.png"
                 alt="Logo"
-                className={`w-auto object-contain group-hover:scale-105 transition-all duration-700 ${scrolled ? "h-16" : "h-20"}`}
+                className={`w-auto object-contain group-hover:scale-105 transition-all duration-700 ${scrolled ? "h-20" : "h-24"}`}
                 style={{ filter: "brightness(0.85) saturate(1.2)" }}
               />
             </Link>
