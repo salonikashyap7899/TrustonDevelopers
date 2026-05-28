@@ -4,8 +4,8 @@ import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
 import { GlowCard } from "@/components/ui/spotlight-card";
-import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
 import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
+import { Handshake, Star, Leaf, Users, Scale, TrendingUp, Map, Ruler, HardHat, Compass, Eye } from "lucide-react";
 
 export const Route = createFileRoute("/about-us")({
   head: () => ({
@@ -23,46 +23,60 @@ export const Route = createFileRoute("/about-us")({
 const coreValues = [
   {
     num: "01",
-    icon: "🤝",
+    iconKey: "handshake",
     title: "Trust & Transparency",
     desc: "Every transaction at TrustOn is built on complete openness — clear pricing, full documentation, and no hidden clauses. Our name is our standard.",
   },
   {
     num: "02",
-    icon: "⭐",
+    iconKey: "star",
     title: "Uncompromising Quality",
     desc: "From land selection to infrastructure delivery, quality benchmarks are non-negotiable. We invest in the right materials, processes, and people to ensure it.",
   },
   {
     num: "03",
-    icon: "🌱",
+    iconKey: "leaf",
     title: "Long-Term Vision",
     desc: "We develop with decades in mind — selecting locations for growth potential, designing for the future, and building communities that thrive for generations.",
   },
   {
     num: "04",
-    icon: "👥",
+    iconKey: "users",
     title: "Client-First Philosophy",
     desc: "Our buyers are partners in growth. From first enquiry to final handover and beyond, we remain committed to every client's success and satisfaction.",
   },
   {
     num: "05",
-    icon: "⚖️",
+    iconKey: "scale",
     title: "Legal Integrity",
     desc: "All projects undergo rigorous legal due diligence — Jila Panchayat approvals, clear title deeds, and full compliance with local development regulations.",
   },
   {
     num: "06",
-    icon: "🚀",
+    iconKey: "trending",
     title: "Innovation & Growth",
     desc: "We continuously evolve — embracing new design thinking, sustainable development practices, and smarter ways to deliver value to every investor and homeowner.",
   },
 ];
 
+const CORE_VALUE_ICONS: Record<string, JSX.Element> = {
+  handshake: <Handshake className="w-6 h-6 text-[#00BFFF]" />,
+  star:      <Star      className="w-6 h-6 text-[#00BFFF]" />,
+  leaf:      <Leaf      className="w-6 h-6 text-[#00BFFF]" />,
+  users:     <Users     className="w-6 h-6 text-[#00BFFF]" />,
+  scale:     <Scale     className="w-6 h-6 text-[#00BFFF]" />,
+  trending:  <TrendingUp className="w-6 h-6 text-[#00BFFF]" />,
+  map:       <Map       className="w-6 h-6 text-[#00BFFF]" />,
+  ruler:     <Ruler     className="w-6 h-6 text-[#00BFFF]" />,
+  hardhat:   <HardHat   className="w-6 h-6 text-[#00BFFF]" />,
+  compass:   <Compass   className="w-6 h-6 text-[#00BFFF]" />,
+  eye:       <Eye       className="w-6 h-6 text-[#00BFFF]" />,
+};
+
 const services = [
   {
     num: "01",
-    icon: "🗺️",
+    iconKey: "map",
     title: "Plot Selling",
     desc: "We offer Jila Panchayat approved residential plots in Prime Estate, Lucknow — with clear title deeds, transparent pricing, and full infrastructure support. Whether you're buying to build or investing for appreciation, our plots deliver unmatched value.",
     bullets: [
@@ -74,7 +88,7 @@ const services = [
   },
   {
     num: "02",
-    icon: "📐",
+    iconKey: "ruler",
     title: "Architecture & Design",
     desc: "Our architecture and design team transforms your vision into a practical, beautiful, and approved blueprint. From concept to construction drawings, we ensure every design reflects your lifestyle, maximises your plot, and meets all regulatory standards.",
     bullets: [
@@ -86,7 +100,7 @@ const services = [
   },
   {
     num: "03",
-    icon: "🏗️",
+    iconKey: "hardhat",
     title: "Construction & Build",
     desc: "From foundation to finish, our construction team delivers high-quality residential buildings on schedule and within budget. We manage every aspect of the build process, using proven materials and skilled contractors to turn your approved design into your dream home.",
     bullets: [
@@ -98,7 +112,7 @@ const services = [
   },
   {
     num: "04",
-    icon: "📈",
+    iconKey: "trending",
     title: "Investment Consulting",
     desc: "Real estate is one of the most powerful wealth-building tools — but only when you make the right decisions. Our investment consulting service gives you data-driven insights, location analysis, and long-term strategy to maximise your property portfolio in Lucknow and beyond.",
     bullets: [
@@ -132,7 +146,7 @@ const teamMembers = [
   },
 ];
 
-const buildingImg = lucknowAerialImg;
+const buildingImg = "/assets/about-hero.jpg";
 
 function AboutPage() {
   const hero = usePageContent("about.hero", {
@@ -364,19 +378,19 @@ function AboutPage() {
                 eyebrow: "Our Mission",
                 title: "Delivering Real Value, Every Time",
                 desc: "To make property ownership in Lucknow accessible, transparent, and rewarding — by developing legally sound, infrastructure-ready plots that appreciate in value and serve as the foundation for lasting legacies.",
-                icon: "🧭",
+                iconKey: "compass",
               },
               {
                 eyebrow: "Our Vision",
                 title: "Shaping Lucknow's Residential Future",
                 desc: "To become the most trusted real estate developer in Uttar Pradesh — known for planned townships, premium plot developments, and a client-first philosophy that delivers beyond expectations in every project we undertake.",
-                icon: "🔭",
+                iconKey: "eye",
               },
               {
                 eyebrow: "Our Commitment",
                 title: "Built on Trust. Driven by Integrity.",
                 desc: "Every project undergoes rigorous regulatory compliance, transparent documentation, and structured infrastructure delivery. We commit to quality at every stage — from the first site survey to the final plot handover.",
-                icon: "⚖️",
+                iconKey: "scale",
               },
             ].map((card, i) => (
               <Reveal key={card.eyebrow} delay={i * 0.1}>
@@ -386,7 +400,7 @@ function AboutPage() {
                     className="absolute -top-16 -right-16 w-36 h-36 rounded-full opacity-[0.06]"
                     style={{ background: "radial-gradient(circle, #00BFFF, transparent)" }}
                   />
-                  <span className="text-3xl mb-5 block">{card.icon}</span>
+                  <div className="mb-5">{CORE_VALUE_ICONS[card.iconKey] ?? null}</div>
                   <p className="text-[#00BFFF] text-[10px] uppercase tracking-[0.4em] font-bold mb-4">
                     {card.eyebrow}
                   </p>
@@ -442,8 +456,8 @@ function AboutPage() {
               <Reveal key={svc.num} delay={i * 0.1}>
                 <div className="border border-white/5 rounded-[28px] p-8 bg-[#060c16] hover:border-[#00BFFF]/20 transition-all duration-500 group h-full">
                   <div className="flex items-start justify-between mb-6">
-                    <div className="w-12 h-12 border border-[#00BFFF]/20 rounded-full flex items-center justify-center text-xl group-hover:border-[#00BFFF]/50 transition-all duration-500">
-                      {svc.icon}
+                    <div className="w-12 h-12 border border-[#00BFFF]/20 rounded-full flex items-center justify-center group-hover:border-[#00BFFF]/50 transition-all duration-500">
+                      {CORE_VALUE_ICONS[svc.iconKey] ?? null}
                     </div>
                     <span className="font-serif text-5xl text-white/5 leading-none select-none">
                       {svc.num}
@@ -538,7 +552,7 @@ function AboutPage() {
               <Reveal key={v.title} delay={i * 0.07}>
                 <GlowCard glowColor="blue" customSize className="p-8 md:p-10 min-h-[240px] flex flex-col">
                   <div className="flex items-start justify-between mb-5">
-                    <span className="text-3xl">{v.icon}</span>
+                    <span>{CORE_VALUE_ICONS[v.iconKey] ?? null}</span>
                     <span className="font-serif text-4xl text-white/5">{v.num}</span>
                   </div>
                   <h3 className="text-white font-serif text-xl md:text-2xl mb-3 leading-snug">

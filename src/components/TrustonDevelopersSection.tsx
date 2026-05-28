@@ -6,6 +6,7 @@ import { Section3DBackground } from './Section3DBackground';
 import { Link } from '@tanstack/react-router';
 import { SwipeReveal } from './TextReveal';
 import { usePageContent } from '@/hooks/usePageContent';
+import { openConsultationModal } from './ConsultationModal';
 import {
   Accordion,
   AccordionContent,
@@ -314,12 +315,12 @@ export function TrustonCTAStrip() {
 
         <Reveal delay={0.3}>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Link
-              to="/contact"
+            <button
+              onClick={openConsultationModal}
               className="bg-[#00BFFF] text-[#060c16] px-10 py-4 text-xs uppercase tracking-[0.2em] font-semibold hover:bg-white transition-all duration-500 rounded-full"
             >
               Book Free Consultation
-            </Link>
+            </button>
             <a
               href="tel:+919616061166"
               className="font-serif text-2xl md:text-3xl text-white/70 hover:text-[#00BFFF] transition-colors duration-300 flex items-center gap-3"

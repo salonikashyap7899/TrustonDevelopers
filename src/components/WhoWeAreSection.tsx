@@ -45,7 +45,7 @@ export function WhoWeAreSection() {
 
       <ContainerScroll
         titleComponent={
-          <div className="px-4 mb-t-12">
+          <div className="px-4 mt-12">
             {/* Eyebrow */}
             <div className="flex items-center justify-center gap-4 mb-5">
               <span className="w-10 h-px bg-[#00BFFF]" />
@@ -69,8 +69,8 @@ export function WhoWeAreSection() {
           {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
             <img
-              src="/assets/photo_7.jpg"
-              alt="Prime Estate — Township Overview"
+              src="/assets/building-plots.jpg"
+              alt="Prime Estate — Building Plots Aerial View"
               className="w-full h-full object-cover"
             />
             {/* Subtle static shimmer — no continuous animation */}

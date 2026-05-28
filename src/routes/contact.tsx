@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
-import heroImg from "@/assets/hero-estate.jpg";
+import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
 import { submitContactMessage } from "@/lib/contactSubmit";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -84,7 +84,7 @@ function ContactPage() {
       <section className="relative min-h-[55vh] flex items-end overflow-hidden pt-[140px]">
         <div className="absolute inset-0 z-0">
           <img
-            src={heroImg}
+            src="/assets/contact-hero.jpg"
             alt="Contact TrustOn"
             className="w-full h-full object-cover"
             style={{ filter: "brightness(0.18) saturate(0.5)" }}
@@ -122,21 +122,21 @@ function ContactPage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
           {[
             {
-              icon: "📞",
+              icon: <Phone className="w-7 h-7" />,
               label: "Direct Line",
               value: phone,
               sub: hours,
               href: `tel:${phone.replace(/[^+\d]/g, "")}`,
             },
             {
-              icon: "✉️",
+              icon: <Mail className="w-7 h-7" />,
               label: "Email Address",
               value: email,
               sub: "Replies within 2 hours",
               href: `mailto:${email}`,
             },
             {
-              icon: "📍",
+              icon: <MapPin className="w-7 h-7" />,
               label: "Office Location",
               value: address.split(",")[0] || "UGF, Apple Plaza",
               sub: address.split(",").slice(1).join(",").trim() || "Hardoi Road, Lucknow",
@@ -150,7 +150,7 @@ function ContactPage() {
                 rel="noreferrer"
                 className="bg-[#060c16] hover:bg-[#080d1a] transition-colors duration-300 p-8 md:p-10 group flex flex-col gap-4 h-full"
               >
-                <span className="text-3xl group-hover:scale-110 transition-transform duration-300 w-fit">{card.icon}</span>
+                <span className="text-[#00BFFF] group-hover:scale-110 transition-transform duration-300 w-fit">{card.icon}</span>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.25em] text-white/30 font-bold mb-2">{card.label}</p>
                   <p className="text-white group-hover:text-[#00BFFF] transition-colors duration-300 font-serif text-xl leading-snug break-all">
@@ -208,8 +208,8 @@ function ContactPage() {
                   rel="noreferrer"
                   className="mt-10 flex items-center gap-3 text-white/50 hover:text-white transition-colors duration-300 text-sm group"
                 >
-                  <span className="w-9 h-9 rounded-full bg-[#25D366]/15 border border-[#25D366]/25 flex items-center justify-center text-[#25D366] text-lg group-hover:bg-[#25D366]/25 transition-colors duration-300">
-                    💬
+                  <span className="w-9 h-9 rounded-full bg-[#25D366]/15 border border-[#25D366]/25 flex items-center justify-center text-[#25D366] group-hover:bg-[#25D366]/25 transition-colors duration-300">
+                    <MessageCircle className="w-4 h-4" />
                   </span>
                   <span>Prefer WhatsApp? <span className="text-[#25D366]">Chat directly →</span></span>
                 </a>
@@ -328,7 +328,7 @@ function ContactPage() {
             rel="noreferrer"
             className="flex items-center gap-2 text-[#25D366] text-sm border border-[#25D366]/25 px-5 py-2.5 rounded-full hover:bg-[#25D366]/10 transition-colors duration-300"
           >
-            <span>💬</span> WhatsApp Us
+            <MessageCircle className="w-4 h-4" /> WhatsApp Us
           </a>
         </div>
       </div>

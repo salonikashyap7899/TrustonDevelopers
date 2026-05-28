@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import heroImg from "@/assets/hero-estate.jpg";
+import { openConsultationModal } from "@/components/ConsultationModal";
 import { Reveal, SectionEyebrow, CountUp } from "@/components/Reveal";
 import { Testimonials } from "@/components/Testimonials";
 import { IntroHighlightSection } from "@/components/IntroHighlightSection";
@@ -101,13 +102,13 @@ function Index() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 1.1 }}
             >
-              <Link
-                to="/contact"
-                className="px-10 py-4 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105"
-                style={{ background: "#00BFFF", color: "#04090f" }}
-              >
-                Enquire Now →
-              </Link>
+              <button
+                onClick={openConsultationModal}
+                className="px-10 py-4 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full transition-all duration-500 hover:scale-105"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Book a Consultation
+              </button>
               <a
                 href="tel:+919616061166"
                 className="px-10 py-4 border border-white/20 text-white/75 text-[11px] uppercase tracking-[0.2em] font-bold rounded-full hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500"
@@ -317,7 +318,7 @@ function Marquee() {
             key={i}
             className="font-serif text-xl italic text-white/25 hover:text-[#00BFFF] transition-colors duration-500 cursor-default uppercase tracking-widest shrink-0 px-10"
           >
-            {w} <span className="text-[#00BFFF] not-italic text-sm">✦</span>
+            {w} <span className="text-[#00BFFF]/50 not-italic text-xs mx-1">·</span>
           </span>
         ))}
       </div>

@@ -46,7 +46,7 @@ export function RedefiningLuxurySection() {
               }}
             >
               <img
-                src="/assets/redefining-luxury.png"
+                src="/assets/redefining-luxury.jpg"
                 alt="Luxury Waterfront Estate"
                 className="w-full h-full object-cover scale-110"
               />

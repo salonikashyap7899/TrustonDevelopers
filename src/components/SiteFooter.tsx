@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { usePageContent } from "@/hooks/usePageContent";
+import { openConsultationModal } from "@/components/ConsultationModal";
 
 const services = [
   { label: "Plot Selling", to: "/plot-selling" },
@@ -86,13 +87,13 @@ export function SiteFooter() {
             transition={{ delay: 0.2 }}
             className="flex flex-wrap gap-4 justify-center md:justify-start"
           >
-            <Link
-              to="/contact"
+            <button
+              onClick={openConsultationModal}
               className="inline-flex items-center gap-3 px-8 py-4 text-[11px] uppercase tracking-widest font-bold rounded-full transition-all duration-500"
               style={{ background: "#00BFFF", color: "#04090f" }}
             >
               {String(cta.cta_primary || "Enquire Now →")}
-            </Link>
+            </button>
             <a
               href={ctaPhoneHref}
               className="inline-flex items-center gap-3 border border-white/10 text-white/60 px-8 py-4 text-[11px] uppercase tracking-widest hover:border-[#00BFFF] hover:text-[#00BFFF] transition-all duration-500 rounded-full font-bold"

@@ -15,6 +15,7 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { IntroScreen } from "@/components/IntroScreen";
 import { CursorGlow } from "@/components/CursorGlow";
 import { ScrollProgressBar } from "@/components/ScrollProgressBar";
+import { ConsultationModal } from "@/components/ConsultationModal";
 import Lenis from "lenis";
 import { useEffect } from "react";
 
@@ -164,6 +165,7 @@ function RootComponent() {
       </main>
       <SiteFooter />
       <WhatsAppButton />
+      <ConsultationModal />
     </QueryClientProvider>
   );
 }
