@@ -25,15 +25,6 @@ export default defineConfig({
     ],
   },
   build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          'vendor': ['react', 'react-dom'],
-          'animation': ['framer-motion'],
-          'ui': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
-        },
-      },
-    },
     minify: 'terser',
     terserOptions: {
       compress: {
