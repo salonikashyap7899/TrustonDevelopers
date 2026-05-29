@@ -151,8 +151,7 @@ function Index() {
         <PrimeEstateSection />
       </div>
       
-      {/* New Generation Living Section */}
-      <NewGenerationLivingSection />
+ 
 
       {/* Philosophy */}
       <PhilosophySection />
