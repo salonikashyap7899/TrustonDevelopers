@@ -11,12 +11,12 @@ export function RedefiningLuxurySection() {
     body_secondary: "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.",
   });
 
-  // Prime Estate Assets
+  // Using paths relative to public folder
   const images = [
-    "/attached_assets/photo_1_2026-05-25_19-38-16_1779720030225.jpg", // Main Gate Day
-    "/attached_assets/photo_2_2026-05-25_19-38-16_1779720030224.jpg", // Street View
-    "/attached_assets/building_and_plots_1779988876087.jpg",          // Aerial Night
-    "/attached_assets/Redefining_luxury_real_estate_1779988876092.jpg" // Aerial with Gate
+    "/assets/photo_1.jpg",
+    "/assets/photo_2.jpg",
+    "/assets/photo_3.jpg",
+    "/assets/photo_4.jpg"
   ];
 
   return (
@@ -30,45 +30,36 @@ export function RedefiningLuxurySection() {
       <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-          {/* LEFT — Exact Image Grid with Watercolor/Cloud Effect */}
+          {/* LEFT — Simple Circle Grid */}
           <motion.div
-            className="relative order-2 lg:order-1"
-            initial={{ opacity: 0, scale: 0.95 }}
+            className="relative flex items-center justify-center order-2 lg:order-1"
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="relative cloud-border">
-              <div className="grid grid-cols-2 gap-4 image-mask-cloud">
-                {/* Image 1 - Large Top Left */}
-                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                  <img src={images[0]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 1" />
-                </div>
-                {/* Image 2 - Top Right */}
-                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl mt-8">
-                  <img src={images[1]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 2" />
-                </div>
-                {/* Image 3 - Bottom Left */}
-                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl -mt-8">
-                  <img src={images[2]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 3" />
-                </div>
-                {/* Image 4 - Bottom Right */}
-                <div className="aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-                  <img src={images[3]} className="w-full h-full object-cover hover:scale-110 transition-transform duration-700" alt="Prime Estate 4" />
-                </div>
+            <div className="grid grid-cols-2 gap-4 relative">
+              {/* Main Image - Circle 1 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src={images[0]} className="w-full h-full object-cover" alt="Prime Estate 1" />
+              </div>
+              {/* Image 2 - Circle 2 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src={images[1]} className="w-full h-full object-cover" alt="Prime Estate 2" />
+              </div>
+              {/* Image 3 - Circle 3 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src={images[2]} className="w-full h-full object-cover" alt="Prime Estate 3" />
+              </div>
+              {/* Image 4 - Circle 4 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src={images[3]} className="w-full h-full object-cover" alt="Prime Estate 4" />
               </div>
               
-              {/* Floating Badge */}
-              <motion.div 
-                className="absolute -bottom-6 -right-6 bg-luxe-blue/20 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-luxe z-20 hidden md:block"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-              >
-                <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] font-bold mb-1">Project Status</div>
-                <div className="text-white text-lg font-serif italic">Prime Estate Phase 1</div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest mt-2">Dubagga, Lucknow</div>
-              </motion.div>
+              {/* Center Accent Circle */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
+              </div>
             </div>
           </motion.div>
 
