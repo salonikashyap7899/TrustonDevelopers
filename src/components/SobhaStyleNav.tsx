@@ -71,7 +71,7 @@ export function SobhaStyleNav() {
               <img
                 src="/logo.png"
                 alt="Logo"
-                className={`w-auto object-contain group-hover:scale-105 transition-all duration-700 ${scrolled ? "h-20" : "h-24"}`}
+                className={`w-auto object-contain group-hover:scale-105 transition-all duration-700 ${scrolled ? "h-24" : "h-32"}`}
                 style={{ filter: "brightness(0.85) saturate(1.2)" }}
               />
             </Link>

@@ -33,7 +33,7 @@ export function PrimeEstateSection() {
     { val: String(c.stat_4_val || "₹12"),  sup: String(c.stat_4_sup ?? "L+"), label: String(c.stat_4_label || "Starting Price") },
   ];
 
-  const imgUrl = String(c.image_url || "../assets/photo_8.jpg");
+  const imgUrl = String(c.image_url || "/assets/prime-estate-gate2.jpg");
 
   return (
     <section className="bg-[#0F0F0D] py-24 md:py-32 px-6 md:px-16 overflow-hidden">
