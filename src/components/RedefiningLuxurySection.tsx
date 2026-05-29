@@ -4,8 +4,8 @@ import { usePageContent } from "@/hooks/usePageContent";
 export function RedefiningLuxurySection() {
   const content = usePageContent("home.redefining", {
     eyebrow: "Welcome to the Era of TrustOn",
-    title: "Redefining",
-    title_accent: "Luxury",
+    title: "Modern",
+    title_accent: "Living",
     subtitle: "Real Estate",
     body: "Where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.",
     body_secondary: "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.",
@@ -22,49 +22,37 @@ export function RedefiningLuxurySection() {
       <div className="relative z-10 max-w-[1300px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
-          {/* LEFT — Organic circular image */}
+          {/* LEFT — Circle Grid */}
           <motion.div
             className="relative flex items-center justify-center order-2 lg:order-1"
-            initial={{ opacity: 0, x: -60 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            {/* Decorative ring */}
-            <div className="absolute inset-0 m-auto w-[340px] h-[340px] md:w-[460px] md:h-[460px] rounded-full border border-[#00BFFF]/10 animate-[spin_40s_linear_infinite]" />
-            <div className="absolute inset-0 m-auto w-[280px] h-[280px] md:w-[390px] md:h-[390px] rounded-full border border-[#00BFFF]/[0.06] animate-[spin_28s_linear_infinite_reverse]" />
-
-            {/* Organic feathered image */}
-            <div
-              className="relative w-[300px] h-[300px] md:w-[420px] md:h-[420px] overflow-hidden"
-              style={{
-                borderRadius: "60% 40% 55% 45% / 50% 60% 40% 50%",
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 82% 82% at 50% 50%, black 35%, rgba(0,0,0,0.7) 58%, rgba(0,0,0,0.2) 72%, transparent 88%)",
-                maskImage:
-                  "radial-gradient(ellipse 82% 82% at 50% 50%, black 35%, rgba(0,0,0,0.7) 58%, rgba(0,0,0,0.2) 72%, transparent 88%)",
-              }}
-            >
-              <img
-                src="/assets/redefining-luxury.jpg"
-                alt="Luxury Waterfront Estate"
-                className="w-full h-full object-cover scale-110"
-              />
-            </div>
-
-            {/* Floating badge */}
-            <motion.div
-              className="absolute bottom-6 right-4 md:bottom-10 md:right-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-            >
-              <div className="bg-[#04090f]/80 backdrop-blur-xl border border-[#00BFFF]/25 rounded-2xl px-5 py-4 shadow-[0_8px_32px_rgba(0,191,255,0.12)]">
-                <p className="text-[8px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold mb-1">Luxury Living</p>
-                <p className="text-white font-serif text-sm italic leading-snug">"Where luxury meets legacy."</p>
+            <div className="grid grid-cols-2 gap-4 relative">
+              {/* Main Image - Circle 1 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src="/assets/redefining-luxury.jpg" className="w-full h-full object-cover" alt="Luxury 1" />
               </div>
-            </motion.div>
+              {/* Image 2 - Circle 2 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src="/assets/building-render.jpg" className="w-full h-full object-cover" alt="Luxury 2" />
+              </div>
+              {/* Image 3 - Circle 3 */}
+              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
+                <img src="/assets/architecture-design.jpg" className="w-full h-full object-cover" alt="Luxury 3" />
+              </div>
+              {/* Image 4 - Circle 4 */}
+              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
+                <img src="/assets/interior-street.jpg" className="w-full h-full object-cover" alt="Luxury 4" />
+              </div>
+              
+              {/* Center Accent Circle */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
+              </div>
+            </div>
           </motion.div>
 
           {/* RIGHT — Text content */}
@@ -84,14 +72,14 @@ export function RedefiningLuxurySection() {
             </div>
 
             {/* Heading */}
-            <h2 className="font-serif leading-[0.9] tracking-tight mb-8">
-              <span className="block text-5xl md:text-6xl lg:text-7xl text-white font-light">
+            <h2 className="font-serif leading-tight tracking-tight mb-8">
+              <span className="block text-4xl md:text-5xl text-white font-light uppercase tracking-widest">
                 {content.title}
               </span>
-              <span className="block text-5xl md:text-6xl lg:text-7xl text-[#00BFFF] font-light italic">
+              <span className="block text-4xl md:text-5xl text-[#00BFFF] font-light italic mt-2">
                 {content.title_accent}
               </span>
-              <span className="block text-5xl md:text-6xl lg:text-7xl text-white/60 font-light">
+              <span className="block text-4xl md:text-5xl text-white/40 font-light mt-2">
                 {content.subtitle}
               </span>
             </h2>

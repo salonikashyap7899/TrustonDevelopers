@@ -100,12 +100,12 @@ const excellenceReasons = [
 ];
 
 const galleryItems = [
-  { title: "Modern Villa", sub: "Contemporary aesthetics" },
-  { title: "Urban Residence", sub: "Space optimization" },
-  { title: "Traditional Design", sub: "Cultural integration" },
-  { title: "Interior Rendering", sub: "3D visualization" },
-  { title: "Sustainable Home", sub: "Eco-conscious design" },
-  { title: "Luxury Layout", sub: "Premium planning" },
+  { title: "Modern Villa", sub: "Contemporary aesthetics", src: "/assets/redefining-luxury.jpg" },
+  { title: "Urban Residence", sub: "Space optimization", src: "/assets/architecture-design.jpg" },
+  { title: "Traditional Design", sub: "Cultural integration", src: "/assets/building-render.jpg" },
+  { title: "Interior Rendering", sub: "3D visualization", src: "/assets/interior-street.jpg" },
+  { title: "Sustainable Home", sub: "Eco-conscious design", src: "/assets/prime-estate-gate.jpg" },
+  { title: "Luxury Layout", sub: "Premium planning", src: "/assets/aerial-township.jpg" },
 ];
 
 const testimonials = [
@@ -327,8 +327,11 @@ function ArchitectureDesignPage() {
                       <p className="text-[#00BFFF] text-xs mt-2 uppercase tracking-widest">{item.sub}</p>
                     </div>
                   </div>
-                  {/* Placeholder for images since I don't have URLs */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#00BFFF]/10 to-transparent group-hover:scale-110 transition-transform duration-700" />
+                  <img 
+                    src={item.src} 
+                    alt={item.title}
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
                 </div>
               </Reveal>
             ))}
