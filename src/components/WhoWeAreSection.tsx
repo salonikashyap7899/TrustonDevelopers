@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import { usePageContent } from "@/hooks/usePageContent";
 
@@ -21,6 +22,8 @@ const pillars = [
 ];
 
 export function WhoWeAreSection() {
+  const sectionRef = useRef(null);
+  
   const content = usePageContent("home.who_we_are", {
     eyebrow: "Who We Are",
     title: "Shaping",
@@ -30,8 +33,16 @@ export function WhoWeAreSection() {
     body_secondary: "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
   });
 
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+
+  const morningOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [1, 1, 0, 0]);
+  const nightOpacity = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0, 0, 1, 1]);
+
   return (
-    <section className="relative bg-[#050b14] overflow-hidden ">
+    <section ref={sectionRef} className="relative bg-[#050b14] overflow-hidden ">
       {/* Background grid */}
       <div
         className="absolute inset-0 opacity-[0.035] pointer-events-none"
@@ -68,10 +79,19 @@ export function WhoWeAreSection() {
 
           {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
-            <img
-              src="/assets/building-plots.jpg"
-              alt="Prime Estate — Building Plots Aerial View"
-              className="w-full h-full object-cover"
+            {/* Morning image (aerial-township.jpg) - shows at top of section */}
+            <motion.img
+              src="/assets/aerial-township.jpg"
+              alt="Prime Estate — Morning Aerial View"
+              style={{ opacity: morningOpacity }}
+              className="w-full h-full object-cover absolute inset-0"
+            />
+            {/* Night image (prime-estate-gate.jpg) - shows at bottom of section */}
+            <motion.img
+              src="/assets/prime-estate-gate.jpg"
+              alt="Prime Estate — Night Gate View"
+              style={{ opacity: nightOpacity }}
+              className="w-full h-full object-cover absolute inset-0"
             />
             {/* Subtle static shimmer — no continuous animation */}
             <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/20 to-transparent pointer-events-none" />

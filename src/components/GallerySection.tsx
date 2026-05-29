@@ -54,7 +54,7 @@ export function GallerySection() {
   const brY = useTransform(smoothProgress, [0, 1], ["0vw", "100vh"]);
 
   return (
-    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none pt-24">
+    <section id="gallery-section" className="relative bg-[#04090f] w-full select-none py-24">
       {/* Sticky scroll container */}
       <div ref={containerRef} className="h-[150vh] w-full relative">
         <div className="sticky top-0 h-screen w-full overflow-hidden bg-[#04090f]">
