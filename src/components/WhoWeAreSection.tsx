@@ -79,17 +79,17 @@ export function WhoWeAreSection() {
 
           {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
-            {/* Morning image (aerial-township.jpg) - shows at top of section */}
+            {/* Morning image (morning-image.jpeg) - shows at top of section */}
             <motion.img
-              src="/assets/aerial-township.jpg"
-              alt="Prime Estate — Morning Aerial View"
+              src="/assets/morning-image.jpeg"
+              alt="Prime Estate — Morning View"
               style={{ opacity: morningOpacity }}
               className="w-full h-full object-cover absolute inset-0"
             />
-            {/* Night image (prime-estate-gate.jpg) - shows at bottom of section */}
+            {/* Night image (night-image.jpeg) - shows at bottom of section */}
             <motion.img
-              src="/assets/prime-estate-gate.jpg"
-              alt="Prime Estate — Night Gate View"
+              src="/assets/night-image.jpeg"
+              alt="Prime Estate — Night View"
               style={{ opacity: nightOpacity }}
               className="w-full h-full object-cover absolute inset-0"
             />
