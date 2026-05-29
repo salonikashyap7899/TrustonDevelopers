@@ -10,7 +10,7 @@ import { usePageContent } from "@/hooks/usePageContent";
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "The Legacy Journal — TrustOn Developers" },
+      { title: "The Legacy  — TrustOn Developers" },
       {
         name: "description",
         content:
@@ -156,7 +156,7 @@ function BlogPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-10 ">
               <span className="w-8 h-px bg-[#00BFFF]" />
               <span className="text-[#00BFFF] text-[11px] uppercase tracking-[0.3em] font-bold">
                 {String(hero.eyebrow || "Editorial & Insights")}
