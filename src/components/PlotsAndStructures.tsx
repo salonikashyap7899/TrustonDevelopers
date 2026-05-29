@@ -13,7 +13,7 @@ function CssBuildingScene() {
       transition={{ duration: 0.8 }}
     >
       <img
-        src="/assets/plots_structures_scene.jpg"
+        src="/assets/building-plots.jpg"
         alt="Prime Estate Building Plot"
         className="w-full h-full object-cover"
       />
