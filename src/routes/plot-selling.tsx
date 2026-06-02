@@ -206,6 +206,62 @@ function PlotSellingPage() {
     title_accent: "Estate",
     subtitle: "Jila Panchayat approved residential plots in Lucknow's fastest-growing corridor. Highway connected. Metro ready.",
   });
+  const plotMain = usePageContent("plot_selling.main", {
+    eyebrow: "Available Inventory",
+    title: "Select Your",
+    title_accent: "Perfect Plot",
+    body: "Every plot in Prime Estate is legally cleared, boundary-marked, and ready for construction. Browse our available inventory and reserve your preferred plot today.",
+  });
+  const plotProcess = usePageContent("plot_selling.process", {
+    eyebrow: "Our Process",
+    title: "From",
+    title_accent: "Enquiry to Ownership",
+    body: "A proven four-step process ensuring every transaction is transparent, legal, and stress-free.",
+    step_1_title: "Site Visit & Consultation",
+    step_1_desc: "We start by showing you the plot in person. Complete transparency from the very first meeting — location, boundaries, and documentation.",
+    step_1_tag: "Zero Commitment",
+    step_2_title: "Legal Review & Verification",
+    step_2_desc: "Our legal team reviews all documents — title deeds, JP approvals, and compliance certificates — before any commitment is made.",
+    step_2_tag: "100% Verified",
+    step_3_title: "Documentation & Registration",
+    step_3_desc: "We handle the complete paperwork process — from registry to mutation — ensuring your ownership is clean and undisputed.",
+    step_3_tag: "End-to-End Support",
+    step_4_title: "Handover & After-Sales",
+    step_4_desc: "Plot handover with full boundary marking, possession letter, and continued support for construction planning if needed.",
+    step_4_tag: "Lifetime Support",
+  });
+  const plotWhy = usePageContent("plot_selling.why", {
+    eyebrow: "Why Choose TrustOn",
+    title: "The",
+    title_accent: "Trusted Choice",
+    title_suffix: "in Lucknow",
+    body: "With 73 families already invested in Prime Estate, TrustOn has built its reputation on one principle: complete transparency at every step.",
+    families_count: "73",
+    families_label: "Families Already Invested",
+    point_1_icon: "🏛️",
+    point_1_title: "Government Certified",
+    point_1_desc: "Every plot in Prime Estate carries full Jila Panchayat approval — giving you complete legal security and peace of mind from day one.",
+    point_2_icon: "📋",
+    point_2_title: "Transparent Pricing",
+    point_2_desc: "No hidden charges, no surprise fees. Our pricing is straightforward with complete cost breakdowns available at any stage.",
+    point_3_icon: "📍",
+    point_3_title: "Prime Location",
+    point_3_desc: "Strategically located in Dubagga — connected to Lucknow Metro, NH-19, and within reach of the city's major business and commercial hubs.",
+    point_4_icon: "🤝",
+    point_4_title: "Dedicated Relationship Manager",
+    point_4_desc: "From first enquiry to final handover, you have one point of contact who knows your file and is always available.",
+  });
+  const plotFaq = usePageContent("plot_selling.faq", {
+    eyebrow: "FAQ",
+    title: "Common",
+    title_accent: "Questions",
+  });
+  const plotCta = usePageContent("plot_selling.cta", {
+    eyebrow: "Start Your Journey",
+    title: "Your Plot in Prime Estate is",
+    title_accent: "Waiting",
+    phone: "+91 96160-61166",
+  });
   const [activeFilter, setActiveFilter] = useState("All");
 
   const filteredPlots =
@@ -340,10 +396,10 @@ function PlotSellingPage() {
             <Reveal>
               <div>
                 <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-bold mb-2 flex items-center gap-2">
-                  <span className="w-6 h-px bg-[#00BFFF]" /> Available Inventory
+                  <span className="w-6 h-px bg-[#00BFFF]" /> {String(plotMain.eyebrow || "Available Inventory")}
                 </p>
                 <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-                  Select Your <em className="text-[#00BFFF] italic">Plot</em>
+                  {String(plotMain.title || "Select Your")} <em className="text-[#00BFFF] italic">{String(plotMain.title_accent || "Plot")}</em>
                 </h2>
               </div>
             </Reveal>
@@ -451,17 +507,22 @@ function PlotSellingPage() {
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-bold mb-3 text-center flex items-center justify-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Our Process <span className="w-6 h-px bg-[#00BFFF]" />
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(plotProcess.eyebrow || "Our Process")} <span className="w-6 h-px bg-[#00BFFF]" />
             </p>
             <h2 className="font-serif text-4xl md:text-5xl text-white text-center mb-4 leading-tight">
-              From <em className="text-[#00BFFF] italic">Enquiry</em> to Ownership
+              {String(plotProcess.title || "From")} <em className="text-[#00BFFF] italic">{String(plotProcess.title_accent || "Enquiry")}</em> to Ownership
             </h2>
             <p className="text-white/40 text-center text-sm font-light mb-16 max-w-md mx-auto leading-relaxed">
-              A proven four-step process ensuring every transaction is transparent, legal, and stress-free.
+              {String(plotProcess.body || "A proven four-step process ensuring every transaction is transparent, legal, and stress-free.")}
             </p>
           </Reveal>
           <div className="grid md:grid-cols-4 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
-            {processSteps.map((step, i) => (
+            {[
+              { num: "01", title: String(plotProcess.step_1_title || "Site Visit & Consultation"), desc: String(plotProcess.step_1_desc || "We start by showing you the plot in person."), tag: String(plotProcess.step_1_tag || "Zero Commitment") },
+              { num: "02", title: String(plotProcess.step_2_title || "Legal Review & Verification"), desc: String(plotProcess.step_2_desc || "Our legal team reviews all documents."), tag: String(plotProcess.step_2_tag || "100% Verified") },
+              { num: "03", title: String(plotProcess.step_3_title || "Documentation & Registration"), desc: String(plotProcess.step_3_desc || "We handle the complete paperwork process."), tag: String(plotProcess.step_3_tag || "End-to-End Support") },
+              { num: "04", title: String(plotProcess.step_4_title || "Handover & After-Sales"), desc: String(plotProcess.step_4_desc || "Plot handover with full boundary marking."), tag: String(plotProcess.step_4_tag || "Lifetime Support") },
+            ].map((step, i) => (
               <Reveal key={step.num} delay={i * 0.1}>
                 <div className="bg-[#060c16] p-8 hover:bg-[#080d1a] transition-colors duration-300 group h-full">
                   <p className="font-serif text-5xl text-white/5 group-hover:text-[#00BFFF]/15 transition-colors duration-500 leading-none mb-5 pb-5 border-b border-white/5">
@@ -495,8 +556,8 @@ function PlotSellingPage() {
               </div>
               {/* Stats overlay card */}
               <div className="absolute -bottom-5 -right-5 border border-white/10 rounded-2xl p-6 bg-[#060c16]">
-                <p className="font-serif text-5xl text-[#00BFFF] leading-none">73</p>
-                <p className="text-white/30 text-[10px] uppercase tracking-[0.12em] mt-1">Families Already Invested</p>
+                <p className="font-serif text-5xl text-[#00BFFF] leading-none">{String(plotWhy.families_count || "73")}</p>
+                <p className="text-white/30 text-[10px] uppercase tracking-[0.12em] mt-1">{String(plotWhy.families_label || "Families Already Invested")}</p>
               </div>
             </div>
           </Reveal>
@@ -505,18 +566,22 @@ function PlotSellingPage() {
           <Reveal direction="right" delay={0.1}>
             <div>
               <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-bold mb-5 flex items-center gap-3">
-                <span className="w-6 h-px bg-[#00BFFF]" /> Why Choose TrustOn
+                <span className="w-6 h-px bg-[#00BFFF]" /> {String(plotWhy.eyebrow || "Why Choose TrustOn")}
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-6">
-                The <em className="text-[#00BFFF] italic">Trusted</em> Choice
-                <br />in Lucknow
+                {String(plotWhy.title || "The")} <em className="text-[#00BFFF] italic">{String(plotWhy.title_accent || "Trusted")}</em> Choice
+                <br />{String(plotWhy.title_suffix || "in Lucknow")}
               </h2>
               <p className="text-white/50 text-sm leading-relaxed mb-10 font-light">
-                With 73 families already invested in Prime Estate, TrustOn has built its
-                reputation on one principle: complete transparency at every step.
+                {String(plotWhy.body || "With 73 families already invested in Prime Estate, TrustOn has built its reputation on one principle: complete transparency at every step.")}
               </p>
               <div className="space-y-5">
-                {whyPoints.map((pt, i) => (
+                {[
+                  { icon: String(plotWhy.point_1_icon || "🏛️"), title: String(plotWhy.point_1_title || "Government Certified"), desc: String(plotWhy.point_1_desc || "Every plot in Prime Estate carries full Jila Panchayat approval.") },
+                  { icon: String(plotWhy.point_2_icon || "📋"), title: String(plotWhy.point_2_title || "Transparent Pricing"), desc: String(plotWhy.point_2_desc || "No hidden charges, no surprise fees.") },
+                  { icon: String(plotWhy.point_3_icon || "📍"), title: String(plotWhy.point_3_title || "Prime Location"), desc: String(plotWhy.point_3_desc || "Strategically located in Dubagga — connected to Lucknow Metro and NH-19.") },
+                  { icon: String(plotWhy.point_4_icon || "🤝"), title: String(plotWhy.point_4_title || "Dedicated Relationship Manager"), desc: String(plotWhy.point_4_desc || "From first enquiry to final handover, you have one point of contact.") },
+                ].map((pt, i) => (
                   <motion.div
                     key={pt.title}
                     initial={{ opacity: 0, x: 20 }}
@@ -545,10 +610,10 @@ function PlotSellingPage() {
         <div className="max-w-7xl mx-auto">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-bold mb-3 text-center flex items-center justify-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> FAQ <span className="w-6 h-px bg-[#00BFFF]" />
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(plotFaq.eyebrow || "FAQ")} <span className="w-6 h-px bg-[#00BFFF]" />
             </p>
             <h2 className="font-serif text-4xl md:text-5xl text-white text-center mb-16 leading-tight">
-              Common <em className="text-[#00BFFF] italic">Questions</em>
+              {String(plotFaq.title || "Common")} <em className="text-[#00BFFF] italic">{String(plotFaq.title_accent || "Questions")}</em>
             </h2>
           </Reveal>
           <div className="grid md:grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
@@ -576,20 +641,20 @@ function PlotSellingPage() {
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
             <p className="text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-bold mb-3 flex items-center gap-2">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Start Your Journey
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(plotCta.eyebrow || "Start Your Journey")}
             </p>
             <h2 className="font-serif text-3xl md:text-4xl text-white leading-tight">
-              Your Plot in Prime Estate is{" "}
-              <em className="text-[#00BFFF] italic">Waiting</em>
+              {String(plotCta.title || "Your Plot in Prime Estate is")}{" "}
+              <em className="text-[#00BFFF] italic">{String(plotCta.title_accent || "Waiting")}</em>
             </h2>
           </div>
           <div className="flex flex-col gap-4 min-w-[260px]">
             <a
-              href="tel:+919616061166"
+              href={`tel:${String(plotCta.phone || "+919616061166").replace(/\s|-/g, "")}`}
               className="flex items-center gap-3 text-white hover:text-[#00BFFF] transition-colors duration-300"
             >
               <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-lg">📞</div>
-              <span className="font-serif text-2xl">+91 96160-61166</span>
+              <span className="font-serif text-2xl">{String(plotCta.phone || "+91 96160-61166")}</span>
             </a>
             <div className="flex gap-3">
               <input

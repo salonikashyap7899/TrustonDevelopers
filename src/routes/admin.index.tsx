@@ -37,7 +37,15 @@ function previewUrl(blockKey: string): string | null {
   if (blockKey.startsWith("contact.")) return "/contact";
   if (blockKey.startsWith("services.")) return "/services";
   if (blockKey.startsWith("project.")) return "/project";
-  if (blockKey.startsWith("partner.")) return "/channel-partner";
+  if (blockKey.startsWith("project_detail.")) return "/project";
+  if (blockKey.startsWith("plot_selling.")) return "/plot-selling";
+  if (blockKey.startsWith("construction.")) return "/construction-build";
+  if (blockKey.startsWith("investment.")) return "/investment-consulting";
+  if (blockKey.startsWith("architecture.")) return "/architecture-design";
+  if (blockKey.startsWith("lifestyle.")) return "/lifestyle";
+  if (blockKey.startsWith("blog.")) return "/blog";
+  if (blockKey.startsWith("channel_partner.") || blockKey.startsWith("partner.")) return "/channel-partner";
+  if (blockKey.startsWith("footer.")) return "/";
   return null;
 }
 

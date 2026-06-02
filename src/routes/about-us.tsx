@@ -162,12 +162,92 @@ function AboutPage() {
     title_accent: "We Craft Opportunities",
     body: "TrustOn Developers is a trusted name in real estate development, built on a foundation of transparency, quality, and long-term vision. Our flagship project, Prime Estate, is a Jila Panchayat approved township that combines legal security, prime location, and future-ready infrastructure — setting a new standard for residential plot development in Lucknow.",
     body_secondary: "From land acquisition to final delivery, we follow a structured, transparent process that keeps you informed and in control at every stage.",
+    feature_1_title: "Strategic Development",
+    feature_1_desc: "Every project planned with long-term vision, focusing on location intelligence and future value appreciation.",
+    feature_2_title: "Execution Excellence",
+    feature_2_desc: "Structured process from land acquisition to delivery — quality construction, on-time handover, regulatory compliance.",
+    feature_3_title: "Legal Transparency",
+    feature_3_desc: "All projects are JP approved with clear title deeds. Zero hidden charges, complete documentation from day one.",
+    feature_4_title: "Investor-First Approach",
+    feature_4_desc: "We structure projects to deliver strong appreciation potential alongside the freedom to build your dream home.",
   });
   const aboutStats = usePageContent("about.stats", {
     stat_1_val: "1+", stat_1_label: "Active Projects",
     stat_2_val: "4",  stat_2_label: "Core Services",
     stat_3_val: "100%", stat_3_label: "JP Approved Plots",
     stat_4_val: "2025", stat_4_label: "Established",
+  });
+  const aboutMVision = usePageContent("about.mvision", {
+    eyebrow: "Purpose & Direction",
+    mission_eyebrow: "Our Mission",
+    mission_title: "Delivering Real Value, Every Time",
+    mission_desc: "To make property ownership in Lucknow accessible, transparent, and rewarding — by developing legally sound, infrastructure-ready plots that appreciate in value and serve as the foundation for lasting legacies.",
+    vision_eyebrow: "Our Vision",
+    vision_title: "Shaping Lucknow's Residential Future",
+    vision_desc: "To become the most trusted real estate developer in Uttar Pradesh — known for planned townships, premium plot developments, and a client-first philosophy that delivers beyond expectations in every project we undertake.",
+    commitment_eyebrow: "Our Commitment",
+    commitment_title: "Built on Trust. Driven by Integrity.",
+    commitment_desc: "Every project undergoes rigorous regulatory compliance, transparent documentation, and structured infrastructure delivery. We commit to quality at every stage — from the first site survey to the final plot handover.",
+  });
+  const aboutServices = usePageContent("about.services", {
+    eyebrow: "What We Do",
+    title: "Four Services.",
+    title_accent: "One Complete Solution.",
+    body: "From finding the right plot to designing, building, and advising on your investment — TrustOn Developers is your single trusted partner across every step of the real estate journey.",
+    count_label: "04 Expert Services",
+  });
+  const aboutProcess = usePageContent("about.process", {
+    eyebrow: "How We Work",
+    title: "How We Deliver",
+    title_accent: "Excellence",
+    body: "A proven four-step process that ensures every project is delivered with transparency, quality, and complete client satisfaction.",
+    step_1_title: "Site Visit & Consultation",
+    step_1_desc: "We start by understanding your needs and showing you the plot in person. Complete transparency from the very first meeting.",
+    step_2_title: "Legal Review & Approval",
+    step_2_desc: "Our legal team reviews all documents — title deeds, JP approvals, and compliance certificates — before any commitment is made.",
+    step_3_title: "Documentation & Registration",
+    step_3_desc: "We handle the complete paperwork process — from registry to mutation — ensuring your ownership is clean and undisputed.",
+    step_4_title: "Handover & After-Sales",
+    step_4_desc: "Plot handover with full boundary marking, possession letter, and continued support for construction planning if needed.",
+  });
+  const aboutValues = usePageContent("about.values", {
+    eyebrow: "What Drives Us",
+    title: "Our Core",
+    title_accent: "Values",
+    body: "Six principles that govern every plot we sell, every home we design, every promise we make.",
+    value_1_title: "Trust & Transparency",
+    value_1_desc: "Every transaction at TrustOn is built on complete openness — clear pricing, full documentation, and no hidden clauses. Our name is our standard.",
+    value_2_title: "Uncompromising Quality",
+    value_2_desc: "From land selection to infrastructure delivery, quality benchmarks are non-negotiable. We invest in the right materials, processes, and people to ensure it.",
+    value_3_title: "Long-Term Vision",
+    value_3_desc: "We develop with decades in mind — selecting locations for growth potential, designing for the future, and building communities that thrive for generations.",
+    value_4_title: "Client-First Philosophy",
+    value_4_desc: "Our buyers are partners in growth. From first enquiry to final handover and beyond, we remain committed to every client's success and satisfaction.",
+    value_5_title: "Legal Integrity",
+    value_5_desc: "All projects undergo rigorous legal due diligence — Jila Panchayat approvals, clear title deeds, and full compliance with local development regulations.",
+    value_6_title: "Innovation & Growth",
+    value_6_desc: "We continuously evolve — embracing new design thinking, sustainable development practices, and smarter ways to deliver value to every investor and homeowner.",
+  });
+  const aboutTeam = usePageContent("about.team", {
+    eyebrow: "Our Team",
+    title: "The People Leading",
+    title_accent: "Our Vision",
+    body: "Every great development begins with a great team. TrustOn's founders bring together expertise in architecture, construction, and investment to deliver projects that stand the test of time.",
+    member_1_name: "Meraj Husain Rizvi",
+    member_1_role: "Lead Architect",
+    member_1_role_tag: "ARCHITECTURE & DESIGN",
+    member_1_desc: "Meraj leads TrustOn's architecture and design division, bringing a meticulous eye for detail and deep expertise in residential planning. His work ensures every plot and structure meets the highest standards of design and regulatory compliance.",
+    member_2_name: "TrustOn Founders",
+    member_2_role: "Development & Operations",
+    member_2_role_tag: "DEVELOPMENT & OPERATIONS",
+    member_2_desc: "The founding team behind TrustOn brings together decades of combined experience in land acquisition, infrastructure development, and real estate investment across Uttar Pradesh.",
+  });
+  const aboutCta = usePageContent("about.cta", {
+    eyebrow: "Ready to Begin?",
+    quote: "The best time to invest in land was yesterday. The second best time is today.",
+    body: "Talk to TrustOn Developers and take the first step toward owning your plot in Prime Estate, Lucknow.",
+    cta_primary: "View Prime Estate",
+    cta_phone: "+91 96160-61166",
   });
 
   return (
@@ -318,10 +398,10 @@ function AboutPage() {
               {/* 4 feature pills */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {[
-                  { t: "Strategic Development", d: "Every project planned with long-term vision, focusing on location intelligence and future value appreciation." },
-                  { t: "Execution Excellence", d: "Structured process from land acquisition to delivery — quality construction, on-time handover, regulatory compliance." },
-                  { t: "Legal Transparency", d: "All projects are JP approved with clear title deeds. Zero hidden charges, complete documentation from day one." },
-                  { t: "Investor-First Approach", d: "We structure projects to deliver strong appreciation potential alongside the freedom to build your dream home." },
+                  { t: String(aboutMission.feature_1_title || "Strategic Development"), d: String(aboutMission.feature_1_desc || "Every project planned with long-term vision, focusing on location intelligence and future value appreciation.") },
+                  { t: String(aboutMission.feature_2_title || "Execution Excellence"), d: String(aboutMission.feature_2_desc || "Structured process from land acquisition to delivery — quality construction, on-time handover, regulatory compliance.") },
+                  { t: String(aboutMission.feature_3_title || "Legal Transparency"), d: String(aboutMission.feature_3_desc || "All projects are JP approved with clear title deeds. Zero hidden charges, complete documentation from day one.") },
+                  { t: String(aboutMission.feature_4_title || "Investor-First Approach"), d: String(aboutMission.feature_4_desc || "We structure projects to deliver strong appreciation potential alongside the freedom to build your dream home.") },
                 ].map((f, i) => (
                   <motion.div
                     key={f.t}
@@ -369,28 +449,28 @@ function AboutPage() {
         <div className="max-w-7xl mx-auto relative z-10">
           <Reveal>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-16 text-center">
-              — Purpose & Direction —
+              — {String(aboutMVision.eyebrow || "Purpose & Direction")} —
             </p>
           </Reveal>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                eyebrow: "Our Mission",
-                title: "Delivering Real Value, Every Time",
-                desc: "To make property ownership in Lucknow accessible, transparent, and rewarding — by developing legally sound, infrastructure-ready plots that appreciate in value and serve as the foundation for lasting legacies.",
+                eyebrow: String(aboutMVision.mission_eyebrow || "Our Mission"),
+                title: String(aboutMVision.mission_title || "Delivering Real Value, Every Time"),
+                desc: String(aboutMVision.mission_desc || "To make property ownership in Lucknow accessible, transparent, and rewarding."),
                 iconKey: "compass",
               },
               {
-                eyebrow: "Our Vision",
-                title: "Shaping Lucknow's Residential Future",
-                desc: "To become the most trusted real estate developer in Uttar Pradesh — known for planned townships, premium plot developments, and a client-first philosophy that delivers beyond expectations in every project we undertake.",
+                eyebrow: String(aboutMVision.vision_eyebrow || "Our Vision"),
+                title: String(aboutMVision.vision_title || "Shaping Lucknow's Residential Future"),
+                desc: String(aboutMVision.vision_desc || "To become the most trusted real estate developer in Uttar Pradesh."),
                 iconKey: "eye",
               },
               {
-                eyebrow: "Our Commitment",
-                title: "Built on Trust. Driven by Integrity.",
-                desc: "Every project undergoes rigorous regulatory compliance, transparent documentation, and structured infrastructure delivery. We commit to quality at every stage — from the first site survey to the final plot handover.",
+                eyebrow: String(aboutMVision.commitment_eyebrow || "Our Commitment"),
+                title: String(aboutMVision.commitment_title || "Built on Trust. Driven by Integrity."),
+                desc: String(aboutMVision.commitment_desc || "Every project undergoes rigorous regulatory compliance and structured infrastructure delivery."),
                 iconKey: "scale",
               },
             ].map((card, i) => (
@@ -432,22 +512,20 @@ function AboutPage() {
             <Reveal>
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#00BFFF]" />
-                What We Do
+                {String(aboutServices.eyebrow || "What We Do")}
               </p>
               <h2 className="font-serif text-4xl md:text-6xl text-white tracking-tight leading-tight">
-                Four Services.
+                {String(aboutServices.title || "Four Services.")}
                 <br />
-                <em className="text-[#00BFFF] italic">One Complete Solution.</em>
+                <em className="text-[#00BFFF] italic">{String(aboutServices.title_accent || "One Complete Solution.")}</em>
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-white/45 text-base md:text-lg leading-relaxed font-light">
-                From finding the right plot to designing, building, and advising on your
-                investment — TrustOn Developers is your single trusted partner across every
-                step of the real estate journey.
+                {String(aboutServices.body || "From finding the right plot to designing, building, and advising on your investment — TrustOn Developers is your single trusted partner across every step of the real estate journey.")}
               </p>
               <p className="text-[#00BFFF]/50 text-sm uppercase tracking-[0.2em] font-bold mt-4">
-                04 Expert Services
+                {String(aboutServices.count_label || "04 Expert Services")}
               </p>
             </Reveal>
           </div>
@@ -496,15 +574,14 @@ function AboutPage() {
           <Reveal>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 text-center flex items-center justify-center gap-3">
               <span className="w-6 h-px bg-[#00BFFF]" />
-              Our Process
+              {String(aboutProcess.eyebrow || "Our Process")}
               <span className="w-6 h-px bg-[#00BFFF]" />
             </p>
             <h2 className="text-4xl md:text-6xl font-serif text-white text-center mb-4 tracking-tight">
-              How We <em className="text-[#00BFFF] italic">Deliver Excellence</em>
+              {String(aboutProcess.title || "How We")} <em className="text-[#00BFFF] italic">{String(aboutProcess.title_accent || "Deliver Excellence")}</em>
             </h2>
             <p className="text-white/40 text-center text-base font-light mb-20 max-w-xl mx-auto">
-              A proven four-step process that ensures every project is delivered with
-              transparency, quality, and complete client satisfaction.
+              {String(aboutProcess.body || "A proven four-step process that ensures every project is delivered with transparency, quality, and complete client satisfaction.")}
             </p>
           </Reveal>
 
@@ -512,7 +589,12 @@ function AboutPage() {
           <div className="relative">
             <div className="absolute top-10 left-0 right-0 h-px bg-white/5 hidden md:block" />
             <div className="grid md:grid-cols-4 gap-8">
-              {processSteps.map((step, i) => (
+              {[
+                { num: "01", title: String(aboutProcess.step_1_title || "Site Visit & Consultation"), desc: String(aboutProcess.step_1_desc || "We start by understanding your needs and showing you the plot in person.") },
+                { num: "02", title: String(aboutProcess.step_2_title || "Legal Review & Approval"), desc: String(aboutProcess.step_2_desc || "Our legal team reviews all documents — title deeds, JP approvals, and compliance certificates.") },
+                { num: "03", title: String(aboutProcess.step_3_title || "Documentation & Registration"), desc: String(aboutProcess.step_3_desc || "We handle the complete paperwork process — from registry to mutation.") },
+                { num: "04", title: String(aboutProcess.step_4_title || "Handover & After-Sales"), desc: String(aboutProcess.step_4_desc || "Plot handover with full boundary marking, possession letter, and continued support.") },
+              ].map((step, i) => (
                 <Reveal key={step.num} delay={i * 0.12}>
                   <div className="relative group text-center md:text-left">
                     <div className="w-20 h-20 rounded-full border border-[#00BFFF]/20 flex items-center justify-center mx-auto md:mx-0 mb-6 relative bg-[#060c16] group-hover:border-[#00BFFF]/50 transition-all duration-500">
@@ -537,19 +619,26 @@ function AboutPage() {
           <Reveal>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-3 text-center flex items-center justify-center gap-3">
               <span className="w-6 h-px bg-[#00BFFF]" />
-              What Drives Us
+              {String(aboutValues.eyebrow || "What Drives Us")}
               <span className="w-6 h-px bg-[#00BFFF]" />
             </p>
             <h2 className="text-4xl md:text-6xl font-serif text-white text-center mb-4 tracking-tight">
-              Our Core <em className="text-[#00BFFF] italic">Values</em>
+              {String(aboutValues.title || "Our Core")} <em className="text-[#00BFFF] italic">{String(aboutValues.title_accent || "Values")}</em>
             </h2>
             <p className="text-white/40 text-center text-lg font-light mb-16 max-w-xl mx-auto">
-              Six principles that govern every plot we sell, every home we design, every promise we make.
+              {String(aboutValues.body || "Six principles that govern every plot we sell, every home we design, every promise we make.")}
             </p>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {coreValues.map((v, i) => (
+            {[
+              { num: "01", iconKey: "handshake", title: String(aboutValues.value_1_title || "Trust & Transparency"), desc: String(aboutValues.value_1_desc || "Every transaction at TrustOn is built on complete openness — clear pricing, full documentation, and no hidden clauses.") },
+              { num: "02", iconKey: "star",      title: String(aboutValues.value_2_title || "Uncompromising Quality"), desc: String(aboutValues.value_2_desc || "From land selection to infrastructure delivery, quality benchmarks are non-negotiable.") },
+              { num: "03", iconKey: "leaf",      title: String(aboutValues.value_3_title || "Long-Term Vision"), desc: String(aboutValues.value_3_desc || "We develop with decades in mind — selecting locations for growth potential, designing for the future.") },
+              { num: "04", iconKey: "users",     title: String(aboutValues.value_4_title || "Client-First Philosophy"), desc: String(aboutValues.value_4_desc || "Our buyers are partners in growth. From first enquiry to final handover and beyond, we remain committed.") },
+              { num: "05", iconKey: "scale",     title: String(aboutValues.value_5_title || "Legal Integrity"), desc: String(aboutValues.value_5_desc || "All projects undergo rigorous legal due diligence — Jila Panchayat approvals, clear title deeds, and full compliance.") },
+              { num: "06", iconKey: "trending",  title: String(aboutValues.value_6_title || "Innovation & Growth"), desc: String(aboutValues.value_6_desc || "We continuously evolve — embracing new design thinking, sustainable development practices, and smarter ways to deliver value.") },
+            ].map((v, i) => (
               <Reveal key={v.title} delay={i * 0.07}>
                 <GlowCard glowColor="blue" customSize className="p-8 md:p-10 min-h-[240px] flex flex-col">
                   <div className="flex items-start justify-between mb-5">
@@ -576,18 +665,16 @@ function AboutPage() {
             <Reveal>
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#00BFFF]" />
-                Our Leaders
+                {String(aboutTeam.eyebrow || "Our Leaders")}
               </p>
               <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-                The People Leading{" "}
-                <em className="text-[#00BFFF] italic">Our Vision</em>
+                {String(aboutTeam.title || "The People Leading")}{" "}
+                <em className="text-[#00BFFF] italic">{String(aboutTeam.title_accent || "Our Vision")}</em>
               </h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-white/45 text-base leading-relaxed font-light">
-                Every great development begins with a great team. TrustOn's founders bring
-                together expertise in architecture, construction, and investment to deliver
-                projects that stand the test of time.
+                {String(aboutTeam.body || "Every great development begins with a great team. TrustOn's founders bring together expertise in architecture, construction, and investment to deliver projects that stand the test of time.")}
               </p>
               <Link
                 to="/contact"
@@ -599,7 +686,10 @@ function AboutPage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {teamMembers.map((member, i) => (
+            {[
+              { name: String(aboutTeam.member_1_name || "Meraj Husain Rizvi"), role: String(aboutTeam.member_1_role || "Lead Architect"), roleTag: String(aboutTeam.member_1_role_tag || "ARCHITECTURE & DESIGN"), image: String(aboutTeam.member_1_image || "/assets/team-honour.png"), desc: String(aboutTeam.member_1_desc || "Meraj leads TrustOn's architecture and design division.") },
+              { name: String(aboutTeam.member_2_name || "TrustOn Founders"), role: String(aboutTeam.member_2_role || "Development & Operations"), roleTag: String(aboutTeam.member_2_role_tag || "DEVELOPMENT & OPERATIONS"), image: String(aboutTeam.member_2_image || ""), desc: String(aboutTeam.member_2_desc || "The founding team behind TrustOn brings together decades of combined experience.") },
+            ].map((member, i) => (
               <Reveal key={member.name} delay={i * 0.1}>
                 <div className="border border-white/5 rounded-[28px] overflow-hidden bg-[#04090f] hover:border-[#00BFFF]/20 transition-all duration-500 group">
                   {/* Image area */}
@@ -696,31 +786,28 @@ function AboutPage() {
           <Reveal>
             <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-6 flex items-center justify-center gap-3">
               <span className="w-8 h-px bg-[#00BFFF]" />
-              Ready to Begin?
+              {String(aboutCta.eyebrow || "Ready to Begin?")}
               <span className="w-8 h-px bg-[#00BFFF]" />
             </p>
             <blockquote className="font-serif text-3xl md:text-5xl text-white mb-8 leading-tight tracking-tight">
-              &ldquo;The best time to invest in land was yesterday.
-              <br />
-              The second best time is today.&rdquo;
+              &ldquo;{String(aboutCta.quote || "The best time to invest in land was yesterday. The second best time is today.")}&rdquo;
             </blockquote>
             <p className="text-white/40 text-base font-light mb-14 max-w-md mx-auto leading-relaxed">
-              Talk to TrustOn Developers and take the first step toward owning your plot
-              in Prime Estate, Lucknow.
+              {String(aboutCta.body || "Talk to TrustOn Developers and take the first step toward owning your plot in Prime Estate, Lucknow.")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 to="/projects"
                 className="px-12 py-5 rounded-full text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 hover:scale-105 border border-white/20 text-white hover:border-[#00BFFF] hover:text-[#00BFFF]"
               >
-                View Prime Estate
+                {String(aboutCta.cta_primary || "View Prime Estate")}
               </Link>
               <a
-                href="tel:+919616061166"
+                href={`tel:${String(aboutCta.cta_phone || "+91 96160-61166").replace(/\s/g, "")}`}
                 className="px-12 py-5 rounded-full text-[11px] uppercase tracking-[0.3em] font-bold transition-all duration-500 hover:scale-105"
                 style={{ background: "#00BFFF", color: "#04090f" }}
               >
-                +91 96160-61166
+                {String(aboutCta.cta_phone || "+91 96160-61166")}
               </a>
             </div>
           </Reveal>
