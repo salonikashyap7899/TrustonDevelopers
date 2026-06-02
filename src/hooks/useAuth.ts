@@ -1,28 +1,21 @@
 import { useEffect, useState } from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
-import { ensureFirstAdmin } from "@/lib/admin-server-fn";
+import { ensureFirstAdmin, checkAdminStatus } from "@/lib/admin-server-fn";
 
-async function checkAdminRole(userId: string): Promise<boolean> {
-  const { data: roles, error } = await supabase
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId);
-
-  if (!error && roles?.some((r) => r.role === "admin")) return true;
-
+async function resolveAdminStatus(userId: string): Promise<boolean> {
   try {
     await ensureFirstAdmin({ data: userId });
   } catch {
-    // first-admin assignment failed or not applicable
+    // Not the first user, or assignment already done — that's fine
   }
 
-  const { data: finalRoles } = await supabase
-    .from("user_roles")
-    .select("role")
-    .eq("user_id", userId);
-
-  return !!finalRoles?.some((r) => r.role === "admin");
+  try {
+    const { isAdmin } = await checkAdminStatus({ data: userId });
+    return isAdmin;
+  } catch {
+    return false;
+  }
 }
 
 export function useAuth() {
@@ -41,17 +34,10 @@ export function useAuth() {
         setLoading(false);
         return;
       }
-      try {
-        const admin = await checkAdminRole(u.id);
-        if (isMounted) {
-          setIsAdmin(admin);
-          setLoading(false);
-        }
-      } catch {
-        if (isMounted) {
-          setIsAdmin(false);
-          setLoading(false);
-        }
+      const admin = await resolveAdminStatus(u.id);
+      if (isMounted) {
+        setIsAdmin(admin);
+        setLoading(false);
       }
     };
 
