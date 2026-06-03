@@ -154,7 +154,7 @@ function Page() {
           </>
         }
         subtitle="Partner with Trust On and earn industry-leading commissions by connecting buyers to premium plots in our flagship housing society. A transparent, performance-based program designed for real estate professionals and entrepreneurs."
-        poster="/attached_assets/image_1779159211927.png"
+        poster="/attached_assets/channel-partner-hero.png"
         alt="Channel Partner Program"
         cta={{ label: "Become a Partner", href: "#register" }}
         secondaryCta={{ label: "Learn More", href: "#program" }}
