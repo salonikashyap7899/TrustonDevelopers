@@ -88,7 +88,7 @@ export function PageHero({
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
   const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
   const textY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
@@ -119,7 +119,7 @@ export function PageHero({
           poster={poster}
           alt={alt}
           className="w-full h-full"
-          mediaClassName="ken-burns object-cover brightness-[0.6] contrast-[1.1]"
+          mediaClassName="object-cover brightness-[0.85]"
         />
       </motion.div>
 

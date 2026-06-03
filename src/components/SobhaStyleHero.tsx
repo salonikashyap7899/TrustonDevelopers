@@ -55,13 +55,13 @@ export function SobhaStyleHero({
       } bg-background`}
     >
       {/* Cinematic Video/Image Background */}
-      <motion.div style={{ y, scale, opacity: 0.5 }} className="absolute inset-0 z-[-1]">
+      <motion.div style={{ y, scale }} className="absolute inset-0 z-[-1]">
         <LazyVideo
           sources={videoSources}
           poster={poster}
           alt={alt}
           className="w-full h-full"
-          mediaClassName="ken-burns object-cover brightness-[0.7] contrast-[1.1]"
+          mediaClassName="object-cover brightness-[0.9]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background" />
       </motion.div>
