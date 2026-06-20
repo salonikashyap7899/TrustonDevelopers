@@ -3,6 +3,7 @@ import { useState } from "react";
 import { InnerHero } from "@/components/InnerHero";
 import { Reveal, SectionEyebrow } from "@/components/Reveal";
 import { Section3DBackground } from "@/components/Section3DBackground";
+import { usePageContent } from "@/hooks/usePageContent";
 
 export const Route = createFileRoute("/channel-partner")({
   head: () => ({
@@ -19,68 +20,12 @@ export const Route = createFileRoute("/channel-partner")({
   component: Page,
 });
 
-const stats = [
-  { num: "500+", label: "Total Plots" },
-  { num: "3%", label: "Base Commission" },
-  { num: "6%", label: "Max Earning Rate" },
-  { num: "30", label: "Days to First Payout" },
-  { num: "2", label: "Revenue Streams" },
-];
-
-const partnerBenefits = [
-  "Official Channel Partner Certificate from Trust On",
-  "Access to all plot inventory, pricing, and availability in real-time",
-  "Dedicated relationship manager to support your sales",
-  "Marketing material: brochures, digital assets, floor plans, site maps",
-  "Commission on every plot sold through your referral",
-  "Additional commission if client opts for our construction service",
-  "Priority access to new launches and pre-launch pricing",
-  "Monthly partner performance leaderboard with bonuses",
-  "Transparent tracking dashboard for your leads and payments",
-];
-
-const commissionCards = [
-  {
-    type: "Plot Sale — Standard",
-    rate: "3",
-    desc: "For new partners in their first 3 months, or partners selling fewer than 3 plots per month. Calculated on the total plot sale value.",
-    featured: false,
-  },
-  {
-    type: "Plot Sale — Active Tier",
-    rate: "5",
-    desc: "Unlocked when you sell 3 or more plots in a single calendar month. Applies retroactively to all plots sold that month. This is where most successful partners earn.",
-    featured: true,
-  },
-  {
-    type: "Plot Sale — Elite Tier",
-    rate: "6",
-    desc: "Unlocked when you sell 6+ plots in a calendar month, or achieve a cumulative lifetime sales target. Requires senior management approval.",
-    featured: false,
-  },
-  {
-    type: "Construction Referral",
-    rate: "1-2",
-    desc: "Earned when your client signs a construction agreement with Trust On. Rate depends on project size. Paid on contract signing — not on project completion.",
-    featured: false,
-  },
-];
-
-const steps = [
-  { num: "01", title: "Register as a Partner", desc: "Fill out the partner application form. Our team verifies your profile and activates your account within 2 working days. No fee required." },
-  { num: "02", title: "Get Onboarded", desc: "Attend a 1-day orientation (in-person or online) covering inventory, pricing, payment plans, legal status, and all sales tools." },
-  { num: "03", title: "Refer Buyers", desc: "Market plots through your network, social media, or site visits. Register each lead in your partner portal before bringing them to our office." },
-  { num: "04", title: "Deal Confirms", desc: "When your lead books a plot and makes the token payment, the sale is registered under your partner ID. You receive a confirmation with commission amount." },
-  { num: "05", title: "Get Paid", desc: "Commission is disbursed within 30 days of booking confirmation via bank transfer. A payment advice slip is shared with every payout." },
-];
-
-const partnerTypes = [
-  { title: "Real Estate Agents", desc: "Licensed or practicing agents who already work in property sales. Add our inventory to your portfolio." },
-  { title: "Property Dealers", desc: "Established dealers who deal in open plots and want to cross-sell a new society to their clientele." },
-  { title: "Freelance Marketers", desc: "Digital marketers, social media influencers, or YouTube creators with an audience interested in real estate." },
-  { title: "Professionals", desc: "Accountants, lawyers, financial advisors, and HR professionals trusted by clients making major investment decisions." },
-  { title: "Real Estate Firms", desc: "Registered companies or brokerage firms who want to include Trust On as a listed project." },
-  { title: "Overseas Reps", desc: "Individuals based in UAE, UK, Canada, etc. with connections to Indians looking to invest back home." },
+const commissionNotes = [
+  "Commission is calculated on the total agreed sale price — not just the installment received at booking.",
+  "If a booking is cancelled before 30% of the total price is paid, no commission is payable. After 30% is paid, 50% of your commission is released.",
+  "Commissions are paid to individuals or registered firms — not to third parties.",
+  "TDS is deducted as per applicable law. You are responsible for your own income tax filings under Indian IT Act.",
+  "No commission is paid for deals where the partner is also the buyer.",
 ];
 
 const eligibleYes = [
@@ -103,67 +48,180 @@ const eligibleNo = [
 ];
 
 const timeline = [
-  { tag: "Day 0", title: "Booking Confirmed", desc: "Client pays token amount, booking form is signed, and the plot is allocated. Your sale is registered in the system under your Partner ID." },
-  { tag: "Day 1 to 7", title: "Commission Calculated and Verified", desc: "Our accounts team calculates your commission on the total sale value and sends you a Commission Advice note for confirmation." },
-  { tag: "Day 7 to 30", title: "Payout Processing", desc: "Commission is queued in the monthly payout batch. Tax is deducted as per applicable rules. Bank transfer is initiated." },
-  { tag: "Day 30", title: "Commission Received", desc: "Amount credited to your registered bank account. Payment advice shared via email and WhatsApp. Raise any disputes within 7 days." },
+  { tag: "Day 0",        title: "Booking Confirmed",                   desc: "Client pays token amount, booking form is signed, and the plot is allocated. Your sale is registered in the system under your Partner ID." },
+  { tag: "Day 1 to 7",  title: "Commission Calculated and Verified",   desc: "Our accounts team calculates your commission on the total sale value and sends you a Commission Advice note for confirmation." },
+  { tag: "Day 7 to 30", title: "Payout Processing",                    desc: "Commission is queued in the monthly payout batch. Tax is deducted as per applicable rules. Bank transfer is initiated." },
+  { tag: "Day 30",      title: "Commission Received",                  desc: "Amount credited to your registered bank account. Payment advice shared via email and WhatsApp. Raise any disputes within 7 days." },
 ];
 
 const terms = [
-  { title: "Lead Registration is Mandatory", desc: "You must register your client's name, phone, and Aadhaar/PAN in the partner portal BEFORE bringing them to our office or sharing a booking form." },
-  { title: "No Poaching of Registered Leads", desc: "If a client is already registered under another partner, you may not claim that lead. First-registered partner owns the client unless the registration is more than 90 days old." },
-  { title: "No Misrepresentation", desc: "You may not make verbal or written promises to buyers about returns, timelines, or resale value not officially stated in our material." },
+  { title: "Lead Registration is Mandatory",         desc: "You must register your client's name, phone, and Aadhaar/PAN in the partner portal BEFORE bringing them to our office or sharing a booking form." },
+  { title: "No Poaching of Registered Leads",        desc: "If a client is already registered under another partner, you may not claim that lead. First-registered partner owns the client unless the registration is more than 90 days old." },
+  { title: "No Misrepresentation",                   desc: "You may not make verbal or written promises to buyers about returns, timelines, or resale value not officially stated in our material." },
   { title: "Construction is Always the Client's Choice", desc: "You may inform clients about our construction service, but you must never pressure or coerce them into it." },
-  { title: "Non-Exclusive Agreement", desc: "You are free to work with other developers simultaneously. However, you may not share our confidential inventory data with competitors." },
-  { title: "Termination and Exit", desc: "Either party may terminate the agreement with 30 days written notice. Commissions earned on confirmed bookings will still be paid." },
-  { title: "Code of Conduct", desc: "Partners must conduct themselves professionally at all times. Abusive language or illegal activities are grounds for immediate suspension." },
-  { title: "Marketing Must Be Approved", desc: "Any material you create featuring Trust On branding must be approved by our marketing team before publication." },
+  { title: "Non-Exclusive Agreement",                desc: "You are free to work with other developers simultaneously. However, you may not share our confidential inventory data with competitors." },
+  { title: "Termination and Exit",                   desc: "Either party may terminate the agreement with 30 days written notice. Commissions earned on confirmed bookings will still be paid." },
+  { title: "Code of Conduct",                        desc: "Partners must conduct themselves professionally at all times. Abusive language or illegal activities are grounds for immediate suspension." },
+  { title: "Marketing Must Be Approved",             desc: "Any material you create featuring Trust On branding must be approved by our marketing team before publication." },
 ];
 
 const faqs = [
-  { q: "Is there any joining fee to become a Channel Partner?", a: "No. There is absolutely no registration or joining fee. Our Channel Partner Program is completely free to join. We never charge any upfront amount." },
-  { q: "Is this a full-time job or can I do it as a side income?", a: "Both. Many partners do this alongside their existing profession. It is entirely performance-based with no attendance requirements." },
-  { q: "What if the buyer pays in installments — when do I get my commission?", a: "Your commission is calculated on the total sale price, not just the first installment. The first 50% is released within 30 days of booking." },
-  { q: "Can I sell plots to overseas Indians or foreign nationals?", a: "Yes. We welcome investments from overseas Indians and Non-Resident Indians (NRIs). Power of Attorney arrangements are accepted." },
-  { q: "What happens if my client cancels after I have been paid?", a: "If cancellation happens before your second commission tranche is paid, that tranche is forfeited. After 30 days from booking, your first tranche is protected." },
-  { q: "Do I need real estate experience or a license?", a: "No formal license is required. However, you must complete our onboarding orientation before you begin selling." },
-  { q: "Can I build a team of sub-partners under me?", a: "Yes, subject to approval. Senior or Master Partners can bring in sub-partners and earn an override commission on sub-partner sales." },
-  { q: "How do I track my leads and commissions?", a: "Every registered partner gets access to a dedicated Partner Dashboard where you can register leads, track status, and view upcoming payouts." },
-];
-
-const commissionNotes = [
-  "Commission is calculated on the total agreed sale price — not just the installment received at booking.",
-  "If a booking is cancelled before 30% of the total price is paid, no commission is payable. After 30% is paid, 50% of your commission is released.",
-  "Commissions are paid to individuals or registered firms — not to third parties.",
-  "TDS is deducted as per applicable law. You are responsible for your own income tax filings under Indian IT Act.",
-  "No commission is paid for deals where the partner is also the buyer.",
+  { q: "Is there any joining fee to become a Channel Partner?",                   a: "No. There is absolutely no registration or joining fee. Our Channel Partner Program is completely free to join. We never charge any upfront amount." },
+  { q: "Is this a full-time job or can I do it as a side income?",                a: "Both. Many partners do this alongside their existing profession. It is entirely performance-based with no attendance requirements." },
+  { q: "What if the buyer pays in installments — when do I get my commission?",   a: "Your commission is calculated on the total sale price, not just the first installment. The first 50% is released within 30 days of booking." },
+  { q: "Can I sell plots to overseas Indians or foreign nationals?",               a: "Yes. We welcome investments from overseas Indians and Non-Resident Indians (NRIs). Power of Attorney arrangements are accepted." },
+  { q: "What happens if my client cancels after I have been paid?",               a: "If cancellation happens before your second commission tranche is paid, that tranche is forfeited. After 30 days from booking, your first tranche is protected." },
+  { q: "Do I need real estate experience or a license?",                          a: "No formal license is required. However, you must complete our onboarding orientation before you begin selling." },
+  { q: "Can I build a team of sub-partners under me?",                            a: "Yes, subject to approval. Senior or Master Partners can bring in sub-partners and earn an override commission on sub-partner sales." },
+  { q: "How do I track my leads and commissions?",                                a: "Every registered partner gets access to a dedicated Partner Dashboard where you can register leads, track status, and view upcoming payouts." },
 ];
 
 function Page() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
+  const hero = usePageContent("channel_partner.hero", {
+    eyebrow: "Channel Partner Program — Lucknow",
+    title: "Earn While You",
+    title_accent: "Build the Future",
+    subtitle: "Partner with Trust On and earn industry-leading commissions by connecting buyers to premium plots in our flagship housing society.",
+    poster: "/attached_assets/channel-partner-hero.png",
+    cta_label: "Become a Partner",
+    cta_href: "#register",
+    secondary_cta_label: "Learn More",
+    secondary_cta_href: "#program",
+  });
+
+  const stats = usePageContent("channel_partner.stats", {
+    stat_1_num: "500+", stat_1_label: "Total Plots",
+    stat_2_num: "3%",   stat_2_label: "Base Commission",
+    stat_3_num: "6%",   stat_3_label: "Max Earning Rate",
+    stat_4_num: "30",   stat_4_label: "Days to First Payout",
+    stat_5_num: "2",    stat_5_label: "Revenue Streams",
+  });
+
+  const main = usePageContent("channel_partner.main", {
+    eyebrow: "About the Program",
+    title: "What Is a",
+    title_accent: "Channel Partner?",
+    body_1: "A Channel Partner is an authorized sales representative who markets and sells our housing society plots on our behalf. You act as the bridge between Trust On and potential buyers — and you earn a commission on every successful sale you close.",
+    body_2: "There is no salary, no fixed income — your earnings are entirely performance-based. The more you sell, the more you earn. There are no limits on your earnings.",
+    body_3: "Our program also gives you an optional second income stream: if your client wishes to construct a home on the purchased plot, you can refer them to our in-house construction services and earn an additional commission on the construction contract.",
+    benefits_heading: "What You Get as a Partner",
+    benefit_1: "Official Channel Partner Certificate from Trust On",
+    benefit_2: "Access to all plot inventory, pricing, and availability in real-time",
+    benefit_3: "Dedicated relationship manager to support your sales",
+    benefit_4: "Marketing material: brochures, digital assets, floor plans, site maps",
+    benefit_5: "Commission on every plot sold through your referral",
+    benefit_6: "Additional commission if client opts for our construction service",
+    benefit_7: "Priority access to new launches and pre-launch pricing",
+    benefit_8: "Monthly partner performance leaderboard with bonuses",
+    benefit_9: "Transparent tracking dashboard for your leads and payments",
+  });
+
+  const commissions = usePageContent("channel_partner.commissions", {
+    c1_type: "Plot Sale — Standard",    c1_rate: "3",   c1_featured: "false",
+    c1_desc: "For new partners in their first 3 months, or partners selling fewer than 3 plots per month. Calculated on the total plot sale value.",
+    c2_type: "Plot Sale — Active Tier", c2_rate: "5",   c2_featured: "true",
+    c2_desc: "Unlocked when you sell 3 or more plots in a single calendar month. Applies retroactively to all plots sold that month.",
+    c3_type: "Plot Sale — Elite Tier",  c3_rate: "6",   c3_featured: "false",
+    c3_desc: "Unlocked when you sell 6+ plots in a calendar month, or achieve a cumulative lifetime sales target. Requires senior management approval.",
+    c4_type: "Construction Referral",   c4_rate: "1-2", c4_featured: "false",
+    c4_desc: "Earned when your client signs a construction agreement with Trust On. Rate depends on project size. Paid on contract signing.",
+  });
+
+  const stepsC = usePageContent("channel_partner.steps", {
+    s1_num: "01", s1_title: "Register as a Partner",  s1_desc: "Fill out the partner application form. Our team verifies your profile and activates your account within 2 working days. No fee required.",
+    s2_num: "02", s2_title: "Get Onboarded",           s2_desc: "Attend a 1-day orientation (in-person or online) covering inventory, pricing, payment plans, legal status, and all sales tools.",
+    s3_num: "03", s3_title: "Refer Buyers",            s3_desc: "Market plots through your network, social media, or site visits. Register each lead in your partner portal before bringing them to our office.",
+    s4_num: "04", s4_title: "Deal Confirms",           s4_desc: "When your lead books a plot and makes the token payment, the sale is registered under your partner ID.",
+    s5_num: "05", s5_title: "Get Paid",                s5_desc: "Commission is disbursed within 30 days of booking confirmation via bank transfer. A payment advice slip is shared with every payout.",
+  });
+
+  const partnerTypesC = usePageContent("channel_partner.partner_types", {
+    p1_title: "Real Estate Agents",  p1_desc: "Licensed or practicing agents who already work in property sales. Add our inventory to your portfolio.",
+    p2_title: "Property Dealers",    p2_desc: "Established dealers who deal in open plots and want to cross-sell a new society to their clientele.",
+    p3_title: "Freelance Marketers", p3_desc: "Digital marketers, social media influencers, or YouTube creators with an audience interested in real estate.",
+    p4_title: "Professionals",       p4_desc: "Accountants, lawyers, financial advisors, and HR professionals trusted by clients making major investment decisions.",
+    p5_title: "Real Estate Firms",   p5_desc: "Registered companies or brokerage firms who want to include Trust On as a listed project.",
+    p6_title: "Overseas Reps",       p6_desc: "Individuals based in UAE, UK, Canada, etc. with connections to Indians looking to invest back home.",
+  });
+
+  const cta = usePageContent("channel_partner.cta", {
+    heading: "Ready to Start",
+    heading_accent: "Earning?",
+    body: "Join hundreds of partners already earning with Trust On. Registration takes less than 5 minutes. Your first commission could be within 30 days.",
+    cta_label: "Register Now — It's Free",
+    cta_href: "#register",
+    phone: "+91 98765 43210",
+  });
+
+  const contact = usePageContent("channel_partner.contact", {
+    address: "Office #7, Hazratganj, Lucknow, Uttar Pradesh 226001",
+    phone: "+91 98765 43210",
+    email: "partners@truston.in",
+    hours: "Mon–Sat, 10:00 AM – 6:00 PM",
+  });
+
+  const statsRow = [
+    { num: stats.stat_1_num, label: stats.stat_1_label },
+    { num: stats.stat_2_num, label: stats.stat_2_label },
+    { num: stats.stat_3_num, label: stats.stat_3_label },
+    { num: stats.stat_4_num, label: stats.stat_4_label },
+    { num: stats.stat_5_num, label: stats.stat_5_label },
+  ];
+
+  const commissionCards = [
+    { type: commissions.c1_type, rate: commissions.c1_rate, desc: commissions.c1_desc, featured: commissions.c1_featured === "true" },
+    { type: commissions.c2_type, rate: commissions.c2_rate, desc: commissions.c2_desc, featured: commissions.c2_featured === "true" },
+    { type: commissions.c3_type, rate: commissions.c3_rate, desc: commissions.c3_desc, featured: commissions.c3_featured === "true" },
+    { type: commissions.c4_type, rate: commissions.c4_rate, desc: commissions.c4_desc, featured: commissions.c4_featured === "true" },
+  ];
+
+  const steps = [
+    { num: stepsC.s1_num, title: stepsC.s1_title, desc: stepsC.s1_desc },
+    { num: stepsC.s2_num, title: stepsC.s2_title, desc: stepsC.s2_desc },
+    { num: stepsC.s3_num, title: stepsC.s3_title, desc: stepsC.s3_desc },
+    { num: stepsC.s4_num, title: stepsC.s4_title, desc: stepsC.s4_desc },
+    { num: stepsC.s5_num, title: stepsC.s5_title, desc: stepsC.s5_desc },
+  ];
+
+  const partnerTypes = [
+    { title: partnerTypesC.p1_title, desc: partnerTypesC.p1_desc },
+    { title: partnerTypesC.p2_title, desc: partnerTypesC.p2_desc },
+    { title: partnerTypesC.p3_title, desc: partnerTypesC.p3_desc },
+    { title: partnerTypesC.p4_title, desc: partnerTypesC.p4_desc },
+    { title: partnerTypesC.p5_title, desc: partnerTypesC.p5_desc },
+    { title: partnerTypesC.p6_title, desc: partnerTypesC.p6_desc },
+  ];
+
+  const partnerBenefits = [
+    main.benefit_1, main.benefit_2, main.benefit_3,
+    main.benefit_4, main.benefit_5, main.benefit_6,
+    main.benefit_7, main.benefit_8, main.benefit_9,
+  ].filter(Boolean);
+
   return (
     <div className="bg-background text-foreground overflow-hidden">
       {/* Hero Section */}
       <InnerHero
-        eyebrow="Channel Partner Program — Lucknow"
+        eyebrow={hero.eyebrow}
         title={
           <>
-            Earn While You<br />
-            <em className="text-luxe-cyan not-italic font-serif italic">Build the Future</em>
+            {hero.title}<br />
+            <em className="text-luxe-cyan not-italic font-serif italic">{hero.title_accent}</em>
           </>
         }
-        subtitle="Partner with Trust On and earn industry-leading commissions by connecting buyers to premium plots in our flagship housing society. A transparent, performance-based program designed for real estate professionals and entrepreneurs."
-        poster="/attached_assets/channel-partner-hero.png"
+        subtitle={hero.subtitle}
+        poster={hero.poster}
         alt="Channel Partner Program"
-        cta={{ label: "Become a Partner", href: "#register" }}
-        secondaryCta={{ label: "Learn More", href: "#program" }}
+        cta={{ label: hero.cta_label, href: hero.cta_href }}
+        secondaryCta={{ label: hero.secondary_cta_label, href: hero.secondary_cta_href }}
       />
 
       {/* Stats Strip */}
       <section className="border-y border-luxe-cyan/20 bg-ink/50 py-12 px-6">
         <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-5 gap-8">
-          {stats.map((s, i) => (
+          {statsRow.map((s, i) => (
             <Reveal key={i} delay={i * 0.05}>
               <div className="text-center px-4 border-r border-white/5 last:border-r-0">
                 <span className="font-display text-4xl md:text-5xl font-semibold text-luxe-cyan leading-none block">
@@ -185,27 +243,23 @@ function Page() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <Reveal>
               <div>
-                <SectionEyebrow>About the Program</SectionEyebrow>
+                <SectionEyebrow>{main.eyebrow}</SectionEyebrow>
                 <h2 className="font-display text-4xl md:text-6xl text-white mb-6 tracking-tight leading-tight">
-                  What Is a<br />
-                  <em className="text-luxe-cyan italic font-serif">Channel Partner?</em>
+                  {main.title}<br />
+                  <em className="text-luxe-cyan italic font-serif">{main.title_accent}</em>
                 </h2>
                 <div className="w-16 h-px bg-luxe-cyan mb-8" />
-                <p className="text-white/60 text-lg leading-relaxed mb-6">
-                  A Channel Partner is an authorized sales representative who markets and sells our housing society plots on our behalf. You act as the bridge between Trust On and potential buyers — and you earn a commission on every successful sale you close.
-                </p>
+                <p className="text-white/60 text-lg leading-relaxed mb-6">{main.body_1}</p>
                 <p className="text-white/60 leading-relaxed mb-6">
-                  There is <strong className="text-white">no salary, no fixed income</strong> — your earnings are entirely performance-based. The more you sell, the more you earn. There are no limits on your earnings.
+                  There is <strong className="text-white">no salary, no fixed income</strong> — {main.body_2.replace(/^there is no salary, no fixed income — /i, "")}
                 </p>
-                <p className="text-white/60 leading-relaxed">
-                  Our program also gives you an optional second income stream: if your client wishes to construct a home on the purchased plot, you can refer them to our in-house construction services and earn an additional commission on the construction contract.
-                </p>
+                <p className="text-white/60 leading-relaxed">{main.body_3}</p>
               </div>
             </Reveal>
             <Reveal delay={0.1}>
               <div className="glass-premium p-8 md:p-10 rounded-3xl border border-luxe-cyan/20 relative">
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-luxe-cyan to-transparent rounded-t-3xl" />
-                <h3 className="font-display text-2xl text-luxe-cyan mb-6">What You Get as a Partner</h3>
+                <h3 className="font-display text-2xl text-luxe-cyan mb-6">{main.benefits_heading}</h3>
                 <ul className="space-y-4">
                   {partnerBenefits.map((b, i) => (
                     <li key={i} className="flex gap-3 text-white/60 text-sm leading-relaxed">
@@ -534,20 +588,18 @@ function Page() {
         <div className="mx-auto max-w-4xl text-center relative z-10">
           <Reveal>
             <h2 className="font-display text-4xl md:text-7xl text-white mb-6 tracking-tight leading-tight">
-              Ready to Start <em className="text-luxe-cyan italic font-serif">Earning?</em>
+              {cta.heading} <em className="text-luxe-cyan italic font-serif">{cta.heading_accent}</em>
             </h2>
-            <p className="text-white/60 text-lg mb-12 max-w-xl mx-auto leading-relaxed">
-              Join hundreds of partners already earning with Trust On. Registration takes less than 5 minutes. Your first commission could be within 30 days.
-            </p>
+            <p className="text-white/60 text-lg mb-12 max-w-xl mx-auto leading-relaxed">{cta.body}</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href="#register" className="btn-magnetic btn-luxe px-10 py-4 rounded-full">
-                Register Now — It&apos;s Free
+              <a href={cta.cta_href} className="btn-magnetic btn-luxe px-10 py-4 rounded-full">
+                {cta.cta_label}
               </a>
               <a
-                href="tel:+919876543210"
+                href={`tel:${cta.phone}`}
                 className="btn-magnetic px-10 py-4 rounded-full border border-white/20 text-white hover:border-luxe-cyan hover:text-luxe-cyan transition-colors font-semibold text-xs uppercase tracking-widest"
               >
-                Call Us: +91 98765 43210
+                Call Us: {cta.phone}
               </a>
             </div>
           </Reveal>
@@ -573,28 +625,28 @@ function Page() {
                     <span className="text-luxe-cyan mt-0.5">&#128205;</span>
                     <div>
                       <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Office Address</p>
-                      <p className="text-white text-sm">Office #7, Hazratganj, Lucknow, Uttar Pradesh 226001</p>
+                      <p className="text-white text-sm">{contact.address}</p>
                     </div>
                   </div>
                   <div className="flex gap-3 items-start">
                     <span className="text-luxe-cyan mt-0.5">&#128222;</span>
                     <div>
                       <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Phone / WhatsApp</p>
-                      <p className="text-white text-sm">+91 98765 43210</p>
+                      <p className="text-white text-sm">{contact.phone}</p>
                     </div>
                   </div>
                   <div className="flex gap-3 items-start">
                     <span className="text-luxe-cyan mt-0.5">&#9993;</span>
                     <div>
                       <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Email</p>
-                      <p className="text-white text-sm">partners@truston.in</p>
+                      <p className="text-white text-sm">{contact.email}</p>
                     </div>
                   </div>
                   <div className="flex gap-3 items-start">
                     <span className="text-luxe-cyan mt-0.5">&#9200;</span>
                     <div>
                       <p className="text-xs uppercase tracking-widest text-white/50 mb-1">Office Hours</p>
-                      <p className="text-white text-sm">Mon–Sat, 10:00 AM – 6:00 PM</p>
+                      <p className="text-white text-sm">{contact.hours}</p>
                     </div>
                   </div>
                 </div>

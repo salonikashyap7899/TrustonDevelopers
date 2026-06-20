@@ -6,16 +6,24 @@ import {
   useMotionValue,
   useAnimationFrame,
 } from "framer-motion";
-
-const IMAGES = [
-  { src: "/assets/building-plots.jpg",          alt: "Prime Estate — Aerial View" },
-  { src: "/assets/gallery/prime-club.jpg",      alt: "Prime Club House" },
-  { src: "/assets/gallery/prime-road.jpg",      alt: "Prime Roads" },
-  { src: "/assets/gallery/prime-boulevard.jpg", alt: "Prime Boulevard" },
-  { src: "/assets/gallery/prime-street.jpg",    alt: "Prime Street" },
-];
+import { usePageContent } from "@/hooks/usePageContent";
 
 export function GallerySection() {
+  const c = usePageContent("home.gallery", {
+    heading: "Living place that becomes",
+    heading_accent: "your pride",
+    img_1_src: "/assets/building-plots.jpg",
+    img_1_alt: "Prime Estate — Aerial View",
+    img_2_src: "/assets/gallery/prime-club.jpg",
+    img_2_alt: "Prime Club House",
+    img_3_src: "/assets/gallery/prime-road.jpg",
+    img_3_alt: "Prime Roads",
+    img_4_src: "/assets/gallery/prime-boulevard.jpg",
+    img_4_alt: "Prime Boulevard",
+    img_5_src: "/assets/gallery/prime-street.jpg",
+    img_5_alt: "Prime Street",
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -23,7 +31,6 @@ export function GallerySection() {
     offset: ["start start", "end end"],
   });
 
-  /* ── Ultra-smooth lerp for buttery animation ── */
   const smooth = useMotionValue(0);
   useAnimationFrame(() => {
     const cur = smooth.get();
@@ -31,28 +38,24 @@ export function GallerySection() {
     smooth.set(cur + (tgt - cur) * 0.055);
   });
 
-  /* ── Hero transforms — shrinks from fullscreen to center grid position ── */
-  const heroW = useTransform(smooth, [0, 0.9], ["100vw", "36%"]); // Increased width to reduce space
-  const heroH = useTransform(smooth, [0, 0.9], ["100vh", "54%"]); // Increased height to reduce space
+  const heroW = useTransform(smooth, [0, 0.9], ["100vw", "36%"]);
+  const heroH = useTransform(smooth, [0, 0.9], ["100vh", "54%"]);
   const heroR = useTransform(smooth, [0, 0.9], ["0px", "12px"]);
 
-  /* ── Overlay text fades out smoothly ── */
   const textOp = useTransform(smooth, [0, 0.3], [1, 0]);
-  const textY = useTransform(smooth, [0, 0.3], [0, -60]);
+  const textY  = useTransform(smooth, [0, 0.3], [0, -60]);
 
-  /* ── Corners: shared fade/scale for smooth appearance ── */
   const cornerOp = useTransform(smooth, [0.1, 0.55], [0, 1]);
   const cornerSc = useTransform(smooth, [0.1, 0.55], [0.82, 1]);
 
-  /* ── Corner travel — fly in from edges with reduced gap ── */
   const tlX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
   const tlY = useTransform(smooth, [0, 0.9], ["-45vh", "0vh"]);
   const blX = useTransform(smooth, [0, 0.9], ["-55vw", "0vw"]);
-  const blY = useTransform(smooth, [0, 0.9], ["45vh", "0vh"]);
-  const trX = useTransform(smooth, [0, 0.9], ["55vw", "0vw"]);
+  const blY = useTransform(smooth, [0, 0.9], ["45vh",  "0vh"]);
+  const trX = useTransform(smooth, [0, 0.9], ["55vw",  "0vw"]);
   const trY = useTransform(smooth, [0, 0.9], ["-45vh", "0vh"]);
-  const brX = useTransform(smooth, [0, 0.9], ["55vw", "0vw"]);
-  const brY = useTransform(smooth, [0, 0.9], ["45vh", "0vh"]);
+  const brX = useTransform(smooth, [0, 0.9], ["55vw",  "0vw"]);
+  const brY = useTransform(smooth, [0, 0.9], ["45vh",  "0vh"]);
 
   const cornerStyle: React.CSSProperties = {
     position: "absolute",
@@ -76,66 +79,66 @@ export function GallerySection() {
     >
       <div ref={containerRef} style={{ height: "105vh", position: "relative" }}>
         <div
-          style={{ 
-            position: "sticky", 
-            top: 0, 
-            height: "100vh", 
-            overflow: "hidden", 
+          style={{
+            position: "sticky",
+            top: 0,
+            height: "100vh",
+            overflow: "hidden",
             background: "#04090f",
           }}
           className="w-full"
         >
           <div className="relative w-full h-full flex items-center justify-center">
 
-            {/* ── Top-left image ── */}
+            {/* Top-left */}
             <motion.div
               style={{
                 ...cornerStyle,
                 x: tlX, y: tlY, opacity: cornerOp, scale: cornerSc,
-                width: "25%", height: "44%", // Increased size to reduce space
+                width: "25%", height: "44%",
                 top: "4%", left: "4%",
               }}
             >
-              <img src={IMAGES[1].src} alt={IMAGES[1].alt} style={imgStyle} />
+              <img src={c.img_2_src} alt={c.img_2_alt} style={imgStyle} />
             </motion.div>
 
-            {/* ── Bottom-left image ── */}
+            {/* Bottom-left */}
             <motion.div
               style={{
                 ...cornerStyle,
                 x: blX, y: blY, opacity: cornerOp, scale: cornerSc,
-                width: "23%", height: "38%", // Increased size to reduce space
+                width: "23%", height: "38%",
                 bottom: "4%", left: "6%",
               }}
             >
-              <img src={IMAGES[2].src} alt={IMAGES[2].alt} style={imgStyle} />
+              <img src={c.img_3_src} alt={c.img_3_alt} style={imgStyle} />
             </motion.div>
 
-            {/* ── Top-right image ── */}
+            {/* Top-right */}
             <motion.div
               style={{
                 ...cornerStyle,
                 x: trX, y: trY, opacity: cornerOp, scale: cornerSc,
-                width: "23%", height: "38%", // Increased size to reduce space
+                width: "23%", height: "38%",
                 top: "4%", right: "6%",
               }}
             >
-              <img src={IMAGES[3].src} alt={IMAGES[3].alt} style={imgStyle} />
+              <img src={c.img_4_src} alt={c.img_4_alt} style={imgStyle} />
             </motion.div>
 
-            {/* ── Bottom-right image ── */}
+            {/* Bottom-right */}
             <motion.div
               style={{
                 ...cornerStyle,
                 x: brX, y: brY, opacity: cornerOp, scale: cornerSc,
-                width: "25%", height: "44%", // Increased size to reduce space
+                width: "25%", height: "44%",
                 bottom: "4%", right: "4%",
               }}
             >
-              <img src={IMAGES[4].src} alt={IMAGES[4].alt} style={imgStyle} />
+              <img src={c.img_5_src} alt={c.img_5_alt} style={imgStyle} />
             </motion.div>
 
-            {/* ── Hero — centre image (shrinks from fullscreen) ── */}
+            {/* Hero centre image */}
             <motion.div
               style={{
                 position: "absolute",
@@ -149,8 +152,8 @@ export function GallerySection() {
             >
               <div style={{ width: "100%", height: "100%", position: "relative", overflow: "hidden" }}>
                 <img
-                  src={IMAGES[0].src}
-                  alt={IMAGES[0].alt}
+                  src={c.img_1_src}
+                  alt={c.img_1_alt}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
                 <div
@@ -161,7 +164,6 @@ export function GallerySection() {
                   }}
                 />
 
-                {/* Text overlay — fades out as user scrolls ── */}
                 <motion.div
                   style={{
                     opacity: textOp,
@@ -189,7 +191,7 @@ export function GallerySection() {
                       letterSpacing: "0.015em",
                     }}
                   >
-                    Living place that becomes
+                    {c.heading}
                     <br />
                     <em
                       style={{
@@ -198,7 +200,7 @@ export function GallerySection() {
                         color: "#fff",
                       }}
                     >
-                      your pride
+                      {c.heading_accent}
                     </em>
                   </h2>
                 </motion.div>

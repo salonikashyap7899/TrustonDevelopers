@@ -43,7 +43,7 @@ const PAGE_TABS = [
   { label: "Architecture", prefix: "architecture." },
   { label: "Lifestyle", prefix: "lifestyle." },
   { label: "Contact", prefix: "contact." },
-  { label: "Partners", prefix: "partner." },
+  { label: "Partners", prefix: "channel_partner." },
   { label: "Footer", prefix: "footer." },
 ];
 
