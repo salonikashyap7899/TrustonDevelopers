@@ -1,274 +1,336 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { InnerHero } from "@/components/InnerHero";
-import { Reveal, SectionEyebrow } from "@/components/Reveal";
-import projectImg from "@/assets/project-prime.jpg";
-import { Section3DBackground } from "@/components/Section3DBackground";
-import { usePageContent } from "@/hooks/usePageContent";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { Reveal } from "@/components/Reveal";
+import { PROJECTS, STATUS_COLOR } from "@/data/projects";
 
 export const Route = createFileRoute("/projects/$slug")({
-  head: () => ({
-    meta: [
-      { title: "Prime Estate — Lucknow, Uttar Pradesh | TrustOn" },
-      {
-        name: "description",
-        content:
-          "Prime Estate — a Jila Panchayat approved residential plots colony in Lucknow with structured planning, wide internal roads, and clear documentation.",
-      },
-      { property: "og:title", content: "Prime Estate — Lucknow" },
-      { property: "og:image", content: projectImg },
-    ],
-  }),
-  component: Page,
+  head: ({ params }) => {
+    const project = PROJECTS.find((p) => p.id === params.slug);
+    return {
+      meta: [
+        { title: project ? `${project.name} — ${project.city} | TrustOn` : "Project — TrustOn" },
+        { name: "description", content: project?.blurb ?? "TrustOn premium real estate development." },
+      ],
+    };
+  },
+  component: ProjectDetailPage,
 });
 
-function Page() {
-  // Load all editable content blocks for this project page
-  const heroContent = usePageContent("project_detail.hero", {
-    eyebrow: "Flagship Development · Lucknow",
-    title: "Prime Estate",
-    title_accent: "",
-    subtitle: "Strategic infrastructure. Global standard amenities. A multi-billion dollar foundation for your future legacy.",
-    image_url: "/attached_assets/image_1779159211927.png",
-  });
+function ProjectDetailPage() {
+  const { slug } = Route.useParams();
+  const project = PROJECTS.find((p) => p.id === slug);
+  const [activeImage, setActiveImage] = useState(0);
+  const [formData, setFormData] = useState({ name: "", phone: "", message: "" });
 
-  const overviewContent = usePageContent("project_detail.overview", {
-    eyebrow: "Project Intelligence",
-    title: "Strategic Infrastructure",
-    title_accent: "for Modern Legacy.",
-    body: "Prime Estate is a thoughtfully planned residential plots colony designed for those who want the freedom to build on their own terms. Located in a promising growth corridor, the project offers well-defined plots and essential infrastructure.",
-    body_secondary: "With clear planning and a focus on value appreciation, Prime Estate gives you the foundation to create a space that truly reflects your billion-dollar vision.",
-    highlights: [
-      "High Growth Intelligence",
-      "Verified Documentation",
-      "Strategic Yield Potential",
-      "Planned Infrastructure",
-      "Wide Internal Architecture",
-      "Clear Plot Demarcation",
-    ],
-    specs: [
-      ["Engagement", "Elite Investors"],
-      ["Category", "Residential"],
-      ["Release", "January 2025"],
-      ["System", "truston.com"],
-    ],
-  });
+  if (!project) {
+    return (
+      <div className="min-h-screen bg-[#04090f] flex items-center justify-center" style={{ paddingTop: "140px" }}>
+        <div className="text-center">
+          <p className="font-serif italic text-6xl text-[#00BFFF] mb-4">404</p>
+          <h1 className="font-serif text-3xl text-white mb-4">Project not found</h1>
+          <Link to="/project" className="text-[#00BFFF] text-sm uppercase tracking-widest hover:opacity-70 transition-opacity">
+            ← Back to all projects
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
-  const statsContent = usePageContent("project_detail.stats", {
-    stats: [
-      ["120+", "Total Plots"],
-      ["47", "Still Available"],
-      ["2400", "Sq. Feet Range"],
-      ["₹12L+", "Starting Unit"],
-    ],
-    footer: "Global Standards · Jila Panchayat Approved · Clear Title Deeds",
-  });
+  const statusColor = STATUS_COLOR[project.status] || "#00BFFF";
 
-  const galleryContent = usePageContent("project_detail.gallery", {
-    eyebrow: "Project Gallery",
-    title: "Inside Prime",
-    title_accent: "Estate",
-    images: [
-      { src: "/assets/photo_1.jpg", label: "Main Entrance Gate" },
-      { src: "/assets/photo_8.jpg", label: "Prime Estate Gate-02" },
-      { src: "/assets/photo_5.jpg", label: "Internal Street Design" },
-      { src: "/assets/photo_4.jpg", label: "Wide Internal Roads" },
-      { src: "/assets/photo_6.jpg", label: "Landscaped Park & Play Area" },
-      { src: "/assets/photo_7.jpg", label: "Aerial Township Overview" },
-    ],
-  });
-
-  const amenitiesContent = usePageContent("project_detail.amenities", {
-    eyebrow: "Elite Amenities",
-    title: "Strategic",
-    title_accent: "Living.",
-    items: [
-      "Wide Internal Roads",
-      "24/7 Security Guard",
-      "Piped Water Supply",
-      "Electricity Connection",
-      "Landscaped Parks",
-      "Underground Drainage",
-    ],
-  });
-
-  const ctaContent = usePageContent("project_detail.cta", {
-    eyebrow: "Limited Engagement",
-    title: "Reserve your position at",
-    title_accent: "Prime Estate.",
-    cta_text: "Schedule Private Tour",
-    phone: "+91 96160-61166",
-  });
+  const specs = [
+    ["Location", `${project.flag} ${project.city}, ${project.country}`],
+    ["Type", project.type],
+    ["Status", project.status],
+    ["Starting Price", project.startingPrice],
+    ["Area Range", project.area],
+    ["Total Units", project.units],
+    ["Possession", project.possession],
+  ];
 
   return (
-    <div className="bg-background text-foreground overflow-hidden">
-      <InnerHero
-        eyebrow={heroContent.eyebrow || ""}
-        title={
-          <>
-            {heroContent.title} <em className="text-luxe-cyan not-italic font-serif italic">{heroContent.title_accent}</em>
-          </>
-        }
-        subtitle={heroContent.subtitle || ""}
-        poster={heroContent.image_url || "/attached_assets/image_1779159211927.png"}
-        alt="Prime Estate Lucknow"
-      />
+    <div className="bg-[#04090f] text-white overflow-x-hidden" style={{ paddingTop: "140px" }}>
 
-      <section className="py-32 px-6 relative">
-        <Section3DBackground opacity={0.1} />
-        <div className="mx-auto max-w-7xl grid md:grid-cols-2 gap-20 items-start relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-8">
-              <span className="w-12 h-px bg-luxe-cyan" />
-              <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">
-                {overviewContent.eyebrow || "Project Intelligence"}
-              </span>
-            </div>
-            <h2 className="font-display text-5xl md:text-7xl text-white mb-10 leading-[0.9] tracking-tighter">
-              {overviewContent.title} <br />
-              <em className="text-luxe-cyan italic font-serif">{overviewContent.title_accent}</em>
-            </h2>
-            <p className="text-white/50 text-xl leading-relaxed mb-8 font-light">
-              {overviewContent.body}
-            </p>
-            <p className="text-white/50 text-lg leading-relaxed mb-12 font-light">
-              {overviewContent.body_secondary}
-            </p>
-            <ul className="grid grid-cols-2 gap-y-6 text-sm">
-              {Array.isArray(overviewContent.highlights)
-                ? overviewContent.highlights.map((b: string) => (
-                    <li
-                      key={b}
-                      className="flex items-center gap-3 text-white/70 font-bold uppercase tracking-widest text-[10px]"
-                    >
-                      <span className="w-2 h-2 rounded-full bg-luxe-cyan" /> {b}
-                    </li>
-                  ))
-                : null}
-            </ul>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-2 gap-px bg-white/5 border border-white/5 rounded-[40px] overflow-hidden shadow-luxe">
-              {Array.isArray(overviewContent.specs)
-                ? overviewContent.specs.map(([k, v]: [string, string]) => (
-                    <div key={k} className="bg-ink/50 p-10 hover:bg-white/[0.03] transition-colors">
-                      <p className="text-[10px] uppercase tracking-[0.3em] text-white/30 mb-3 font-bold">
-                        {k}
-                      </p>
-                      <p className="font-display text-2xl text-white tracking-tight">{v}</p>
-                    </div>
-                  ))
-                : null}
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ── HERO ── */}
+      <section className="relative h-[70vh] min-h-[480px] overflow-hidden">
+        <img
+          src={project.image}
+          alt={project.name}
+          className="w-full h-full object-cover"
+          style={{ filter: "brightness(0.5) saturate(0.8)" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#04090f] via-[#04090f]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/60 via-transparent to-transparent" />
 
-      <section className="py-32 px-6 bg-ink relative">
-        <Section3DBackground opacity={0.2} />
-        <div className="mx-auto max-w-7xl grid grid-cols-2 md:grid-cols-4 gap-12 text-center relative z-10">
-          {Array.isArray(statsContent.stats)
-            ? statsContent.stats.map(([n, l]: [string, string]) => (
-                <Reveal key={l}>
-                  <div className="group">
-                    <p className="font-display text-5xl md:text-7xl text-white tracking-tighter group-hover:scale-110 transition-transform duration-500 mb-4">
-                      {n}
-                    </p>
-                    <div className="w-8 h-px bg-luxe-cyan/30 mx-auto mb-4 group-hover:w-16 group-hover:bg-luxe-cyan transition-all duration-700" />
-                    <p className="text-[10px] uppercase tracking-[0.4em] text-white/30 font-bold">
-                      {l}
-                    </p>
-                  </div>
-                </Reveal>
-              ))
-            : null}
-        </div>
-        <p className="text-center text-[10px] uppercase tracking-[0.5em] text-luxe-cyan/40 mt-20 font-bold relative z-10">
-          {statsContent.footer || "Global Standards · Jila Panchayat Approved · Clear Title Deeds"}
-        </p>
-      </section>
+        {/* Radial glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] pointer-events-none opacity-40"
+          style={{ background: "radial-gradient(circle, rgba(0,191,255,0.12) 0%, transparent 70%)" }}
+        />
 
-      {/* Gallery Section */}
-      <section className="py-24 px-6 bg-[#060c16] relative">
-        <div className="mx-auto max-w-7xl relative z-10">
-          <Reveal>
-            <div className="flex items-center gap-4 mb-4">
-              <span className="w-8 h-px bg-luxe-cyan" />
-              <span className="text-luxe-cyan text-xs uppercase tracking-[0.4em] font-bold">
-                {galleryContent.eyebrow || "Project Gallery"}
-              </span>
-            </div>
-            <h2 className="font-display text-4xl md:text-6xl text-white mb-12 tracking-tighter">
-              {galleryContent.title} <em className="text-luxe-cyan italic font-serif">{galleryContent.title_accent}</em>
-            </h2>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Array.isArray(galleryContent.images)
-              ? galleryContent.images.map((img: any, i: number) => (
-                  <Reveal key={img.label} delay={i * 0.07}>
-                    <div className="relative overflow-hidden rounded-2xl group aspect-[4/3]">
-                      <img
-                        src={img.src}
-                        alt={img.label}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 brightness-80"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#060c16]/80 via-transparent to-transparent" />
-                      <p className="absolute bottom-4 left-4 text-white/70 text-xs uppercase tracking-[0.2em] font-bold">
-                        {img.label}
-                      </p>
-                    </div>
-                  </Reveal>
-                ))
-              : null}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 px-6 relative">
-        <div className="mx-auto max-w-7xl relative z-10">
-          <Reveal>
-            <SectionEyebrow>{amenitiesContent.eyebrow || "Elite Amenities"}</SectionEyebrow>
-            <h2 className="font-display text-5xl md:text-8xl text-center text-white mb-24 tracking-tighter leading-none">
-              {amenitiesContent.title} <em className="text-luxe-cyan italic font-serif">{amenitiesContent.title_accent}</em>
-            </h2>
-          </Reveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {Array.isArray(amenitiesContent.items)
-              ? amenitiesContent.items.map((a: string, i: number) => (
-                  <Reveal key={a} delay={i * 0.05}>
-                    <div className="glass-premium p-10 h-full flex items-center gap-8 rounded-3xl border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500">
-                      <span className="font-display text-4xl text-luxe-cyan/20 leading-none">
-                        0{i + 1}
-                      </span>
-                      <h3 className="font-display text-2xl text-white tracking-tight">{a}</h3>
-                    </div>
-                  </Reveal>
-                ))
-              : null}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-48 px-6 bg-ink text-center relative overflow-hidden">
-        <Section3DBackground opacity={0.3} />
-        <div className="mx-auto max-w-5xl relative z-10">
-          <Reveal>
-            <SectionEyebrow light>{ctaContent.eyebrow || "Limited Engagement"}</SectionEyebrow>
-            <h2 className="font-display text-4xl md:text-8xl mb-12 text-white tracking-tighter leading-none">
-              {ctaContent.title} <br />
-              <em className="text-luxe-cyan italic font-serif">{ctaContent.title_accent}</em>
-            </h2>
-            <div className="flex flex-col md:flex-row justify-center items-center gap-10 mt-16">
-              <button className="btn-magnetic btn-luxe px-16 py-5">{ctaContent.cta_text || "Schedule Private Tour"}</button>
-              <a
-                href={`tel:${ctaContent.phone || "+919616061166"}`}
-                className="font-display text-4xl text-white hover:text-luxe-cyan transition-colors tracking-tight"
+        <div className="absolute bottom-12 left-6 md:left-16 right-6 md:right-16">
+          <motion.div initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}>
+            <Link
+              to="/project"
+              className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-white/40 hover:text-[#00BFFF] transition-colors mb-5 font-semibold"
+            >
+              ← All Projects
+            </Link>
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <span
+                className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] uppercase px-3 py-1.5 rounded-full border"
+                style={{ borderColor: `${statusColor}55`, color: statusColor, background: `${statusColor}18` }}
               >
-                {ctaContent.phone || "+91 96160-61166"}
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: statusColor }} />
+                {project.status}
+              </span>
+              <span className="text-[11px] font-bold tracking-[0.1em] uppercase px-3 py-1.5 rounded-full border border-white/15 text-white/45">
+                {project.type}
+              </span>
+            </div>
+            <h1 className="font-serif text-[clamp(36px,5.5vw,72px)] font-semibold text-white leading-[1.0] tracking-tight mb-4">
+              {project.name}
+            </h1>
+            <p className="text-white/55 text-base md:text-lg max-w-xl leading-relaxed">
+              {project.flag} {project.city}, {project.country} · {project.startingPrice}
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── OVERVIEW + SPECS ── */}
+      <section className="py-20 px-6 md:px-16 border-b border-white/8">
+        <div className="max-w-[1180px] mx-auto grid lg:grid-cols-[1.3fr_1fr] gap-16 items-start">
+          {/* Left — overview */}
+          <Reveal>
+            <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Project Overview
+            </p>
+            <h2 className="font-serif text-3xl md:text-4xl text-white leading-tight mb-6">
+              About <em className="italic text-[#00BFFF]">{project.name}</em>
+            </h2>
+            <p className="text-white/50 text-base leading-[1.9] mb-8 font-light">{project.overview}</p>
+
+            {/* Highlights */}
+            <div className="grid grid-cols-2 gap-3">
+              {project.highlights.map((h) => (
+                <div key={h} className="flex items-center gap-3 text-white/60 text-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF]/70 shrink-0" />
+                  {h}
+                </div>
+              ))}
+            </div>
+          </Reveal>
+
+          {/* Right — specs table */}
+          <Reveal delay={0.1}>
+            <div className="border border-white/8 rounded-2xl overflow-hidden">
+              {specs.map(([k, v], i) => (
+                <div
+                  key={k}
+                  className={`flex items-center px-6 py-4 border-b border-white/5 last:border-b-0 ${i % 2 === 0 ? "bg-[#060c16]" : "bg-[#080d1a]"}`}
+                >
+                  <span className="text-white/30 text-[10px] uppercase tracking-[0.15em] font-bold w-36 shrink-0">{k}</span>
+                  <span className={`text-sm font-light ${k === "Status" ? "" : "text-white/80"}`} style={k === "Status" ? { color: statusColor } : {}}>
+                    {v}
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 flex flex-col sm:flex-row gap-3">
+              <a
+                href="tel:+919616061166"
+                className="flex-1 text-center py-3.5 rounded-full text-[12px] font-bold tracking-[0.1em] uppercase transition-all duration-300 hover:scale-105"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Book a Site Visit
+              </a>
+              <a
+                href="#enquire"
+                className="flex-1 text-center py-3.5 rounded-full text-[12px] font-bold tracking-[0.1em] uppercase border border-white/20 text-white/70 hover:border-[#00BFFF]/50 hover:text-[#00BFFF] transition-all duration-300"
+              >
+                Enquire Now
               </a>
             </div>
           </Reveal>
         </div>
       </section>
+
+      {/* ── GALLERY ── */}
+      <section className="py-20 px-6 md:px-16 border-b border-white/8 bg-[#060c16]">
+        <div className="max-w-[1180px] mx-auto">
+          <Reveal>
+            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">Project Gallery</p>
+            <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white mb-10">
+              Inside <em className="italic text-[#00BFFF]">{project.name}</em>
+            </h2>
+          </Reveal>
+
+          {/* Featured image */}
+          <Reveal>
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/7] mb-4 border border-white/8 group cursor-pointer">
+              <img
+                src={project.gallery[activeImage]}
+                alt={`${project.name} gallery`}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{ filter: "brightness(0.85)" }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#060c16]/50 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute bottom-5 left-5 text-[11px] uppercase tracking-[0.2em] text-white/50 font-semibold">
+                {activeImage + 1} / {project.gallery.length}
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Thumbnails */}
+          <div className="grid grid-cols-6 gap-2">
+            {project.gallery.map((img, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImage(i)}
+                className={`relative rounded-lg overflow-hidden aspect-square border-2 transition-all duration-200 ${
+                  activeImage === i ? "border-[#00BFFF]" : "border-transparent hover:border-white/30"
+                }`}
+              >
+                <img src={img} alt="" className="w-full h-full object-cover" style={{ filter: "brightness(0.7)" }} />
+                {activeImage === i && (
+                  <div className="absolute inset-0 bg-[#00BFFF]/15" />
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AMENITIES ── */}
+      <section className="py-20 px-6 md:px-16 border-b border-white/8">
+        <div className="max-w-[1180px] mx-auto">
+          <Reveal>
+            <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-white/30 mb-3">Amenities</p>
+            <h2 className="font-serif text-[clamp(26px,3.4vw,36px)] font-semibold text-white mb-10">
+              Everything <em className="italic text-[#00BFFF]">Included</em>
+            </h2>
+          </Reveal>
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+            {project.amenities.map((a, i) => (
+              <Reveal key={a} delay={i * 0.06}>
+                <div className="bg-[#060c16] hover:bg-[#080d1a] transition-colors duration-300 p-8 flex items-center gap-5 group cursor-pointer">
+                  <span
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-[#00BFFF] shrink-0 border border-[#00BFFF]/20 group-hover:border-[#00BFFF]/60 transition-colors"
+                    style={{ background: "rgba(0,191,255,0.08)" }}
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </span>
+                  <p className="text-[12px] uppercase tracking-[0.15em] text-white/60 font-medium group-hover:text-[#00BFFF] transition-colors duration-300">
+                    {a}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENQUIRY CTA ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#060c16] relative overflow-hidden" id="enquire">
+        <div
+          className="absolute bottom-[-160px] right-[-100px] w-[420px] h-[420px] pointer-events-none"
+          style={{ background: "radial-gradient(circle, rgba(0,191,255,0.1) 0%, rgba(0,191,255,0) 70%)" }}
+        />
+        <div className="max-w-[1180px] mx-auto grid md:grid-cols-[1.1fr_0.9fr] gap-12 items-center relative">
+          <Reveal>
+            <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Reserve Your Unit
+            </p>
+            <h2 className="font-serif text-[clamp(28px,3.6vw,40px)] font-semibold text-white leading-[1.15]">
+              Interested in <em className="italic text-[#00BFFF]">{project.name}?</em>
+            </h2>
+            <p className="mt-4 text-white/45 text-[15px] leading-relaxed max-w-[440px]">
+              Leave your details and our team will get back to you within 24 hours with full pricing, availability, and documentation.
+            </p>
+            <div className="mt-8 flex items-center gap-4">
+              <a href="tel:+919616061166" className="text-[#00BFFF] text-sm font-semibold hover:opacity-70 transition-opacity">
+                +91 96160-61166
+              </a>
+              <span className="text-white/20">·</span>
+              <span className="text-white/35 text-sm">info@trustonadvertising.com</span>
+            </div>
+          </Reveal>
+
+          <Reveal delay={0.1}>
+            <form
+              className="bg-[#04090f] border border-white/8 rounded-2xl p-7"
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Thanks — our team will be in touch within 24 hours.");
+              }}
+            >
+              <p className="text-white/60 text-xs uppercase tracking-widest mb-5 font-bold">Enquiry for: <span className="text-[#00BFFF]">{project.name}</span></p>
+              <div className="mb-4">
+                <label className="block text-[11px] font-bold tracking-[0.08em] uppercase text-white/30 mb-2">Full Name</label>
+                <input
+                  type="text"
+                  placeholder="Your name"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData((f) => ({ ...f, name: e.target.value }))}
+                  className="w-full bg-[#060c16] border border-white/8 rounded-lg px-3.5 py-3 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#00BFFF]/60 transition-colors"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-[11px] font-bold tracking-[0.08em] uppercase text-white/30 mb-2">Phone Number</label>
+                <input
+                  type="tel"
+                  placeholder="+91 00000 00000"
+                  required
+                  value={formData.phone}
+                  onChange={(e) => setFormData((f) => ({ ...f, phone: e.target.value }))}
+                  className="w-full bg-[#060c16] border border-white/8 rounded-lg px-3.5 py-3 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#00BFFF]/60 transition-colors"
+                />
+              </div>
+              <div className="mb-5">
+                <label className="block text-[11px] font-bold tracking-[0.08em] uppercase text-white/30 mb-2">Message (Optional)</label>
+                <textarea
+                  placeholder="Any specific questions or requirements..."
+                  rows={3}
+                  value={formData.message}
+                  onChange={(e) => setFormData((f) => ({ ...f, message: e.target.value }))}
+                  className="w-full bg-[#060c16] border border-white/8 rounded-lg px-3.5 py-3 text-white text-sm placeholder:text-white/25 focus:outline-none focus:border-[#00BFFF]/60 transition-colors resize-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-full text-[12px] font-bold tracking-[0.1em] uppercase transition-opacity duration-200 hover:opacity-85"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Send Enquiry
+              </button>
+            </form>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── More Projects ── */}
+      <section className="py-16 px-6 md:px-16 border-t border-white/8">
+        <div className="max-w-[1180px] mx-auto flex items-center justify-between flex-wrap gap-6">
+          <div>
+            <p className="text-white/30 text-[11px] uppercase tracking-[0.2em] font-bold mb-1">Explore More</p>
+            <p className="font-serif text-xl text-white">Browse the full TrustOn portfolio</p>
+          </div>
+          <Link
+            to="/project"
+            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/20 text-white/70 text-[12px] uppercase tracking-[0.1em] font-semibold hover:border-[#00BFFF]/50 hover:text-[#00BFFF] transition-all duration-300"
+          >
+            View All Projects →
+          </Link>
+        </div>
+      </section>
+
     </div>
   );
 }

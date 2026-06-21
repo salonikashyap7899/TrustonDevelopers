@@ -6,6 +6,10 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { usePageContent } from "@/hooks/usePageContent";
 import { openConsultationModal } from "./ConsultationModal";
+import { useState, useRef } from "react";
+
+const VIDEO_URL =
+  "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4";
 
 const testimonials = [
   {
@@ -15,6 +19,7 @@ const testimonials = [
       "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
     profileImage:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
+    hasVideo: true,
   },
   {
     name: "Anil Singh",
@@ -23,6 +28,7 @@ const testimonials = [
       "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.",
     profileImage:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
+    hasVideo: false,
   },
   {
     name: "Mohammed Irfan",
@@ -31,6 +37,7 @@ const testimonials = [
       "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
     profileImage:
       "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop",
+    hasVideo: true,
   },
   {
     name: "Priya Sharma",
@@ -39,6 +46,7 @@ const testimonials = [
       "I invested in two plots as a long-term asset. TrustOn's team gave me honest ROI projections, explained the infrastructure timeline clearly, and has been available every step of the way.",
     profileImage:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop",
+    hasVideo: false,
   },
   {
     name: "Vivek Tiwari",
@@ -47,6 +55,7 @@ const testimonials = [
       "The location of Prime Estate is genuinely strategic. Within months of buying, I could already see infrastructure work picking up nearby. TrustOn delivered exactly what they promised.",
     profileImage:
       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
+    hasVideo: true,
   },
   {
     name: "Suman Mishra",
@@ -55,6 +64,7 @@ const testimonials = [
       "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.",
     profileImage:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
+    hasVideo: false,
   },
   {
     name: "Deepak Pandey",
@@ -63,13 +73,93 @@ const testimonials = [
       "As a first-time buyer, I had hundreds of questions. The TrustOn team never made me feel rushed. They educated me, showed me options, and helped me make a confident decision.",
     profileImage:
       "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
+    hasVideo: true,
   },
 ];
 
-function TestimonialCard({
+function VideoCard({
   name,
   designation,
   description,
+  profileImage,
+}: (typeof testimonials)[number]) {
+  const [playing, setPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  function handlePlay() {
+    setPlaying(true);
+    videoRef.current?.play();
+  }
+
+  return (
+    <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden shadow-xl flex flex-col select-none group hover:border-[#00BFFF]/25 transition-all duration-500">
+      {/* Video area */}
+      <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "16/9" }}>
+        <video
+          ref={videoRef}
+          src={VIDEO_URL}
+          muted
+          loop
+          playsInline
+          autoPlay
+          className="w-full h-full object-cover"
+          style={{ opacity: 0.85 }}
+        />
+        {/* Gradient over video */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ background: "linear-gradient(180deg, rgba(6,12,22,0) 50%, rgba(6,12,22,0.85) 100%)" }}
+        />
+        {/* Video badge */}
+        <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#04090f]/70 backdrop-blur-sm border border-[#00BFFF]/25 rounded-full px-2.5 py-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse" />
+          <span className="text-[9px] uppercase tracking-[0.15em] text-[#00BFFF] font-bold">Video</span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-5 flex flex-col flex-1">
+        {/* Quote icon */}
+        <div className="absolute top-[calc(9/16*100%+16px)] right-5 w-7 h-7 rounded-full border border-[#00BFFF]/15 flex items-center justify-center text-[#00BFFF]/30 text-base font-serif leading-none">
+          &#8220;
+        </div>
+
+        {/* Stars */}
+        <div className="flex gap-1 mb-3">
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} className="w-3 h-3 text-[#00BFFF] fill-current" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+
+        {/* Description */}
+        <p className="text-white/55 text-sm leading-relaxed flex-1 overflow-hidden line-clamp-3 font-light italic pr-4 mb-4">
+          &ldquo;{description}&rdquo;
+        </p>
+
+        {/* Author */}
+        <div className="pt-4 border-t border-white/[0.06] flex items-center gap-3">
+          <img
+            src={profileImage}
+            alt={name}
+            className="w-8 h-8 rounded-full object-cover border border-[#00BFFF]/20"
+          />
+          <div>
+            <p className="font-semibold text-white text-sm">{name}</p>
+            <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{designation}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TextCard({
+  name,
+  designation,
+  description,
+  profileImage,
 }: (typeof testimonials)[number]) {
   return (
     <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden shadow-xl flex flex-col h-[230px] md:h-[250px] select-none group hover:border-[#00BFFF]/20 transition-all duration-500 p-6">
@@ -94,9 +184,11 @@ function TestimonialCard({
 
       {/* Author */}
       <div className="mt-4 pt-4 border-t border-white/[0.06] flex items-center gap-3">
-        <div className="w-8 h-8 rounded-full bg-[#00BFFF]/10 border border-[#00BFFF]/20 flex items-center justify-center text-[#00BFFF] text-xs font-bold">
-          {name.charAt(0)}
-        </div>
+        <img
+          src={profileImage}
+          alt={name}
+          className="w-8 h-8 rounded-full object-cover border border-[#00BFFF]/20"
+        />
         <div>
           <p className="font-semibold text-white text-sm">{name}</p>
           <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{designation}</p>
@@ -143,14 +235,17 @@ export function Testimonials() {
           speed={700}
           slidesPerView="auto"
           spaceBetween={24}
-          autoplay={{ delay: 3500, disableOnInteraction: false, pauseOnMouseEnter: true }}
+          autoplay={{ delay: 4000, disableOnInteraction: false, pauseOnMouseEnter: true }}
           pagination={{ clickable: true }}
           modules={[Autoplay, Pagination]}
           className="testimonials-swiper pb-14"
         >
           {testimonials.map((t) => (
-            <SwiperSlide key={t.name} style={{ width: "clamp(280px, 65vw, 520px)" }}>
-              <TestimonialCard {...t} />
+            <SwiperSlide
+              key={t.name}
+              style={{ width: t.hasVideo ? "clamp(300px, 70vw, 440px)" : "clamp(280px, 65vw, 520px)" }}
+            >
+              {t.hasVideo ? <VideoCard {...t} /> : <TextCard {...t} />}
             </SwiperSlide>
           ))}
         </Swiper>

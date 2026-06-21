@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
+import { PROJECTS, STATUS_COLOR } from "@/data/projects";
 
 export const Route = createFileRoute("/project")({
   head: () => ({
@@ -16,24 +17,6 @@ export const Route = createFileRoute("/project")({
   }),
   component: ProjectPage,
 });
-
-const PROJECTS = [
-  { id: "p1", country: "India", flag: "🇮🇳", city: "Lucknow", name: "Dubagga Heights", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop", blurb: "240 residences anchoring Lucknow's next investment corridor.", stat: "Starting ₹85L" },
-  { id: "p2", country: "India", flag: "🇮🇳", city: "Mumbai", name: "Marine Crest Residences", type: "Residential", status: "Ready to Move", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=900&auto=format&fit=crop", blurb: "Sea-facing towers redefining South Mumbai's skyline.", stat: "Starting ₹3.2Cr" },
-  { id: "p3", country: "India", flag: "🇮🇳", city: "Bengaluru", name: "Whitefield Commons", type: "Commercial", status: "Ready to Move", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=900&auto=format&fit=crop", blurb: "Grade-A office park built for Bengaluru's tech corridor.", stat: "1.1M sq.ft." },
-  { id: "p4", country: "UAE", flag: "🇦🇪", city: "Dubai", name: "Marina Azure", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=900&auto=format&fit=crop", blurb: "Waterfront living on the edge of Dubai Marina.", stat: "Starting AED 1.4M" },
-  { id: "p5", country: "UAE", flag: "🇦🇪", city: "Abu Dhabi", name: "Saadiyat Grove Villas", type: "Villas", status: "Upcoming", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=900&auto=format&fit=crop", blurb: "Private villas minutes from Saadiyat's cultural district.", stat: "Starting AED 4.8M" },
-  { id: "p6", country: "UAE", flag: "🇦🇪", city: "Dubai", name: "Business Bay Quarter", type: "Commercial", status: "Ready to Move", image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=900&auto=format&fit=crop", blurb: "Boutique office suites overlooking the Dubai Water Canal.", stat: "Starting AED 980K" },
-  { id: "p7", country: "UK", flag: "🇬🇧", city: "London", name: "Canary Wharf Residences", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?q=80&w=900&auto=format&fit=crop", blurb: "Riverside apartments in London's financial heart.", stat: "Starting £650K" },
-  { id: "p8", country: "UK", flag: "🇬🇧", city: "Manchester", name: "Northern Quarter Lofts", type: "Residential", status: "Ready to Move", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=900&auto=format&fit=crop", blurb: "Converted mill lofts in Manchester's creative district.", stat: "Starting £310K" },
-  { id: "p9", country: "Singapore", flag: "🇸🇬", city: "Singapore", name: "Orchard Spire", type: "Residential", status: "Upcoming", image: "https://images.unsplash.com/photo-1567360425618-1594206637d2?q=80&w=900&auto=format&fit=crop", blurb: "A landmark tower steps from Orchard Road.", stat: "Starting S$2.1M" },
-];
-
-const STATUS_COLOR: Record<string, string> = {
-  "Ready to Move": "#3FD68A",
-  "Under Construction": "#F5B83F",
-  "Upcoming": "#00BFFF",
-};
 
 const COUNTRIES = [
   { name: "India", flag: "🇮🇳", count: 12, image: "https://images.unsplash.com/photo-1597211833712-5e41faa202ea?q=80&w=900&auto=format&fit=crop" },
@@ -222,40 +205,45 @@ function ProjectPage() {
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: Math.min(i, 8) * 0.06 }}
-                  className="bg-[#060c16] border border-white/8 rounded-2xl overflow-hidden hover:border-[#00BFFF]/35 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden bg-[#080d1a]">
-                    <img
-                      src={p.image}
-                      alt={p.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(4,9,15,0) 40%, rgba(4,9,15,0.85) 100%)" }} />
-                    <span className="absolute top-3.5 left-3.5 border border-[#00BFFF]/55 text-[#00BFFF] bg-[#04090f]/55 backdrop-blur-sm text-[11px] font-semibold tracking-[0.1em] uppercase px-3 py-1.5 rounded-full">
-                      {p.type}
-                    </span>
-                    <span className="absolute bottom-3.5 left-3.5 text-[13px] font-semibold text-white drop-shadow-lg">
-                      {p.flag} {p.city}, {p.country}
-                    </span>
-                  </div>
-                  <div className="p-5 pb-5">
-                    <h3 className="font-serif text-xl font-semibold text-white mb-2 leading-snug">{p.name}</h3>
-                    <p className="text-[13.5px] text-white/45 leading-[1.55] mb-4 min-h-[42px]">{p.blurb}</p>
-                    <div className="flex items-center justify-between pt-3.5 border-t border-white/8 mb-3.5">
-                      <span className="flex items-center text-[11.5px] font-semibold tracking-wide uppercase text-white/45">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full mr-2 shrink-0"
-                          style={{ background: STATUS_COLOR[p.status] || "#00BFFF" }}
-                        />
-                        {p.status}
+                  <Link
+                    to="/projects/$slug"
+                    params={{ slug: p.id }}
+                    className="block bg-[#060c16] border border-white/8 rounded-2xl overflow-hidden hover:border-[#00BFFF]/35 hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+                  >
+                    <div className="relative aspect-[4/3] overflow-hidden bg-[#080d1a]">
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(4,9,15,0) 40%, rgba(4,9,15,0.85) 100%)" }} />
+                      <span className="absolute top-3.5 left-3.5 border border-[#00BFFF]/55 text-[#00BFFF] bg-[#04090f]/55 backdrop-blur-sm text-[11px] font-semibold tracking-[0.1em] uppercase px-3 py-1.5 rounded-full">
+                        {p.type}
                       </span>
-                      <span className="text-[13px] font-bold text-white">{p.stat}</span>
+                      <span className="absolute bottom-3.5 left-3.5 text-[13px] font-semibold text-white drop-shadow-lg">
+                        {p.flag} {p.city}, {p.country}
+                      </span>
                     </div>
-                    <span className="text-[12.5px] font-semibold tracking-[0.06em] uppercase text-[#00BFFF] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-200">
-                      View Project <span>→</span>
-                    </span>
-                  </div>
+                    <div className="p-5 pb-5">
+                      <h3 className="font-serif text-xl font-semibold text-white mb-2 leading-snug">{p.name}</h3>
+                      <p className="text-[13.5px] text-white/45 leading-[1.55] mb-4 min-h-[42px]">{p.blurb}</p>
+                      <div className="flex items-center justify-between pt-3.5 border-t border-white/8 mb-3.5">
+                        <span className="flex items-center text-[11.5px] font-semibold tracking-wide uppercase text-white/45">
+                          <span
+                            className="w-1.5 h-1.5 rounded-full mr-2 shrink-0"
+                            style={{ background: STATUS_COLOR[p.status] || "#00BFFF" }}
+                          />
+                          {p.status}
+                        </span>
+                        <span className="text-[13px] font-bold text-white">{p.stat}</span>
+                      </div>
+                      <span className="text-[12.5px] font-semibold tracking-[0.06em] uppercase text-[#00BFFF] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all duration-200">
+                        View Project <span>→</span>
+                      </span>
+                    </div>
+                  </Link>
                 </motion.div>
               ))
             )}
