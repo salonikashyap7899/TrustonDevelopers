@@ -3,18 +3,18 @@ import { Reveal } from "./Reveal";
 import { Link } from "@tanstack/react-router";
 import { usePageContent } from "@/hooks/usePageContent";
 
-export function PrimeEstateSection() {
-  const amenities = [
-    "Wide Internal Roads",
-    "24/7 Security Guard",
-    "Piped Water Supply",
-    "Electricity Connection",
-    "Landscaped Parks",
-    "Underground Drainage",
-    "Clear Plot Demarcation",
-    "Phased Infrastructure",
-  ];
+const DEFAULT_AMENITIES = [
+  "Wide Internal Roads",
+  "24/7 Security Guard",
+  "Piped Water Supply",
+  "Electricity Connection",
+  "Landscaped Parks",
+  "Underground Drainage",
+  "Clear Plot Demarcation",
+  "Phased Infrastructure",
+];
 
+export function PrimeEstateSection() {
   const c = usePageContent("home.prime_estate", {
     eyebrow: "Flagship Project",
     title: "Prime",
@@ -24,7 +24,16 @@ export function PrimeEstateSection() {
     stat_2_val: "47",  stat_2_sup: "",  stat_2_label: "Available Now",
     stat_3_val: "2,400", stat_3_sup: "", stat_3_label: "Sq. Ft Range",
     stat_4_val: "₹12",  stat_4_sup: "L+", stat_4_label: "Starting Price",
+    amenities: DEFAULT_AMENITIES,
   });
+
+  type AmenityItem = { icon?: string; title?: string; desc?: string } | string;
+  const rawAmenities = Array.isArray(c.amenities) && (c.amenities as AmenityItem[]).length > 0
+    ? (c.amenities as AmenityItem[])
+    : DEFAULT_AMENITIES;
+  const amenities: string[] = rawAmenities.map((a: AmenityItem) =>
+    typeof a === "string" ? a : (a.title || "")
+  ).filter(Boolean);
 
   const stats = [
     { val: String(c.stat_1_val || "120"), sup: String(c.stat_1_sup ?? "+"), label: String(c.stat_1_label || "Total Plots") },

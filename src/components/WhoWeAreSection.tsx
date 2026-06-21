@@ -3,22 +3,10 @@ import { useRef } from "react";
 import { ContainerScroll } from "./ui/container-scroll-animation";
 import { usePageContent } from "@/hooks/usePageContent";
 
-const pillars = [
-  {
-    num: "01",
-    title: "Transparent Documentation",
-    desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions.",
-  },
-  {
-    num: "02",
-    title: "High-Growth Locations",
-    desc: "Projects in proven corridors with verified infrastructure and appreciation potential.",
-  },
-  {
-    num: "03",
-    title: "End-to-End Partnership",
-    desc: "From plot acquisition to construction — one trusted team, start to finish.",
-  },
+const DEFAULT_PILLARS = [
+  { num: "01", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions." },
+  { num: "02", title: "High-Growth Locations", desc: "Projects in proven corridors with verified infrastructure and appreciation potential." },
+  { num: "03", title: "End-to-End Partnership", desc: "From plot acquisition to construction — one trusted team, start to finish." },
 ];
 
 export function WhoWeAreSection() {
@@ -31,7 +19,19 @@ export function WhoWeAreSection() {
     subtitle: "in Lucknow",
     body: "Truston Developers is a Lucknow-based property development company built on a single founding principle — that buying land should be simple, transparent, and deeply empowering for the buyer.",
     body_secondary: "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
+    morning_image: "/assets/morning-image.jpeg",
+    night_image: "/assets/night-image.jpeg",
+    quote: "We build the foundation. You build the dream.",
+    pillars: DEFAULT_PILLARS,
   });
+
+  const pillars: typeof DEFAULT_PILLARS = Array.isArray(content.pillars) && (content.pillars as typeof DEFAULT_PILLARS).length > 0
+    ? (content.pillars as typeof DEFAULT_PILLARS)
+    : DEFAULT_PILLARS;
+
+  const morningImage = String(content.morning_image || "/assets/morning-image.jpeg");
+  const nightImage = String(content.night_image || "/assets/night-image.jpeg");
+  const quote = String(content.quote || "We build the foundation. You build the dream.");
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -43,7 +43,6 @@ export function WhoWeAreSection() {
 
   return (
     <section ref={sectionRef} className="relative bg-[#050b14] overflow-hidden ">
-      {/* Background grid */}
       <div
         className="absolute inset-0 opacity-[0.035] pointer-events-none"
         style={{
@@ -57,7 +56,6 @@ export function WhoWeAreSection() {
       <ContainerScroll
         titleComponent={
           <div className="px-4 mt-12">
-            {/* Eyebrow */}
             <div className="flex items-center justify-center gap-4 mb-5">
               <span className="w-10 h-px bg-[#00BFFF]" />
               <p className="text-[10px] uppercase tracking-[0.5em] text-[#00BFFF] font-bold">
@@ -74,41 +72,34 @@ export function WhoWeAreSection() {
           </div>
         }
       >
-        {/* Entire section content inside the 3D scroll card */}
         <div className="relative w-full h-full flex flex-col md:flex-row overflow-hidden rounded-xl m-t-0 m-b-0 ">
 
-          {/* Left — Image */}
           <div className="relative w-full md:w-1/2 h-48 md:h-full shrink-0 overflow-hidden">
-            {/* Morning image (morning-image.jpeg) - shows at top of section */}
             <motion.img
-              src="/assets/morning-image.jpeg"
+              src={morningImage}
               alt="Prime Estate — Morning View"
               style={{ opacity: morningOpacity }}
               className="w-full h-full object-cover absolute inset-0"
             />
-            {/* Night image (night-image.jpeg) - shows at bottom of section */}
             <motion.img
-              src="/assets/night-image.jpeg"
+              src={nightImage}
               alt="Prime Estate — Night View"
               style={{ opacity: nightOpacity }}
               className="w-full h-full object-cover absolute inset-0"
             />
-            {/* Subtle static shimmer — no continuous animation */}
             <div className="absolute inset-x-0 top-1/2 h-[1px] bg-gradient-to-r from-transparent via-[#00BFFF]/20 to-transparent pointer-events-none" />
-            {/* Quote badge */}
             <div className="absolute bottom-4 left-4 right-4">
               <div className="bg-[#04090f]/75 backdrop-blur-xl border border-[#00BFFF]/20 rounded-xl p-3">
                 <p className="text-[8px] uppercase tracking-[0.4em] text-[#00BFFF] mb-1 font-bold">
                   Prime Estate · 2025
                 </p>
                 <p className="font-serif text-white/90 text-sm leading-snug italic">
-                  "We build the foundation. You build the dream."
+                  &ldquo;{quote}&rdquo;
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Right — Text content */}
           <div className="flex-1 bg-[#04090f] p-6 md:p-8 flex flex-col justify-center overflow-y-auto">
             <p className="text-white/65 text-sm md:text-base leading-relaxed mb-3 font-light">
               {content.body}
@@ -117,7 +108,6 @@ export function WhoWeAreSection() {
               {content.body_secondary}
             </p>
 
-            {/* Pillars */}
             <div className="space-y-0">
               {pillars.map((p) => (
                 <motion.div

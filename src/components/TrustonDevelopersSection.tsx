@@ -197,20 +197,27 @@ export function TrustonServicesSection() {
   );
 }
 
+const DEFAULT_REASONS = [
+  { num: '01', title: 'Complete Transparency, Always', desc: 'Zero ambiguity in every transaction. Plot details, legal status, and pricing disclosed fully upfront — no fine print, no surprises. What you see is exactly what you get.' },
+  { num: '02', title: 'High-Growth Location Intelligence', desc: 'Dubagga and surrounding corridors in Lucknow are on a proven appreciation trajectory. We identify and secure high-potential land before the curve, passing that advantage directly to buyers.' },
+  { num: '03', title: 'Government-Approved, Legally Secure', desc: 'Every project carries Jila Panchayat approvals and verified title deeds — ensuring your investment is legally clean, compliant, and protected for generations.' },
+  { num: '04', title: 'One Team, Every Step', desc: 'Plot acquisition, construction, architecture, investment advisory — all under one roof. No juggling between agencies, no coordination headaches. One trusted partner from search to handover.' },
+  { num: '05', title: 'Your Land, Your Terms', desc: 'Build now or hold for appreciation — both are valid strategies and we support both with equal commitment. No pressure, no gimmicks. Just sound advice aligned with your goals.' },
+];
+
 export function TrustonWhySection() {
   const c = usePageContent("home.why_truston", {
     eyebrow: "The Truston Difference",
     title: "Why Buyers Choose",
     title_accent: "Truston",
+    reasons: DEFAULT_REASONS,
   });
 
-  const reasons = [
-    { num: '01', title: 'Complete Transparency, Always', text: 'Zero ambiguity in every transaction. Plot details, legal status, and pricing disclosed fully upfront — no fine print, no surprises. What you see is exactly what you get.' },
-    { num: '02', title: 'High-Growth Location Intelligence', text: 'Dubagga and surrounding corridors in Lucknow are on a proven appreciation trajectory. We identify and secure high-potential land before the curve, passing that advantage directly to buyers.' },
-    { num: '03', title: 'Government-Approved, Legally Secure', text: 'Every project carries Jila Panchayat approvals and verified title deeds — ensuring your investment is legally clean, compliant, and protected for generations.' },
-    { num: '04', title: 'One Team, Every Step', text: 'Plot acquisition, construction, architecture, investment advisory — all under one roof. No juggling between agencies, no coordination headaches. One trusted partner from search to handover.' },
-    { num: '05', title: 'Your Land, Your Terms', text: 'Build now or hold for appreciation — both are valid strategies and we support both with equal commitment. No pressure, no gimmicks. Just sound advice aligned with your goals.' },
-  ];
+  type Reason = { num: string; title: string; desc?: string; text?: string };
+  const rawReasons = Array.isArray(c.reasons) && (c.reasons as Reason[]).length > 0
+    ? (c.reasons as Reason[])
+    : DEFAULT_REASONS;
+  const reasons = rawReasons.map((r: Reason) => ({ ...r, text: r.desc || r.text || "" }));
 
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-[#060c16]">

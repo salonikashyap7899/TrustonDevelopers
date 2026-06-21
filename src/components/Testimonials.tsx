@@ -6,98 +6,39 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { usePageContent } from "@/hooks/usePageContent";
 import { openConsultationModal } from "./ConsultationModal";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 
-const VIDEO_URL =
+const FALLBACK_VIDEO =
   "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4";
 
-const testimonials = [
-  {
-    name: "Ramesh Verma",
-    designation: "Plot Owner, Phase 1",
-    description:
-      "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.",
-    profileImage:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Anil Singh",
-    designation: "Homeowner",
-    description:
-      "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.",
-    profileImage:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Mohammed Irfan",
-    designation: "Channel Partner",
-    description:
-      "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.",
-    profileImage:
-      "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Priya Sharma",
-    designation: "Investor, Phase 2",
-    description:
-      "I invested in two plots as a long-term asset. TrustOn's team gave me honest ROI projections, explained the infrastructure timeline clearly, and has been available every step of the way.",
-    profileImage:
-      "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Vivek Tiwari",
-    designation: "Plot Owner — Dubagga",
-    description:
-      "The location of Prime Estate is genuinely strategic. Within months of buying, I could already see infrastructure work picking up nearby. TrustOn delivered exactly what they promised.",
-    profileImage:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Suman Mishra",
-    designation: "NRI Investor",
-    description:
-      "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.",
-    profileImage:
-      "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
-  {
-    name: "Deepak Pandey",
-    designation: "First-Time Buyer",
-    description:
-      "As a first-time buyer, I had hundreds of questions. The TrustOn team never made me feel rushed. They educated me, showed me options, and helped me make a confident decision.",
-    profileImage:
-      "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop",
-    hasVideo: true,
-  },
+interface TestimonialItem {
+  name: string;
+  designation: string;
+  description: string;
+  profile_image: string;
+  video_url: string;
+}
+
+const DEFAULT_ITEMS: TestimonialItem[] = [
+  { name: "Ramesh Verma", designation: "Plot Owner, Phase 1", description: "I was skeptical about buying a plot but Prime Estate's team walked me through every document. The land is approved, the location is growing, and the process was completely transparent.", profile_image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Anil Singh", designation: "Homeowner", description: "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.", profile_image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Mohammed Irfan", designation: "Channel Partner", description: "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.", profile_image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Priya Sharma", designation: "Investor, Phase 2", description: "I invested in two plots as a long-term asset. TrustOn's team gave me honest ROI projections, explained the infrastructure timeline clearly, and has been available every step of the way.", profile_image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Vivek Tiwari", designation: "Plot Owner — Dubagga", description: "The location of Prime Estate is genuinely strategic. Within months of buying, I could already see infrastructure work picking up nearby. TrustOn delivered exactly what they promised.", profile_image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop", video_url: "" },
+  { name: "Suman Mishra", designation: "NRI Investor", description: "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.", profile_image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop", video_url: "" },
+  { name: "Deepak Pandey", designation: "First-Time Buyer", description: "As a first-time buyer, I had hundreds of questions. The TrustOn team never made me feel rushed. They educated me, showed me options, and helped me make a confident decision.", profile_image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop", video_url: "" },
 ];
 
-function VideoCard({
-  name,
-  designation,
-  description,
-  profileImage,
-}: (typeof testimonials)[number]) {
-  const [playing, setPlaying] = useState(false);
+function VideoCard({ item }: { item: TestimonialItem }) {
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  function handlePlay() {
-    setPlaying(true);
-    videoRef.current?.play();
-  }
+  const videoUrl = item.video_url || FALLBACK_VIDEO;
 
   return (
     <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden shadow-xl flex flex-col select-none group hover:border-[#00BFFF]/25 transition-all duration-500">
-      {/* Video area */}
       <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "16/9" }}>
         <video
           ref={videoRef}
-          src={VIDEO_URL}
+          src={videoUrl}
           muted
           loop
           playsInline
@@ -105,26 +46,21 @@ function VideoCard({
           className="w-full h-full object-cover"
           style={{ opacity: 0.85 }}
         />
-        {/* Gradient over video */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{ background: "linear-gradient(180deg, rgba(6,12,22,0) 50%, rgba(6,12,22,0.85) 100%)" }}
         />
-        {/* Video badge */}
         <div className="absolute top-3 left-3 flex items-center gap-1.5 bg-[#04090f]/70 backdrop-blur-sm border border-[#00BFFF]/25 rounded-full px-2.5 py-1">
           <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse" />
           <span className="text-[9px] uppercase tracking-[0.15em] text-[#00BFFF] font-bold">Video</span>
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-5 flex flex-col flex-1">
-        {/* Quote icon */}
         <div className="absolute top-[calc(9/16*100%+16px)] right-5 w-7 h-7 rounded-full border border-[#00BFFF]/15 flex items-center justify-center text-[#00BFFF]/30 text-base font-serif leading-none">
           &#8220;
         </div>
 
-        {/* Stars */}
         <div className="flex gap-1 mb-3">
           {[...Array(5)].map((_, i) => (
             <svg key={i} className="w-3 h-3 text-[#00BFFF] fill-current" viewBox="0 0 20 20">
@@ -133,21 +69,19 @@ function VideoCard({
           ))}
         </div>
 
-        {/* Description */}
         <p className="text-white/55 text-sm leading-relaxed flex-1 overflow-hidden line-clamp-3 font-light italic pr-4 mb-4">
-          &ldquo;{description}&rdquo;
+          &ldquo;{item.description}&rdquo;
         </p>
 
-        {/* Author */}
         <div className="pt-4 border-t border-white/[0.06] flex items-center gap-3">
           <img
-            src={profileImage}
-            alt={name}
+            src={item.profile_image}
+            alt={item.name}
             className="w-8 h-8 rounded-full object-cover border border-[#00BFFF]/20"
           />
           <div>
-            <p className="font-semibold text-white text-sm">{name}</p>
-            <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{designation}</p>
+            <p className="font-semibold text-white text-sm">{item.name}</p>
+            <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{item.designation}</p>
           </div>
         </div>
       </div>
@@ -155,20 +89,13 @@ function VideoCard({
   );
 }
 
-function TextCard({
-  name,
-  designation,
-  description,
-  profileImage,
-}: (typeof testimonials)[number]) {
+function TextCard({ item }: { item: TestimonialItem }) {
   return (
     <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden shadow-xl flex flex-col h-[230px] md:h-[250px] select-none group hover:border-[#00BFFF]/20 transition-all duration-500 p-6">
-      {/* Quote icon */}
       <div className="absolute top-5 right-5 w-8 h-8 rounded-full border border-[#00BFFF]/15 flex items-center justify-center text-[#00BFFF]/30 text-lg font-serif leading-none">
         &#8220;
       </div>
 
-      {/* Stars */}
       <div className="flex gap-1 mb-4">
         {[...Array(5)].map((_, i) => (
           <svg key={i} className="w-3.5 h-3.5 text-[#00BFFF] fill-current" viewBox="0 0 20 20">
@@ -177,21 +104,19 @@ function TextCard({
         ))}
       </div>
 
-      {/* Description */}
       <p className="text-white/55 text-sm leading-relaxed flex-1 overflow-hidden line-clamp-3 font-light italic pr-6">
-        &ldquo;{description}&rdquo;
+        &ldquo;{item.description}&rdquo;
       </p>
 
-      {/* Author */}
       <div className="mt-4 pt-4 border-t border-white/[0.06] flex items-center gap-3">
         <img
-          src={profileImage}
-          alt={name}
+          src={item.profile_image}
+          alt={item.name}
           className="w-8 h-8 rounded-full object-cover border border-[#00BFFF]/20"
         />
         <div>
-          <p className="font-semibold text-white text-sm">{name}</p>
-          <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{designation}</p>
+          <p className="font-semibold text-white text-sm">{item.name}</p>
+          <p className="text-[#00BFFF]/50 text-[10px] uppercase tracking-widest font-bold">{item.designation}</p>
         </div>
       </div>
     </div>
@@ -205,7 +130,12 @@ export function Testimonials() {
     title_accent: "Partnerships",
     subtitle: "Voices of excellence from our growing network of homeowners, investors, and partners.",
     cta_text: "Join the future of luxury real estate.",
+    items: DEFAULT_ITEMS,
   });
+
+  const items: TestimonialItem[] = Array.isArray(c.items) && (c.items as TestimonialItem[]).length > 0
+    ? (c.items as TestimonialItem[])
+    : DEFAULT_ITEMS;
 
   return (
     <section className="relative py-32 px-4 bg-[#04090f] overflow-hidden">
@@ -240,14 +170,17 @@ export function Testimonials() {
           modules={[Autoplay, Pagination]}
           className="testimonials-swiper pb-14"
         >
-          {testimonials.map((t) => (
-            <SwiperSlide
-              key={t.name}
-              style={{ width: t.hasVideo ? "clamp(300px, 70vw, 440px)" : "clamp(280px, 65vw, 520px)" }}
-            >
-              {t.hasVideo ? <VideoCard {...t} /> : <TextCard {...t} />}
-            </SwiperSlide>
-          ))}
+          {items.map((t, idx) => {
+            const hasVideo = !!(t.video_url);
+            return (
+              <SwiperSlide
+                key={t.name + idx}
+                style={{ width: hasVideo ? "clamp(300px, 70vw, 440px)" : "clamp(280px, 65vw, 520px)" }}
+              >
+                {hasVideo ? <VideoCard item={t} /> : <TextCard item={t} />}
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
 
         <div className="mt-16 text-center">

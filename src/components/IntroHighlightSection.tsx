@@ -5,6 +5,34 @@ import { Reveal } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 import { usePageContent } from "@/hooks/usePageContent";
 
+const DEFAULT_IMAGES = [
+  { src: "/assets/green-amenities.jpg", alt: "Prime Estate 1", video_url: "" },
+  { src: "/assets/photo_2.jpg", alt: "Prime Estate 2", video_url: "" },
+  { src: "/assets/photo_3.jpg", alt: "Prime Estate 3", video_url: "" },
+  { src: "/assets/photo_4.jpg", alt: "Prime Estate 4", video_url: "" },
+];
+
+interface MediaItem {
+  src: string;
+  alt: string;
+  video_url: string;
+}
+
+function MediaCircle({ item, className }: { item: MediaItem; className: string }) {
+  if (item.video_url) {
+    return (
+      <div className={`rounded-full overflow-hidden ${className}`}>
+        <video src={item.video_url} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+      </div>
+    );
+  }
+  return (
+    <div className={`rounded-full overflow-hidden ${className}`}>
+      <img src={item.src} className="w-full h-full object-cover" alt={item.alt} />
+    </div>
+  );
+}
+
 export function IntroHighlightSection() {
   const c = usePageContent("home.new_generation", {
     eyebrow: "New Generation",
@@ -13,7 +41,17 @@ export function IntroHighlightSection() {
     subtitle: "Real Estate",
     body: "Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence. Our mission is to create billion-dollar luxury experiences that transcend traditional real estate.",
     body_secondary: "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.",
+    cta_label: "Discover Our Vision",
+    accent_label: "Innovation",
+    accent_body: "Pioneering futuristic living through architectural mastery.",
+    images: DEFAULT_IMAGES,
   });
+
+  const images: MediaItem[] = Array.isArray(c.images) && (c.images as MediaItem[]).length > 0
+    ? (c.images as MediaItem[]).slice(0, 4)
+    : DEFAULT_IMAGES;
+
+  while (images.length < 4) images.push(DEFAULT_IMAGES[images.length % DEFAULT_IMAGES.length]);
 
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -24,14 +62,6 @@ export function IntroHighlightSection() {
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
-
-  // Using paths relative to public folder
-  const images = [
-    "/assets/green-amenities.jpg",
-    "/assets/photo_2.jpg",
-    "/assets/photo_3.jpg",
-    "/assets/photo_4.jpg"
-  ];
 
   return (
     <section
@@ -47,27 +77,25 @@ export function IntroHighlightSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
-          {/* Visual Side — Simple Circle Grid */}
           <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
             <div className="grid grid-cols-2 gap-4 relative">
-              {/* Main Image - Circle 1 */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
-                <img src={images[0]} className="w-full h-full object-cover" alt="Prime Estate 1" />
-              </div>
-              {/* Image 2 - Circle 2 */}
-              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
-                <img src={images[1]} className="w-full h-full object-cover" alt="Prime Estate 2" />
-              </div>
-              {/* Image 3 - Circle 3 */}
-              <div className="w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]">
-                <img src={images[2]} className="w-full h-full object-cover" alt="Prime Estate 3" />
-              </div>
-              {/* Image 4 - Circle 4 */}
-              <div className="w-40 h-40 md:w-56 md:h-56 rounded-full overflow-hidden border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]">
-                <img src={images[3]} className="w-full h-full object-cover" alt="Prime Estate 4" />
-              </div>
-              
-              {/* Center Accent Circle */}
+              <MediaCircle
+                item={images[0]}
+                className="w-40 h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
+              />
+              <MediaCircle
+                item={images[1]}
+                className="w-32 h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
+              />
+              <MediaCircle
+                item={images[2]}
+                className="w-32 h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
+              />
+              <MediaCircle
+                item={images[3]}
+                className="w-40 h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
+              />
+
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">
                 <div className="w-12 h-12 md:w-16 md:h-16 rounded-full border border-[#00BFFF]/60 animate-ping" />
               </div>
@@ -77,14 +105,15 @@ export function IntroHighlightSection() {
               style={{ y: y2 }}
               className="absolute -bottom-8 -right-4 lg:-right-8 glass-premium p-6 lg:p-8 rounded-2xl max-w-[200px] lg:max-w-xs shadow-luxe border-white/10 z-20"
             >
-              <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">Innovation</div>
+              <div className="text-[#00BFFF] text-[10px] uppercase tracking-[0.3em] mb-3 font-bold">
+                {String(c.accent_label || "Innovation")}
+              </div>
               <p className="text-white/60 text-xs lg:text-sm leading-relaxed font-light">
-                Pioneering futuristic living through architectural mastery.
+                {String(c.accent_body || "Pioneering futuristic living through architectural mastery.")}
               </p>
             </motion.div>
           </motion.div>
 
-          {/* Content Side */}
           <div className="space-y-12">
             <Reveal>
               <div className="flex items-center gap-4 mb-4">
@@ -117,7 +146,7 @@ export function IntroHighlightSection() {
             </Reveal>
 
             <Reveal delay={0.5}>
-              <button className="btn-magnetic btn-luxe px-12">Discover Our Vision</button>
+              <button className="btn-magnetic btn-luxe px-12">{String(c.cta_label || "Discover Our Vision")}</button>
             </Reveal>
           </div>
         </div>
