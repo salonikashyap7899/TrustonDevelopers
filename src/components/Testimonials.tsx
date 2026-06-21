@@ -28,7 +28,7 @@ const testimonials = [
       "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.",
     profileImage:
       "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop",
-    hasVideo: false,
+    hasVideo: true,
   },
   {
     name: "Mohammed Irfan",
@@ -46,7 +46,7 @@ const testimonials = [
       "I invested in two plots as a long-term asset. TrustOn's team gave me honest ROI projections, explained the infrastructure timeline clearly, and has been available every step of the way.",
     profileImage:
       "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop",
-    hasVideo: false,
+    hasVideo: true,
   },
   {
     name: "Vivek Tiwari",
@@ -64,7 +64,7 @@ const testimonials = [
       "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.",
     profileImage:
       "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop",
-    hasVideo: false,
+    hasVideo: true,
   },
   {
     name: "Deepak Pandey",

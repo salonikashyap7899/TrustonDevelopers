@@ -351,66 +351,6 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* ── About Video ── */}
-      <section className="py-20 px-6 md:px-16 bg-[#04090f] border-b border-white/8">
-        <div className="max-w-5xl mx-auto">
-          <Reveal>
-            <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Our Story
-            </p>
-            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-10">
-              See What We <em className="italic text-[#00BFFF]">Stand For</em>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="relative rounded-2xl overflow-hidden border border-white/8 bg-[#060c16]" style={{ aspectRatio: "16/9" }}>
-              <video
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-                style={{ opacity: 0.92 }}
-              >
-                <source
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
-                  type="video/mp4"
-                />
-              </video>
-              {/* Gradient overlay */}
-              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, transparent 50%, rgba(4,9,15,0.65) 100%)" }} />
-              {/* Play badge */}
-              <div className="absolute top-5 left-5 flex items-center gap-2.5 bg-[#04090f]/70 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                <span className="w-2 h-2 rounded-full bg-[#00BFFF] animate-pulse" />
-                <span className="text-[11px] uppercase tracking-[0.15em] text-white/70 font-semibold">Live Preview</span>
-              </div>
-              {/* Caption */}
-              <div className="absolute bottom-7 left-7 right-7">
-                <p className="font-serif italic text-2xl md:text-3xl text-white/90 font-light leading-tight max-w-2xl">
-                  "Own the Ground. Build the Legacy."
-                </p>
-                <p className="text-white/35 text-[11px] uppercase tracking-[0.2em] mt-3">— Truston Developers, Lucknow</p>
-              </div>
-            </div>
-          </Reveal>
-          {/* Stats strip below video */}
-          <Reveal delay={0.15}>
-            <div className="grid grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden mt-6">
-              {[
-                { val: "100%", label: "Transparency Guaranteed" },
-                { val: "JP ✓", label: "Approved Projects" },
-                { val: "2025", label: "Est. Lucknow" },
-              ].map((s) => (
-                <div key={s.label} className="bg-[#060c16] py-6 px-8 text-center">
-                  <p className="font-serif text-2xl text-[#00BFFF] leading-none mb-1">{s.val}</p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold mt-2">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
       {/* ── About Our Company ── */}
       <section className="py-32 px-6 relative overflow-hidden">
         <Section3DBackground opacity={0.08} />
@@ -564,62 +504,133 @@ function AboutPage() {
         </div>
       </section>
 
-      {/* ── Four Services ── */}
+      {/* ── About Video ── */}
+      <section className="py-20 px-6 md:px-16 bg-[#04090f] border-b border-white/8">
+        <div className="max-w-5xl mx-auto">
+          <Reveal>
+            <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-[#00BFFF]" /> Our Story
+            </p>
+            <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight mb-10">
+              See What We <em className="italic text-[#00BFFF]">Stand For</em>
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div className="relative rounded-2xl overflow-hidden border border-white/8 bg-[#060c16]" style={{ aspectRatio: "16/9" }}>
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+                style={{ opacity: 0.92 }}
+              >
+                <source
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(180deg, transparent 50%, rgba(4,9,15,0.65) 100%)" }} />
+              <div className="absolute top-5 left-5 flex items-center gap-2.5 bg-[#04090f]/70 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
+                <span className="w-2 h-2 rounded-full bg-[#00BFFF] animate-pulse" />
+                <span className="text-[11px] uppercase tracking-[0.15em] text-white/70 font-semibold">Live Preview</span>
+              </div>
+              <div className="absolute bottom-7 left-7 right-7">
+                <p className="font-serif italic text-2xl md:text-3xl text-white/90 font-light leading-tight max-w-2xl">
+                  "Own the Ground. Build the Legacy."
+                </p>
+                <p className="text-white/35 text-[11px] uppercase tracking-[0.2em] mt-3">— Truston Developers, Lucknow</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="grid grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden mt-6">
+              {[
+                { val: "100%", label: "Transparency Guaranteed" },
+                { val: "JP ✓", label: "Approved Projects" },
+                { val: "2025", label: "Est. Lucknow" },
+              ].map((s) => (
+                <div key={s.label} className="bg-[#060c16] py-6 px-8 text-center">
+                  <p className="font-serif text-2xl text-[#00BFFF] leading-none mb-1">{s.val}</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold mt-2">{s.label}</p>
+                </div>
+              ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── Plot Selling Service ── */}
       <section className="py-32 px-6 relative overflow-hidden">
         <Section3DBackground opacity={0.07} />
         <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-2 gap-8 mb-16 items-end">
+          <div className="grid lg:grid-cols-[1fr_1.1fr] gap-16 items-center">
+
+            {/* Left — text */}
             <Reveal>
               <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00BFFF] mb-4 flex items-center gap-3">
                 <span className="w-6 h-px bg-[#00BFFF]" />
-                {String(aboutServices.eyebrow || "What We Do")}
+                What We Do
               </p>
-              <h2 className="font-serif text-4xl md:text-6xl text-white tracking-tight leading-tight">
-                {String(aboutServices.title || "Four Services.")}
-                <br />
-                <em className="text-[#00BFFF] italic">{String(aboutServices.title_accent || "One Complete Solution.")}</em>
+              <h2 className="font-serif text-4xl md:text-6xl text-white tracking-tight leading-tight mb-6">
+                Plot <em className="text-[#00BFFF] italic">Selling</em>
               </h2>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="text-white/45 text-base md:text-lg leading-relaxed font-light">
-                {String(aboutServices.body || "From finding the right plot to designing, building, and advising on your investment — TrustOn Developers is your single trusted partner across every step of the real estate journey.")}
+              <p className="text-white/50 text-base md:text-lg leading-relaxed font-light mb-8">
+                We offer Jila Panchayat approved residential plots in Prime Estate, Lucknow — with clear title deeds, transparent pricing, and full infrastructure support. Whether you're buying to build or investing for appreciation, our plots deliver unmatched value.
               </p>
-              <p className="text-[#00BFFF]/50 text-sm uppercase tracking-[0.2em] font-bold mt-4">
-                {String(aboutServices.count_label || "04 Expert Services")}
-              </p>
-            </Reveal>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {services.map((svc, i) => (
-              <Reveal key={svc.num} delay={i * 0.1}>
-                <div className="border border-white/5 rounded-[28px] p-8 bg-[#060c16] hover:border-[#00BFFF]/20 transition-all duration-500 group h-full">
-                  <div className="flex items-start justify-between mb-6">
-                    <div className="w-12 h-12 border border-[#00BFFF]/20 rounded-full flex items-center justify-center group-hover:border-[#00BFFF]/50 transition-all duration-500">
-                      {CORE_VALUE_ICONS[svc.iconKey] ?? null}
-                    </div>
-                    <span className="font-serif text-5xl text-white/5 leading-none select-none">
-                      {svc.num}
+              <ul className="space-y-4 mb-10">
+                {[
+                  "JP approved with clear title deeds",
+                  "Highway & metro connected locations",
+                  "Sizes from 1200 sq.ft — flexible options",
+                  "Phase 1 & Phase 2 available",
+                  "Transparent pricing, zero hidden charges",
+                  "Full legal & documentation support",
+                ].map((b) => (
+                  <li key={b} className="flex items-center gap-4 text-white/55 text-sm">
+                    <span className="w-6 h-6 rounded-full border border-[#00BFFF]/30 flex items-center justify-center shrink-0" style={{ background: "rgba(0,191,255,0.07)" }}>
+                      <svg className="w-3 h-3 text-[#00BFFF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                      </svg>
                     </span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="tel:+919616061166"
+                className="inline-flex items-center gap-3 px-10 py-4 rounded-full text-[11px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:scale-105"
+                style={{ background: "#00BFFF", color: "#04090f" }}
+              >
+                Book a Site Visit →
+              </a>
+            </Reveal>
+
+            {/* Right — image card */}
+            <Reveal delay={0.12}>
+              <div className="relative">
+                <div className="absolute -inset-6 opacity-20 blur-3xl pointer-events-none rounded-3xl" style={{ background: "radial-gradient(circle, #00BFFF, transparent)" }} />
+                <div className="relative rounded-[28px] overflow-hidden border border-white/8 shadow-2xl" style={{ aspectRatio: "4/3" }}>
+                  <img
+                    src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop"
+                    alt="Prime Estate Plots"
+                    className="w-full h-full object-cover"
+                    style={{ filter: "brightness(0.75) saturate(0.9)" }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/70 via-transparent to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1 font-semibold">Prime Estate, Lucknow</p>
+                    <p className="font-serif text-xl text-white">Jila Panchayat Approved</p>
                   </div>
-                  <h3 className="font-serif text-2xl text-white mb-4">{svc.title}</h3>
-                  <p className="text-white/50 text-sm leading-relaxed mb-6 font-light">
-                    {svc.desc}
-                  </p>
-                  <ul className="space-y-2 mb-8">
-                    {svc.bullets.map((b) => (
-                      <li key={b} className="flex items-center gap-3 text-white/40 text-xs">
-                        <span className="text-[#00BFFF]">→</span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                  <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#00BFFF] font-medium group-hover:gap-4 transition-all duration-300">
-                    Explore Service <span>→</span>
-                  </span>
                 </div>
-              </Reveal>
-            ))}
+                {/* Floating badge */}
+                <div className="absolute -bottom-5 -right-5 bg-[#060c16] border border-[#00BFFF]/25 rounded-2xl px-6 py-4 shadow-xl backdrop-blur-xl">
+                  <p className="font-serif text-xl text-[#00BFFF] leading-none mb-1">₹12L+</p>
+                  <p className="text-[9px] uppercase tracking-[0.35em] text-white/35 font-bold">Starting Price</p>
+                </div>
+              </div>
+            </Reveal>
+
           </div>
         </div>
       </section>
