@@ -1,16 +1,15 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Reveal } from "@/components/Reveal";
 import lucknowAerialImg from "@/assets/lucknow-aerial.jpg";
-import luxuryInteriorImg from "@/assets/luxury-interior.jpg";
-import heroImg from "@/assets/hero-estate.jpg";
 import { usePageContent } from "@/hooks/usePageContent";
+import { ALL_ARTICLES } from "./blog.$slug";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
     meta: [
-      { title: "The Legacy  — TrustOn Developers" },
+      { title: "The Legacy Journal — TrustOn Developers" },
       {
         name: "description",
         content:
@@ -21,83 +20,14 @@ export const Route = createFileRoute("/blog")({
   component: BlogPage,
 });
 
-const categories = ["All", "Investment", "Architecture", "Market Trends", "Lifestyle", "Legal & Docs", "NRI Guide"];
-
-const featuredArticles = [
-  {
-    cat: "Investment",
-    title: "Why Dubagga is Lucknow's Next Billion-Dollar Corridor",
-    author: "Rohit Sharma, Investment Head",
-    date: "May 18, 2025",
-    read: "8 min read",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
-    featured: true,
-  },
-  {
-    cat: "Architecture",
-    title: "Designing Homes That Last Generations",
-    date: "Apr 30, 2025",
-    read: "6 min read",
-    img: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "Legal & Docs",
-    title: "The Complete Guide to Jila Panchayat Approved Plots",
-    date: "Apr 12, 2025",
-    read: "5 min read",
-    img: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop",
-  },
-];
-
-const articles = [
-  {
-    cat: "investment",
-    title: "How to Evaluate Land ROI Before You Buy",
-    excerpt:
-      "Beyond the brochure — a data-driven framework for assessing real appreciation potential in Lucknow's emerging corridors before committing capital.",
-    date: "May 10, 2025",
-    img: "https://images.unsplash.com/photo-1579621970795-87facc2f976d?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "market",
-    title: "Lucknow 2025: The Infrastructure Revolution Reshaping Property Values",
-    excerpt:
-      "The Lucknow Metro Phase 2, Purvanchal Expressway extensions, and Smart City upgrades are converging to create once-in-a-decade buying opportunities.",
-    date: "Apr 28, 2025",
-    img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "nri",
-    title: "NRI Property Investment in Lucknow: Step-by-Step Legal Roadmap",
-    excerpt:
-      "From FEMA compliance to NRO/NRE account transfers — a complete guide for non-resident Indians investing in Uttar Pradesh real estate remotely.",
-    date: "Apr 15, 2025",
-    img: "https://images.unsplash.com/photo-1565098772267-60af42b81ef2?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "architecture",
-    title: "Vastu-Compliant Modern Homes: Finding the Perfect Balance",
-    excerpt:
-      "How TrustOn's architectural team integrates ancient Vastu principles with contemporary spatial design — delivering homes that are both beautiful and culturally rooted.",
-    date: "Apr 5, 2025",
-    img: "https://images.unsplash.com/photo-1503174971373-b1f69850bded?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "legal",
-    title: "Red Flags in Property Documents: What to Check Before Signing",
-    excerpt:
-      "A practitioner's checklist — title deeds, encumbrance certificates, Panchayat approvals, and the 12 questions you must ask every seller before signing anything.",
-    date: "Mar 22, 2025",
-    img: "https://images.unsplash.com/photo-1453945619913-79ec89a82c51?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    cat: "lifestyle",
-    title: "Living in Prime Estate: A Resident's Perspective",
-    excerpt:
-      "Anil Singh bought his plot in Phase 1 and built his dream home within 14 months. Here's an honest account of the journey — from site visit to possession.",
-    date: "Mar 10, 2025",
-    img: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop",
-  },
+const CATEGORIES = [
+  { label: "All", key: "all" },
+  { label: "Investment", key: "investment" },
+  { label: "Architecture", key: "architecture" },
+  { label: "Market Trends", key: "market" },
+  { label: "Lifestyle", key: "lifestyle" },
+  { label: "Legal & Docs", key: "legal" },
+  { label: "NRI Guide", key: "nri" },
 ];
 
 const tickerItems = [
@@ -117,23 +47,21 @@ function BlogPage() {
     title_suffix: "Journal",
     subtitle: "Expert perspectives on Lucknow real estate, land investment, architecture, and the art of building generational wealth.",
   });
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeKey, setActiveKey] = useState("all");
   const [subscribed, setSubscribed] = useState(false);
 
   const filteredArticles =
-    activeFilter === "All"
-      ? articles
-      : articles.filter((a) =>
-          a.cat === activeFilter.toLowerCase().replace(/ & /g, " ").replace(/ /g, "")
-            || a.cat === activeFilter.toLowerCase().split(" ")[0]
-        );
+    activeKey === "all"
+      ? ALL_ARTICLES
+      : ALL_ARTICLES.filter((a) => a.catKey === activeKey);
+
+  const featuredArticles = ALL_ARTICLES.slice(0, 3);
 
   return (
     <div className="bg-[#04090f] text-white min-h-screen overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
 
       {/* ── HERO with bg image ── */}
       <section className="relative min-h-[70vh] flex items-end overflow-hidden pt-[88px]">
-        {/* Background image */}
         <div className="absolute inset-0 z-0">
           <img
             src={String(hero.image_url || lucknowAerialImg)}
@@ -143,7 +71,6 @@ function BlogPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[#04090f]/60 via-transparent to-[#04090f]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#04090f]/70 to-transparent" />
-          {/* Cyan radial glow */}
           <div
             className="absolute inset-0 pointer-events-none"
             style={{ background: "radial-gradient(ellipse 60% 80% at 80% 50%, rgba(0,191,255,0.06) 0%, transparent 70%)" }}
@@ -170,11 +97,10 @@ function BlogPage() {
             <p className="text-white/50 text-base md:text-lg font-light max-w-lg leading-relaxed mb-10">
               {String(hero.subtitle || "Expert perspectives on Lucknow real estate, land investment, architecture, and the art of building generational wealth.")}
             </p>
-            {/* Hero meta stats */}
             <div className="flex flex-wrap items-center gap-10 pt-8 border-t border-white/8">
               {[
-                { label: "Published Articles", val: "48+" },
-                { label: "Topics Covered", val: "6 Categories" },
+                { label: "Published Articles", val: `${ALL_ARTICLES.length}+` },
+                { label: "Topics Covered", val: `${CATEGORIES.length - 1} Categories` },
                 { label: "Monthly Readers", val: "12,000+" },
               ].map((m) => (
                 <div key={m.label} className="flex flex-col gap-1">
@@ -192,82 +118,91 @@ function BlogPage() {
         style={{ backdropFilter: "blur(16px)" }}>
         <div className="max-w-7xl mx-auto flex items-center gap-2 flex-wrap">
           <span className="text-[10px] uppercase tracking-[0.2em] text-white/30 font-bold mr-3">Filter</span>
-          {categories.map((cat) => (
+          {CATEGORIES.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setActiveFilter(cat)}
+              key={cat.key}
+              onClick={() => setActiveKey(cat.key)}
               className={`px-4 py-2 text-[11px] uppercase tracking-[0.12em] font-medium border transition-all duration-300 rounded-full ${
-                activeFilter === cat
+                activeKey === cat.key
                   ? "border-[#00BFFF] text-[#00BFFF] bg-[#00BFFF]/10"
                   : "border-white/10 text-white/40 hover:border-[#00BFFF]/50 hover:text-[#00BFFF]/70"
               }`}
             >
-              {cat}
+              {cat.label}
             </button>
           ))}
         </div>
       </div>
 
-      {/* ── Featured Stories ── */}
-      <section className="py-16 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-baseline justify-between mb-10 pb-5 border-b border-white/5">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-white/35 font-bold">Featured Stories</span>
-            <span className="text-[11px] text-white/25">3 of 48</span>
-          </div>
-          <div className="grid md:grid-cols-5 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
-            {/* Main featured */}
-            <div className="md:col-span-3 relative overflow-hidden cursor-pointer group" style={{ aspectRatio: "4/3" }}>
-              <img
-                src={featuredArticles[0].img}
-                alt={featuredArticles[0].title}
-                className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                style={{ filter: "brightness(0.5)" }}
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/90 via-[#04090f]/20 to-transparent flex flex-col justify-end p-8 md:p-10">
-                <span className="inline-block px-3 py-1 border border-[#00BFFF] text-[#00BFFF] text-[10px] uppercase tracking-[0.2em] mb-4 w-fit rounded-full">
-                  {featuredArticles[0].cat}
-                </span>
-                <h2 className="font-serif text-2xl md:text-3xl font-light text-white leading-tight mb-4">
-                  {featuredArticles[0].title}
-                </h2>
-                <div className="flex items-center gap-4 flex-wrap">
-                  <span className="text-white/50 text-xs">{featuredArticles[0].author}</span>
-                  <span className="text-white/30 text-xs">{featuredArticles[0].date}</span>
-                  <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.12em] ml-auto">
-                    {featuredArticles[0].read} →
-                  </span>
-                </div>
-              </div>
+      {/* ── Featured Stories (only shown when "All" is selected) ── */}
+      {activeKey === "all" && (
+        <section className="py-16 px-6 md:px-12">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-baseline justify-between mb-10 pb-5 border-b border-white/5">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-white/35 font-bold">Featured Stories</span>
+              <span className="text-[11px] text-white/25">3 of {ALL_ARTICLES.length}</span>
             </div>
-            {/* Side cards */}
-            <div className="md:col-span-2 flex flex-col">
-              {featuredArticles.slice(1).map((art) => (
-                <div
-                  key={art.title}
-                  className="relative flex-1 overflow-hidden cursor-pointer group border-t border-white/5 first:border-t-0"
-                >
-                  <img
-                    src={art.img}
-                    alt={art.title}
-                    className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
-                    style={{ filter: "brightness(0.45)", minHeight: 200 }}
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/90 to-transparent flex flex-col justify-end p-6">
-                    <span className="inline-block px-3 py-1 border border-[#00BFFF] text-[#00BFFF] text-[9px] uppercase tracking-[0.2em] mb-3 w-fit rounded-full">
-                      {art.cat}
+            <div className="grid md:grid-cols-5 gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+              {/* Main featured */}
+              <Link
+                to="/blog/$slug"
+                params={{ slug: featuredArticles[0].slug }}
+                className="md:col-span-3 relative overflow-hidden cursor-pointer group"
+                style={{ aspectRatio: "4/3" }}
+              >
+                <img
+                  src={featuredArticles[0].img}
+                  alt={featuredArticles[0].title}
+                  className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+                  style={{ filter: "brightness(0.5)" }}
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/90 via-[#04090f]/20 to-transparent flex flex-col justify-end p-8 md:p-10">
+                  <span className="inline-block px-3 py-1 border border-[#00BFFF] text-[#00BFFF] text-[10px] uppercase tracking-[0.2em] mb-4 w-fit rounded-full">
+                    {featuredArticles[0].cat}
+                  </span>
+                  <h2 className="font-serif text-2xl md:text-3xl font-light text-white leading-tight mb-4">
+                    {featuredArticles[0].title}
+                  </h2>
+                  <div className="flex items-center gap-4 flex-wrap">
+                    <span className="text-white/50 text-xs">{featuredArticles[0].author}</span>
+                    <span className="text-white/30 text-xs">{featuredArticles[0].date}</span>
+                    <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.12em] ml-auto">
+                      {featuredArticles[0].read} →
                     </span>
-                    <h3 className="font-serif text-lg font-light text-white leading-snug mb-2">{art.title}</h3>
-                    <span className="text-white/30 text-[10px]">{art.date} · {art.read}</span>
                   </div>
                 </div>
-              ))}
+              </Link>
+              {/* Side cards */}
+              <div className="md:col-span-2 flex flex-col">
+                {featuredArticles.slice(1).map((art) => (
+                  <Link
+                    key={art.slug}
+                    to="/blog/$slug"
+                    params={{ slug: art.slug }}
+                    className="relative flex-1 overflow-hidden cursor-pointer group border-t border-white/5 first:border-t-0"
+                  >
+                    <img
+                      src={art.img}
+                      alt={art.title}
+                      className="w-full h-full object-cover transition-transform duration-[1.2s] group-hover:scale-105"
+                      style={{ filter: "brightness(0.45)", minHeight: 200 }}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#04090f]/90 to-transparent flex flex-col justify-end p-6">
+                      <span className="inline-block px-3 py-1 border border-[#00BFFF] text-[#00BFFF] text-[9px] uppercase tracking-[0.2em] mb-3 w-fit rounded-full">
+                        {art.cat}
+                      </span>
+                      <h3 className="font-serif text-lg font-light text-white leading-snug mb-2">{art.title}</h3>
+                      <span className="text-white/30 text-[10px]">{art.date} · {art.read}</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── Ticker ── */}
       <div className="border-y border-[#00BFFF]/15 bg-[#00BFFF]/5 py-3 overflow-hidden">
@@ -290,54 +225,57 @@ function BlogPage() {
       <section className="py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-baseline justify-between mb-10 pb-5 border-b border-white/5">
-            <span className="text-[11px] uppercase tracking-[0.25em] text-white/35 font-bold">All Articles</span>
-            <span className="text-[11px] text-white/25">Showing {filteredArticles.length} of 45</span>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
-            {filteredArticles.length > 0 ? filteredArticles.map((art, i) => (
-              <Reveal key={art.title} delay={i * 0.06}>
-                <article className="bg-[#060c16] p-0 cursor-pointer group hover:bg-[#080d1a] transition-colors duration-300 relative flex flex-col h-full border-b border-white/5">
-                  <div className="overflow-hidden">
-                    <img
-                      src={art.img}
-                      alt={art.title}
-                      className="w-full aspect-video object-cover transition-all duration-500 group-hover:brightness-100"
-                      style={{ filter: "brightness(0.75)" }}
-                      loading="lazy"
-                    />
-                  </div>
-                  {/* Bottom accent line on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00BFFF] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
-                  <div className="p-7 flex flex-col flex-1">
-                    <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.2em] font-bold mb-3 block">
-                      {art.cat}
-                    </span>
-                    <h3 className="font-serif text-xl font-light text-white leading-snug mb-3 flex-1">
-                      {art.title}
-                    </h3>
-                    <p className="text-white/40 text-sm leading-relaxed mb-6 font-light">{art.excerpt}</p>
-                    <div className="flex items-center justify-between pt-5 border-t border-white/6">
-                      <span className="text-white/30 text-[10px] tracking-wide">{art.date}</span>
-                      <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.12em] flex items-center gap-1 group-hover:gap-3 transition-all duration-300">
-                        Read More →
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </Reveal>
-            )) : (
-              <div className="col-span-3 py-20 text-center text-white/30 text-sm">
-                No articles in this category yet.
-              </div>
-            )}
+            <span className="text-[11px] uppercase tracking-[0.25em] text-white/35 font-bold">
+              {activeKey === "all" ? "All Articles" : CATEGORIES.find((c) => c.key === activeKey)?.label}
+            </span>
+            <span className="text-[11px] text-white/25">
+              Showing {filteredArticles.length} of {ALL_ARTICLES.length}
+            </span>
           </div>
 
-          {/* Load more */}
-          <div className="flex justify-center mt-12">
-            <button className="px-12 py-4 border border-[#00BFFF]/30 text-[#00BFFF] text-[11px] uppercase tracking-[0.2em] font-medium hover:border-[#00BFFF] hover:bg-[#00BFFF]/5 transition-all duration-300 rounded-full flex items-center gap-3">
-              Load More Articles <span>↓</span>
-            </button>
-          </div>
+          {filteredArticles.length === 0 ? (
+            <div className="py-20 text-center text-white/30 text-sm">
+              No articles in this category yet.
+            </div>
+          ) : (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
+              {filteredArticles.map((art, i) => (
+                <Reveal key={art.slug} delay={i * 0.06}>
+                  <Link
+                    to="/blog/$slug"
+                    params={{ slug: art.slug }}
+                    className="block bg-[#060c16] cursor-pointer group hover:bg-[#080d1a] transition-colors duration-300 relative flex flex-col h-full border-b border-white/5"
+                  >
+                    <div className="overflow-hidden">
+                      <img
+                        src={art.img}
+                        alt={art.title}
+                        className="w-full aspect-video object-cover transition-all duration-500 group-hover:brightness-100"
+                        style={{ filter: "brightness(0.75)" }}
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#00BFFF] scale-x-0 group-hover:scale-x-100 transition-transform duration-400 origin-left" />
+                    <div className="p-7 flex flex-col flex-1">
+                      <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.2em] font-bold mb-3 block">
+                        {art.cat}
+                      </span>
+                      <h3 className="font-serif text-xl font-light text-white leading-snug mb-3 flex-1">
+                        {art.title}
+                      </h3>
+                      <p className="text-white/40 text-sm leading-relaxed mb-6 font-light">{art.excerpt}</p>
+                      <div className="flex items-center justify-between pt-5 border-t border-white/6">
+                        <span className="text-white/30 text-[10px] tracking-wide">{art.date}</span>
+                        <span className="text-[#00BFFF] text-[10px] uppercase tracking-[0.12em] flex items-center gap-1 group-hover:gap-3 transition-all duration-300">
+                          Read Article →
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
