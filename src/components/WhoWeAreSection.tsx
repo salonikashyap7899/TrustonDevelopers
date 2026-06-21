@@ -29,8 +29,10 @@ export function WhoWeAreSection() {
     ? (content.pillars as typeof DEFAULT_PILLARS)
     : DEFAULT_PILLARS;
 
-  const morningImage = String(content.morning_image || "/assets/morning-image.jpeg");
-  const nightImage = String(content.night_image || "/assets/night-image.jpeg");
+  type GalleryImage = { src: string; alt?: string; video_url?: string };
+  const rawImages = Array.isArray(content.images) ? (content.images as GalleryImage[]) : [];
+  const morningImage = String(rawImages[0]?.src || content.morning_image || "/assets/morning-image.jpeg");
+  const nightImage = String(rawImages[1]?.src || content.night_image || "/assets/night-image.jpeg");
   const quote = String(content.quote || "We build the foundation. You build the dream.");
 
   const { scrollYProgress } = useScroll({
@@ -102,10 +104,10 @@ export function WhoWeAreSection() {
 
           <div className="flex-1 bg-[#04090f] p-6 md:p-8 flex flex-col justify-center overflow-y-auto">
             <p className="text-white/65 text-sm md:text-base leading-relaxed mb-3 font-light">
-              {content.body}
+              {String(content.body || "")}
             </p>
             <p className="text-white/40 text-sm leading-relaxed mb-6 font-light">
-              {content.body_secondary}
+              {String(content.body_secondary || "")}
             </p>
 
             <div className="space-y-0">

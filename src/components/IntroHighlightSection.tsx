@@ -124,24 +124,24 @@ export function IntroHighlightSection() {
               </div>
             </Reveal>
 
-            <SwipeReveal>
+            <SwipeReveal text={String(c.title || "Modern")}>
               <h2 className="font-serif leading-tight tracking-tight">
                 <span className="block text-4xl md:text-5xl lg:text-6xl text-white font-light uppercase tracking-widest">
-                  {c.title || "Modern"}
+                  {String(c.title || "Modern")}
                 </span>
                 <span className="block text-4xl md:text-5xl lg:text-6xl text-[#00BFFF] font-light italic mt-2">
-                  {c.title_accent || "Living"}
+                  {String(c.title_accent || "Living")}
                 </span>
                 <span className="block text-4xl md:text-5xl lg:text-6xl text-white/40 font-light mt-2">
-                  {c.subtitle || "Real Estate"}
+                  {String(c.subtitle || "Real Estate")}
                 </span>
               </h2>
             </SwipeReveal>
 
             <Reveal delay={0.3}>
               <div className="space-y-6 text-white/50 text-lg lg:text-xl font-light leading-relaxed">
-                <p>{c.body || "Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence."}</p>
-                <p>{c.body_secondary || "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite."}</p>
+                <p>{String(c.body || "Welcome to the era of TrustOn, where we blend cinematic storytelling with architectural excellence.")}</p>
+                <p>{String(c.body_secondary || "From interactive 3D environments to immersive lifestyle offerings, every detail is crafted for the elite.")}</p>
               </div>
             </Reveal>
 

@@ -55,6 +55,13 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
       img_4_alt: "Prime Boulevard",
       img_5_src: "/assets/gallery/prime-street.jpg",
       img_5_alt: "Prime Street",
+      images: [
+        { src: "/assets/building-plots.jpg", alt: "Prime Estate — Aerial View", video_url: "" },
+        { src: "/assets/gallery/prime-club.jpg", alt: "Prime Club House", video_url: "" },
+        { src: "/assets/gallery/prime-road.jpg", alt: "Prime Roads", video_url: "" },
+        { src: "/assets/gallery/prime-boulevard.jpg", alt: "Prime Boulevard", video_url: "" },
+        { src: "/assets/gallery/prime-street.jpg", alt: "Prime Street", video_url: "" },
+      ],
     },
   },
   {
@@ -190,6 +197,10 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
       body_secondary: "We don't merely sell plots; we help you make one of the most significant decisions of your life with complete clarity, verified documentation, and a team that stands behind every commitment.",
       morning_image: "/assets/morning-image.jpeg",
       night_image: "/assets/night-image.jpeg",
+      images: [
+        { src: "/assets/morning-image.jpeg", alt: "Prime Estate — Morning View", video_url: "" },
+        { src: "/assets/night-image.jpeg", alt: "Prime Estate — Night View", video_url: "" },
+      ],
       quote: "We build the foundation. You build the dream.",
       pillars: [
         { num: "01", title: "Transparent Documentation", desc: "Clear title deeds, Jila Panchayat approvals, and zero hidden conditions." },

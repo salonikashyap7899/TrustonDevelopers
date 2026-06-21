@@ -22,7 +22,21 @@ export function GallerySection() {
     img_4_alt: "Prime Boulevard",
     img_5_src: "/assets/gallery/prime-street.jpg",
     img_5_alt: "Prime Street",
+    images: [
+      { src: "/assets/building-plots.jpg", alt: "Prime Estate — Aerial View", video_url: "" },
+      { src: "/assets/gallery/prime-club.jpg", alt: "Prime Club House", video_url: "" },
+      { src: "/assets/gallery/prime-road.jpg", alt: "Prime Roads", video_url: "" },
+      { src: "/assets/gallery/prime-boulevard.jpg", alt: "Prime Boulevard", video_url: "" },
+      { src: "/assets/gallery/prime-street.jpg", alt: "Prime Street", video_url: "" },
+    ],
   });
+
+  const images = Array.isArray(c.images) ? (c.images as { src: string; alt?: string }[]) : [];
+  const img1 = { src: String(images[0]?.src || c.img_1_src || "/assets/building-plots.jpg"), alt: String(images[0]?.alt || c.img_1_alt || "") };
+  const img2 = { src: String(images[1]?.src || c.img_2_src || "/assets/gallery/prime-club.jpg"), alt: String(images[1]?.alt || c.img_2_alt || "") };
+  const img3 = { src: String(images[2]?.src || c.img_3_src || "/assets/gallery/prime-road.jpg"), alt: String(images[2]?.alt || c.img_3_alt || "") };
+  const img4 = { src: String(images[3]?.src || c.img_4_src || "/assets/gallery/prime-boulevard.jpg"), alt: String(images[3]?.alt || c.img_4_alt || "") };
+  const img5 = { src: String(images[4]?.src || c.img_5_src || "/assets/gallery/prime-street.jpg"), alt: String(images[4]?.alt || c.img_5_alt || "") };
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -99,7 +113,7 @@ export function GallerySection() {
                 top: "4%", left: "4%",
               }}
             >
-              <img src={c.img_2_src} alt={c.img_2_alt} style={imgStyle} />
+              <img src={img2.src} alt={img2.alt} style={imgStyle} />
             </motion.div>
 
             {/* Bottom-left */}
@@ -111,7 +125,7 @@ export function GallerySection() {
                 bottom: "4%", left: "6%",
               }}
             >
-              <img src={c.img_3_src} alt={c.img_3_alt} style={imgStyle} />
+              <img src={img3.src} alt={img3.alt} style={imgStyle} />
             </motion.div>
 
             {/* Top-right */}
@@ -123,7 +137,7 @@ export function GallerySection() {
                 top: "4%", right: "6%",
               }}
             >
-              <img src={c.img_4_src} alt={c.img_4_alt} style={imgStyle} />
+              <img src={img4.src} alt={img4.alt} style={imgStyle} />
             </motion.div>
 
             {/* Bottom-right */}
@@ -135,7 +149,7 @@ export function GallerySection() {
                 bottom: "4%", right: "4%",
               }}
             >
-              <img src={c.img_5_src} alt={c.img_5_alt} style={imgStyle} />
+              <img src={img5.src} alt={img5.alt} style={imgStyle} />
             </motion.div>
 
             {/* Hero centre image */}
@@ -152,8 +166,8 @@ export function GallerySection() {
             >
               <div style={{ width: "100%", height: "100%", position: "relative", overflow: "hidden" }}>
                 <img
-                  src={c.img_1_src}
-                  alt={c.img_1_alt}
+                  src={img1.src}
+                  alt={img1.alt}
                   style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
                 />
                 <div
@@ -191,7 +205,7 @@ export function GallerySection() {
                       letterSpacing: "0.015em",
                     }}
                   >
-                    {c.heading}
+                    {String(c.heading || "")}
                     <br />
                     <em
                       style={{
@@ -200,7 +214,7 @@ export function GallerySection() {
                         color: "#fff",
                       }}
                     >
-                      {c.heading_accent}
+                      {String(c.heading_accent || "")}
                     </em>
                   </h2>
                 </motion.div>
