@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Projects — TrustOn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0E14;
+    --surface: #10151D;
+    --surface-2: #151B25;
+    --border: #1E2530;
+    --accent: #3FA9F5;
+    --accent-dim: rgba(63, 169, 245, 0.14);
+    --green: #3FD68A;
+    --amber: #F5B83F;
+    --text-primary: #F4F6F9;
+    --text-secondary: #8C96A8;
+    --text-tertiary: #5C6678;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+
+  .container { max-width: 1180px; margin: 0 auto; padding: 0 20px; }
+
+  ::selection { background: var(--accent-dim); color: var(--text-primary); }
+
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
+  }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 14, 20, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+  .nav-logo {
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    color: var(--text-primary);
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+  }
+  .nav-links a:hover, .nav-links a.is-active { color: var(--accent); }
+  .nav-cta {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 12.5px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+  }
+  .nav-cta:hover { background: var(--accent); color: #06090E; }
+  @media (max-width: 840px) {
+    .nav-links { display: none; }
+  }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 88px 0 64px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: -200px;
+    right: -160px;
+    width: 520px;
+    height: 520px;
+    background: radial-gradient(circle, rgba(63,169,245,0.16) 0%, rgba(63,169,245,0) 70%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 48px;
+    align-items: end;
+    position: relative;
+  }
+  .h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.06;
+    letter-spacing: -0.01em;
+  }
+  .h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    max-width: 460px;
+  }
+  @media (max-width: 840px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* ============ STATS BAND ============ */
+  .stats {
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .stat-cell {
+    padding: 36px 24px;
+    text-align: center;
+    border-left: 1px solid var(--border);
+  }
+  .stat-cell:first-child { border-left: none; }
+  .stat-number {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(28px, 3.4vw, 38px);
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    margin-top: 10px;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  @media (max-width: 760px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-cell:nth-child(3) { border-left: none; }
+    .stat-cell:nth-child(odd) { border-left: none; }
+  }
+
+  /* ============ SECTION SHELL ============ */
+  .section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(26px, 3.4vw, 36px);
+    margin-top: 12px;
+    max-width: 600px;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-note {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 320px;
+  }
+
+  /* ============ FILTERS ============ */
+  .filter-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 18px;
+  }
+  .pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .pill {
+    appearance: none;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 11px 20px;
+    border-radius: 999px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    white-space: nowrap;
+  }
+  .pill:hover { border-color: var(--accent); color: var(--text-primary); transform: translateY(-1px); }
+  .pill.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+  .pill-count { font-size: 11px; font-weight: 700; opacity: 0.65; }
+  .pill-flag { font-size: 14px; line-height: 1; }
+
+  .results-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+  .results-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  .results-count {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--text-secondary);
+  }
+  .results-count b { color: var(--text-primary); font-style: normal; font-weight: 600; }
+
+  /* ============ PROJECT GRID ============ */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 980px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 24px; } }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    animation: rise 0.5s ease both;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .card:hover { border-color: rgba(63, 169, 245, 0.4); transform: translateY(-3px); }
+
+  .card-image-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--surface-2);
+  }
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .card:hover .card-image { transform: scale(1.06); }
+  .card-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,14,20,0) 40%, rgba(10,14,20,0.85) 100%);
+  }
+  .type-pill {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    border: 1px solid rgba(63, 169, 245, 0.55);
+    color: var(--accent);
+    background: rgba(10, 14, 20, 0.55);
+    backdrop-filter: blur(6px);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 999px;
+  }
+  .city-tag {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+  }
+
+  .card-body { padding: 20px 20px 22px; }
+  .card-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 21px;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+  .card-blurb {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    min-height: 42px;
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    margin-bottom: 14px;
+  }
+  .card-status {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+  }
+  .status-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 7px;
+  }
+  .card-stat { font-size: 13px; font-weight: 700; }
+  .card-cta {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .arrow { transition: transform 0.2s ease; display: inline-block; }
+  .card:hover .arrow { transform: translateX(4px); }
+
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-secondary);
+  }
+  .empty-title {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+
+  /* ============ PROCESS ============ */
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .process-step {
+    background: var(--surface);
+    padding: 32px 26px;
+  }
+  .process-index {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 28px;
+    color: var(--accent);
+    margin-bottom: 18px;
+  }
+  .process-title {
+    font-size: 15.5px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .process-copy {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .process-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .process-list { grid-template-columns: 1fr; } }
+
+  /* ============ COUNTRY SPOTLIGHT STRIP ============ */
+  .spotlight-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .spotlight-card {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .spotlight-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+  .spotlight-card:hover img { transform: scale(1.08); }
+  .spotlight-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,14,20,0.1) 30%, rgba(10,14,20,0.92) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+  }
+  .spotlight-flag { font-size: 22px; margin-bottom: 8px; }
+  .spotlight-name {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .spotlight-count {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+  }
+  @media (max-width: 900px) { .spotlight-strip { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ============ TESTIMONIAL ============ */
+  .testimonial-wrap {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .testimonial-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.6vw, 30px);
+    line-height: 1.42;
+    color: var(--text-primary);
+  }
+  .testimonial-quote::before {
+    content: "“";
+    color: var(--accent);
+  }
+  .testimonial-quote::after {
+    content: "”";
+    color: var(--accent);
+  }
+  .testimonial-attr {
+    margin-top: 24px;
+    font-size: 13.5px;
+    color: var(--text-secondary);
+  }
+  .testimonial-attr b { color: var(--text-primary); }
+  .testimonial-image {
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    aspect-ratio: 5 / 4;
+  }
+  .testimonial-image img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 840px) {
+    .testimonial-wrap { grid-template-columns: 1fr; gap: 28px; }
+    .testimonial-image { order: -1; }
+  }
+
+  /* ============ CTA / ENQUIRY ============ */
+  .cta-section {
+    border-bottom: none;
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: "";
+    position: absolute;
+    bottom: -180px;
+    left: -120px;
+    width: 460px;
+    height: 460px;
+    background: radial-gradient(circle, rgba(63,169,245,0.14) 0%, rgba(63,169,245,0) 70%);
+  }
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 48px;
+    align-items: center;
+    position: relative;
+  }
+  .cta-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(28px, 3.6vw, 40px);
+    line-height: 1.15;
+  }
+  .cta-title em { font-style: italic; color: var(--accent); }
+  .cta-copy {
+    margin-top: 16px;
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 440px;
+  }
+  .form-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+  }
+  .form-row { margin-bottom: 16px; }
+  .form-row label {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 8px;
+  }
+  .form-row input, .form-row select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    color: var(--text-primary);
+    font-family: var(--sans);
+    font-size: 14px;
+  }
+  .form-row input:focus, .form-row select:focus {
+    outline: none;
+    border-color: var(--accent);
+  }
+  .form-submit {
+    width: 100%;
+    background: var(--accent);
+    color: #06090E;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: opacity 0.2s ease;
+  }
+  .form-submit:hover { opacity: 0.88; }
+  @media (max-width: 840px) { .cta-grid { grid-template-columns: 1fr; } }
+
+  /* ============ FOOTER ============ */
+  .footer { padding: 48px 0 36px; }
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-logo { font-weight: 800; font-size: 16px; }
+  .footer-logo span { color: var(--accent); }
+  .footer-links { display: flex; gap: 24px; list-style: none; }
+  .footer-links a {
+    text-decoration: none;
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+  }
+  .footer-links a:hover { color: var(--accent); }
+  .footer-copy { font-size: 12px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo">TRUST<span>ON</span></a>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#" class="is-active">Projects</a></li>
+        <li><a href="#">Insights</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
+      <a href="#enquire" class="nav-cta">Enquire Now</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Our Portfolio</p>
+        <h1 class="h1">Projects across <em>four countries</em>, one standard.</h1>
+      </div>
+      <p class="hero-sub">From Lucknow to Dubai, every TrustOn development is built on the same foundation — transparent ownership, verified documentation, and long-term value.</p>
+    </div>
+  </header>
+
+  <!-- ============ STATS BAND ============ -->
+  <section class="stats">
+    <div class="container stats-grid">
+      <div class="stat-cell">
+        <div class="stat-number">48</div>
+        <div class="stat-label">Live Projects</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Countries</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">11</div>
+        <div class="stat-label">Cities</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-number">₹2,400Cr+</div>
+        <div class="stat-label">Assets Delivered</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: COUNTRY SPOTLIGHT ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="section-label">Where We Build</p>
+          <h2 class="section-title">Four markets, <em>one investment thesis.</em></h2>
+        </div>
+        <p class="section-note">Tap a market below to jump straight to its projects in the portfolio grid.</p>
+      </div>
+
+      <div class="spotlight-strip">
+        <a href="#portfolio" class="spotlight-card" onclick="setCountry('India')">
+          <img src="https://images.unsplash.com/photo-1597211833712-5e41faa202ea?q=80&w=900&auto=format&fit=crop" alt="India skyline" />
+          <div class="spotlight-overlay">
+            <div class="spotlight-flag">🇮🇳</div>
+            <div class="spotlight-name">India</div>
+            <div class="spotlight-count">12 Projects</div>
+          </div>
+        </a>
+        <a href="#portfolio" class="spotlight-card" onclick="setCountry('UAE')">
+          <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?q=80&w=900&auto=format&fit=crop" alt="Dubai skyline" />
+          <div class="spotlight-overlay">
+            <div class="spotlight-flag">🇦🇪</div>
+            <div class="spotlight-name">UAE</div>
+            <div class="spotlight-count">9 Projects</div>
+          </div>
+        </a>
+        <a href="#portfolio" class="spotlight-card" onclick="setCountry('UK')">
+          <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?q=80&w=900&auto=format&fit=crop" alt="London skyline" />
+          <div class="spotlight-overlay">
+            <div class="spotlight-flag">🇬🇧</div>
+            <div class="spotlight-name">United Kingdom</div>
+            <div class="spotlight-count">5 Projects</div>
+          </div>
+        </a>
+        <a href="#portfolio" class="spotlight-card" onclick="setCountry('Singapore')">
+          <img src="https://images.unsplash.com/photo-1525625293386-3f8f99389edd?q=80&w=900&auto=format&fit=crop" alt="Singapore skyline" />
+          <div class="spotlight-overlay">
+            <div class="spotlight-flag">🇸🇬</div>
+            <div class="spotlight-name">Singapore</div>
+            <div class="spotlight-count">3 Projects</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: PORTFOLIO / FILTERABLE GRID ============ -->
+  <section class="section" id="portfolio">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="section-label">The Portfolio</p>
+          <h2 class="section-title">Every project, <em>filtered by country.</em></h2>
+        </div>
+      </div>
+
+      <p class="filter-label">Filter by Country</p>
+      <div class="pills" id="pills" role="group" aria-label="Filter projects by country"></div>
+
+      <div class="results-bar">
+        <span class="results-label" id="results-label">All Projects</span>
+        <span class="results-count"><b id="results-count">9</b> <span id="results-noun">projects</span></span>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: PROCESS ============ -->
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="section-label">How We Work</p>
+          <h2 class="section-title">The same process, <em>in every market.</em></h2>
+        </div>
+        <p class="section-note">A consistent four-stage path from site selection to handover, regardless of geography.</p>
+      </div>
+
+      <div class="process-list">
+        <div class="process-step">
+          <div class="process-index">01</div>
+          <div class="process-title">Site Diligence</div>
+          <div class="process-copy">Legal title, zoning, and market demand are verified before a single brick is laid.</div>
+        </div>
+        <div class="process-step">
+          <div class="process-index">02</div>
+          <div class="process-title">Design & Approvals</div>
+          <div class="process-copy">Local architects and planning authorities sign off before construction begins.</div>
+        </div>
+        <div class="process-step">
+          <div class="process-index">03</div>
+          <div class="process-title">Construction</div>
+          <div class="process-copy">Independent quantity surveyors track progress against a public milestone schedule.</div>
+        </div>
+        <div class="process-step">
+          <div class="process-index">04</div>
+          <div class="process-title">Handover</div>
+          <div class="process-copy">Full documentation, title transfer, and after-sales support, wherever you bought from.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: TESTIMONIAL ============ -->
+  <section class="section">
+    <div class="container testimonial-wrap">
+      <div class="testimonial-image">
+        <img src="https://images.unsplash.com/photo-1560520653-9e0e4c89eb11?q=80&w=900&auto=format&fit=crop" alt="Investor portrait" />
+      </div>
+      <div>
+        <p class="testimonial-quote">We bought into the Dubai project from Mumbai without a single site visit. The documentation alone made the decision easy.</p>
+        <p class="testimonial-attr"><b>Anjali Mehta</b> — NRI Investor, Marina Azure, Dubai</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SECTION: CTA / ENQUIRY ============ -->
+  <section class="section cta-section" id="enquire">
+    <div class="container cta-grid">
+      <div>
+        <h2 class="cta-title">Find your next <em>investment</em>, wherever it is.</h2>
+        <p class="cta-copy">Tell us what you're looking for and which market interests you. Our team will share a shortlist within 24 hours.</p>
+      </div>
+      <form class="form-card" onsubmit="event.preventDefault(); alert('Thanks — we will be in touch shortly.');">
+        <div class="form-row">
+          <label for="name">Full Name</label>
+          <input id="name" type="text" placeholder="Your name" required />
+        </div>
+        <div class="form-row">
+          <label for="phone">Phone Number</label>
+          <input id="phone" type="tel" placeholder="+91 00000 00000" required />
+        </div>
+        <div class="form-row">
+          <label for="country-select">Interested Country</label>
+          <select id="country-select">
+            <option>India</option>
+            <option>UAE</option>
+            <option>United Kingdom</option>
+            <option>Singapore</option>
+            <option>Not sure yet</option>
+          </select>
+        </div>
+        <button class="form-submit" type="submit">Request Callback</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-logo">TRUST<span>ON</span></div>
+      <ul class="footer-links">
+        <li><a href="#">Privacy</a></li>
+        <li><a href="#">Terms</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+      <span class="footer-copy">© 2026 TrustOn. All rights reserved.</span>
+    </div>
+  </footer>
+
+  <script>
+    // ---------- PLACEHOLDER PROJECT DATA — replace with your real listings ----------
+    const PROJECTS = [
+      { id: "p1", country: "India", flag: "🇮🇳", city: "Lucknow", name: "Dubagga Heights", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop", blurb: "240 residences anchoring Lucknow's next investment corridor.", stat: "Starting ₹85L", href: "#" },
+      { id: "p2", country: "India", flag: "🇮🇳", city: "Mumbai", name: "Marine Crest Residences", type: "Residential", status: "Ready to Move", image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=900&auto=format&fit=crop", blurb: "Sea-facing towers redefining South Mumbai's skyline.", stat: "Starting ₹3.2Cr", href: "#" },
+      { id: "p3", country: "India", flag: "🇮🇳", city: "Bengaluru", name: "Whitefield Commons", type: "Commercial", status: "Ready to Move", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=900&auto=format&fit=crop", blurb: "Grade-A office park built for Bengaluru's tech corridor.", stat: "1.1M sq.ft.", href: "#" },
+      { id: "p4", country: "UAE", flag: "🇦🇪", city: "Dubai", name: "Marina Azure", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?q=80&w=900&auto=format&fit=crop", blurb: "Waterfront living on the edge of Dubai Marina.", stat: "Starting AED 1.4M", href: "#" },
+      { id: "p5", country: "UAE", flag: "🇦🇪", city: "Abu Dhabi", name: "Saadiyat Grove Villas", type: "Villas", status: "Upcoming", image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=900&auto=format&fit=crop", blurb: "Private villas minutes from Saadiyat's cultural district.", stat: "Starting AED 4.8M", href: "#" },
+      { id: "p6", country: "UAE", flag: "🇦🇪", city: "Dubai", name: "Business Bay Quarter", type: "Commercial", status: "Ready to Move", image: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=900&auto=format&fit=crop", blurb: "Boutique office suites overlooking the Dubai Water Canal.", stat: "Starting AED 980K", href: "#" },
+      { id: "p7", country: "UK", flag: "🇬🇧", city: "London", name: "Canary Wharf Residences", type: "Residential", status: "Under Construction", image: "https://images.unsplash.com/photo-1496568816309-51d7c20e3b21?q=80&w=900&auto=format&fit=crop", blurb: "Riverside apartments in London's financial heart.", stat: "Starting £650K", href: "#" },
+      { id: "p8", country: "UK", flag: "🇬🇧", city: "Manchester", name: "Northern Quarter Lofts", type: "Residential", status: "Ready to Move", image: "https://images.unsplash.com/photo-1448630360428-65456885c650?q=80&w=900&auto=format&fit=crop", blurb: "Converted mill lofts in Manchester's creative district.", stat: "Starting £310K", href: "#" },
+      { id: "p9", country: "Singapore", flag: "🇸🇬", city: "Singapore", name: "Orchard Spire", type: "Residential", status: "Upcoming", image: "https://images.unsplash.com/photo-1567360425618-1594206637d2?q=80&w=900&auto=format&fit=crop", blurb: "A landmark tower steps from Orchard Road.", stat: "Starting S$2.1M", href: "#" }
+    ];
+
+    const STATUS_COLOR = {
+      "Ready to Move": "#3FD68A",
+      "Under Construction": "#F5B83F",
+      "Upcoming": "#3FA9F5"
+    };
+
+    let activeCountry = "All";
+
+    function countByCountry() {
+      const counts = {};
+      PROJECTS.forEach(p => { counts[p.country] = (counts[p.country] || 0) + 1; });
+      return counts;
+    }
+
+    function renderPills() {
+      const counts = countByCountry();
+      const countries = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+      const flagFor = (c) => (PROJECTS.find(p => p.country === c) || {}).flag || "📍";
+
+      let html = `<button class="pill ${activeCountry === 'All' ? 'active' : ''}" onclick="setCountry('All')">
+        All <span class="pill-count">${PROJECTS.length}</span>
+      </button>`;
+
+      countries.forEach(c => {
+        html += `<button class="pill ${activeCountry === c ? 'active' : ''}" onclick="setCountry('${c}')">
+          <span class="pill-flag">${flagFor(c)}</span>${c} <span class="pill-count">${counts[c]}</span>
+        </button>`;
+      });
+
+      document.getElementById('pills').innerHTML = html;
+    }
+
+    function renderGrid() {
+      const filtered = activeCountry === 'All' ? PROJECTS : PROJECTS.filter(p => p.country === activeCountry);
+      const grid = document.getElementById('grid');
+
+      document.getElementById('results-label').textContent = activeCountry === 'All' ? 'All Projects' : activeCountry;
+      document.getElementById('results-count').textContent = filtered.length;
+      document.getElementById('results-noun').textContent = filtered.length === 1 ? 'project' : 'projects';
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="empty">
+          <p class="empty-title">No projects here yet</p>
+          <p>Check back soon, or explore another country above.</p>
+        </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((p, i) => `
+        <a href="${p.href}" class="card" style="animation-delay:${Math.min(i, 8) * 60}ms">
+          <div class="card-image-wrap">
+            <img src="${p.image}" alt="${p.name}" class="card-image" loading="lazy" />
+            <div class="card-gradient"></div>
+            <span class="type-pill">${p.type}</span>
+            <span class="city-tag">${p.flag} ${p.city}, ${p.country}</span>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">${p.name}</h3>
+            <p class="card-blurb">${p.blurb}</p>
+            <div class="card-footer">
+              <span class="card-status">
+                <span class="status-dot" style="background:${STATUS_COLOR[p.status]}"></span>${p.status}
+              </span>
+              <span class="card-stat">${p.stat}</span>
+            </div>
+            <span class="card-cta">View Project <span class="arrow">→</span></span>
+          </div>
+        </a>
+      `).join('');
+    }
+
+    function setCountry(country) {
+      // map spotlight labels to data labels
+      const map = { "United Kingdom": "UK" };
+      activeCountry = map[country] || country;
+      renderPills();
+      renderGrid();
+    }
+
+    renderPills();
+    renderGrid();
+  </script>
+
+</body>
+</html>
