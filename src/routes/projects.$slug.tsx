@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Reveal } from "@/components/Reveal";
 import { PROJECTS, STATUS_COLOR } from "@/data/projects";
+import { getPrimeEstatePhases } from "@/lib/content.functions";
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
@@ -17,33 +19,41 @@ export const Route = createFileRoute("/projects/$slug")({
   component: ProjectDetailPage,
 });
 
+const FALLBACK_PHASES = [
+  {
+    active: true,
+    badge: "Now Available",
+    num: "01",
+    title: "Phase One",
+    desc: "Ready for possession with complete plot demarcation, road leveling, and drainage planning. Buyers can begin construction immediately with Jila Panchayat approval in hand.",
+    items: ["Fully demarcated plots", "Road leveling complete", "Drainage infrastructure ready", "Electricity & water connections live", "Clear title deeds available"],
+  },
+  {
+    active: false,
+    badge: "Coming Soon",
+    num: "02",
+    title: "Phase Two",
+    desc: "In active development, expanding the colony with additional plots and enhanced amenities. Register interest now to secure priority booking at launch pricing.",
+    items: ["Extended plot sizes available", "Landscaped green zones", "Enhanced security systems", "Community park & walkways", "Pre-booking open now"],
+  },
+];
+
 function PrimeEstateExtra() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const fetchPhases = useServerFn(getPrimeEstatePhases);
+  const [phases, setPhases] = useState(FALLBACK_PHASES);
+
+  useEffect(() => {
+    fetchPhases().then((data) => {
+      if (data?.phases && data.phases.length > 0) setPhases(data.phases);
+    }).catch(() => {});
+  }, []);
 
   const locations = [
     { num: "01", title: "Highway Connectivity", desc: "Direct access to the major highway ensures fast, smooth connectivity to central Lucknow and beyond — making daily commutes completely effortless." },
     { num: "02", title: "Metro Corridor", desc: "Close proximity to the metro corridor connects residents seamlessly to the city's commercial, educational, and healthcare districts." },
     { num: "03", title: "Green Surroundings", desc: "Enveloped by lush greenery — offering clean air and a peaceful environment away from urban congestion. A rare luxury in today's cities." },
     { num: "04", title: "Growth Corridor", desc: "Located in a rapidly developing zone with rising infrastructure investment and proven land appreciation trends — your wealth grows alongside the city." },
-  ];
-
-  const phases = [
-    {
-      active: true,
-      badge: "Now Available",
-      num: "01",
-      title: "Phase One",
-      desc: "Ready for possession with complete plot demarcation, road leveling, and drainage planning. Buyers can begin construction immediately with Jila Panchayat approval in hand.",
-      items: ["Fully demarcated plots", "Road leveling complete", "Drainage infrastructure ready", "Electricity & water connections live", "Clear title deeds available"],
-    },
-    {
-      active: false,
-      badge: "Coming Soon",
-      num: "02",
-      title: "Phase Two",
-      desc: "In active development, expanding the colony with additional plots and enhanced amenities. Register interest now to secure priority booking at launch pricing.",
-      items: ["Extended plot sizes available", "Landscaped green zones", "Enhanced security systems", "Community park & walkways", "Pre-booking open now"],
-    },
   ];
 
   const reasons = [

@@ -91,6 +91,43 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
     },
   },
   {
+    key: "prime_estate.phases",
+    label: "Prime Estate — Development Phases",
+    data: {
+      heading: "Structured in Two Phases",
+      phases: [
+        {
+          active: true,
+          badge: "Now Available",
+          num: "01",
+          title: "Phase One",
+          desc: "Ready for possession with complete plot demarcation, road leveling, and drainage planning. Buyers can begin construction immediately with Jila Panchayat approval in hand.",
+          items: [
+            "Fully demarcated plots",
+            "Road leveling complete",
+            "Drainage infrastructure ready",
+            "Electricity & water connections live",
+            "Clear title deeds available",
+          ],
+        },
+        {
+          active: false,
+          badge: "Coming Soon",
+          num: "02",
+          title: "Phase Two",
+          desc: "In active development, expanding the colony with additional plots and enhanced amenities. Register interest now to secure priority booking at launch pricing.",
+          items: [
+            "Extended plot sizes available",
+            "Landscaped green zones",
+            "Enhanced security systems",
+            "Community park & walkways",
+            "Pre-booking open now",
+          ],
+        },
+      ],
+    },
+  },
+  {
     key: "home.projects",
     label: "Home — Projects Portfolio",
     data: {
@@ -971,6 +1008,27 @@ const DEFAULT_BLOCKS: { key: string; label: string; data: Record<string, unknown
     },
   },
 ];
+
+export const getPrimeEstatePhases = createServerFn({ method: "POST" })
+  .handler(async () => {
+    const { data, error } = await supabaseAdmin
+      .from("site_content")
+      .select("data")
+      .eq("key", "prime_estate.phases")
+      .single();
+    if (error || !data) return null;
+    return data.data as {
+      heading: string;
+      phases: Array<{
+        active: boolean;
+        badge: string;
+        num: string;
+        title: string;
+        desc: string;
+        items: string[];
+      }>;
+    };
+  });
 
 export const getSiteContentBlocks = createServerFn({ method: "POST" })
   .handler(async () => {

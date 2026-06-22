@@ -39,6 +39,12 @@ const SIDEBAR_NAV = [
     ],
   },
   {
+    section: "Projects",
+    items: [
+      { label: "Prime Estate — Phases", prefix: "prime_estate.", icon: GridIcon },
+    ],
+  },
+  {
     section: "Content",
     items: [
       { label: "Home",        prefix: "home.",            icon: HomeIcon },
@@ -68,6 +74,7 @@ function previewUrl(blockKey: string): string | null {
   if (blockKey.startsWith("home."))             return "/";
   if (blockKey.startsWith("about."))            return "/about-us";
   if (blockKey.startsWith("contact."))          return "/contact";
+  if (blockKey.startsWith("prime_estate."))      return "/projects/prime-estate";
   if (blockKey.startsWith("project"))           return "/project";
   if (blockKey.startsWith("plot_selling."))     return "/plot-selling";
   if (blockKey.startsWith("construction."))     return "/construction-build";
@@ -446,6 +453,13 @@ function AdminPage() {
               onToast={addToast}
               colors={C}
             />
+          ) : activeTab === "prime_estate." ? (
+            <PrimeEstatePhasesEditor
+              blocks={blocks}
+              saveBlockFn={saveBlockFn}
+              onToast={addToast}
+              colors={C}
+            />
           ) : (
             /* Block Cards */
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
@@ -574,6 +588,213 @@ function MediaUploadPanel({
         </div>
         <p style={{ fontSize: 10, color: "rgba(232,227,218,0.2)" }}>Supports JPG, PNG, WebP, MP4, WebM. Files are uploaded to your storage bucket.</p>
       </div>
+    </div>
+  );
+}
+
+// ── Prime Estate Phases Editor ────────────────────────────────────────────────
+type PhaseItem = {
+  active: boolean;
+  badge: string;
+  num: string;
+  title: string;
+  desc: string;
+  items: string[];
+};
+
+function PrimeEstatePhasesEditor({
+  blocks, saveBlockFn, onToast, colors,
+}: {
+  blocks: ContentBlock[];
+  saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const phasesBlock = blocks.find((b) => b.key === "prime_estate.phases");
+
+  const parsePhases = (block: ContentBlock | undefined): PhaseItem[] => {
+    if (!block?.data) return [];
+    const d = block.data as Record<string, unknown>;
+    return Array.isArray(d.phases) ? (d.phases as PhaseItem[]) : [];
+  };
+
+  const [phases, setPhases] = useState<PhaseItem[]>(() => parsePhases(phasesBlock));
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => { setPhases(parsePhases(phasesBlock)); }, [blocks]);
+
+  const save = async () => {
+    if (!phasesBlock) { onToast("error", "Prime Estate Phases block not found. Click Initialize first."); return; }
+    setSaving(true);
+    try {
+      const d = phasesBlock.data as Record<string, unknown>;
+      await saveBlockFn({
+        data: {
+          key: "prime_estate.phases",
+          label: "Prime Estate — Development Phases",
+          data: { ...d, phases },
+        },
+      });
+      onToast("success", "✓ Phases saved! Changes are live on the website.");
+    } catch (err) {
+      onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const addPhase = () => {
+    const num = String(phases.length + 1).padStart(2, "0");
+    setPhases((prev) => [
+      ...prev,
+      { active: false, badge: "Coming Soon", num, title: `Phase ${phases.length + 1}`, desc: "", items: [] },
+    ]);
+  };
+
+  const removePhase = (idx: number) => {
+    if (!confirm("Remove this phase from the website?")) return;
+    setPhases((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const updatePhase = (idx: number, key: keyof PhaseItem, value: unknown) => {
+    setPhases((prev) => prev.map((ph, i) => i === idx ? { ...ph, [key]: value } : ph));
+  };
+
+  const addItem = (idx: number) => {
+    setPhases((prev) => prev.map((ph, i) => i === idx ? { ...ph, items: [...ph.items, ""] } : ph));
+  };
+
+  const updateItem = (phIdx: number, itemIdx: number, value: string) => {
+    setPhases((prev) => prev.map((ph, i) => {
+      if (i !== phIdx) return ph;
+      const items = ph.items.map((it, j) => j === itemIdx ? value : it);
+      return { ...ph, items };
+    }));
+  };
+
+  const removeItem = (phIdx: number, itemIdx: number) => {
+    setPhases((prev) => prev.map((ph, i) => {
+      if (i !== phIdx) return ph;
+      return { ...ph, items: ph.items.filter((_, j) => j !== itemIdx) };
+    }));
+  };
+
+  const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
+  const label = { fontSize: 10.5, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 5, fontWeight: 600 };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>Prime Estate — Development Phases</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>
+            {phases.length} phase{phases.length !== 1 ? "s" : ""} · Shown on the project detail page
+          </p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a href="/projects/prime-estate" target="_blank" rel="noopener noreferrer"
+            style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(0,191,255,0.7)", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", borderRadius: 20, padding: "5px 12px", textDecoration: "none" }}>
+            <EyeIcon size={11} /> Preview
+          </a>
+          <button onClick={addPhase}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "6px 14px", background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.25)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Phase
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "6px 18px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save Changes"}
+          </button>
+        </div>
+      </div>
+
+      {phases.length === 0 && (
+        <div style={{ textAlign: "center", padding: "36px 20px", border: `0.5px dashed ${C.border}`, borderRadius: 10, color: C.textTertiary, fontSize: 12 }}>
+          No phases yet. Click <b style={{ color: "#00BFFF" }}>Add Phase</b> to create the first one, then Save.
+        </div>
+      )}
+
+      {/* Phase Cards */}
+      {phases.map((ph, i) => (
+        <div key={i} style={{ background: C.bgPrimary, border: `0.5px solid ${ph.active ? "rgba(0,191,255,0.3)" : C.border}`, borderRadius: 10, overflow: "hidden" }}>
+          {/* Phase header */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: `0.5px solid ${C.border}`, background: ph.active ? "rgba(0,191,255,0.04)" : "transparent" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: ph.active ? "#00BFFF" : C.textTertiary, background: ph.active ? "rgba(0,191,255,0.1)" : "rgba(255,255,255,0.05)", border: `0.5px solid ${ph.active ? "rgba(0,191,255,0.25)" : "rgba(255,255,255,0.08)"}`, borderRadius: 20, padding: "2px 10px" }}>
+                Phase {i + 1}
+              </span>
+              <span style={{ fontSize: 11, color: C.textSecondary }}>{ph.title || "Untitled"}</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: C.textSecondary, cursor: "pointer" }}>
+                <input type="checkbox" checked={ph.active} onChange={(e) => updatePhase(i, "active", e.target.checked)}
+                  style={{ accentColor: "#00BFFF", width: 13, height: 13 }} />
+                Active (highlighted)
+              </label>
+              <button onClick={() => removePhase(i)}
+                style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+                <TrashIcon size={11} /> Remove
+              </button>
+            </div>
+          </div>
+
+          {/* Fields */}
+          <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div>
+              <span style={label}>Title</span>
+              <input style={inp} value={ph.title} onChange={(e) => updatePhase(i, "title", e.target.value)} placeholder="Phase One" />
+            </div>
+            <div>
+              <span style={label}>Badge Label</span>
+              <input style={inp} value={ph.badge} onChange={(e) => updatePhase(i, "badge", e.target.value)} placeholder="Now Available / Coming Soon" />
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <span style={label}>Description</span>
+              <textarea style={{ ...inp, resize: "vertical", minHeight: 64 }} value={ph.desc} onChange={(e) => updatePhase(i, "desc", e.target.value)} placeholder="Describe this phase…" />
+            </div>
+
+            {/* Bullet Items */}
+            <div style={{ gridColumn: "1 / -1" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
+                <span style={label}>Bullet Points</span>
+                <button onClick={() => addItem(i)}
+                  style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 10.5, padding: "3px 9px", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", borderRadius: 5, cursor: "pointer", fontFamily: "inherit" }}>
+                  <PlusIcon size={10} /> Add Point
+                </button>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                {ph.items.map((item, j) => (
+                  <div key={j} style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                    <span style={{ color: "#00BFFF", fontSize: 14, flexShrink: 0 }}>•</span>
+                    <input style={{ ...inp, flex: 1 }} value={item} onChange={(e) => updateItem(i, j, e.target.value)} placeholder="Enter bullet point…" />
+                    <button onClick={() => removeItem(i, j)}
+                      style={{ flexShrink: 0, padding: "6px 8px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.15)", color: "#f87171", borderRadius: 5, cursor: "pointer", fontSize: 11, fontFamily: "inherit" }}>
+                      ✕
+                    </button>
+                  </div>
+                ))}
+                {ph.items.length === 0 && (
+                  <p style={{ fontSize: 11, color: C.textTertiary, fontStyle: "italic" }}>No bullet points yet. Click Add Point above.</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {phases.length > 0 && (
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+          <button onClick={addPhase}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "7px 16px", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Another Phase
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "7px 20px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save All Changes"}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
