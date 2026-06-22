@@ -250,6 +250,20 @@ function AboutPage() {
     cta_phone: "+91 96160-61166",
   });
 
+  const FALLBACK_VIDEO_URL = "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4";
+  const aboutVideos = usePageContent("about.videos", {
+    eyebrow: "Our Story",
+    heading: "See What We",
+    heading_accent: "Stand For",
+    items: [
+      { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "On Site", video_url: FALLBACK_VIDEO_URL },
+      { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone", video_url: FALLBACK_VIDEO_URL },
+      { label: "Construction Update", tag: "Phase 1 Progress", badge: "Update", video_url: FALLBACK_VIDEO_URL },
+      { label: "Community Vision", tag: "Development", badge: "Future", video_url: FALLBACK_VIDEO_URL },
+      { label: "Site Visit", tag: "Prime Estate", badge: "Live", video_url: FALLBACK_VIDEO_URL },
+    ],
+  });
+
   return (
     <div className="bg-[#04090f] text-white overflow-x-hidden selection:bg-[#00BFFF] selection:text-[#04090f]">
 
@@ -514,7 +528,7 @@ function AboutPage() {
           .video-marquee-track {
             animation: scrollLeft 30s linear infinite;
             display: flex;
-            gap: 12px;
+            gap: 16px;
             width: max-content;
             align-items: flex-start;
           }
@@ -527,10 +541,10 @@ function AboutPage() {
         <div className="px-6 md:px-16 max-w-[1180px] mx-auto mb-8">
           <Reveal>
             <p className="text-[#00BFFF] text-[11px] font-bold tracking-[0.25em] uppercase mb-4 flex items-center gap-3">
-              <span className="w-6 h-px bg-[#00BFFF]" /> Our Story
+              <span className="w-6 h-px bg-[#00BFFF]" /> {String(aboutVideos.eyebrow || "Our Story")}
             </p>
             <h2 className="font-serif text-4xl md:text-5xl text-white leading-tight">
-              See What We <em className="italic text-[#00BFFF]">Stand For</em>
+              {String(aboutVideos.heading || "See What We")} <em className="italic text-[#00BFFF]">{String(aboutVideos.heading_accent || "Stand For")}</em>
             </h2>
           </Reveal>
         </div>
@@ -538,66 +552,71 @@ function AboutPage() {
         {/* Infinite horizontal Shorts-style portrait card marquee — full bleed */}
         <div className="relative overflow-hidden">
           {/* Left fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to right, #04090f 0%, transparent 100%)" }} />
           {/* Right fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none"
+          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none"
             style={{ background: "linear-gradient(to left, #04090f 0%, transparent 100%)" }} />
 
-          <div className="video-marquee-track py-2 px-2">
-            {[
-              { label: "Site Visit", tag: "Prime Estate", badge: "Live" },
-              { label: "Walkthrough", tag: "Infrastructure", badge: "On Site" },
-              { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone" },
-              { label: "Phase 1 Update", tag: "Construction", badge: "Update" },
-              { label: "Colony Vision", tag: "Development", badge: "Future" },
-              { label: "Site Visit", tag: "Prime Estate", badge: "Live" },
-              { label: "Walkthrough", tag: "Infrastructure", badge: "On Site" },
-              { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone" },
-              { label: "Phase 1 Update", tag: "Construction", badge: "Update" },
-              { label: "Colony Vision", tag: "Development", badge: "Future" },
-            ].map((card, i) => (
-              <div
-                key={i}
-                className="relative rounded-xl overflow-hidden shrink-0 group cursor-pointer"
-                style={{ width: "180px", height: "320px" }}
-              >
-                {/* Video fills portrait frame */}
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  style={{ opacity: 0.92 }}
+          <div className="video-marquee-track py-4 px-2">
+            {(() => {
+              const rawItems = Array.isArray(aboutVideos.items) && (aboutVideos.items as unknown[]).length > 0
+                ? (aboutVideos.items as { label: string; tag: string; badge: string; video_url: string }[])
+                : [
+                    { label: "Project Walkthrough", tag: "Infrastructure Tour", badge: "On Site", video_url: FALLBACK_VIDEO_URL },
+                    { label: "Plot Handover", tag: "Happy Buyers", badge: "Milestone", video_url: FALLBACK_VIDEO_URL },
+                    { label: "Construction Update", tag: "Phase 1 Progress", badge: "Update", video_url: FALLBACK_VIDEO_URL },
+                    { label: "Community Vision", tag: "Development", badge: "Future", video_url: FALLBACK_VIDEO_URL },
+                    { label: "Site Visit", tag: "Prime Estate", badge: "Live", video_url: FALLBACK_VIDEO_URL },
+                  ];
+              const doubled = [...rawItems, ...rawItems];
+              return doubled.map((card, i) => (
+                <div
+                  key={i}
+                  className="relative rounded-2xl overflow-hidden shrink-0 group cursor-pointer"
+                  style={{
+                    width: "190px",
+                    height: "340px",
+                    border: "1px solid rgba(0,191,255,0.18)",
+                    boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.08)",
+                  }}
                 >
-                  <source
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202026-05-22%20at%2010.03.14%20PM-QaTFrXd8V3Y9wkvJT59K1CIHabjmqa.mp4"
-                    type="video/mp4"
+                  {/* Video fills portrait frame */}
+                  <video
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    style={{ opacity: 0.9 }}
+                    src={card.video_url || FALLBACK_VIDEO_URL}
                   />
-                </video>
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 pointer-events-none"
-                  style={{ background: "linear-gradient(180deg, rgba(4,9,15,0.15) 0%, transparent 30%, rgba(4,9,15,0.75) 100%)" }} />
-                {/* Badge top */}
-                <div className="absolute top-2.5 left-2.5 flex items-center gap-1 bg-[#04090f]/70 backdrop-blur-sm rounded-full px-2 py-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse shrink-0" />
-                  <span className="text-[9px] uppercase tracking-[0.1em] text-white/75 font-bold">{card.badge}</span>
-                </div>
-                {/* Play icon center */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 pointer-events-none"
+                    style={{ background: "linear-gradient(180deg, rgba(4,9,15,0.1) 0%, transparent 35%, rgba(4,9,15,0.8) 100%)" }} />
+                  {/* Cyan glow edge on hover */}
+                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl"
+                    style={{ boxShadow: "inset 0 0 0 1px rgba(0,191,255,0.35)" }} />
+                  {/* Badge top */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1 bg-[#04090f]/75 backdrop-blur-sm rounded-full px-2.5 py-1 border border-[#00BFFF]/20">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#00BFFF] animate-pulse shrink-0" />
+                    <span className="text-[9px] uppercase tracking-[0.12em] text-[#00BFFF] font-bold">{card.badge}</span>
+                  </div>
+                  {/* Play icon center */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-12 h-12 rounded-full bg-white/15 backdrop-blur-sm flex items-center justify-center border border-white/30 shadow-lg">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg>
+                    </div>
+                  </div>
+                  {/* Title bottom */}
+                  <div className="absolute bottom-0 left-0 right-0 px-3.5 pb-4 pt-8"
+                    style={{ background: "linear-gradient(to top, rgba(4,9,15,0.95) 0%, transparent 100%)" }}>
+                    <p className="text-[13px] font-semibold text-white leading-snug">{card.label}</p>
+                    <p className="text-[9px] text-[#00BFFF]/60 mt-1 uppercase tracking-[0.15em] font-bold">{card.tag}</p>
                   </div>
                 </div>
-                {/* Title bottom */}
-                <div className="absolute bottom-0 left-0 right-0 px-3 pb-3 pt-6"
-                  style={{ background: "linear-gradient(to top, rgba(4,9,15,0.9) 0%, transparent 100%)" }}>
-                  <p className="text-[12px] font-semibold text-white leading-snug">{card.label}</p>
-                  <p className="text-[9px] text-white/45 mt-0.5 uppercase tracking-[0.1em]">{card.tag}</p>
-                </div>
-              </div>
-            ))}
+              ));
+            })()}
           </div>
         </div>
 

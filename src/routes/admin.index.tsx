@@ -48,7 +48,9 @@ const SIDEBAR_NAV = [
     section: "Content",
     items: [
       { label: "Home",        prefix: "home.",            icon: HomeIcon },
+      { label: "Testimonials",prefix: "home.testimonials",icon: VideoIcon },
       { label: "About Us",    prefix: "about.",           icon: BuildingIcon },
+      { label: "About Videos",prefix: "about.videos",     icon: VideoIcon },
       { label: "Plot Selling",prefix: "plot_selling.",    icon: MapPinIcon },
       { label: "Projects",    prefix: "project",          icon: GridIcon },
       { label: "Construction",prefix: "construction.",    icon: WrenchIcon },
@@ -248,7 +250,7 @@ function AdminPage() {
   };
 
   return (
-    <div style={{ display: "grid", gridTemplateColumns: sidebarOpen ? "210px 1fr" : "0px 1fr", height: "100vh", width: "100%", background: C.bgTertiary, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", overflow: "hidden", transition: "grid-template-columns .25s ease" }}>
+    <div data-admin-panel style={{ display: "grid", gridTemplateColumns: sidebarOpen ? "210px 1fr" : "0px 1fr", height: "100vh", width: "100%", background: C.bgTertiary, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", overflow: "hidden", transition: "grid-template-columns .25s ease" }}>
       <style>{`
         @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         *{box-sizing:border-box;}
@@ -457,6 +459,22 @@ function AdminPage() {
             <PrimeEstatePhasesEditor
               blocks={blocks}
               saveBlockFn={saveBlockFn}
+              onToast={addToast}
+              colors={C}
+            />
+          ) : activeTab === "home.testimonials" ? (
+            <TestimonialsEditor
+              blocks={blocks}
+              saveBlockFn={saveBlockFn}
+              uploadFn={uploadFn}
+              onToast={addToast}
+              colors={C}
+            />
+          ) : activeTab === "about.videos" ? (
+            <AboutVideosEditor
+              blocks={blocks}
+              saveBlockFn={saveBlockFn}
+              uploadFn={uploadFn}
               onToast={addToast}
               colors={C}
             />
@@ -1514,6 +1532,395 @@ function GenericArrayEditor({
   );
 }
 
+// ── Testimonials Editor ───────────────────────────────────────────────────────
+type TestimonialItem = {
+  name: string;
+  designation: string;
+  description: string;
+  profile_image: string;
+  video_url: string;
+};
+
+function TestimonialsEditor({
+  blocks, saveBlockFn, uploadFn, onToast, colors,
+}: {
+  blocks: ContentBlock[];
+  saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
+  uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const block = blocks.find((b) => b.key === "home.testimonials");
+
+  const parseData = (b: ContentBlock | undefined) => {
+    if (!b?.data) return { eyebrow: "Client Narratives", title: "Distinguished", title_accent: "Partnerships", subtitle: "", cta_text: "", items: [] as TestimonialItem[] };
+    const d = b.data as Record<string, unknown>;
+    return {
+      eyebrow: String(d.eyebrow ?? "Client Narratives"),
+      title: String(d.title ?? "Distinguished"),
+      title_accent: String(d.title_accent ?? "Partnerships"),
+      subtitle: String(d.subtitle ?? ""),
+      cta_text: String(d.cta_text ?? ""),
+      items: Array.isArray(d.items) ? (d.items as TestimonialItem[]) : [],
+    };
+  };
+
+  const [data, setData] = useState(() => parseData(block));
+  const [saving, setSaving] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
+
+  useEffect(() => { setData(parseData(block)); }, [blocks]);
+
+  const uploadFile = async (file: File, fieldKey: string, onUrl: (url: string) => void) => {
+    setUploadingField(fieldKey);
+    try {
+      const base64 = await fileToBase64(file);
+      const { url } = await uploadFn({ data: { filename: file.name, contentType: file.type || "application/octet-stream", base64 } });
+      onUrl(url);
+      onToast("success", `✓ "${file.name}" uploaded!`);
+    } catch (err) {
+      onToast("error", `Upload failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
+  const save = async () => {
+    setSaving(true);
+    try {
+      await saveBlockFn({ data: { key: "home.testimonials", label: "Home — Testimonials", data: data as unknown as Record<string, unknown> } });
+      onToast("success", "✓ Testimonials saved! Changes are live on the website.");
+    } catch (err) {
+      onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const updateMeta = (field: string, val: string) => setData((prev) => ({ ...prev, [field]: val }));
+  const updateItem = (idx: number, field: keyof TestimonialItem, val: string) => {
+    setData((prev) => ({ ...prev, items: prev.items.map((it, i) => i === idx ? { ...it, [field]: val } : it) }));
+  };
+  const addItem = () => {
+    setData((prev) => ({ ...prev, items: [...prev.items, { name: "", designation: "", description: "", profile_image: "", video_url: "" }] }));
+  };
+  const removeItem = (idx: number) => {
+    if (!confirm("Remove this testimonial?")) return;
+    setData((prev) => ({ ...prev, items: prev.items.filter((_, i) => i !== idx) }));
+  };
+
+  const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
+  const lbl = { fontSize: 10, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 4, fontWeight: 600 };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>Client Narratives / Testimonials</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} testimonial{data.items.length !== 1 ? "s" : ""} · Home page carousel</p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a href="/" target="_blank" rel="noopener noreferrer"
+            style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(0,191,255,0.7)", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", borderRadius: 20, padding: "5px 12px", textDecoration: "none" }}>
+            <EyeIcon size={11} /> Preview
+          </a>
+          <button onClick={addItem}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "6px 14px", background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.25)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Testimonial
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "6px 18px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save All"}
+          </button>
+        </div>
+      </div>
+
+      {/* Section heading fields */}
+      <div style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "14px 16px" }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.08em" }}>Section Headings</p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          {[
+            { lbl: "Eyebrow", field: "eyebrow" },
+            { lbl: "Title", field: "title" },
+            { lbl: "Title Accent (italic)", field: "title_accent" },
+            { lbl: "CTA Text", field: "cta_text" },
+          ].map(({ lbl: l, field }) => (
+            <div key={field}>
+              <span style={lbl}>{l}</span>
+              <input style={inp} value={data[field as keyof typeof data] as string} onChange={(e) => updateMeta(field, e.target.value)} />
+            </div>
+          ))}
+          <div style={{ gridColumn: "1 / -1" }}>
+            <span style={lbl}>Subtitle</span>
+            <textarea style={{ ...inp, resize: "vertical", minHeight: 56 }} value={data.subtitle} onChange={(e) => updateMeta("subtitle", e.target.value)} />
+          </div>
+        </div>
+      </div>
+
+      {/* Testimonial Items */}
+      {data.items.map((item, i) => (
+        <div key={i} style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: `0.5px solid ${C.border}`, background: "rgba(0,191,255,0.03)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              {item.profile_image && <img src={item.profile_image} alt="" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)" }} />}
+              <span style={{ fontSize: 12, fontWeight: 600, color: C.textPrimary }}>{item.name || `Testimonial ${i + 1}`}</span>
+              {item.video_url && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: "rgba(167,139,250,0.1)", color: "#a78bfa", border: "0.5px solid rgba(167,139,250,0.25)" }}>▶ Video</span>}
+            </div>
+            <button onClick={() => removeItem(i)}
+              style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+              <TrashIcon size={11} /> Remove
+            </button>
+          </div>
+          <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+            <div>
+              <span style={lbl}>Name</span>
+              <input style={inp} value={item.name} onChange={(e) => updateItem(i, "name", e.target.value)} placeholder="Full name" />
+            </div>
+            <div>
+              <span style={lbl}>Designation / Role</span>
+              <input style={inp} value={item.designation} onChange={(e) => updateItem(i, "designation", e.target.value)} placeholder="Plot Owner, Phase 1" />
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <span style={lbl}>Testimonial Text</span>
+              <textarea style={{ ...inp, resize: "vertical", minHeight: 72 }} value={item.description} onChange={(e) => updateItem(i, "description", e.target.value)} placeholder="What did they say about TrustOn?" />
+            </div>
+            {/* Profile image upload */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <span style={lbl}>Profile Image</span>
+                <label style={{ fontSize: 10, cursor: uploadingField === `test-${i}-img` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
+                  {uploadingField === `test-${i}-img` ? "Uploading…" : "Upload"}
+                  <input type="file" accept="image/*" disabled={!!uploadingField} style={{ display: "none" }}
+                    onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `test-${i}-img`, (url) => updateItem(i, "profile_image", url)); }} />
+                </label>
+              </div>
+              <input style={inp} value={item.profile_image} onChange={(e) => updateItem(i, "profile_image", e.target.value)} placeholder="https://… or upload ↗" />
+              {item.profile_image && <img src={item.profile_image} alt="" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} style={{ marginTop: 5, height: 44, width: 44, borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(0,191,255,0.2)", display: "block" }} />}
+            </div>
+            {/* Video upload */}
+            <div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <span style={lbl}>Video URL</span>
+                <label style={{ fontSize: 10, cursor: uploadingField === `test-${i}-vid` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
+                  {uploadingField === `test-${i}-vid` ? "Uploading…" : "Upload"}
+                  <input type="file" accept="video/*,.mp4,.webm,.mov" disabled={!!uploadingField} style={{ display: "none" }}
+                    onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `test-${i}-vid`, (url) => updateItem(i, "video_url", url)); }} />
+                </label>
+              </div>
+              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video URL or upload ↗" />
+              {item.video_url && <video src={item.video_url} muted style={{ marginTop: 5, width: "100%", maxHeight: 80, borderRadius: 6, objectFit: "cover", border: `0.5px solid ${C.border}` }} />}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {data.items.length === 0 && (
+        <div style={{ textAlign: "center", padding: "36px 20px", border: `0.5px dashed ${C.border}`, borderRadius: 10, color: C.textTertiary, fontSize: 12 }}>
+          No testimonials yet. Click <b style={{ color: "#00BFFF" }}>Add Testimonial</b> to create the first one.
+        </div>
+      )}
+
+      {data.items.length > 0 && (
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+          <button onClick={addItem}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "7px 16px", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Another
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "7px 20px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save All Changes"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── About Videos Editor ───────────────────────────────────────────────────────
+type AboutVideoItem = {
+  label: string;
+  tag: string;
+  badge: string;
+  video_url: string;
+};
+
+function AboutVideosEditor({
+  blocks, saveBlockFn, uploadFn, onToast, colors,
+}: {
+  blocks: ContentBlock[];
+  saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
+  uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const block = blocks.find((b) => b.key === "about.videos");
+
+  const parseData = (b: ContentBlock | undefined) => {
+    if (!b?.data) return { eyebrow: "Our Story", heading: "See What We", heading_accent: "Stand For", items: [] as AboutVideoItem[] };
+    const d = b.data as Record<string, unknown>;
+    return {
+      eyebrow: String(d.eyebrow ?? "Our Story"),
+      heading: String(d.heading ?? "See What We"),
+      heading_accent: String(d.heading_accent ?? "Stand For"),
+      items: Array.isArray(d.items) ? (d.items as AboutVideoItem[]) : [],
+    };
+  };
+
+  const [data, setData] = useState(() => parseData(block));
+  const [saving, setSaving] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
+
+  useEffect(() => { setData(parseData(block)); }, [blocks]);
+
+  const uploadFile = async (file: File, fieldKey: string, onUrl: (url: string) => void) => {
+    setUploadingField(fieldKey);
+    try {
+      const base64 = await fileToBase64(file);
+      const { url } = await uploadFn({ data: { filename: file.name, contentType: file.type || "application/octet-stream", base64 } });
+      onUrl(url);
+      onToast("success", `✓ "${file.name}" uploaded!`);
+    } catch (err) {
+      onToast("error", `Upload failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setUploadingField(null);
+    }
+  };
+
+  const save = async () => {
+    setSaving(true);
+    try {
+      await saveBlockFn({ data: { key: "about.videos", label: "About — Video Gallery", data: data as unknown as Record<string, unknown> } });
+      onToast("success", "✓ About Videos saved! Changes are live on the website.");
+    } catch (err) {
+      onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const updateMeta = (field: string, val: string) => setData((prev) => ({ ...prev, [field]: val }));
+  const updateItem = (idx: number, field: keyof AboutVideoItem, val: string) => {
+    setData((prev) => ({ ...prev, items: prev.items.map((it, i) => i === idx ? { ...it, [field]: val } : it) }));
+  };
+  const addItem = () => {
+    setData((prev) => ({ ...prev, items: [...prev.items, { label: "", tag: "", badge: "", video_url: "" }] }));
+  };
+  const removeItem = (idx: number) => {
+    if (!confirm("Remove this video card?")) return;
+    setData((prev) => ({ ...prev, items: prev.items.filter((_, i) => i !== idx) }));
+  };
+
+  const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
+  const lbl = { fontSize: 10, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 4, fontWeight: 600 };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>About — Video Gallery</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>{data.items.length} video card{data.items.length !== 1 ? "s" : ""} · About Us page marquee</p>
+        </div>
+        <div style={{ display: "flex", gap: 8 }}>
+          <a href="/about-us" target="_blank" rel="noopener noreferrer"
+            style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(0,191,255,0.7)", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", borderRadius: 20, padding: "5px 12px", textDecoration: "none" }}>
+            <EyeIcon size={11} /> Preview
+          </a>
+          <button onClick={addItem}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "6px 14px", background: "rgba(0,191,255,0.1)", border: "0.5px solid rgba(0,191,255,0.25)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Video Card
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "6px 18px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save All"}
+          </button>
+        </div>
+      </div>
+
+      {/* Section heading fields */}
+      <div style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "14px 16px" }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary, marginBottom: 12, textTransform: "uppercase", letterSpacing: "0.08em" }}>Section Headings</p>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10 }}>
+          {[
+            { l: "Eyebrow", f: "eyebrow" },
+            { l: "Heading", f: "heading" },
+            { l: "Heading Accent (italic)", f: "heading_accent" },
+          ].map(({ l, f }) => (
+            <div key={f}>
+              <span style={lbl}>{l}</span>
+              <input style={inp} value={data[f as keyof typeof data] as string} onChange={(e) => updateMeta(f, e.target.value)} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Video Items */}
+      {data.items.map((item, i) => (
+        <div key={i} style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 16px", borderBottom: `0.5px solid ${C.border}`, background: "rgba(0,191,255,0.03)" }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: C.textPrimary }}>{item.label || `Video ${i + 1}`}</span>
+            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              {item.badge && <span style={{ fontSize: 9, padding: "1px 7px", borderRadius: 8, background: "rgba(0,191,255,0.1)", color: "#00BFFF", border: "0.5px solid rgba(0,191,255,0.25)" }}>{item.badge}</span>}
+              <button onClick={() => removeItem(i)}
+                style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, padding: "4px 10px", background: "rgba(248,113,113,0.07)", border: "0.5px solid rgba(248,113,113,0.2)", color: "#f87171", borderRadius: 6, cursor: "pointer", fontFamily: "inherit" }}>
+                <TrashIcon size={11} /> Remove
+              </button>
+            </div>
+          </div>
+          <div style={{ padding: "14px 16px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 12 }}>
+            <div>
+              <span style={lbl}>Card Label</span>
+              <input style={inp} value={item.label} onChange={(e) => updateItem(i, "label", e.target.value)} placeholder="Project Walkthrough" />
+            </div>
+            <div>
+              <span style={lbl}>Tag (sub-label)</span>
+              <input style={inp} value={item.tag} onChange={(e) => updateItem(i, "tag", e.target.value)} placeholder="Infrastructure Tour" />
+            </div>
+            <div>
+              <span style={lbl}>Badge (top pill)</span>
+              <input style={inp} value={item.badge} onChange={(e) => updateItem(i, "badge", e.target.value)} placeholder="On Site / Live / Update" />
+            </div>
+            <div style={{ gridColumn: "1 / -1" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                <span style={lbl}>Video URL</span>
+                <label style={{ fontSize: 10, cursor: uploadingField === `abvid-${i}` ? "wait" : "pointer", color: "#00BFFF", fontWeight: 600 }}>
+                  {uploadingField === `abvid-${i}` ? "Uploading…" : "Upload Video"}
+                  <input type="file" accept="video/*,.mp4,.webm,.mov" disabled={!!uploadingField} style={{ display: "none" }}
+                    onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadFile(f, `abvid-${i}`, (url) => updateItem(i, "video_url", url)); }} />
+                </label>
+              </div>
+              <input style={{ ...inp, fontFamily: "monospace" }} value={item.video_url} onChange={(e) => updateItem(i, "video_url", e.target.value)} placeholder="https://… video URL or upload ↗" />
+              {item.video_url && <video src={item.video_url} muted style={{ marginTop: 6, width: "100%", maxHeight: 90, borderRadius: 6, objectFit: "cover", border: `0.5px solid ${C.border}` }} />}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      {data.items.length === 0 && (
+        <div style={{ textAlign: "center", padding: "36px 20px", border: `0.5px dashed ${C.border}`, borderRadius: 10, color: C.textTertiary, fontSize: 12 }}>
+          No video cards yet. Click <b style={{ color: "#00BFFF" }}>Add Video Card</b> to create the first one.
+        </div>
+      )}
+
+      {data.items.length > 0 && (
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: 8 }}>
+          <button onClick={addItem}
+            style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, fontWeight: 600, padding: "7px 16px", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", borderRadius: 7, cursor: "pointer", fontFamily: "inherit" }}>
+            <PlusIcon size={12} /> Add Another
+          </button>
+          <button onClick={save} disabled={saving}
+            style={{ fontSize: 12, fontWeight: 600, padding: "7px 20px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+            {saving ? "Saving…" : "Save All Changes"}
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ── fileToBase64 ──────────────────────────────────────────────────────────────
 function fileToBase64(file: File) {
   return new Promise<string>((resolve, reject) => {
@@ -1566,5 +1973,6 @@ function SearchIcon({ size = 16, style }: { size?: number; style?: React.CSSProp
   );
 }
 function MenuIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 12h18 M3 6h18 M3 18h18" />; }
+function VideoIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />; }
 function DatabaseIcon({ size = 16, style }: { size?: number; style?: React.CSSProperties }) { return <Ico size={size} style={style} d="M12 2C6.48 2 2 3.79 2 6v12c0 2.21 4.48 4 10 4s10-1.79 10-4V6c0-2.21-4.48-4-10-4z M2 12c0 2.21 4.48 4 10 4s10-1.79 10-4 M2 6c0 2.21 4.48 4 10 4s10-1.79 10-4" />; }
 function TrashIcon({ size = 16 }: { size?: number }) { return <Ico size={size} d="M3 6h18 M19 6l-1 14H6L5 6 M9 6V4h6v2" />; }

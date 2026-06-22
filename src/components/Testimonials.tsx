@@ -24,9 +24,9 @@ const DEFAULT_ITEMS: TestimonialItem[] = [
   { name: "Anil Singh", designation: "Homeowner", description: "We not only bought our plot from Prime Estate, but also got our home designed by their architecture team. The designs were exactly what we imagined — beautiful and within budget.", profile_image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
   { name: "Mohammed Irfan", designation: "Channel Partner", description: "As a channel partner, I have referred over 20 clients to Prime Estate. The team is responsive, the commission structure is fair, and the product is genuinely good.", profile_image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
   { name: "Priya Sharma", designation: "Investor, Phase 2", description: "I invested in two plots as a long-term asset. TrustOn's team gave me honest ROI projections, explained the infrastructure timeline clearly, and has been available every step of the way.", profile_image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
-  { name: "Vivek Tiwari", designation: "Plot Owner — Dubagga", description: "The location of Prime Estate is genuinely strategic. Within months of buying, I could already see infrastructure work picking up nearby. TrustOn delivered exactly what they promised.", profile_image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop", video_url: "" },
-  { name: "Suman Mishra", designation: "NRI Investor", description: "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.", profile_image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop", video_url: "" },
-  { name: "Deepak Pandey", designation: "First-Time Buyer", description: "As a first-time buyer, I had hundreds of questions. The TrustOn team never made me feel rushed. They educated me, showed me options, and helped me make a confident decision.", profile_image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop", video_url: "" },
+  { name: "Vivek Tiwari", designation: "Plot Owner — Dubagga", description: "The location of Prime Estate is genuinely strategic. Within months of buying, I could already see infrastructure work picking up nearby. TrustOn delivered exactly what they promised.", profile_image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Suman Mishra", designation: "NRI Investor", description: "Managing property from abroad felt risky — but TrustOn handled everything remotely. Clear documentation, video walkthroughs, and a team that actually picks up the phone.", profile_image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
+  { name: "Deepak Pandey", designation: "First-Time Buyer", description: "As a first-time buyer, I had hundreds of questions. The TrustOn team never made me feel rushed. They educated me, showed me options, and helped me make a confident decision.", profile_image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop", video_url: FALLBACK_VIDEO },
 ];
 
 function VideoCard({ item }: { item: TestimonialItem }) {
@@ -34,7 +34,8 @@ function VideoCard({ item }: { item: TestimonialItem }) {
   const videoUrl = item.video_url || FALLBACK_VIDEO;
 
   return (
-    <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden shadow-xl flex flex-col select-none group hover:border-[#00BFFF]/25 transition-all duration-500">
+    <div className="relative bg-[#060c16] border border-white/8 rounded-[24px] overflow-hidden flex flex-col select-none group hover:border-[#00BFFF]/25 transition-all duration-500"
+      style={{ boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.06), 0 2px 8px rgba(0,0,0,0.4)" }}>
       <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "16/9" }}>
         <video
           ref={videoRef}

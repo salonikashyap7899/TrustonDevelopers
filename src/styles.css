@@ -227,6 +227,36 @@
     *::after {
       cursor: none !important;
     }
+    /* Restore cursor inside admin panel */
+    [data-admin-panel],
+    [data-admin-panel] *,
+    [data-admin-panel] *::before,
+    [data-admin-panel] *::after {
+      cursor: auto !important;
+    }
+    [data-admin-panel] button,
+    [data-admin-panel] a,
+    [data-admin-panel] [role="button"],
+    [data-admin-panel] label[for],
+    [data-admin-panel] label:has(input) {
+      cursor: pointer !important;
+    }
+    [data-admin-panel] input[type="text"],
+    [data-admin-panel] input[type="number"],
+    [data-admin-panel] input[type="email"],
+    [data-admin-panel] input[type="password"],
+    [data-admin-panel] input[type="search"],
+    [data-admin-panel] textarea {
+      cursor: text !important;
+    }
+    [data-admin-panel] select {
+      cursor: pointer !important;
+    }
+    [data-admin-panel] input[type="file"],
+    [data-admin-panel] input[type="checkbox"],
+    [data-admin-panel] input[type="radio"] {
+      cursor: pointer !important;
+    }
   }
 
   ::selection {
