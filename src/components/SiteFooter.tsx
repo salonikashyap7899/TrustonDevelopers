@@ -44,7 +44,7 @@ export function SiteFooter() {
   return (
     <footer style={{ background: "#04090f" }} className="text-white/70 border-t border-white/5">
 
-      <div className="relative overflow-hidden border-b border-white/5 py-20 md:py-28 px-6">
+      <div className="relative overflow-hidden border-b border-white/5 py-10 md:py-14 px-6">
         <div className="absolute inset-0 pointer-events-none">
           <div
             className="absolute -top-1/3 right-0 w-[600px] h-[600px] rounded-full"
@@ -102,10 +102,10 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-16 md:py-20 grid md:grid-cols-4 gap-12 md:gap-16">
+      <div className="mx-auto max-w-7xl px-6 py-8 md:py-12 grid md:grid-cols-4 gap-8 md:gap-12">
 
         <div className="md:col-span-2">
-          <div className="flex items-center gap-4 mb-8">
+          <div className="flex items-center gap-4 mb-4">
             <img
               src="/logo.png"
               alt="TrustOn Logo"
@@ -158,7 +158,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#00BFFF] mb-8 pb-3 border-b border-white/5 font-bold">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#00BFFF] mb-4 pb-3 border-b border-white/5 font-bold">
             Expertise
           </p>
           <ul className="space-y-3">
@@ -177,10 +177,10 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#00BFFF] mb-8 pb-3 border-b border-white/5 font-bold">
+          <p className="text-[10px] uppercase tracking-[0.3em] text-[#00BFFF] mb-4 pb-3 border-b border-white/5 font-bold">
             Company
           </p>
-          <ul className="space-y-3 mb-10">
+          <ul className="space-y-3 mb-5">
             {company.map((l) => (
               <li key={l.to}>
                 <Link
@@ -194,7 +194,7 @@ export function SiteFooter() {
             ))}
           </ul>
 
-          <div className="pt-8 border-t border-white/5 space-y-3">
+          <div className="pt-4 border-t border-white/5 space-y-3">
             <a
               href={`tel:${phone.replace(/[^+\d]/g, "")}`}
               className="block text-white font-serif text-2xl hover:text-[#00BFFF] transition-colors duration-400"
