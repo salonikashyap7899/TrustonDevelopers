@@ -21,6 +21,33 @@ export interface Project {
 
 export const PROJECTS: Project[] = [
   {
+    id: "prime-estate",
+    country: "India",
+    flag: "🇮🇳",
+    city: "Lucknow",
+    name: "Prime Estate",
+    type: "Residential Plots",
+    status: "Under Construction",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070&auto=format&fit=crop",
+    blurb: "120+ premium residential plots in Lucknow's fastest-growing corridor — highway & metro connected, Jila Panchayat approved.",
+    stat: "Starting ₹12L",
+    startingPrice: "₹12 Lakhs+",
+    area: "1,200+ Sq. Ft.",
+    units: "120+ Plots",
+    possession: "Phase 1 Ready",
+    overview: "Prime Estate is a thoughtfully planned residential plots colony designed for those who want the freedom to build on their own terms. Located in a promising growth corridor of Lucknow, the project offers well-defined plots, proper road connectivity, and essential infrastructure to support long-term development. An ideal choice for buyers looking to secure land in a high-potential area — whether for future construction or investment.",
+    highlights: ["Jila Panchayat Approved", "Highway & Metro Connected", "Clear Title Deeds", "Phase 1 Ready", "Wide Internal Roads", "Underground Drainage"],
+    amenities: ["Wide Internal Roads", "24/7 Security Guard", "Piped Water Supply", "Electricity Connection", "Landscaped Parks", "Underground Drainage"],
+    gallery: [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1560184897-ae75f418493e?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=900&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=900&auto=format&fit=crop",
+    ],
+  },
+  {
     id: "p1",
     country: "India",
     flag: "🇮🇳",
