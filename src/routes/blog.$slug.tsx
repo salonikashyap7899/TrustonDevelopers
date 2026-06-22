@@ -2,6 +2,11 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/Reveal";
 import { ALL_ARTICLES } from "@/data/articles";
+import { usePageContent } from "@/hooks/usePageContent";
+
+type BlogBodyBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "image"; url: string; caption?: string; alt?: string };
 
 export const Route = createFileRoute("/blog/$slug")({
   head: ({ params }) => {
@@ -19,6 +24,13 @@ export const Route = createFileRoute("/blog/$slug")({
 function BlogDetailPage() {
   const { slug } = Route.useParams();
   const article = ALL_ARTICLES.find((a) => a.slug === slug);
+
+  const defaultBody: BlogBodyBlock[] = article
+    ? article.body.map((text) => ({ type: "paragraph", text }))
+    : [];
+
+  const cmsData = usePageContent(`blog.post.${slug}`, { body: defaultBody });
+  const richBody = (Array.isArray(cmsData.body) ? cmsData.body : defaultBody) as BlogBodyBlock[];
 
   if (!article) {
     return (
@@ -115,15 +127,33 @@ function BlogDetailPage() {
           </p>
         </Reveal>
 
-        {/* Paragraphs */}
+        {/* Body — paragraphs and inline images */}
         <div className="space-y-7">
-          {article.body.map((para, i) => (
-            <Reveal key={i} delay={i * 0.04}>
-              <p className="text-white/65 text-base leading-[1.9] font-light">
-                {para}
-              </p>
-            </Reveal>
-          ))}
+          {richBody.map((block, i) =>
+            block.type === "image" ? (
+              <Reveal key={i} delay={i * 0.03}>
+                <figure className="my-2">
+                  <img
+                    src={block.url}
+                    alt={block.alt || ""}
+                    className="w-full rounded-2xl object-cover"
+                    style={{ maxHeight: "480px", border: "0.5px solid rgba(255,255,255,0.08)" }}
+                  />
+                  {block.caption && (
+                    <figcaption className="text-center text-white/35 text-xs mt-3 italic leading-relaxed">
+                      {block.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              </Reveal>
+            ) : (
+              <Reveal key={i} delay={i * 0.04}>
+                <p className="text-white/65 text-base leading-[1.9] font-light">
+                  {block.text}
+                </p>
+              </Reveal>
+            )
+          )}
         </div>
 
         {/* ── CTA STRIP ── */}

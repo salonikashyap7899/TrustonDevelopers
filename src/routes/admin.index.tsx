@@ -9,6 +9,7 @@ import {
   uploadMedia,
   seedDefaultContent,
 } from "@/lib/content.functions";
+import { ALL_ARTICLES } from "@/data/articles";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -59,6 +60,7 @@ const SIDEBAR_NAV = [
       { label: "Lifestyle",   prefix: "lifestyle.",       icon: StarIcon },
       { label: "Contact",     prefix: "contact.",         icon: PhoneIcon },
       { label: "Blog",        prefix: "blog.",            icon: NewsIcon },
+      { label: "Blog Posts",  prefix: "blog.post.",       icon: NewsIcon },
       { label: "Partners",    prefix: "channel_partner.", icon: UsersIcon },
     ],
   },
@@ -473,6 +475,15 @@ function AdminPage() {
             />
           ) : activeTab === "about.videos" ? (
             <AboutVideosEditor
+              blocks={blocks}
+              saveBlockFn={saveBlockFn}
+              uploadFn={uploadFn}
+              onToast={addToast}
+              onBlockSaved={(saved) => setBlocks((prev) => prev.some((b) => b.key === saved.key) ? prev.map((b) => b.key === saved.key ? saved : b) : [...prev, saved])}
+              colors={C}
+            />
+          ) : activeTab === "blog.post." ? (
+            <BlogPostEditor
               blocks={blocks}
               saveBlockFn={saveBlockFn}
               uploadFn={uploadFn}
@@ -1984,6 +1995,254 @@ function AboutVideosEditor({
             style={{ fontSize: 12, fontWeight: 600, padding: "7px 20px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
             {saving ? "Saving…" : "Save All Changes"}
           </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── Blog Post Editor ──────────────────────────────────────────────────────────
+type BlogBodyBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "image"; url: string; caption: string; alt: string };
+
+function BlogPostEditor({
+  blocks, saveBlockFn, uploadFn, onToast, onBlockSaved, colors,
+}: {
+  blocks: ContentBlock[];
+  saveBlockFn: ReturnType<typeof useServerFn<typeof saveSiteContentBlock>>;
+  uploadFn: ReturnType<typeof useServerFn<typeof uploadMedia>>;
+  onToast: (type: "success" | "error" | "info", msg: string) => void;
+  onBlockSaved: (saved: ContentBlock) => void;
+  colors: Record<string, string>;
+}) {
+  const C = colors;
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [bodyItems, setBodyItems] = useState<BlogBodyBlock[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [uploadingIdx, setUploadingIdx] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+
+  const getDefaultBody = (slug: string): BlogBodyBlock[] => {
+    const article = ALL_ARTICLES.find((a) => a.slug === slug);
+    if (!article) return [];
+    return article.body.map((text) => ({ type: "paragraph", text }));
+  };
+
+  const getStoredBody = (slug: string): BlogBodyBlock[] | null => {
+    const block = blocks.find((b) => b.key === `blog.post.${slug}`);
+    if (!block?.data) return null;
+    const d = block.data as Record<string, unknown>;
+    if (!Array.isArray(d.body)) return null;
+    return d.body as BlogBodyBlock[];
+  };
+
+  const selectArticle = (slug: string) => {
+    setSelectedSlug(slug);
+    setConfirmDelete(null);
+    setBodyItems(getStoredBody(slug) ?? getDefaultBody(slug));
+  };
+
+  const insertAt = (pos: number, item: BlogBodyBlock) => {
+    setConfirmDelete(null);
+    setBodyItems((prev) => [...prev.slice(0, pos), item, ...prev.slice(pos)]);
+  };
+
+  const updateParagraph = (idx: number, text: string) => {
+    setBodyItems((prev) => prev.map((b, i) => i === idx ? { type: "paragraph", text } : b));
+  };
+
+  const updateImageField = (idx: number, field: "url" | "caption" | "alt", val: string) => {
+    setBodyItems((prev) => prev.map((b, i) => i === idx && b.type === "image" ? { ...b, [field]: val } : b));
+  };
+
+  const removeItem = (idx: number) => {
+    setConfirmDelete(null);
+    setBodyItems((prev) => prev.filter((_, i) => i !== idx));
+  };
+
+  const uploadImage = async (idx: number, file: File) => {
+    setUploadingIdx(idx);
+    try {
+      const base64 = await fileToBase64(file);
+      const { url } = await uploadFn({ data: { filename: file.name, contentType: file.type || "image/jpeg", base64 } });
+      updateImageField(idx, "url", url);
+      onToast("success", `✓ "${file.name}" uploaded!`);
+    } catch (err) {
+      onToast("error", `Upload failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setUploadingIdx(null);
+    }
+  };
+
+  const save = async () => {
+    if (!selectedSlug) return;
+    const article = ALL_ARTICLES.find((a) => a.slug === selectedSlug)!;
+    setSaving(true);
+    try {
+      const saved = await saveBlockFn({
+        data: { key: `blog.post.${selectedSlug}`, label: `Blog — ${article.title}`, data: { body: bodyItems } },
+      });
+      onBlockSaved(saved);
+      onToast("success", `✓ "${article.title}" saved! Changes are live on the website.`);
+    } catch (err) {
+      onToast("error", `Save failed: ${err instanceof Error ? err.message : String(err)}`);
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const inp = { fontSize: 12.5, padding: "7px 10px", border: `0.5px solid ${C.borderMd}`, borderRadius: 7, background: C.bgTertiary, color: C.textPrimary, fontFamily: "inherit", width: "100%", outline: "none" };
+  const lbl = { fontSize: 10, color: C.textTertiary, textTransform: "uppercase" as const, letterSpacing: "0.06em", display: "block", marginBottom: 4, fontWeight: 600 };
+
+  const InsertZone = ({ pos }: { pos: number }) => (
+    <div style={{ display: "flex", alignItems: "center", gap: 6, padding: "5px 0" }}>
+      <div style={{ flex: 1, height: "0.5px", background: C.border }} />
+      <button onClick={() => insertAt(pos, { type: "paragraph", text: "" })}
+        style={{ fontSize: 10, padding: "3px 11px", background: "rgba(0,191,255,0.07)", border: "0.5px solid rgba(0,191,255,0.2)", color: "#00BFFF", borderRadius: 20, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>
+        + Text
+      </button>
+      <button onClick={() => insertAt(pos, { type: "image", url: "", caption: "", alt: "" })}
+        style={{ fontSize: 10, padding: "3px 11px", background: "rgba(74,222,128,0.07)", border: "0.5px solid rgba(74,222,128,0.2)", color: "#4ade80", borderRadius: 20, cursor: "pointer", fontFamily: "inherit", whiteSpace: "nowrap" }}>
+        + Image
+      </button>
+      <div style={{ flex: 1, height: "0.5px", background: C.border }} />
+    </div>
+  );
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "12px 16px", background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10 }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 600, color: C.textPrimary }}>Blog Post Body Editor</p>
+          <p style={{ fontSize: 11, color: C.textTertiary, marginTop: 2 }}>
+            {selectedSlug ? `Editing: ${ALL_ARTICLES.find((a) => a.slug === selectedSlug)?.title}` : "Select an article below to start editing its body"}
+          </p>
+        </div>
+        {selectedSlug && (
+          <div style={{ display: "flex", gap: 8 }}>
+            <a href={`/blog/${selectedSlug}`} target="_blank" rel="noopener noreferrer"
+              style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "rgba(0,191,255,0.7)", background: "rgba(0,191,255,0.08)", border: "0.5px solid rgba(0,191,255,0.2)", borderRadius: 20, padding: "5px 12px", textDecoration: "none" }}>
+              <EyeIcon size={11} /> Preview
+            </a>
+            <button onClick={save} disabled={saving}
+              style={{ fontSize: 12, fontWeight: 600, padding: "6px 18px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+              {saving ? "Saving…" : "Save Changes"}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Article selector */}
+      <div style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "14px 16px" }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>Select Article to Edit</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+          {ALL_ARTICLES.map((article) => {
+            const hasOverride = blocks.some((b) => b.key === `blog.post.${article.slug}`);
+            const isSelected = selectedSlug === article.slug;
+            return (
+              <button key={article.slug} onClick={() => selectArticle(article.slug)}
+                style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", background: isSelected ? "rgba(0,191,255,0.08)" : C.bgTertiary, border: `0.5px solid ${isSelected ? "rgba(0,191,255,0.3)" : C.border}`, borderRadius: 8, cursor: "pointer", fontFamily: "inherit", textAlign: "left" }}>
+                <img src={article.img} alt="" style={{ width: 44, height: 32, borderRadius: 5, objectFit: "cover", opacity: 0.75, flexShrink: 0 }} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 12, fontWeight: 600, color: isSelected ? "#00BFFF" : C.textPrimary, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{article.title}</p>
+                  <p style={{ fontSize: 10, color: C.textTertiary, marginTop: 2 }}>{article.cat} · {article.date} · {article.body.length} default paragraphs</p>
+                </div>
+                {hasOverride && (
+                  <span style={{ fontSize: 9, padding: "2px 8px", borderRadius: 8, background: "rgba(0,191,255,0.1)", color: "#00BFFF", border: "0.5px solid rgba(0,191,255,0.25)", flexShrink: 0 }}>Customized</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Body editor */}
+      {selectedSlug && (
+        <div style={{ background: C.bgPrimary, border: `0.5px solid ${C.border}`, borderRadius: 10, padding: "16px" }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: C.textSecondary, marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            Article Body — {bodyItems.length} block{bodyItems.length !== 1 ? "s" : ""}
+          </p>
+
+          <InsertZone pos={0} />
+
+          {bodyItems.map((item, i) => (
+            <div key={i}>
+              <div style={{ background: C.bgTertiary, border: `0.5px solid ${item.type === "image" ? "rgba(74,222,128,0.22)" : C.border}`, borderRadius: 8, overflow: "hidden" }}>
+                {/* Block header */}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "6px 12px", borderBottom: `0.5px solid ${C.border}`, background: item.type === "image" ? "rgba(74,222,128,0.04)" : "rgba(0,191,255,0.02)" }}>
+                  <span style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: item.type === "image" ? "#4ade80" : "rgba(0,191,255,0.7)" }}>
+                    {item.type === "image" ? "🖼 Image" : `¶ Paragraph ${i + 1}`}
+                  </span>
+                  {confirmDelete === i ? (
+                    <div style={{ display: "flex", alignItems: "center", gap: 5 }}>
+                      <span style={{ fontSize: 10, color: C.textTertiary }}>Remove?</span>
+                      <button onClick={() => removeItem(i)} style={{ fontSize: 10, padding: "2px 8px", background: "rgba(248,113,113,0.15)", border: "0.5px solid rgba(248,113,113,0.4)", color: "#f87171", borderRadius: 5, cursor: "pointer", fontFamily: "inherit", fontWeight: 700 }}>Yes</button>
+                      <button onClick={() => setConfirmDelete(null)} style={{ fontSize: 10, padding: "2px 8px", background: C.bgTertiary, border: `0.5px solid ${C.border}`, color: C.textSecondary, borderRadius: 5, cursor: "pointer", fontFamily: "inherit" }}>No</button>
+                    </div>
+                  ) : (
+                    <button onClick={() => setConfirmDelete(i)} style={{ display: "flex", alignItems: "center", gap: 3, fontSize: 10, padding: "2px 8px", background: "rgba(248,113,113,0.06)", border: "0.5px solid rgba(248,113,113,0.15)", color: "#f87171", borderRadius: 5, cursor: "pointer", fontFamily: "inherit" }}>
+                      <TrashIcon size={10} /> Remove
+                    </button>
+                  )}
+                </div>
+
+                {/* Block content */}
+                {item.type === "paragraph" ? (
+                  <div style={{ padding: "10px 12px" }}>
+                    <textarea style={{ ...inp, resize: "vertical", minHeight: 88, fontSize: 12, lineHeight: 1.7 }} value={item.text}
+                      onChange={(e) => updateParagraph(i, e.target.value)} placeholder="Type paragraph text here…" />
+                  </div>
+                ) : (
+                  <div style={{ padding: "10px 12px", display: "flex", flexDirection: "column", gap: 8 }}>
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 4 }}>
+                        <span style={lbl}>Image URL</span>
+                        <label style={{ fontSize: 10, cursor: uploadingIdx === i ? "wait" : "pointer", color: "#4ade80", fontWeight: 600 }}>
+                          {uploadingIdx === i ? "Uploading…" : "↑ Upload Image"}
+                          <input type="file" accept="image/*,.jpg,.jpeg,.png,.webp,.gif" disabled={uploadingIdx !== null} style={{ display: "none" }}
+                            onChange={(e) => { const f = e.target.files?.[0]; if (!f) return; e.target.value = ""; uploadImage(i, f); }} />
+                        </label>
+                      </div>
+                      <input style={{ ...inp, fontFamily: "monospace" }} value={item.url}
+                        onChange={(e) => updateImageField(i, "url", e.target.value)} placeholder="https://… or upload above ↗" />
+                    </div>
+                    {item.url && (
+                      <img src={item.url} alt="" onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }} style={{ width: "100%", maxHeight: 200, objectFit: "cover", borderRadius: 7, border: `0.5px solid ${C.border}` }} />
+                    )}
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                      <div>
+                        <span style={lbl}>Caption (shown under image)</span>
+                        <input style={inp} value={item.caption} onChange={(e) => updateImageField(i, "caption", e.target.value)} placeholder="E.g. Phase 1 Plot Overview" />
+                      </div>
+                      <div>
+                        <span style={lbl}>Alt text (accessibility)</span>
+                        <input style={inp} value={item.alt} onChange={(e) => updateImageField(i, "alt", e.target.value)} placeholder="Describe the image briefly" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <InsertZone pos={i + 1} />
+            </div>
+          ))}
+
+          {bodyItems.length === 0 && (
+            <div style={{ textAlign: "center", padding: "28px 20px", color: C.textTertiary, fontSize: 12 }}>
+              No blocks yet. Use <b style={{ color: "#00BFFF" }}>+ Text</b> or <b style={{ color: "#4ade80" }}>+ Image</b> above to add content.
+            </div>
+          )}
+
+          {bodyItems.length > 0 && (
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: 4 }}>
+              <button onClick={save} disabled={saving}
+                style={{ fontSize: 12, fontWeight: 600, padding: "7px 20px", background: "#00BFFF", border: "none", color: "#04090f", borderRadius: 7, cursor: saving ? "default" : "pointer", opacity: saving ? 0.55 : 1, fontFamily: "inherit" }}>
+                {saving ? "Saving…" : "Save All Changes"}
+              </button>
+            </div>
+          )}
         </div>
       )}
     </div>
