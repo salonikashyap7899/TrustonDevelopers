@@ -59,8 +59,8 @@ export function SobhaStyleNav() {
             ))}
           </nav>
 
-          {/* Logo - Centered */}
-          <div className="flex justify-center shrink-0 px-8">
+          {/* Logo - Centered on desktop, left on mobile */}
+          <div className="flex justify-start lg:justify-center shrink-0 lg:px-8">
             <Link to="/" className="flex flex-col items-center group">
               <img
                 src="/logo.png"

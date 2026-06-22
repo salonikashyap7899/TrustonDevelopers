@@ -117,7 +117,7 @@ export function SiteFooter() {
           <p className="text-white/45 text-base leading-relaxed max-w-sm mb-6 font-light">
             {String(contact.brand_desc || "Prime Estate by TrustOn Developers.")}
           </p>
-          <div className="flex gap-3">
+          <div className="flex gap-3 justify-start">
             <a
               href="#"
               target="_blank"
