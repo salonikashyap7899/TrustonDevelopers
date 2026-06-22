@@ -51,7 +51,7 @@ function BlogDetailPage() {
   ).slice(0, 2);
 
   return (
-    <div className="bg-[#04090f] text-white overflow-x-hidden min-h-screen" style={{ paddingTop: "100px" }}>
+    <div className="bg-[#04090f] text-white overflow-x-hidden min-h-screen">
 
       {/* ── HERO ── */}
       <section className="relative h-[60vh] min-h-[420px] overflow-hidden">

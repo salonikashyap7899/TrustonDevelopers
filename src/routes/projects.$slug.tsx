@@ -6,6 +6,187 @@ import { Reveal } from "@/components/Reveal";
 import { PROJECTS, STATUS_COLOR } from "@/data/projects";
 import { getPrimeEstatePhases } from "@/lib/content.functions";
 import { usePageContent } from "@/hooks/usePageContent";
+import type { Project } from "@/data/projects";
+
+function exportProjectPDF(project: Project) {
+  import("jspdf").then(({ jsPDF }) => {
+    const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+    const pageW = doc.internal.pageSize.getWidth();
+    const margin = 18;
+    const contentW = pageW - margin * 2;
+    let y = 0;
+
+    // ── Header bar ──────────────────────────────────────────────────
+    doc.setFillColor(4, 9, 15);
+    doc.rect(0, 0, pageW, 38, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(18);
+    doc.setTextColor(255, 255, 255);
+    doc.text("TRUSTON", margin, 20);
+    doc.setFontSize(9);
+    doc.setTextColor(0, 191, 255);
+    doc.text("DEVELOPERS", margin + 37, 20);
+    doc.setFontSize(8);
+    doc.setTextColor(180, 180, 180);
+    doc.text("PROJECT INFORMATION SHEET", pageW - margin, 20, { align: "right" });
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generated ${new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" })}`, pageW - margin, 27, { align: "right" });
+
+    y = 50;
+
+    // ── Project name & badge ─────────────────────────────────────────
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(22);
+    doc.setTextColor(15, 20, 30);
+    doc.text(project.name, margin, y);
+    y += 7;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(80, 80, 80);
+    doc.text(`${project.city}, ${project.country}  ·  ${project.type}`, margin, y);
+    y += 5;
+
+    // status pill
+    const sColor = project.status === "Ready to Move" ? [0, 170, 80] : project.status === "Under Construction" ? [212, 130, 0] : [0, 120, 200];
+    doc.setFillColor(sColor[0], sColor[1], sColor[2]);
+    doc.roundedRect(margin, y + 1, 38, 6, 2, 2, "F");
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(7);
+    doc.setTextColor(255, 255, 255);
+    doc.text(project.status.toUpperCase(), margin + 19, y + 5, { align: "center" });
+    y += 14;
+
+    // ── Divider ──────────────────────────────────────────────────────
+    doc.setDrawColor(220, 225, 235);
+    doc.line(margin, y, pageW - margin, y);
+    y += 8;
+
+    // ── Key Specs (2-column grid) ────────────────────────────────────
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(0, 191, 255);
+    doc.text("KEY SPECIFICATIONS", margin, y);
+    y += 6;
+
+    const specs = [
+      ["Location", `${project.city}, ${project.country}`],
+      ["Property Type", project.type],
+      ["Status", project.status],
+      ["Starting Price", project.startingPrice],
+      ["Area Range", project.area],
+      ["Total Units", project.units],
+      ["Possession", project.possession],
+    ];
+
+    const colW = contentW / 2 - 4;
+    specs.forEach(([label, value], i) => {
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const xPos = margin + col * (colW + 8);
+      const yPos = y + row * 14;
+
+      doc.setFillColor(245, 247, 252);
+      doc.roundedRect(xPos, yPos, colW, 11, 1.5, 1.5, "F");
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7);
+      doc.setTextColor(120, 130, 150);
+      doc.text(label.toUpperCase(), xPos + 4, yPos + 4.5);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(20, 25, 40);
+      doc.text(value, xPos + 4, yPos + 9);
+    });
+
+    y += Math.ceil(specs.length / 2) * 14 + 6;
+
+    // ── Divider ──────────────────────────────────────────────────────
+    doc.setDrawColor(220, 225, 235);
+    doc.line(margin, y, pageW - margin, y);
+    y += 8;
+
+    // ── Overview ────────────────────────────────────────────────────
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.setTextColor(0, 191, 255);
+    doc.text("PROJECT OVERVIEW", margin, y);
+    y += 6;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(50, 55, 70);
+    const lines = doc.splitTextToSize(project.overview, contentW);
+    doc.text(lines, margin, y);
+    y += lines.length * 5 + 6;
+
+    // ── Highlights ──────────────────────────────────────────────────
+    if (project.highlights.length > 0) {
+      doc.setDrawColor(220, 225, 235);
+      doc.line(margin, y, pageW - margin, y);
+      y += 8;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(0, 191, 255);
+      doc.text("KEY HIGHLIGHTS", margin, y);
+      y += 6;
+
+      const hlCols = 2;
+      const hlColW = contentW / hlCols;
+      project.highlights.forEach((h, i) => {
+        const col = i % hlCols;
+        const row = Math.floor(i / hlCols);
+        const xPos = margin + col * hlColW;
+        const yPos = y + row * 7;
+        doc.setFillColor(0, 191, 255);
+        doc.circle(xPos + 2, yPos - 1.5, 1.2, "F");
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(9);
+        doc.setTextColor(40, 45, 60);
+        doc.text(h, xPos + 5.5, yPos);
+      });
+      y += Math.ceil(project.highlights.length / hlCols) * 7 + 6;
+    }
+
+    // ── Amenities ───────────────────────────────────────────────────
+    if (project.amenities.length > 0) {
+      doc.setDrawColor(220, 225, 235);
+      doc.line(margin, y, pageW - margin, y);
+      y += 8;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.setTextColor(0, 191, 255);
+      doc.text("AMENITIES", margin, y);
+      y += 6;
+
+      const amCols = 3;
+      const amColW = contentW / amCols;
+      project.amenities.forEach((a, i) => {
+        const col = i % amCols;
+        const row = Math.floor(i / amCols);
+        const xPos = margin + col * amColW;
+        const yPos = y + row * 7;
+        doc.setFillColor(0, 191, 255);
+        doc.circle(xPos + 2, yPos - 1.5, 1.2, "F");
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8.5);
+        doc.setTextColor(40, 45, 60);
+        doc.text(a, xPos + 5.5, yPos);
+      });
+      y += Math.ceil(project.amenities.length / amCols) * 7 + 6;
+    }
+
+    // ── Footer ───────────────────────────────────────────────────────
+    const footerY = doc.internal.pageSize.getHeight() - 16;
+    doc.setFillColor(4, 9, 15);
+    doc.rect(0, footerY - 4, pageW, 24, "F");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(120, 130, 150);
+    doc.text("TrustOn Developers  ·  +91 96160-61166  ·  trustondevelopers01@gmail.com  ·  www.trustondevelopers.com", pageW / 2, footerY + 4, { align: "center" });
+
+    doc.save(`${project.name.replace(/\s+/g, "_")}_TrustOn.pdf`);
+  });
+}
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
@@ -490,6 +671,18 @@ function ProjectDetailPage() {
                 Enquire Now
               </a>
             </div>
+
+            <button
+              onClick={() => exportProjectPDF(project)}
+              className="mt-3 w-full flex items-center justify-center gap-2 py-3 rounded-full text-[11px] font-bold tracking-[0.12em] uppercase border border-white/10 text-white/40 hover:border-[#00BFFF]/40 hover:text-[#00BFFF]/80 transition-all duration-300 group"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="group-hover:translate-y-0.5 transition-transform">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Export Project Details as PDF
+            </button>
           </Reveal>
         </div>
       </section>
