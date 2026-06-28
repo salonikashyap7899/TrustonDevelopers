@@ -19,7 +19,6 @@ const MIME_TYPES = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".gif": "image/gif",
-  ".svg": "image/svg+xml",
   ".ico": "image/x-icon",
   ".webp": "image/webp",
   ".mp4": "video/mp4",
