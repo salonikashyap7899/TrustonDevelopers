@@ -63,6 +63,15 @@ function AdminLoginPage() {
       } else if (msg.toLowerCase().includes("user already registered")) {
         setError("An account with this email already exists. Please sign in.");
         setMode("signin");
+      } else if (
+        msg.toLowerCase().includes("invalid api key") ||
+        msg.toLowerCase().includes("invalid publishable key") ||
+        msg.toLowerCase().includes("invalid service role key")
+      ) {
+        console.error("Supabase API key error:", msg);
+        setError(
+          "Server misconfiguration: Supabase API key is invalid or missing. Please ensure SUPABASE_URL and the publishable/service role keys are set in environment variables."
+        );
       } else {
         setError(msg);
       }

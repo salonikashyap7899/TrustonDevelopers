@@ -89,9 +89,15 @@ CREATE POLICY "Admins delete site-media" ON storage.objects FOR DELETE TO authen
 -- Auto-promote the first user to admin (single-admin convenience)
 CREATE OR REPLACE FUNCTION public.handle_first_admin()
 RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+DECLARE
+  _default_admin_email text := 'trustondevelopers@gmail.com';
 BEGIN
-  IF NOT EXISTS (SELECT 1 FROM public.user_roles WHERE role = 'admin') THEN
-    INSERT INTO public.user_roles (user_id, role) VALUES (NEW.id, 'admin');
+  -- Only auto-promote when the newly created user's email matches the configured
+  -- default admin email. This prevents arbitrary first-registrations from becoming admins.
+  IF NEW.email IS NOT NULL AND lower(NEW.email) = lower(_default_admin_email) THEN
+    INSERT INTO public.user_roles (user_id, role)
+    VALUES (NEW.id, 'admin')
+    ON CONFLICT (user_id, role) DO NOTHING;
   END IF;
   RETURN NEW;
 END $$;
