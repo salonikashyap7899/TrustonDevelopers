@@ -38,12 +38,12 @@ function VideoCard({ item }: { item: TestimonialItem }) {
     <div
       className="relative bg-[#060c16] border border-white/8 rounded-[20px] overflow-hidden flex flex-col select-none group shrink-0 hover:border-[#00BFFF]/30 transition-all duration-500"
       style={{
-        width: "360px",
+        width: "280px",
         boxShadow: "0 12px 48px rgba(0,0,0,0.65), 0 0 0 1px rgba(0,191,255,0.06), 0 2px 8px rgba(0,0,0,0.4)",
       }}
     >
-      {/* Media 16:9 — video or image */}
-      <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "16/9" }}>
+      {/* Media 9:16 portrait — video or image */}
+      <div className="relative w-full overflow-hidden bg-[#080d1a]" style={{ aspectRatio: "9/16" }}>
         {isMediaImage(videoUrl) ? (
           <img
             src={videoUrl}
@@ -182,7 +182,7 @@ export function Testimonials() {
           100% { transform: translateX(-50%); }
         }
         .testimonials-marquee-track {
-          animation: testimonialsScroll 40s linear infinite;
+          animation: testimonialsScroll 50s linear infinite;
           display: flex;
           gap: 20px;
           width: max-content;
