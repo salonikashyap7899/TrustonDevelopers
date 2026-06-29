@@ -137,15 +137,18 @@ function useLenis(isAdmin: boolean) {
       return;
     }
 
+    // Disable Lenis on touch/mobile devices to prevent lagging
+    const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    if (isTouch) return;
+
     if (!globalLenis) {
-      const isTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0;
       globalLenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
         lerp: 0.08,
         wheelMultiplier: 1.0,
-        touchMultiplier: isTouch ? 1.2 : 1.5,
+        touchMultiplier: 1.5,
         infinite: false,
       });
 

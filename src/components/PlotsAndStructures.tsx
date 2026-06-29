@@ -41,7 +41,7 @@ export function PlotsAndStructures() {
           <div className="order-2 lg:order-1">
             <SectionEyebrow>{String(c.eyebrow || "Strategic Masterpieces")}</SectionEyebrow>
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
+              <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif text-white mt-4 mb-8">
                 {String(c.title || "Building")} <em className="text-[#00BFFF] italic">{String(c.title_accent || "Plots & Structures")}</em>
               </h2>
             </Reveal>

@@ -5,7 +5,7 @@ export function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <div className="fixed bottom-8 right-8 z-50 flex items-center gap-3">
+    <div className="fixed bottom-5 right-5 sm:bottom-8 sm:right-8 z-50 flex items-center gap-3">
       {/* Tooltip */}
       <AnimatePresence>
         {hovered && (

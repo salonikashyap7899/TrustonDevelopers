@@ -132,7 +132,7 @@ export function SobhaStyleHero({
               <motion.button
                 animate={{ x: buttonPos.x, y: buttonPos.y }}
                 transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-                className="btn-magnetic btn-luxe min-w-[240px] px-10 py-5 rounded-full"
+                className="btn-magnetic btn-luxe min-w-[200px] sm:min-w-[240px] px-8 sm:px-10 py-4 sm:py-5 rounded-full"
               >
                 Explore Projects
                 <span className="absolute inset-0 bg-white/10 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />

@@ -107,7 +107,7 @@ export function ConsultationModal() {
                 </button>
               </div>
 
-              <div className="p-6 max-h-[75vh] overflow-y-auto">
+              <div className="p-4 sm:p-6 max-h-[80vh] overflow-y-auto">
                 {status === "sent" ? (
                   <div className="text-center py-10">
                     <div className="w-14 h-14 rounded-full border-2 border-[#00BFFF] flex items-center justify-center mx-auto mb-5">
@@ -127,8 +127,8 @@ export function ConsultationModal() {
                     </button>
                   </div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-2 gap-4">
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <label className="block">
                         <span className="text-[10px] uppercase tracking-[0.2em] text-white/35 font-bold mb-2 block">
                           Full Name <span className="text-[#00BFFF]">*</span>

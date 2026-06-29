@@ -78,22 +78,22 @@ export function IntroHighlightSection() {
       <div className="relative z-10 max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
           <motion.div style={{ scale, y: y1 }} className="relative flex items-center justify-center">
-            <div className="grid grid-cols-2 gap-4 relative">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 relative">
               <MediaCircle
                 item={images[0]}
-                className="w-40 h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
+                className="w-28 h-28 sm:w-40 sm:h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
               />
               <MediaCircle
                 item={images[1]}
-                className="w-32 h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
+                className="w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 mt-6 sm:mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
               />
               <MediaCircle
                 item={images[2]}
-                className="w-32 h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 -mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
+                className="w-24 h-24 sm:w-32 sm:h-32 md:w-44 md:h-44 border-2 border-[#00BFFF]/20 -mt-6 sm:-mt-8 shadow-[0_0_20px_rgba(0,191,255,0.1)]"
               />
               <MediaCircle
                 item={images[3]}
-                className="w-40 h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
+                className="w-28 h-28 sm:w-40 sm:h-40 md:w-56 md:h-56 border-2 border-[#00BFFF]/30 shadow-[0_0_30px_rgba(0,191,255,0.2)]"
               />
 
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-20 md:w-28 md:h-28 rounded-full bg-[#00BFFF]/10 backdrop-blur-md border border-[#00BFFF]/40 flex items-center justify-center z-10">

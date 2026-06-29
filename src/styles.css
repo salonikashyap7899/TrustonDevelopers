@@ -534,55 +534,6 @@
     height: auto;
   }
 
-  /* Ensure flex/grid items don't overflow on small screens */
-  @media (max-width: 640px) {
-    /* Reduce large heading sizes on very small phones */
-    .font-serif {
-      word-break: break-word;
-      overflow-wrap: break-word;
-    }
-
-    /* Fix icon + text alignment in flex rows */
-    .flex.items-center {
-      align-items: center;
-    }
-
-    /* Prevent text overflow in small containers */
-    p, h1, h2, h3, h4, h5 {
-      overflow-wrap: break-word;
-      word-break: break-word;
-    }
-
-    /* Touch-friendly button targets */
-    button, a[role="button"] {
-      min-height: 44px;
-      min-width: 44px;
-    }
-
-    /* Fix gap issues on mobile grids */
-    .grid {
-      grid-gap: 1rem;
-    }
-  }
-
-  /* ── Smooth scroll performance ───────────────────────────────── */
-
-  /* GPU-accelerated scrolling on iOS — only on the scroll wrapper */
-  html, body {
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ── Mobile nav spacing fix ──────────────────────────────────── */
-
-  /* Add top padding on pages to account for the nav */
-  @media (max-width: 1024px) {
-    main > :first-child section:first-child {
-      padding-top: max(80px, env(safe-area-inset-top));
-    }
-  }
-
-  /* ── Icon alignment global fix ───────────────────────────────── */
-
   /* Ensure SVG icons are always perfectly centered */
   svg {
     display: inline-block;
@@ -596,5 +547,106 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+  }
+
+  /* ── Smooth scroll performance ───────────────────────────────── */
+  html, body {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── Mobile-first responsive overrides ─────────────────────── */
+  @media (max-width: 640px) {
+    /* Prevent text overflow on small phones */
+    p, h1, h2, h3, h4, h5 {
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    /* Ensure .font-serif elements wrap on small screens */
+    .font-serif {
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    /* Touch-friendly tap targets */
+    button, a[role="button"] {
+      min-height: 44px;
+    }
+
+    /* Fix section padding on small phones */
+    section {
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    /* Fix large section padding overrides */
+    .py-32 { padding-top: 4rem; padding-bottom: 4rem; }
+    .py-28 { padding-top: 3.5rem; padding-bottom: 3.5rem; }
+    .py-24 { padding-top: 3rem; padding-bottom: 3rem; }
+    .pb-32 { padding-bottom: 4rem; }
+    .pb-28 { padding-bottom: 3.5rem; }
+
+    /* Typography hero on small phones */
+    .typography-hero {
+      font-size: clamp(2.5rem, 14vw, 5rem);
+    }
+
+    /* Large serif headings – scale down on phones */
+    .text-7xl { font-size: 3rem; }
+    .text-8xl { font-size: 3.5rem; }
+
+    /* Fix icon sizes in small containers */
+    .w-10.h-10 svg { width: 20px; height: 20px; }
+
+    /* Fix stats bar 2-col on very small phones */
+    .grid.grid-cols-2 { grid-template-columns: 1fr 1fr; }
+
+    /* Fix footer CTA title size */
+    .text-4xl.md\:text-6xl, .text-4xl.md\:text-7xl {
+      font-size: 2.25rem;
+    }
+
+    /* Fix hero buttons layout on small phones */
+    .flex-col.sm\:flex-row { flex-direction: column; }
+
+    /* Reduce py on stats bar boxes */
+    .py-14 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  }
+
+  /* ── Very small phone (< 380px) ─────────────────────────────── */
+  @media (max-width: 380px) {
+    .typography-hero {
+      font-size: 2.2rem;
+    }
+    h1.font-serif { font-size: 2rem; }
+    h2.font-serif { font-size: 1.75rem; }
+    .text-4xl { font-size: 1.875rem; }
+    .text-5xl { font-size: 2rem; }
+    /* Fix px-10 buttons on small screens */
+    .px-10 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-8 { padding-left: 1.25rem; padding-right: 1.25rem; }
+  }
+
+  /* ── Mobile nav spacing fix ──────────────────────────────────── */
+  @media (max-width: 1024px) {
+    main > :first-child section:first-child {
+      padding-top: max(70px, env(safe-area-inset-top));
+    }
+  }
+
+  /* ── Reduce heavy animations on mobile for performance ──────── */
+  @media (max-width: 768px) {
+    /* Reduce will-change budget on mobile */
+    .motion-safe {
+      will-change: auto;
+    }
+    /* Disable blur effects on performance-critical elements */
+    .blur-3xl { filter: blur(40px); }
+    .blur-\[120px\] { filter: blur(60px); }
+    .blur-\[100px\] { filter: blur(50px); }
+    .blur-\[80px\] { filter: blur(40px); }
+    /* Simplify backdrop blur on mobile */
+    .backdrop-blur-md { backdrop-filter: blur(8px); }
+    .backdrop-blur-xl { backdrop-filter: blur(12px); }
   }
 }

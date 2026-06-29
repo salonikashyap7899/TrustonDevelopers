@@ -110,7 +110,7 @@ export function PageHero({
   return (
     <section
       ref={ref}
-      className={`relative w-full overflow-hidden ${isFull ? "h-screen min-h-[720px]" : "h-[85vh] min-h-[600px]"} bg-ink`}
+      className={`relative w-full overflow-hidden ${isFull ? "h-screen min-h-[500px]" : "h-[75vh] min-h-[420px] sm:h-[85vh] sm:min-h-[560px]"} bg-ink`}
     >
       {/* Parallax background */}
       <motion.div style={{ y, scale }} className="absolute inset-0">
@@ -180,8 +180,8 @@ export function PageHero({
       {/* Hero content */}
       <motion.div
         style={{ opacity, y: textY }}
-        className={`relative z-10 h-full flex flex-col px-6 md:px-16 max-w-7xl mx-auto ${
-          isFull ? "justify-end pb-32" : "justify-end pb-24 pt-32"
+        className={`relative z-10 h-full flex flex-col px-4 sm:px-6 md:px-16 max-w-7xl mx-auto ${
+          isFull ? "justify-end pb-20 sm:pb-32" : "justify-end pb-16 sm:pb-24 pt-24 sm:pt-32"
         }`}
       >
         {eyebrow && (
@@ -206,7 +206,7 @@ export function PageHero({
           animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           transition={{ duration: 1.5, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className={`font-display text-white leading-[0.9] tracking-tighter ${
-            isFull ? "text-[14vw] md:text-[9.5vw]" : "text-6xl md:text-[7vw]"
+            isFull ? "text-[11vw] sm:text-[12vw] md:text-[9.5vw]" : "text-[10vw] sm:text-[8vw] md:text-[7vw] max-w-[90vw]"
           }`}
         >
           {title}

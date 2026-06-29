@@ -102,14 +102,14 @@ export function SiteFooter() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-8 md:py-12 grid md:grid-cols-4 gap-8 md:gap-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-8 md:py-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
 
-        <div className="md:col-span-2">
+        <div className="sm:col-span-2 md:col-span-2">
           <div className="flex items-center gap-4 mb-4">
             <img
               src="/logo.png"
               alt="TrustOn Logo"
-              className="h-30 w-auto object-contain brightness-125"
+              className="h-20 sm:h-24 w-auto object-contain brightness-125"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
 

@@ -175,13 +175,13 @@ export function TrustonServicesSection() {
           {services.map((service, idx) => (
             <Reveal key={service.num ?? idx} delay={idx * 0.1}>
               <div className="bg-[#050b14] relative overflow-hidden group cursor-pointer h-full hover:bg-[#0a1628] transition-colors duration-300 border border-transparent hover:border-[#00BFFF]/20 flex flex-col">
-                <div className="relative h-32 flex items-center justify-center bg-gradient-to-br from-[#0a1628] to-[#050b14] shrink-0">
-                  <div className="text-[#00BFFF]/40 group-hover:text-[#00BFFF] group-hover:scale-110 transition-all duration-500">
+                <div className="relative h-28 sm:h-32 flex items-center justify-center bg-gradient-to-br from-[#0a1628] to-[#050b14] shrink-0">
+                  <div className="text-[#00BFFF]/40 group-hover:text-[#00BFFF] group-hover:scale-110 transition-all duration-500 [&>svg]:w-8 [&>svg]:h-8 sm:[&>svg]:w-10 sm:[&>svg]:h-10">
                     {SERVICE_ICONS[idx] ?? SERVICE_ICONS[0]}
                   </div>
                   <span className="absolute top-3 right-4 font-serif text-[3rem] font-light text-white/10 leading-none select-none pointer-events-none">{service.num}</span>
                 </div>
-                <div className="p-8 flex flex-col flex-1">
+                <div className="p-5 sm:p-8 flex flex-col flex-1">
                   <h3 className="text-base font-medium text-white mb-3 tracking-wide group-hover:text-[#00BFFF] transition-colors duration-300">{service.name}</h3>
                   <p className="text-sm text-white/50 leading-relaxed mb-6 flex-1">{service.desc}</p>
                   <span className="inline-flex items-center gap-2 text-[10px] uppercase tracking-[0.15em] text-[#00BFFF] font-medium group-hover:gap-4 transition-all duration-300">

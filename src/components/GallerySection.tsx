@@ -91,7 +91,7 @@ export function GallerySection() {
       style={{ background: "#04090f", margin: 0, padding: 0 }}
       className="relative w-full select-none"
     >
-      <div ref={containerRef} style={{ height: "105vh", position: "relative" }}>
+      <div ref={containerRef} style={{ height: "clamp(100vh, 105vh, 110vh)", position: "relative" }}>
         <div
           style={{
             position: "sticky",
