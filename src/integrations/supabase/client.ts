@@ -10,14 +10,20 @@ function createSupabaseClient() {
     "";
 
   const SUPABASE_ANON_KEY =
-    (typeof import.meta !== "undefined" && (import.meta as any).env?.VITE_SUPABASE_ANON_KEY) ||
-    (typeof process !== "undefined" && process.env?.SUPABASE_ANON_KEY) ||
+    (typeof import.meta !== "undefined" && (
+      (import.meta as any).env?.VITE_SUPABASE_ANON_KEY ||
+      (import.meta as any).env?.VITE_SUPABASE_PUBLISHABLE_KEY
+    )) ||
+    (typeof process !== "undefined" && (
+      process.env?.SUPABASE_ANON_KEY ||
+      process.env?.SUPABASE_PUBLISHABLE_KEY
+    )) ||
     "";
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     const missing = [
       ...(!SUPABASE_URL ? ["SUPABASE_URL / VITE_SUPABASE_URL"] : []),
-      ...(!SUPABASE_ANON_KEY ? ["SUPABASE_ANON_KEY / VITE_SUPABASE_ANON_KEY"] : []),
+      ...(!SUPABASE_ANON_KEY ? ["SUPABASE_ANON_KEY / VITE_SUPABASE_ANON_KEY (or PUBLISHABLE_KEY)"] : []),
     ];
     throw new Error(
       `Missing Supabase environment variable(s): ${missing.join(", ")}. ` +
