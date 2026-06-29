@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface TextRevealProps {
   children: string;

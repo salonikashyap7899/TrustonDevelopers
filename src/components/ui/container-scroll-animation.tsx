@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export const ContainerScroll = ({
   titleComponent,
@@ -8,42 +9,33 @@ export const ContainerScroll = ({
   titleComponent: string | React.ReactNode;
   children: React.ReactNode;
 }) => {
+  const isMobile = useIsMobile();
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-  });
-  const [isMobile, setIsMobile] = React.useState(false);
-
-  React.useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, []);
-
-  const scaleDimensions = () => {
-    return isMobile ? [0.7, 0.9] : [1.05, 1];
-  };
+  const { scrollYProgress } = useScroll({ target: containerRef });
 
   const rotate = useTransform(scrollYProgress, [0, 1], [8, 0]);
-  const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
+  const scale = useTransform(scrollYProgress, [0, 1], [1.05, 1]);
   const translate = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  if (isMobile) {
+    return (
+      <div className="w-full px-4 py-10">
+        <div className="max-w-5xl mx-auto text-center mb-8">
+          {titleComponent}
+        </div>
+        <div className="w-full rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+          {children}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
       className="h-[45rem] md:h-[55rem] flex items-center justify-center relative p-2 md:p-10"
       ref={containerRef}
     >
-      <div
-        className="py-6 md:py-20 w-full relative"
-        style={{
-          perspective: "1000px",
-        }}
-      >
+      <div className="py-6 md:py-20 w-full relative" style={{ perspective: "1000px" }}>
         <Header translate={translate} titleComponent={titleComponent} />
         <Card rotate={rotate} translate={translate} scale={scale}>
           {children}
@@ -56,9 +48,7 @@ export const ContainerScroll = ({
 export const Header = ({ translate, titleComponent }: any) => {
   return (
     <motion.div
-      style={{
-        translateY: translate,
-      }}
+      style={{ translateY: translate }}
       className="div max-w-5xl mx-auto text-center mb-8 md:mb-12"
     >
       {titleComponent}

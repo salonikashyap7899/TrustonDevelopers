@@ -1,16 +1,14 @@
 import { motion, type Variants, useInView, useMotionValue, useSpring } from "framer-motion";
 import type { ReactNode } from "react";
 import { useRef, useEffect } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 const variants: Variants = {
   hidden: { opacity: 0, y: 32 },
   show: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.75,
-      ease: [0.16, 1, 0.3, 1],
-    },
+    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
   },
 };
 
@@ -43,6 +41,12 @@ export function Reveal({
   className?: string;
   direction?: "left" | "right";
 }) {
+  const isMobile = useIsMobile();
+
+  if (isMobile) {
+    return <div className={className}>{children}</div>;
+  }
+
   const v = direction === "left" ? slideLeft : direction === "right" ? slideRight : variants;
   return (
     <motion.div
