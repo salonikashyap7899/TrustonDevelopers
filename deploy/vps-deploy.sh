@@ -15,9 +15,9 @@ echo "=== TrustOn VPS Deploy ==="
 echo "[1/5] Pulling latest code..."
 git pull origin main
 
-# 2. Install/update dependencies
+# 2. Install ALL dependencies (including devDependencies needed for the Vite build)
 echo "[2/5] Installing dependencies..."
-npm install --omit=dev
+npm install
 
 # 3. Load .env and export all vars so they are available to the Vite build
 #    VITE_* vars must be present in the shell environment at build time.
