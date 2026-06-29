@@ -44,7 +44,7 @@ export function SobhaStyleNav() {
   }, [open]);
 
   const linkClass =
-    "text-[11px] font-bold tracking-[0.4em] transition-colors duration-300 relative group text-[#004aad] hover:text-[#00BFFF]";
+    "text-[13px] font-bold tracking-[0.35em] transition-colors duration-300 relative group text-[#004aad] hover:text-[#00BFFF]";
   const underline = (
     <span className="absolute -bottom-1 left-0 w-full h-px bg-[#00BFFF] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
   );
@@ -107,13 +107,6 @@ export function SobhaStyleNav() {
                 {underline}
               </Link>
             ))}
-            <Link
-              to="/contact"
-              className="ml-2 px-5 py-2 rounded-full text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:opacity-90 hover:scale-105"
-              style={{ background: "#004aad" }}
-            >
-              Enquire Now
-            </Link>
           </div>
 
           {/* Mobile hamburger */}
