@@ -3,31 +3,32 @@ import type { ReactNode } from "react";
 import { useRef, useEffect } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
+// Desktop variants — full motion
 const variants: Variants = {
   hidden: { opacity: 0, y: 32 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
-  },
+  show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
 };
-
 const slideLeft: Variants = {
   hidden: { opacity: 0, x: -40 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
-  },
+  show: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
 };
-
 const slideRight: Variants = {
   hidden: { opacity: 0, x: 40 },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] },
-  },
+  show: { opacity: 1, x: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
+};
+
+// Mobile variants — lighter: smaller distance, faster, no blur
+const mobileVariants: Variants = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+};
+const mobileSlideLeft: Variants = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
+};
+const mobileSlideRight: Variants = {
+  hidden: { opacity: 0, x: 20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] } },
 };
 
 export function Reveal({
@@ -43,19 +44,18 @@ export function Reveal({
 }) {
   const isMobile = useIsMobile();
 
-  if (isMobile) {
-    return <div className={className}>{children}</div>;
-  }
+  const desktopV = direction === "left" ? slideLeft : direction === "right" ? slideRight : variants;
+  const mobileV = direction === "left" ? mobileSlideLeft : direction === "right" ? mobileSlideRight : mobileVariants;
+  const v = isMobile ? mobileV : desktopV;
 
-  const v = direction === "left" ? slideLeft : direction === "right" ? slideRight : variants;
   return (
     <motion.div
       className={className}
       variants={v}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ delay }}
+      viewport={{ once: true, margin: isMobile ? "-20px" : "-40px" }}
+      transition={{ delay: isMobile ? delay * 0.5 : delay }}
     >
       {children}
     </motion.div>

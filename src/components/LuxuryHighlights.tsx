@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { Reveal, SectionEyebrow } from "./Reveal";
 import { Section3DBackground } from "./Section3DBackground";
 
@@ -64,6 +65,7 @@ const highlights = [
 ];
 
 export function LuxuryHighlights() {
+  const isMobile = useIsMobile();
   return (
     <section className="relative py-24 md:py-32 px-6 overflow-hidden bg-background">
       <Section3DBackground opacity={0.2} />
@@ -96,11 +98,8 @@ export function LuxuryHighlights() {
           {highlights.map((item, idx) => (
             <Reveal key={item.label} delay={item.delay}>
               <motion.div
-                whileHover={{
-                  y: -12,
-                  scale: 1.03,
-                }}
-                animate={{ y: [0, -6, 0] }}
+                whileHover={{ y: -12, scale: 1.03 }}
+                animate={isMobile ? {} : { y: [0, -6, 0] }}
                 transition={{
                   y: {
                     duration: 4 + idx * 0.5,
@@ -110,10 +109,8 @@ export function LuxuryHighlights() {
                   },
                   hover: { duration: 0.5, ease: [0.2, 0.8, 0.2, 1] },
                 }}
-                className="group relative glass-premium rounded-[32px] p-10 border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 cursor-default overflow-hidden h-full"
-                style={{
-                  transformStyle: "preserve-3d",
-                }}
+                className="group relative glass-premium rounded-[32px] p-8 sm:p-10 border border-white/5 hover:border-luxe-cyan/30 transition-all duration-500 cursor-default overflow-hidden h-full"
+                style={{ transformStyle: isMobile ? "flat" : "preserve-3d" }}
               >
                 {/* Blue gradient top accent */}
                 <div

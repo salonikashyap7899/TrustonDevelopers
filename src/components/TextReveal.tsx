@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import type { ReactNode } from "react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 
 interface TextRevealProps {
@@ -12,8 +11,19 @@ interface TextRevealProps {
 export function SwipeReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
   const isMobile = useIsMobile();
 
+  // Mobile: simple fade-up instead of the heavy swipe overlay effect
   if (isMobile) {
-    return <span className={className}>{children}</span>;
+    return (
+      <motion.span
+        className={className}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once, margin: "-20px" }}
+        transition={{ duration: 0.4, delay: delay * 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.span>
+    );
   }
 
   return (
@@ -40,8 +50,19 @@ export function SwipeReveal({ children, className, delay = 0, once = true }: Tex
 export function TextReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
   const isMobile = useIsMobile();
 
+  // Mobile: simple fade instead of per-word stagger (cheaper)
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return (
+      <motion.div
+        className={className}
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once, margin: "-20px" }}
+        transition={{ duration: 0.4, delay: delay * 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+    );
   }
 
   const words = children.split(" ");
@@ -94,8 +115,19 @@ export function TextReveal({ children, className, delay = 0, once = true }: Text
 export function CharReveal({ children, className, delay = 0, once = true }: TextRevealProps) {
   const isMobile = useIsMobile();
 
+  // Mobile: simple fade, no per-character blur stagger (very expensive)
   if (isMobile) {
-    return <div className={className}>{children}</div>;
+    return (
+      <motion.div
+        className={className}
+        initial={{ opacity: 0, y: 10 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once, margin: "-20px" }}
+        transition={{ duration: 0.4, delay: delay * 0.5 }}
+      >
+        {children}
+      </motion.div>
+    );
   }
 
   const letters = Array.from(children);
