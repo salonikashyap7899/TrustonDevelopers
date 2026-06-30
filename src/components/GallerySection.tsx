@@ -42,10 +42,11 @@ export function GallerySection() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  // Don't pass ref on mobile — ref won't be attached (mobile branch renders different JSX)
+  // and Framer Motion throws "Target ref is defined but not hydrated"
+  const { scrollYProgress } = useScroll(
+    isMobile ? {} : { target: containerRef, offset: ["start start", "end end"] }
+  );
 
   const smooth = useMotionValue(0);
   useAnimationFrame(() => {
@@ -88,29 +89,53 @@ export function GallerySection() {
     display: "block",
   };
 
-  /* ── Mobile: show a simple static gallery grid ─────────── */
+  /* ── Mobile: animated whileInView gallery (no heavy scroll loop) ── */
   if (isMobile) {
     return (
       <section
         id="gallery-section"
         style={{ background: "#04090f" }}
-        className="relative w-full overflow-hidden"
+        className="relative w-full overflow-hidden py-2"
       >
-        <div className="relative w-full" style={{ aspectRatio: "16/10", maxHeight: "70vw" }}>
+        {/* Hero image — fades + scales up */}
+        <motion.div
+          className="relative w-full overflow-hidden"
+          style={{ aspectRatio: "16/10" }}
+          initial={{ opacity: 0, scale: 1.06 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-60px" }}
+          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+        >
           <img src={img1.src} alt={img1.alt} className="w-full h-full object-cover" />
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 60%)" }} />
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none px-4">
-            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(1.6rem, 7vw, 2.8rem)", fontWeight: 300, lineHeight: 1.15, textAlign: "center", color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.45)", margin: 0 }}>
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 60%)" }} />
+          <div className="absolute inset-0 flex items-end justify-center pointer-events-none pb-6 px-4">
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(1.5rem, 6.5vw, 2.6rem)", fontWeight: 300, lineHeight: 1.2, textAlign: "center", color: "#fff", textShadow: "0 4px 24px rgba(0,0,0,0.5)", margin: 0 }}>
               {String(c.heading || "")}<br />
-              <em style={{ fontStyle: "italic", fontWeight: 400 }}>{String(c.heading_accent || "")}</em>
+              <em style={{ fontStyle: "italic", color: "#00BFFF" }}>{String(c.heading_accent || "")}</em>
             </h2>
           </div>
-        </div>
-        <div className="grid grid-cols-2 gap-1" style={{ background: "#04090f" }}>
-          {[img2, img3, img4, img5].map((img, i) => (
-            <div key={i} className="overflow-hidden" style={{ aspectRatio: "4/3" }}>
-              <img src={img.src} alt={img.alt} className="w-full h-full object-cover" />
-            </div>
+        </motion.div>
+
+        {/* Grid of 4 — each slides in from alternating sides */}
+        <div className="grid grid-cols-2 gap-1 mt-1">
+          {([img2, img3, img4, img5] as { src: string; alt: string }[]).map((img, i) => (
+            <motion.div
+              key={i}
+              className="overflow-hidden"
+              style={{ aspectRatio: "4/3" }}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -30 : 30, y: 20 }}
+              whileInView={{ opacity: 1, x: 0, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <motion.img
+                src={img.src}
+                alt={img.alt}
+                className="w-full h-full object-cover"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.5 }}
+              />
+            </motion.div>
           ))}
         </div>
       </section>
